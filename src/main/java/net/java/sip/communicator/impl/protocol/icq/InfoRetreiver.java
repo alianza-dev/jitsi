@@ -509,15 +509,15 @@ public class InfoRetreiver
     private void readEmailUserInfo(MetaEmailInfoCmd cmd)
     {
         List<GenericDetail> infoData = getInfoForRequest(cmd.getId());
-        String emails[] = cmd.getEmails();
+//        String emails[] = cmd.getEmails();
 
-        if (emails == null)
+//        if (emails == null)
             return;
 
-        for (String email : emails)
-        {
-            infoData.add(new ServerStoredDetails.EmailAddressDetail(email));
-        }
+//        for (String email : emails)
+//        {
+//            infoData.add(new ServerStoredDetails.EmailAddressDetail(email));
+//        }
     }
 
     /**
@@ -530,13 +530,13 @@ public class InfoRetreiver
         List<GenericDetail> infoData = getInfoForRequest(cmd.getId());
         String tmp = null;
 
-        try
-        {
-            if ((tmp = cmd.getKeywords()) != null)
-                infoData.add(new ServerStoredDetails.WebPageDetail(new URL(tmp)));
-        }
-        catch (MalformedURLException ex)
-        {}
+//        try
+//        {
+//            if ((tmp = cmd.getKeywords()) != null)
+//                infoData.add(new ServerStoredDetails.WebPageDetail(new URL(tmp)));
+//        }
+//        catch (MalformedURLException ex)
+//        {}
     }
 
     /**
@@ -621,25 +621,25 @@ public class InfoRetreiver
     {
         List<GenericDetail> infoData = getInfoForRequest(cmd.getId());
 
-        int[] categories = cmd.getCategories();
-        String[] interests = cmd.getInterests();
-        for (int i = 0; i < interests.length; i++)
-        {
-            int category = categories[i];
-            if (category != 0)
-            {
+//        int[] categories = cmd.getCategories();
+//        String[] interests = cmd.getInterests();
+//        for (int i = 0; i < interests.length; i++)
+//        {
+//            int category = categories[i];
+//            if (category != 0)
+//            {
                 // as the categories are between 100 and 150 we shift them
                 // because their string representations are stored in array
-                category = category - 99;
-            }
-            if(category <= interests.length)
-            {
-                infoData.add(
-                    new OperationSetServerStoredAccountInfoIcqImpl.InterestDetail(
-                        interests[i],
-                        OperationSetServerStoredAccountInfoIcqImpl.interestsCategories[category]));
-            }
-        }
+//                category = category - 99;
+//            }
+//            if(category <= interests.length)
+//            {
+//                infoData.add(
+//                    new OperationSetServerStoredAccountInfoIcqImpl.InterestDetail(
+//                        interests[i],
+//                        OperationSetServerStoredAccountInfoIcqImpl.interestsCategories[category]));
+//            }
+//        }
     }
 
     /**

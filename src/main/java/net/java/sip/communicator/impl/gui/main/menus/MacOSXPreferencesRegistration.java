@@ -29,14 +29,14 @@ public final class MacOSXPreferencesRegistration
         Application application = Application.getApplication();
         if (application != null)
         {
-            application.setPreferencesHandler(new PreferencesHandler()
-            {
-                public void handlePreferences(
-                    AppEvent.PreferencesEvent preferencesEvent)
-                {
-                    ((ToolsMenu) userData).configActionPerformed();
-                }
-            });
+//            application.setPreferencesHandler(new PreferencesHandler()
+//            {
+//                public void handlePreferences(
+//                    AppEvent.PreferencesEvent preferencesEvent)
+//                {
+//                    ((ToolsMenu) userData).configActionPerformed();
+//                }
+//            });
             return true;
         }
         return false;

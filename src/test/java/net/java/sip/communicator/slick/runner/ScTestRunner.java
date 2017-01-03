@@ -77,11 +77,11 @@ public class ScTestRunner extends BaseTestRunner {
      * Always use the StandardTestSuiteLoader. Overridden from
      * BaseTestRunner.
      */
-    @Override
-    public TestSuiteLoader getLoader()
-    {
-        return new StandardTestSuiteLoader();
-    }
+//    @Override
+//    public TestSuiteLoader getLoader()
+//    {
+//        return new StandardTestSuiteLoader();
+//    }
 
     @Override
     public void testFailed(int status, Test test, Throwable t)

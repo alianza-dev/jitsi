@@ -65,7 +65,7 @@ public class SdpUtils
     /**
      * A reference to the currently valid SDP factory instance.
      */
-    private static final SdpFactory sdpFactory = new NistSdpFactory();
+    private static final SdpFactory sdpFactory = null;//new NistSdpFactory();
 
     /**
      * The name of the SDP attribute that defines zrtp hello hash.

@@ -29,12 +29,12 @@ public final class MacOSXQuitRegistration
         Application application = Application.getApplication();
         if (application != null)
         {
-            application.setQuitHandler(new QuitHandler()
-            {
-                public void handleQuitRequestWith(AppEvent.QuitEvent quitEvent,
-                                              final QuitResponse quitResponse)
-                {
-                    ((FileMenu) userData).closeActionPerformed();
+//            application.setQuitHandler(new QuitHandler()
+//            {
+//                public void handleQuitRequestWith(AppEvent.QuitEvent quitEvent,
+//                                              final QuitResponse quitResponse)
+//                {
+//                    ((FileMenu) userData).closeActionPerformed();
 
                     /*
                      * Tell Mac OS X that it shouldn't terminate the
@@ -51,13 +51,13 @@ public final class MacOSXQuitRegistration
                      * waits before force the shutdown.
                      */
 
-                    synchronized(this)
-                    {
-                        try
-                        {
-                            wait(15000);
-                        }catch (InterruptedException ex){}
-                    }
+//                    synchronized(this)
+//                    {
+//                        try
+//                        {
+//                            wait(15000);
+//                        }catch (InterruptedException ex){}
+//                    }
 
                     /**
                      * Free the event dispatch thread before performing the
@@ -65,15 +65,15 @@ public final class MacOSXQuitRegistration
                      * the quit and is waiting to free the threads which
                      * we may be blocking.
                      */
-                    new Thread(new Runnable()
-                    {
-                        public void run()
-                        {
-                            quitResponse.performQuit();
-                        }
-                    }).start();
-                }
-            });
+//                    new Thread(new Runnable()
+//                    {
+//                        public void run()
+//                        {
+//                            quitResponse.performQuit();
+//                        }
+//                    }).start();
+//                }
+//            });
 
             return true;
         }

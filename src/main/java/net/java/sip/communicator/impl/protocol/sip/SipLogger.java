@@ -111,6 +111,11 @@ public class SipLogger
             logger.debug("Debug output from the JAIN-SIP stack: " + message);
     }
 
+    @Override
+    public void logDebug(String message, Exception x) {
+        logDebug(message);
+    }
+
     /**
      * Log an error message.
      *

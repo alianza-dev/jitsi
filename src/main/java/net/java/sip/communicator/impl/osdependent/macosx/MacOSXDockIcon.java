@@ -40,16 +40,16 @@ public class MacOSXDockIcon
         if (application != null)
         {
 
-            application.addAppEventListener(new AppReOpenedListener()
-            {
-                public void appReOpened(AppEvent.AppReOpenedEvent appReOpenedEvent)
-                {
-                    UIService uiService = OsDependentActivator.getUIService();
+//            application.addAppEventListener(new AppReOpenedListener()
+//            {
+//                public void appReOpened(AppEvent.AppReOpenedEvent appReOpenedEvent)
+//                {
+//                    UIService uiService = OsDependentActivator.getUIService();
 
-                    if (uiService != null && !uiService.isVisible())
-                        uiService.setVisible(true);
-                }
-            });
+//                    if (uiService != null && !uiService.isVisible())
+//                        uiService.setVisible(true);
+//                }
+//            });
         }
     }
 }

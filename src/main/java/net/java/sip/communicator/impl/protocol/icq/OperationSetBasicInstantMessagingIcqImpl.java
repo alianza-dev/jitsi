@@ -423,9 +423,9 @@ public class OperationSetBasicInstantMessagingIcqImpl
                     retreiveOfflineMessages();
 
                 String customMessageEncoding = null;
-                if((customMessageEncoding =
-                    System.getProperty("icq.custom.message.charset")) != null)
-                    OscarTools.setDefaultCharset(customMessageEncoding);
+//                if((customMessageEncoding =
+//                    System.getProperty("icq.custom.message.charset")) != null)
+//                    OscarTools.setDefaultCharset(customMessageEncoding);
 
                 // run keepalive thread
                 if(keepAliveSendTask == null)

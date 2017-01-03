@@ -25,7 +25,7 @@ import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.util.*;
 import net.java.sip.communicator.util.Logger;
 
-import org.jdesktop.jdic.misc.*;
+//import org.jdesktop.jdic.misc.Alerter;
 import org.jitsi.service.configuration.*;
 import org.jitsi.util.*;
 import org.osgi.framework.*;
@@ -96,7 +96,7 @@ public class ChatAlerterActivator
 
             // try to load native libs, if it fails don't do anything
             if(!OSUtils.IS_MAC)
-                Alerter.newInstance();
+                System.err.println("Alerter.newInstance()");
         }
         catch (Exception exception)
         {
@@ -403,7 +403,7 @@ public class ChatAlerterActivator
                 com.apple.eawt.Application.getApplication()
                     .requestUserAttention(true);
             else
-                Alerter.newInstance().alert(fr);
+                System.err.println("Alerter.newInstance().alert(fr)");
         }
         catch (Throwable ex)
         {

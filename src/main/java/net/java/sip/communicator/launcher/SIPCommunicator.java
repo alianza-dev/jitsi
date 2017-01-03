@@ -24,7 +24,7 @@ import net.java.sip.communicator.impl.version.*;
 import net.java.sip.communicator.util.*;
 import net.java.sip.communicator.util.launchutils.*;
 
-import org.apache.felix.main.*;
+//import org.apache.felix.main.*;
 
 /**
  * Starts the SIP Communicator.
@@ -216,7 +216,7 @@ public class SIPCommunicator
 
         //there was no error, continue;
         System.setOut(new ScStdOut(System.out));
-        Main.main(new String[0]);
+//        Main.main(new String[0]);
     }
 
     /**

@@ -189,15 +189,15 @@ public class JingleNodesServiceDiscovery
             for(Map.Entry<String, TrackerEntry> entry
                     : service.getTrackerEntries().entrySet())
             {
-                SmackServiceNode.deepSearch(
-                    xmppConnection,
-                    maxEntries,
-                    entry.getValue().getJid(),
-                    mappedNodes,
-                    maxDepth - 1,
-                    maxSearchNodes,
-                    protocol,
-                    visited);
+//                SmackServiceNode.deepSearch(
+//                    xmppConnection,
+//                    maxEntries,
+//                    entry.getValue().getJid(),
+//                    mappedNodes,
+//                    maxDepth - 1,
+//                    maxSearchNodes,
+//                    protocol,
+//                    visited);
             }
 
             if(autoDiscover)
@@ -220,15 +220,15 @@ public class JingleNodesServiceDiscovery
                     return mappedNodes;
 
                 // Request to Server
-                SmackServiceNode.deepSearch(
-                    xmppConnection,
-                    maxEntries,
-                    xmppConnection.getHost(),
-                    mappedNodes,
-                    maxDepth - 1,
-                    maxSearchNodes,
-                    protocol,
-                    visited);
+//                SmackServiceNode.deepSearch(
+//                    xmppConnection,
+//                    maxEntries,
+//                    xmppConnection.getHost(),
+//                    mappedNodes,
+//                    maxDepth - 1,
+//                    maxSearchNodes,
+//                    protocol,
+//                    visited);
 
                 // Request to Buddies
                 if (xmppConnection.getRoster() != null && searchBuddies)
@@ -243,15 +243,15 @@ public class JingleNodesServiceDiscovery
                             final Presence presence = i.next();
                             if (presence.isAvailable())
                             {
-                                SmackServiceNode.deepSearch(
-                                    xmppConnection,
-                                    maxEntries,
-                                    presence.getFrom(),
-                                    mappedNodes,
-                                    maxDepth - 1,
-                                    maxSearchNodes,
-                                    protocol,
-                                    visited);
+//                                SmackServiceNode.deepSearch(
+//                                    xmppConnection,
+//                                    maxEntries,
+//                                    presence.getFrom(),
+//                                    mappedNodes,
+//                                    maxDepth - 1,
+//                                    maxSearchNodes,
+//                                    protocol,
+//                                    visited);
                             }
                         }
                     }
@@ -325,15 +325,15 @@ public class JingleNodesServiceDiscovery
                         if( !StringUtils.isNullOrEmpty(pref)
                             && item.getEntityID().startsWith(pref.trim()))
                         {
-                            SmackServiceNode.deepSearch(
-                                xmppConnection,
-                                maxEntries,
-                                item.getEntityID(),
-                                mappedNodes,
-                                maxDepth,
-                                maxSearchNodes,
-                                protocol,
-                                visited);
+//                            SmackServiceNode.deepSearch(
+//                                xmppConnection,
+//                                maxEntries,
+//                                item.getEntityID(),
+//                                mappedNodes,
+//                                maxDepth,
+//                                maxSearchNodes,
+//                                protocol,
+//                                visited);
 
                             if(stopOnFirst)
                                 return false;// stop and don't continue
@@ -350,15 +350,15 @@ public class JingleNodesServiceDiscovery
                     // we may searched already this node if it starts
                     // with some of the prefixes
                     if(!visited.containsKey(item.getEntityID()))
-                        SmackServiceNode.deepSearch(
-                            xmppConnection,
-                            maxEntries,
-                            item.getEntityID(),
-                            mappedNodes,
-                            maxDepth,
-                            maxSearchNodes,
-                            protocol,
-                            visited);
+//                        SmackServiceNode.deepSearch(
+//                            xmppConnection,
+//                            maxEntries,
+//                            item.getEntityID(),
+//                            mappedNodes,
+//                            maxDepth,
+//                            maxSearchNodes,
+//                            protocol,
+//                            visited);
 
                     if(stopOnFirst)
                         return false;// stop and don't continue

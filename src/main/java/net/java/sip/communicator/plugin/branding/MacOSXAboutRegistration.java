@@ -34,13 +34,13 @@ public final class MacOSXAboutRegistration
         Application application = Application.getApplication();
         if (application != null)
         {
-            application.setAboutHandler(new AboutHandler()
-            {
-                public void handleAbout(AppEvent.AboutEvent aboutEvent)
-                {
-                    AboutWindowPluginComponent.actionPerformed();
-                }
-            });
+//            application.setAboutHandler(new AboutHandler()
+//            {
+//                public void handleAbout(AppEvent.AboutEvent aboutEvent)
+//                {
+//                    AboutWindowPluginComponent.actionPerformed();
+//                }
+//            });
             return true;
         }
         return false;

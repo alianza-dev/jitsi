@@ -433,9 +433,9 @@ public class OperationSetAdHocMultiUserChatIcqImpl
             if (evt.getNewState() == RegistrationState.REGISTERED)
             {
                 String customMessageEncoding = null;
-                if ((customMessageEncoding =
-                    System.getProperty("icq.custom.message.charset")) != null)
-                    OscarTools.setDefaultCharset(customMessageEncoding);
+//                if ((customMessageEncoding =
+//                    System.getProperty("icq.custom.message.charset")) != null)
+//                    OscarTools.setDefaultCharset(customMessageEncoding);
 
                 opSetPersPresence =
                     (OperationSetPersistentPresenceIcqImpl) icqProvider

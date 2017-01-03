@@ -81,23 +81,23 @@ public class ArgDelegationActivator
                 // 10.6 Update 3 and 10.5 Update 8
                 // and older native method for registering uri handlers
                 // should be working
-                try
-                {
-                    Method method = application.getClass()
-                        .getMethod("setOpenURIHandler", OpenURIHandler.class);
+//                try
+//                {
+//                    Method method = application.getClass()
+//                        .getMethod("setOpenURIHandler", OpenURIHandler.class);
 
-                    OpenURIHandler handler = new OpenURIHandler() {
-                        public void openURI(
-                            com.apple.eawt.AppEvent.OpenURIEvent evt)
-                        {
-                            delegationPeer.handleUri(evt.getURI().toString());
-                        }
-                    };
+//                    OpenURIHandler handler = new OpenURIHandler() {
+//                        public void openURI(
+//                            com.apple.eawt.AppEvent.OpenURIEvent evt)
+//                        {
+//                            delegationPeer.handleUri(evt.getURI().toString());
+//                        }
+//                    };
 
-                    method.invoke(application, handler);
-                }
-                catch(Throwable ex)
-                {}
+//                    method.invoke(application, handler);
+//                }
+//                catch(Throwable ex)
+//                {}
             }
         }
     }
