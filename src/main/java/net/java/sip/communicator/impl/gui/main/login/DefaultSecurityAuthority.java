@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.gui.main.login;
 
+import javax.inject.Inject;
 import javax.swing.*;
 
 import net.java.sip.communicator.impl.gui.*;
@@ -45,6 +46,7 @@ public class DefaultSecurityAuthority
      * @param protocolProvider The <tt>ProtocolProviderService</tt> for this
      * <tt>SecurityAuthority</tt>.
      */
+    @Inject
     public DefaultSecurityAuthority(ProtocolProviderService protocolProvider)
     {
         this.protocolProvider = protocolProvider;

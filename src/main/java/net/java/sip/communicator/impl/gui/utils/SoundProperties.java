@@ -31,62 +31,62 @@ public final class SoundProperties
     /**
      * The zero tone sound id.
      */
-    public static final String DIAL_ZERO;
+    public static final String DIAL_ZERO = "";
 
     /**
      * The one tone sound id.
      */
-    public static final String DIAL_ONE;
+    public static final String DIAL_ONE = "";
 
     /**
      * The two tone sound id.
      */
-    public static final String DIAL_TWO;
+    public static final String DIAL_TWO = "";
 
     /**
      * The three tone sound id.
      */
-    public static final String DIAL_THREE;
+    public static final String DIAL_THREE = "";
 
     /**
      * The four tone sound id.
      */
-    public static final String DIAL_FOUR;
+    public static final String DIAL_FOUR = "";
 
     /**
      * The five tone sound id.
      */
-    public static final String DIAL_FIVE;
+    public static final String DIAL_FIVE = "";
 
     /**
      * The six tone sound id.
      */
-    public static final String DIAL_SIX;
+    public static final String DIAL_SIX = "";
 
     /**
      * The seven tone sound id.
      */
-    public static final String DIAL_SEVEN;
+    public static final String DIAL_SEVEN = "";
 
     /**
      * The eight tone sound id.
      */
-    public static final String DIAL_EIGHT;
+    public static final String DIAL_EIGHT = "";
 
     /**
      * The nine tone sound id.
      */
-    public static final String DIAL_NINE;
+    public static final String DIAL_NINE = "";
 
     /**
      * The diez tone sound id.
      */
-    public static final String DIAL_DIEZ;
+    public static final String DIAL_DIEZ = "";
 
     /**
      * The star tone sound id.
      */
-    public static final String DIAL_STAR;
+    public static final String DIAL_STAR = "";
 
     static
     {
@@ -101,18 +101,19 @@ public final class SoundProperties
          */
         ResourceManagementService resources = GuiActivator.getResources();
 
-        DIAL_ZERO = resources.getSoundPath("DIAL_ZERO");
-        DIAL_ONE = resources.getSoundPath("DIAL_ONE");
-        DIAL_TWO = resources.getSoundPath("DIAL_TWO");
-        DIAL_THREE = resources.getSoundPath("DIAL_THREE");
-        DIAL_FOUR = resources.getSoundPath("DIAL_FOUR");
-        DIAL_FIVE = resources.getSoundPath("DIAL_FIVE");
-        DIAL_SIX = resources.getSoundPath("DIAL_SIX");
-        DIAL_SEVEN = resources.getSoundPath("DIAL_SEVEN");
-        DIAL_EIGHT = resources.getSoundPath("DIAL_EIGHT");
-        DIAL_NINE = resources.getSoundPath("DIAL_NINE");
-        DIAL_DIEZ = resources.getSoundPath("DIAL_DIEZ");
-        DIAL_STAR = resources.getSoundPath("DIAL_STAR");
+        //TODO DEVTE-1304 fix me for GUI
+//        DIAL_ZERO = resources.getSoundPath("DIAL_ZERO");
+//        DIAL_ONE = resources.getSoundPath("DIAL_ONE");
+//        DIAL_TWO = resources.getSoundPath("DIAL_TWO");
+//        DIAL_THREE = resources.getSoundPath("DIAL_THREE");
+//        DIAL_FOUR = resources.getSoundPath("DIAL_FOUR");
+//        DIAL_FIVE = resources.getSoundPath("DIAL_FIVE");
+//        DIAL_SIX = resources.getSoundPath("DIAL_SIX");
+//        DIAL_SEVEN = resources.getSoundPath("DIAL_SEVEN");
+//        DIAL_EIGHT = resources.getSoundPath("DIAL_EIGHT");
+//        DIAL_NINE = resources.getSoundPath("DIAL_NINE");
+//        DIAL_DIEZ = resources.getSoundPath("DIAL_DIEZ");
+//        DIAL_STAR = resources.getSoundPath("DIAL_STAR");
     }
 
     private SoundProperties() {

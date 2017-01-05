@@ -79,8 +79,10 @@ public class SIPCommTabbedPane
             .put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
 
         this.setForeground(
-            new Color(DesktopUtilActivator.getResources()
-                .getColor("service.gui.TAB_TITLE")));
+                //TODO DEVTE-1304 fix me for GUI
+//            new Color(DesktopUtilActivator.getResources()
+//                .getColor("service.gui.TAB_TITLE")));
+                Color.BLACK);
 
         this.setUI(new SIPCommTabbedPaneEnhancedUI());
 

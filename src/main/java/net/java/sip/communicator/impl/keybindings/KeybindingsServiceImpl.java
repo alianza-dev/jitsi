@@ -47,7 +47,7 @@ import org.osgi.framework.*;
  *
  * @author Damian Johnson
  */
-class KeybindingsServiceImpl
+public class KeybindingsServiceImpl
     implements KeybindingsService, Observer
 {
     /**

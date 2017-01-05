@@ -24,6 +24,7 @@ import com.google.i18n.phonenumbers.Phonenumber.*;
 import net.java.sip.communicator.service.protocol.*;
 import org.jitsi.service.configuration.*;
 
+import javax.inject.Inject;
 import java.util.regex.*;
 
 /**
@@ -37,12 +38,6 @@ import java.util.regex.*;
 public class PhoneNumberI18nServiceImpl
     implements PhoneNumberI18nService
 {
-    /**
-     * The configuration service.
-     */
-    private static ConfigurationService configService
-        = ProtocolProviderActivator.getConfigurationService();
-
     /**
      * Characters which have to be removed from a phone number in order to
      * normalized it.
@@ -103,6 +98,16 @@ public class PhoneNumberI18nServiceImpl
      */
     private static final Pattern charactersFordialPadNumber9
         = Pattern.compile("[wxyz]", Pattern.CASE_INSENSITIVE);
+
+    /**
+     * The configuration service.
+     */
+    ConfigurationService configService;
+
+//    @Inject
+//    public PhoneNumberI18nServiceImpl(ConfigurationService configService) {
+//        this.configService = configService;
+//    }
 
     /**
      * Normalizes a <tt>String</tt> which may be a phone number or a identifier
@@ -238,10 +243,11 @@ public class PhoneNumberI18nServiceImpl
                     = possibleNumber.replaceAll(" \\(\\)", "");
                 // If the property is enabled and the string starts with a "+",
                 // then we consider that this is a phone number.
-                if(configService.getBoolean(
-                        "impl.gui.ACCEPT_PHONE_NUMBER_WITH_ALPHA_CHARS",
-                        true)
-                        && tmpPossibleNumber.startsWith("+"))
+                //TODO DEVTE-1304 fix me for GUI
+//                if(configService.getBoolean(
+//                        "impl.gui.ACCEPT_PHONE_NUMBER_WITH_ALPHA_CHARS",
+//                        true)
+//                        && tmpPossibleNumber.startsWith("+"))
                 {
                     return true;
                 }

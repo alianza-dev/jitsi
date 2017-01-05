@@ -219,7 +219,9 @@ public class DesktopUtilActivator
     {
         BufferedImage image = null;
 
-        URL path = getResources().getImageURL(imageID);
+        //TODO DEVTE-1304 fix me for GUI
+//        URL path = getResources().getImageURL(imageID);
+        URL path = null;
 
         if (path == null)
             return null;

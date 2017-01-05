@@ -46,9 +46,10 @@ public class MainMenu
     {
         super("service.gui.MAIN_MENU_FOREGROUND");
 
-        addMenu(new FileMenu(mainFrame), "service.gui.FILE");
-        addMenu(new ToolsMenu(), "service.gui.TOOLS");
-        addMenu(new HelpMenu(mainFrame), "service.gui.HELP");
+        //TODO DEVTE-1304 fix me for GUI
+//        addMenu(new FileMenu(mainFrame), "service.gui.FILE");
+//        addMenu(new ToolsMenu(), "service.gui.TOOLS");
+//        addMenu(new HelpMenu(mainFrame), "service.gui.HELP");
     }
 
     private void addMenu(JMenu menu, String key)

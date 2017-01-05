@@ -66,7 +66,8 @@ public class ChatRoomListImpl
     public ChatRoomListImpl()
     {
         loadList();
-        MUCActivator.bundleContext.addServiceListener(this);
+        //TODO DEVTE-1304 fix me for GUI
+//        MUCActivator.bundleContext.addServiceListener(this);
     }
     
     /**
@@ -74,12 +75,13 @@ public class ChatRoomListImpl
      */
     public void loadList()
     {
-        try
+        //TODO DEVTE-1304 fix me for GUI
+//        try
         {
-            ServiceReference[] serRefs
-                = MUCActivator.bundleContext.getServiceReferences(
-                                        ProtocolProviderService.class.getName(),
-                                        null);
+            ServiceReference[] serRefs = null;
+//                = MUCActivator.bundleContext.getServiceReferences(
+//                                        ProtocolProviderService.class.getName(),
+//                                        null);
 
             // If we don't have providers at this stage we just return.
             if (serRefs == null)
@@ -101,9 +103,9 @@ public class ChatRoomListImpl
                 }
             }
         }
-        catch (InvalidSyntaxException e)
+//        catch (InvalidSyntaxException e)
         {
-            logger.error("Failed to obtain service references.", e);
+//            logger.error("Failed to obtain service references.", e);
         }
     }
 

@@ -97,7 +97,8 @@ public class ConferenceChatManager
             }
         }.start();
 
-        GuiActivator.bundleContext.addServiceListener(this);
+        //TODO DEVTE-1304 fix me for GUI
+//        GuiActivator.bundleContext.addServiceListener(this);
 
     }
 

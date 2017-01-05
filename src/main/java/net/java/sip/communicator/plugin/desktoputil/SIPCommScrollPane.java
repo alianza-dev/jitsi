@@ -116,9 +116,10 @@ public class SIPCommScrollPane
          */
         private boolean getSettingsBoolean(String key)
         {
-            return
-                Boolean.parseBoolean(
-                        DesktopUtilActivator.getResources().getSettingsString(key));
+            return false;
+            //TODO DEVTE-1304 fix me for GUI
+//                Boolean.parseBoolean(
+//                        DesktopUtilActivator.getResources().getSettingsString(key));
         }
 
         /**

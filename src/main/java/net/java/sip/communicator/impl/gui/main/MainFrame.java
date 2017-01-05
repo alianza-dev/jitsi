@@ -198,10 +198,11 @@ public class MainFrame
 
         this.accountStatusPanel = new AccountStatusPanel();
 
-        this.searchField = new SearchField( this,
-                                            TreeContactList.searchFilter,
-                                            true,
-                                            true);
+        //TODO DEVTE-1304 fix me for GUI
+//        this.searchField = new SearchField( this,
+//                                            TreeContactList.searchFilter,
+//                                            true,
+//                                            true);
 
         menu = new MainMenu(this);
 
@@ -209,7 +210,8 @@ public class MainFrame
 
         ResourceManagementService resources = GuiActivator.getResources();
         String applicationName
-            = resources.getSettingsString("service.gui.APPLICATION_NAME");
+//            = resources.getSettingsString("service.gui.APPLICATION_NAME");
+            = "Alianza Jitsi";
 
         this.setTitle(applicationName);
 
@@ -228,9 +230,12 @@ public class MainFrame
             // we do nothing for it
         }
 
-        this.mainPanel.setBackground(new Color(
-                GuiActivator.getResources()
-                    .getColor("service.gui.MAIN_WINDOW_BACKGROUND")));
+        this.mainPanel.setBackground(
+                //TODO DEVTE-1304 fix me for GUI
+//                new Color(
+//                GuiActivator.getResources()
+//                    .getColor("service.gui.MAIN_WINDOW_BACKGROUND")));
+                Color.WHITE);
 
         keyManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 
@@ -335,9 +340,11 @@ public class MainFrame
     private void init()
     {
         setDefaultCloseOperation(
-            GuiActivator.getUIService().getExitOnMainWindowClose()
-                ? JFrame.DISPOSE_ON_CLOSE
-                : JFrame.HIDE_ON_CLOSE);
+                //TODO DEVTE-1304 fix me for GUI
+//            GuiActivator.getUIService().getExitOnMainWindowClose()
+//                ? JFrame.DISPOSE_ON_CLOSE
+//                : JFrame.HIDE_ON_CLOSE);
+                JFrame.DISPOSE_ON_CLOSE);
 
         registerKeyActions();
 
@@ -348,14 +355,14 @@ public class MainFrame
         TransparentPanel searchPanel
             = new TransparentPanel(new BorderLayout(5, 0));
 
-        searchPanel.add(searchField);
+//        searchPanel.add(searchField);
         searchPanel.add(new DialPadButton(), BorderLayout.WEST);
 
-        if(!GuiActivator.getConfigurationService().getBoolean(
-            "net.java.sip.communicator.impl.gui.CALL_HISTORY_BUTTON_DISABLED",
-            false))
+//        if(!GuiActivator.getConfigurationService().getBoolean(
+//            "net.java.sip.communicator.impl.gui.CALL_HISTORY_BUTTON_DISABLED",
+//            false))
         {
-            searchPanel.add(createButtonPanel(), BorderLayout.EAST);
+//            searchPanel.add(createButtonPanel(), BorderLayout.EAST);
         }
 
         northPanel.add(accountStatusPanel, BorderLayout.CENTER);
@@ -366,7 +373,8 @@ public class MainFrame
         this.mainPanel.add(northPanel, BorderLayout.NORTH);
 
         SingleWindowContainer singleWContainer
-            = GuiActivator.getUIService().getSingleWindowContainer();
+//            = GuiActivator.getUIService().getSingleWindowContainer();
+            = new SingleWindowContainer();
 
         this.mainPanel.add(centerPanel, BorderLayout.CENTER);
 
@@ -449,8 +457,10 @@ public class MainFrame
             // Set the color of the center panel.
             centerPanel.setOpaque(true);
             centerPanel.setBackground(
-                new Color(GuiActivator.getResources()
-                    .getColor("service.gui.MAC_PANEL_BACKGROUND")));
+                    //TODO DEVTE-1304 fix me for GUI
+//                new Color(GuiActivator.getResources()
+//                    .getColor("service.gui.MAC_PANEL_BACKGROUND")));
+                    Color.WHITE);
 
             topComponent = macToolbarPanel.getComponent();
         }
@@ -471,21 +481,23 @@ public class MainFrame
      */
     public void initBounds()
     {
-        int width = GuiActivator.getResources()
-            .getSettingsInt("impl.gui.MAIN_WINDOW_WIDTH");
+        //TODO DEVTE-1304 fix me for GUI
+//        int width = GuiActivator.getResources()
+//            .getSettingsInt("impl.gui.MAIN_WINDOW_WIDTH");
+//
+//        int height = GuiActivator.getResources()
+//            .getSettingsInt("impl.gui.MAIN_WINDOW_HEIGHT");
+//
+//        int minWidth = GuiActivator.getResources()
+//            .getSettingsInt("impl.gui.MAIN_WINDOW_MIN_WIDTH");
+//
+//        int minHeight = GuiActivator.getResources()
+//            .getSettingsInt("impl.gui.MAIN_WINDOW_MIN_HEIGHT");
 
-        int height = GuiActivator.getResources()
-            .getSettingsInt("impl.gui.MAIN_WINDOW_HEIGHT");
+//        this.getContentPane().setMinimumSize(new Dimension(minWidth, minHeight));
+        this.getContentPane().setMinimumSize(new Dimension(400, 400));
 
-        int minWidth = GuiActivator.getResources()
-            .getSettingsInt("impl.gui.MAIN_WINDOW_MIN_WIDTH");
-
-        int minHeight = GuiActivator.getResources()
-            .getSettingsInt("impl.gui.MAIN_WINDOW_MIN_HEIGHT");
-
-        this.getContentPane().setMinimumSize(new Dimension(minWidth, minHeight));
-
-        this.setSize(width, height);
+        this.setSize(800, 600);
 
         this.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width
                 - this.getWidth(), 50);
@@ -499,8 +511,9 @@ public class MainFrame
         JComponent layeredPane = this.getLayeredPane();
 
         ResourceManagementService resources = GuiActivator.getResources();
-        String fontName = resources.getSettingsString("service.gui.FONT_NAME");
-        int fontSize = resources.getSettingsInt("service.gui.FONT_SIZE");
+        //TODO DEVTE-1304 fix me for GUI
+        String fontName = "Arial";//resources.getSettingsString("service.gui.FONT_NAME");
+        int fontSize = 14;//resources.getSettingsInt("service.gui.FONT_SIZE");
         Font font = new Font(fontName, Font.BOLD, fontSize);
 
         for (int i = 0, componentCount = layeredPane.getComponentCount();
@@ -556,10 +569,11 @@ public class MainFrame
      */
     public void setContactList(MetaContactListService contactList)
     {
-        contactListPanel.initList(contactList);
+        //TODO DEVTE-1304 fix me for GUI
+//        contactListPanel.initList(contactList);
 
-        searchField.setContactList(GuiActivator.getContactList());
-        clKeyDispatcher.setContactList(GuiActivator.getContactList());
+//        searchField.setContactList(GuiActivator.getContactList());
+//        clKeyDispatcher.setContactList(GuiActivator.getContactList());
     }
 
     /**
@@ -1485,54 +1499,55 @@ public class MainFrame
         // context.
         Collection<ServiceReference<PluginComponentFactory>> serRefs;
 
-        try
-        {
-            serRefs
-                = GuiActivator.bundleContext.getServiceReferences(
-                        PluginComponentFactory.class,
-                        "(|(" + Container.CONTAINER_ID + "="
-                            + Container.CONTAINER_MAIN_WINDOW.getID() + ")("
-                            + Container.CONTAINER_ID + "="
-                            + Container.CONTAINER_STATUS_BAR.getID() + "))");
-        }
-        catch (InvalidSyntaxException exc)
-        {
-            serRefs = null;
-            logger.error("Could not obtain plugin reference.", exc);
-        }
+        //TODO DEVTE-1304 fix me for GUI
+//        try
+//        {
+//            serRefs
+//                = GuiActivator.bundleContext.getServiceReferences(
+//                        PluginComponentFactory.class,
+//                        "(|(" + Container.CONTAINER_ID + "="
+//                            + Container.CONTAINER_MAIN_WINDOW.getID() + ")("
+//                            + Container.CONTAINER_ID + "="
+//                            + Container.CONTAINER_STATUS_BAR.getID() + "))");
+//        }
+//        catch (InvalidSyntaxException exc)
+//        {
+//            serRefs = null;
+//            logger.error("Could not obtain plugin reference.", exc);
+//        }
 
-        if ((serRefs != null) && !serRefs.isEmpty())
-        {
-            for (ServiceReference<PluginComponentFactory> serRef : serRefs)
-            {
-                PluginComponentFactory factory
-                    = GuiActivator.bundleContext.getService(serRef);
+//        if ((serRefs != null) && !serRefs.isEmpty())
+//        {
+//            for (ServiceReference<PluginComponentFactory> serRef : serRefs)
+//            {
+//                PluginComponentFactory factory
+//                    = GuiActivator.bundleContext.getService(serRef);
+//
+//                if (factory.isNativeComponent())
+//                    nativePluginsTable.add(factory);
+//                else
+//                {
+//                    String pluginConstraints = factory.getConstraints();
+//                    Object constraints;
+//
+//                    if (pluginConstraints != null)
+//                        constraints
+//                            = UIServiceImpl
+//                                .getBorderLayoutConstraintsFromContainer(
+//                                    pluginConstraints);
+//                    else
+//                        constraints = BorderLayout.SOUTH;
+//
+//                    this.addPluginComponent(
+//                        (Component)factory.getPluginComponentInstance(this)
+//                            .getComponent(),
+//                        factory.getContainer(),
+//                        constraints);
+//                }
+//            }
+//        }
 
-                if (factory.isNativeComponent())
-                    nativePluginsTable.add(factory);
-                else
-                {
-                    String pluginConstraints = factory.getConstraints();
-                    Object constraints;
-
-                    if (pluginConstraints != null)
-                        constraints
-                            = UIServiceImpl
-                                .getBorderLayoutConstraintsFromContainer(
-                                    pluginConstraints);
-                    else
-                        constraints = BorderLayout.SOUTH;
-
-                    this.addPluginComponent(
-                        (Component)factory.getPluginComponentInstance(this)
-                            .getComponent(),
-                        factory.getContainer(),
-                        constraints);
-                }
-            }
-        }
-
-        GuiActivator.getUIService().addPluginComponentListener(this);
+//        GuiActivator.getUIService().addPluginComponentListener(this);
     }
 
     /**

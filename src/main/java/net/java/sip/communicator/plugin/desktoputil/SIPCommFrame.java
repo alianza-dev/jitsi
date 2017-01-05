@@ -391,52 +391,53 @@ public class SIPCommFrame
             DesktopUtilActivator.getConfigurationService();
         String className = this.getClass().getName();
 
-        if(saveSize)
-        {
-            String widthString
-                = configService.getString(className + ".width");
-            String heightString
-                = configService.getString(className + ".height");
+        //TODO DEVTE-1304 fix me for GUI
+//        if(saveSize)
+//        {
+//            String widthString
+//                = configService.getString(className + ".width");
+//            String heightString
+//                = configService.getString(className + ".height");
+//
+//            if(widthString != null && heightString != null)
+//            {
+//                int width = Integer.parseInt(widthString);
+//                int height = Integer.parseInt(heightString);
+//
+//                if(width > 0 && height > 0)
+//                {
+//                    Dimension screenSize =
+//                        Toolkit.getDefaultToolkit().getScreenSize();
+//                    if(width <= screenSize.width && height <= screenSize.height)
+//                        this.setSize(width, height);
+//                }
+//            }
+//        }
 
-            if(widthString != null && heightString != null)
-            {
-                int width = Integer.parseInt(widthString);
-                int height = Integer.parseInt(heightString);
-
-                if(width > 0 && height > 0)
-                {
-                    Dimension screenSize =
-                        Toolkit.getDefaultToolkit().getScreenSize();
-                    if(width <= screenSize.width && height <= screenSize.height)
-                        this.setSize(width, height);
-                }
-            }
-        }
-
-        if(saveLocation)
-        {
-            String xString = configService.getString(className + ".x");
-            String yString = configService.getString(className + ".y");
-
-            if(xString != null && yString != null)
-            {
-                int x = Integer.parseInt(xString);
-                int y = Integer.parseInt(yString);
-
-                if(ScreenInformation.
-                    isTitleOnScreen(
-                        new Rectangle(x, y, this.getWidth(), this.getHeight()))
-                    || configService.getBoolean(
-                    SIPCommFrame.PNAME_CALCULATED_POSITIONING, true))
-                {
-                    this.setLocation(x, y);
-                }
-            }
-            else
-            {
-                this.setCenterLocation();
-            }
-        }
+//        if(saveLocation)
+//        {
+//            String xString = configService.getString(className + ".x");
+//            String yString = configService.getString(className + ".y");
+//
+//            if(xString != null && yString != null)
+//            {
+//                int x = Integer.parseInt(xString);
+//                int y = Integer.parseInt(yString);
+//
+//                if(ScreenInformation.
+//                    isTitleOnScreen(
+//                        new Rectangle(x, y, this.getWidth(), this.getHeight()))
+//                    || configService.getBoolean(
+//                    SIPCommFrame.PNAME_CALCULATED_POSITIONING, true))
+//                {
+//                    this.setLocation(x, y);
+//                }
+//            }
+//            else
+//            {
+//                this.setCenterLocation();
+//            }
+//        }
     }
 
     /**
@@ -579,7 +580,8 @@ public class SIPCommFrame
         {
             this.setSizeAndLocation();
 
-            this.ensureOnScreenLocationAndSize();
+            //TODO DEVTE-1304 fix me for GUI
+//            this.ensureOnScreenLocationAndSize();
         }
 
         super.setVisible(isVisible);

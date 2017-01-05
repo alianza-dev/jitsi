@@ -199,8 +199,9 @@ public class LaunchArgHandler
          */
         String osName = System.getProperty("os.name");
 
-        if ((osName != null) && osName.startsWith("Mac"))
-            new AEGetURLEventHandler(this);
+        //TODO fix me: commented out because it throws an error
+//        if ((osName != null) && osName.startsWith("Mac"))
+//            new AEGetURLEventHandler(this);
     }
 
     /**

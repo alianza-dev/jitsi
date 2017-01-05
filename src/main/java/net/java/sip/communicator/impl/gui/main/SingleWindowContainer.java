@@ -88,7 +88,8 @@ public class SingleWindowContainer
         tabbedPane = new ConversationTabbedPane();
         contactPhotoPanel = new ContactPhotoPanel();
 
-        add(createToolbar(), BorderLayout.NORTH);
+        //TODO DEVTE-1304 fix me for GUI
+//        add(createToolbar(), BorderLayout.NORTH);
         tabbedPane.addChangeListener(this);
 
         add(tabbedPane);

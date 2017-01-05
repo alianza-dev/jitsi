@@ -246,12 +246,13 @@ public class DTMFHandler
 
         for(DTMFToneInfo info : AVAILABLE_TONES)
         {
-            notificationService.registerDefaultNotificationForEvent(
-                    DTMF_TONE_PREFIX + info.tone.getValue(),
-                    new SoundNotificationAction(
-                            info.sound,
-                            0,
-                            false, true, false));
+            //TODO DEVTE-1304 fix me for GUI
+//            notificationService.registerDefaultNotificationForEvent(
+//                    DTMF_TONE_PREFIX + info.tone.getValue(),
+//                    new SoundNotificationAction(
+//                            info.sound,
+//                            0,
+//                            false, true, false));
         }
 
         defaultsLoaded = true;

@@ -241,28 +241,29 @@ public class PluginContainer
      */
     private void initPluginComponents()
     {
-        GuiActivator.getUIService().addPluginComponentListener(this);
+        //TODO DEVTE-1304 fix me for GUI
+//        GuiActivator.getUIService().addPluginComponentListener(this);
 
         // Look for PluginComponents registered in the OSGi BundleContext.
         ServiceReference[] serRefs = null;
 
-        try
-        {
-            serRefs
-                = GuiActivator
-                    .bundleContext
-                        .getServiceReferences(
-                            PluginComponentFactory.class.getName(),
-                            "("
-                                + Container.CONTAINER_ID
-                                + "="
-                                + containerId.getID()
-                                + ")");
-        }
-        catch (InvalidSyntaxException exc)
-        {
-            logger.error("Could not obtain plugin reference.", exc);
-        }
+//        try
+//        {
+//            serRefs
+//                = GuiActivator
+//                    .bundleContext
+//                        .getServiceReferences(
+//                            PluginComponentFactory.class.getName(),
+//                            "("
+//                                + Container.CONTAINER_ID
+//                                + "="
+//                                + containerId.getID()
+//                                + ")");
+//        }
+//        catch (InvalidSyntaxException exc)
+//        {
+//            logger.error("Could not obtain plugin reference.", exc);
+//        }
 
         if (serRefs != null)
         {

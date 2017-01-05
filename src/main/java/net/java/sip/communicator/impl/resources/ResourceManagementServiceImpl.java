@@ -54,7 +54,7 @@ public class ResourceManagementServiceImpl
     /**
      * Initializes already registered default resource packs.
      */
-    ResourceManagementServiceImpl()
+    public ResourceManagementServiceImpl()
     {
         super(ResourceManagementActivator.bundleContext);
 

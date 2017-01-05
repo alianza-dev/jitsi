@@ -177,14 +177,15 @@ public class UIServiceImpl
 
         // Register the main window as an exported window, so that other bundles
         // could access it through the UIService.
-        GuiActivator.getUIService().registerExportedWindow(mainFrame);
+        //TODO DEVTE-1304 fix me for GUI
+//        GuiActivator.getUIService().registerExportedWindow(mainFrame);
 
         // Initialize the login manager.
-        this.loginManager = new LoginManager(new LoginRendererSwingImpl());
+//        this.loginManager = new LoginManager(new LoginRendererSwingImpl());
 
         this.popupDialog = new PopupDialogImpl();
 
-        this.wizardContainer = new AccountRegWizardContainerImpl(mainFrame);
+//        this.wizardContainer = new AccountRegWizardContainerImpl(mainFrame);
 
         if (ConfigurationUtils.isTransparentWindowEnabled())
         {
@@ -476,7 +477,8 @@ public class UIServiceImpl
      */
     public void initExportedWindows()
     {
-        registerExportedWindow(new AddContactDialog(mainFrame));
+        //TODO DEVTE-1304 fix me for GUI
+//        registerExportedWindow(new AddContactDialog(mainFrame));
     }
 
     /**
@@ -859,7 +861,8 @@ public class UIServiceImpl
      */
     private class RunLoginGui implements Runnable {
         public void run() {
-            loginManager.runLogin();
+            //TODO DEVTE-1304 fix me for GUI
+//            loginManager.runLogin();
         }
     }
 
@@ -870,11 +873,12 @@ public class UIServiceImpl
     {
         // Show tooltips immediately and specify a custom background.
         ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
-        UIManager.put(
-                "ToolTip.background",
-                new Color(
-                        GuiActivator.getResources().getColor(
-                                "service.gui.TOOLTIP_BACKGROUND")));
+        //TODO DEVTE-1304 fix me for GUI
+//        UIManager.put(
+//                "ToolTip.background",
+//                new Color(
+//                        GuiActivator.getResources().getColor(
+//                                "service.gui.TOOLTIP_BACKGROUND")));
         toolTipManager.setInitialDelay(500);
         toolTipManager.setDismissDelay(60000);
         toolTipManager.setEnabled(true);

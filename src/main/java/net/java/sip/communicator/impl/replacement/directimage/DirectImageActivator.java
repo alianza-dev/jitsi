@@ -113,12 +113,13 @@ public class DirectImageActivator
     {
         if(confService == null)
         {
-            ServiceReference confReference
-                = bundleContext.getServiceReference(
-                    ConfigurationService.class.getName());
-            confService
-                = (ConfigurationService) bundleContext.getService(
-                    confReference);
+            //TODO DEVTE-1304 fix me for GUI
+//            ServiceReference confReference
+//                = bundleContext.getServiceReference(
+//                    ConfigurationService.class.getName());
+//            confService
+//                = (ConfigurationService) bundleContext.getService(
+//                    confReference);
         }
         return confService;
     }

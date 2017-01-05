@@ -120,7 +120,8 @@ public abstract class AbstractResourcesService
     public AbstractResourcesService(BundleContext bundleContext)
     {
         this.bundleContext = bundleContext;
-        bundleContext.addServiceListener(this);
+        //TODO DEVTE-1304 fix me for GUI
+//        bundleContext.addServiceListener(this);
 
         colorPack
             = getDefaultResourcePack(
@@ -139,13 +140,14 @@ public abstract class AbstractResourcesService
             imageResources = getResources(imagePack);
 
         // changes the default locale if set in the config
-        ConfigurationService confService =
-            ServiceUtils.getService( bundleContext, ConfigurationService.class);
-        String defaultLocale =
-                (String) confService.getProperty(DEFAULT_LOCALE_CONFIG);
-        if(defaultLocale != null)
-            Locale.setDefault(
-                    ResourceManagementServiceUtils.getLocale(defaultLocale));
+        //TODO DEVTE-1304 fix me for GUI
+//        ConfigurationService confService =
+//            ServiceUtils.getService( bundleContext, ConfigurationService.class);
+//        String defaultLocale =
+//                (String) confService.getProperty(DEFAULT_LOCALE_CONFIG);
+//        if(defaultLocale != null)
+//            Locale.setDefault(
+//                    ResourceManagementServiceUtils.getLocale(defaultLocale));
 
         languagePack
             = getDefaultResourcePack(
@@ -351,16 +353,6 @@ public abstract class AbstractResourcesService
      */
     protected abstract void onSkinPackChanged();
 
-    /**
-     * Searches for the <tt>ResourcePack</tt> corresponding to the given
-     * <tt>className</tt> and <tt></tt>.
-     *
-     * @param className The name of the resource class.
-     * @param typeName The name of the type we're looking for.
-     * For example: RESOURCE_NAME_DEFAULT_VALUE
-     * @return the <tt>ResourcePack</tt> corresponding to the given
-     * <tt>className</tt> and <tt></tt>.
-     */
     protected <T extends ResourcePack> T getDefaultResourcePack(
             Class<T> clazz,
             String typeName)
@@ -369,15 +361,16 @@ public abstract class AbstractResourcesService
         String osgiFilter
             = "(" + ResourcePack.RESOURCE_NAME + "=" + typeName + ")";
 
-        try
-        {
-            serRefs = bundleContext.getServiceReferences(clazz, osgiFilter);
-        }
-        catch (InvalidSyntaxException ex)
-        {
+        //TODO DEVTE-1304 fix me for GUI
+//        try
+//        {
+//            serRefs = bundleContext.getServiceReferences(clazz, osgiFilter);
+//        }
+//        catch (InvalidSyntaxException ex)
+//        {
             serRefs = null;
-            logger.error("Could not obtain resource packs reference.", ex);
-        }
+//            logger.error("Could not obtain resource packs reference.", ex);
+//        }
 
         if ((serRefs != null) && !serRefs.isEmpty())
         {

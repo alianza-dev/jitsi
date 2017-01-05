@@ -76,11 +76,12 @@ public class NotificationServiceActivator
     {
         if(configService == null)
         {
-            ServiceReference configReference = bundleContext
-                .getServiceReference(ConfigurationService.class.getName());
+            //TODO DEVTE-1304 fix me for GUI
+//            ServiceReference configReference = bundleContext
+//                .getServiceReference(ConfigurationService.class.getName());
 
-            configService = (ConfigurationService) bundleContext
-                .getService(configReference);
+//            configService = (ConfigurationService) bundleContext
+//                .getService(configReference);
         }
 
         return configService;

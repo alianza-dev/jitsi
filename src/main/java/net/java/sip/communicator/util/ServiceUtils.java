@@ -47,13 +47,13 @@ public class ServiceUtils
             BundleContext bundleContext,
             Class<T> serviceClass)
     {
-        ServiceReference<T> serviceReference
-            = bundleContext.getServiceReference(serviceClass);
+//        ServiceReference<T> serviceReference
+//            = bundleContext.getServiceReference(serviceClass);
 
-        return
-            (serviceReference == null)
-                ? null
-                : bundleContext.getService(serviceReference);
+        return null;
+//            (serviceReference == null)
+//                ? null
+//                : bundleContext.getService(serviceReference);
     }
 
     /**
@@ -74,20 +74,21 @@ public class ServiceUtils
     {
         Collection<ServiceReference<T>> serviceReferences;
 
-        try
+//        try
         {
-            serviceReferences
-                = bundleContext.getServiceReferences(
-                        serviceClass,
-                        null);
+//            serviceReferences
+//                = bundleContext.getServiceReferences(
+//                        serviceClass,
+//                        null);
         }
-        catch (InvalidSyntaxException ex)
+//        catch (InvalidSyntaxException ex)
         {
-            serviceReferences = null;
+//            serviceReferences = null;
         }
-        if (serviceReferences == null)
-            serviceReferences = Collections.emptyList();
-        return serviceReferences;
+//        if (serviceReferences == null)
+//            serviceReferences = Collections.emptyList();
+//        return serviceReferences;
+        return null;
     }
 
     /** Prevents the creation of <tt>ServiceUtils</tt> instances. */

@@ -87,15 +87,17 @@ public class AccountStatusPanel
     /**
      * The image object storing the avatar.
      */
-    private final FramedImage accountImageLabel;
+    private final FramedImage accountImageLabel = null;
 
     /**
      * The label showing the name of the user.
      */
     private final JLabel accountNameLabel
         = new EmphasizedLabel(
-                GuiActivator
-                    .getResources().getI18NString("service.gui.ACCOUNT_ME"));
+            //TODO DEVTE-1304 fix me for GUI
+//                GuiActivator
+//                    .getResources().getI18NString("service.gui.ACCOUNT_ME"));
+            "accountNameLabel");
 
     /**
      * The background color property.
@@ -159,20 +161,21 @@ public class AccountStatusPanel
     {
         super(new BorderLayout(10, 0));
 
-        FramedImageWithMenu imageWithMenu
-            = new FramedImageWithMenu(
-                    new ImageIcon(
-                            ImageLoader
-                                .getImage(ImageLoader.DEFAULT_USER_PHOTO)),
-                    AVATAR_ICON_WIDTH,
-                    AVATAR_ICON_HEIGHT);
-        if (!GuiActivator.getConfigurationService().getBoolean(
-            PNAME_DISABLE_AVATAR_MENU, false))
-        {
-            imageWithMenu.setPopupMenu(new SelectAvatarMenu(imageWithMenu));
-        }
+        //TODO DEVTE-1304 fix me for GUI
+//        FramedImageWithMenu imageWithMenu
+//            = new FramedImageWithMenu(
+//                    new ImageIcon(
+//                            ImageLoader
+//                                .getImage(ImageLoader.DEFAULT_USER_PHOTO)),
+//                    AVATAR_ICON_WIDTH,
+//                    AVATAR_ICON_HEIGHT);
+//        if (!GuiActivator.getConfigurationService().getBoolean(
+//            PNAME_DISABLE_AVATAR_MENU, false))
+//        {
+//            imageWithMenu.setPopupMenu(new SelectAvatarMenu(imageWithMenu));
+//        }
 
-        this.accountImageLabel = imageWithMenu;
+//        this.accountImageLabel = imageWithMenu;
 
         accountNameLabel.setFont(
             accountNameLabel.getFont().deriveFont(12f));
@@ -207,7 +210,8 @@ public class AccountStatusPanel
         rightPanel.add(statusMessageLabel, BorderLayout.CENTER);
         rightPanel.add(statusToolsPanel, BorderLayout.SOUTH);
 
-        this.add(accountImageLabel, BorderLayout.WEST);
+        //TODO DEVTE-1304 fix me for GUI
+//        this.add(accountImageLabel, BorderLayout.WEST);
         this.add(rightPanel, BorderLayout.CENTER);
 
         southPluginPanel = new TransparentPanel(new BorderLayout());
@@ -220,7 +224,8 @@ public class AccountStatusPanel
 
         loadSkin();
 
-        GuiActivator.getUIService().addPluginComponentListener(this);
+        //TODO DEVTE-1304 fix me for GUI
+//        GuiActivator.getUIService().addPluginComponentListener(this);
 
         GlobalDisplayDetailsService gDService
             = GuiActivator.getGlobalDisplayDetailsService();
@@ -361,9 +366,10 @@ public class AccountStatusPanel
      */
     public void updateImage(ImageIcon img)
     {
-        accountImageLabel.setImageIcon(img.getImage());
-        accountImageLabel.setMaximumSize(
-            new Dimension(AVATAR_ICON_WIDTH, AVATAR_ICON_HEIGHT));
+        //TODO DEVTE-1304 fix me for GUI
+//        accountImageLabel.setImageIcon(img.getImage());
+//        accountImageLabel.setMaximumSize(
+//            new Dimension(AVATAR_ICON_WIDTH, AVATAR_ICON_HEIGHT));
         revalidate();
         repaint();
     }
@@ -552,7 +558,8 @@ public class AccountStatusPanel
         // If there is no avatar image set, then displays the default one.
         if(avatarImage != null)
         {
-            accountImageLabel.setImageIcon(avatarImage);
+            //TODO DEVTE-1304 fix me for GUI
+//            accountImageLabel.setImageIcon(avatarImage);
         }
     }
 
@@ -586,8 +593,10 @@ public class AccountStatusPanel
     public void loadSkin()
     {
         bgColor
-            = new Color(GuiActivator.getResources()
-                .getColor("service.gui.LOGO_BAR_BACKGROUND"));
+                //TODO DEVTE-1304 fix me for GUI
+//            = new Color(GuiActivator.getResources()
+//                .getColor("service.gui.LOGO_BAR_BACKGROUND"));
+                = Color.WHITE;
 
         logoBgImage
             = ImageLoader.getImage(ImageLoader.WINDOW_TITLE_BAR);
@@ -595,16 +604,17 @@ public class AccountStatusPanel
         // texture
         BufferedImage bgImage
             = ImageLoader.getImage(ImageLoader.WINDOW_TITLE_BAR_BG);
-        texture
-            = new TexturePaint(
-                    bgImage,
-                    new Rectangle(
-                            0,
-                            0,
-                            bgImage.getWidth(null),
-                            bgImage.getHeight(null)));
+        //TODO DEVTE-1304 fix me for GUI
+//        texture
+//            = new TexturePaint(
+//                    bgImage,
+//                    new Rectangle(
+//                            0,
+//                            0,
+//                            bgImage.getWidth(null),
+//                            bgImage.getHeight(null)));
 
-        GuiActivator.getUIService().addPluginComponentListener(this);
+//        GuiActivator.getUIService().addPluginComponentListener(this);
 
         byte[] avatar = null;
 
@@ -614,11 +624,12 @@ public class AccountStatusPanel
                 .getGlobalDisplayAvatar();
         }
 
-        if (avatar == null || avatar.length <= 0)
-            accountImageLabel.setImageIcon(ImageLoader
-                .getImage(ImageLoader.DEFAULT_USER_PHOTO));
-        else
-            accountImageLabel.setImageIcon(avatar);
+        //TODO DEVTE-1304 fix me for GUI
+//        if (avatar == null || avatar.length <= 0)
+//            accountImageLabel.setImageIcon(ImageLoader
+//                .getImage(ImageLoader.DEFAULT_USER_PHOTO));
+//        else
+//            accountImageLabel.setImageIcon(avatar);
     }
 
     /**

@@ -74,7 +74,8 @@ public class DialPadButton
 
         setBgImage(image);
 
-        this.setPreferredSize(new Dimension(image.getWidth(this),
-                                            image.getHeight(this)));
+        //TODO DEVTE-1304 fix me for GUI
+//        this.setPreferredSize(new Dimension(image.getWidth(this),
+//                                            image.getHeight(this)));
     }
 }

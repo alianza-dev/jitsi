@@ -38,8 +38,10 @@ public class ContactPhotoPanel extends JLayeredPane
     private final JLabel photoLabel = new JLabel();
 
     private final JLabel addContactButton = new JLabel(
-        new ImageIcon(ImageLoader.getImage(
-            ImageLoader.ADD_CONTACT_CHAT_ICON)));
+            //TODO DEVTE-1304 fix me for GUI
+//        new ImageIcon(ImageLoader.getImage(
+//            ImageLoader.ADD_CONTACT_CHAT_ICON)));
+            "addContactButton");
 
     private ImageIcon tooltipIcon;
 

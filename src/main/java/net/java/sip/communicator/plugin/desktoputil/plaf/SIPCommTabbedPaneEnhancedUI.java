@@ -48,16 +48,22 @@ public class SIPCommTabbedPaneEnhancedUI
     implements Skinnable
 {
     private static Color TAB_HIGHLIGHT_FOREGROUND_COLOR
-        = new Color(DesktopUtilActivator.getResources()
-            .getColor("service.gui.TAB_TITLE_HIGHLIGHT"));
+            //TODO DEVTE-1304 fix me for GUI
+//        = new Color(DesktopUtilActivator.getResources()
+//            .getColor("service.gui.TAB_TITLE_HIGHLIGHT"));
+        = Color.BLACK;
 
     private static Color TAB_SELECTED_FOREGROUND_COLOR
-        = new Color(DesktopUtilActivator.getResources()
-            .getColor("service.gui.TAB_TITLE_SELECTED"));
+            //TODO DEVTE-1304 fix me for GUI
+//        = new Color(DesktopUtilActivator.getResources()
+//            .getColor("service.gui.TAB_TITLE_SELECTED"));
+        = Color.BLACK;
 
     private static final int TAB_OVERLAP
-        = Integer.parseInt(DesktopUtilActivator.getResources().
-            getSettingsString("impl.gui.TAB_OVERLAP"));
+            //TODO DEVTE-1304 fix me for GUI
+//        = Integer.parseInt(DesktopUtilActivator.getResources().
+//            getSettingsString("impl.gui.TAB_OVERLAP"));
+        = 1;
 
     private static final int PREFERRED_WIDTH = 150;
 
@@ -570,10 +576,16 @@ public class SIPCommTabbedPaneEnhancedUI
     {
         super.loadSkin();
 
-        TAB_HIGHLIGHT_FOREGROUND_COLOR = new Color(DesktopUtilActivator.getResources()
-            .getColor("service.gui.TAB_TITLE_HIGHLIGHT"));
+        TAB_HIGHLIGHT_FOREGROUND_COLOR =
+                //TODO DEVTE-1304 fix me for GUI
+//                new Color(DesktopUtilActivator.getResources()
+//            .getColor("service.gui.TAB_TITLE_HIGHLIGHT"));
+                Color.BLACK;
 
-        TAB_SELECTED_FOREGROUND_COLOR = new Color(DesktopUtilActivator.getResources()
-            .getColor("service.gui.TAB_TITLE_SELECTED"));
+        TAB_SELECTED_FOREGROUND_COLOR =
+                //TODO DEVTE-1304 fix me for GUI
+//                new Color(DesktopUtilActivator.getResources()
+//            .getColor("service.gui.TAB_TITLE_SELECTED"));
+            Color.BLACK;
     }
 }

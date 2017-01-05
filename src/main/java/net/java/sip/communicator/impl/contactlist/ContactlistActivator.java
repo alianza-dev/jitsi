@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.contactlist;
 
+import net.java.sip.communicator.impl.resources.ResourceManagementServiceImpl;
 import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
@@ -116,9 +117,11 @@ public class ContactlistActivator
         if (resourcesService == null)
         {
             resourcesService
-                = ServiceUtils.getService(
-                        bundleContext,
-                        ResourceManagementService.class);
+                    //TODO DEVTE-1304 fix me for GUI
+//                = ServiceUtils.getService(
+//                        bundleContext,
+//                        ResourceManagementService.class);
+                = new ResourceManagementServiceImpl();
         }
         return resourcesService;
     }

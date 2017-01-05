@@ -89,9 +89,10 @@ public class GlobalDisplayDetailsImpl
      */
     public GlobalDisplayDetailsImpl()
     {
-        provisionedDisplayName
-            = GlobalDisplayDetailsActivator.getConfigurationService()
-                .getString(GLOBAL_DISPLAY_NAME_PROP, null);
+        //TODO DEVTE-1304 fix me for GUI
+        provisionedDisplayName = GLOBAL_DISPLAY_NAME_PROP;
+//            = GlobalDisplayDetailsActivator.getConfigurationService()
+//                .getString(GLOBAL_DISPLAY_NAME_PROP, null);
 
         Iterator<ProtocolProviderService> providersIter
             = AccountUtils.getRegisteredProviders().iterator();

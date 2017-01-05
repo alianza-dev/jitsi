@@ -261,18 +261,19 @@ public class UtilActivator
         Map<Object, ProtocolProviderFactory> providerFactoriesMap
             = new Hashtable<Object, ProtocolProviderFactory>();
 
-        try
+        //TODO DEVTE-1304 fix me for GUI
+//        try
         {
             // get all registered provider factories
-            serRefs
-                = bundleContext.getServiceReferences(
-                        ProtocolProviderFactory.class,
-                        null);
+//            serRefs
+//                = bundleContext.getServiceReferences(
+//                        ProtocolProviderFactory.class,
+//                        null);
         }
-        catch (InvalidSyntaxException ex)
+//        catch (InvalidSyntaxException ex)
         {
             serRefs = null;
-            logger.error("LoginManager : " + ex);
+//            logger.error("LoginManager : " + ex);
         }
 
         if ((serRefs != null) && !serRefs.isEmpty())

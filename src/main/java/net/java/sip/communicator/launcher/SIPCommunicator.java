@@ -17,14 +17,25 @@
  */
 package net.java.sip.communicator.launcher;
 
-import java.awt.*;
-import java.io.*;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import net.java.sip.communicator.impl.gui.GuiModule;
+import net.java.sip.communicator.impl.gui.GuiModuleService;
+import net.java.sip.communicator.impl.version.VersionImpl;
+import net.java.sip.communicator.service.ModuleService;
+import net.java.sip.communicator.util.ScStdOut;
+import net.java.sip.communicator.util.launchutils.LaunchArgHandler;
+import net.java.sip.communicator.util.launchutils.SipCommunicatorLock;
 
-import net.java.sip.communicator.impl.version.*;
-import net.java.sip.communicator.util.*;
-import net.java.sip.communicator.util.launchutils.*;
-
-//import org.apache.felix.main.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Starts the SIP Communicator.
@@ -217,6 +228,31 @@ public class SIPCommunicator
         //there was no error, continue;
         System.setOut(new ScStdOut(System.out));
 //        Main.main(new String[0]);
+        run();
+
+        cleanShutdown();
+    }
+
+    private static void run() throws Exception {
+        Injector injector = Guice.createInjector(
+            new GuiModule()
+        );
+
+        GuiModuleService guiModuleService = injector.getInstance(GuiModuleService.class);
+        guiModuleService.start();
+        addShutdownHook(guiModuleService);
+    }
+
+    private static List<ModuleService> shutdownList = new ArrayList<>();
+
+    private static void addShutdownHook(ModuleService moduleService) {
+        shutdownList.add(moduleService);
+    }
+
+    private static void cleanShutdown() {
+        for (ModuleService moduleService : shutdownList) {
+            moduleService.stop();
+        }
     }
 
     /**

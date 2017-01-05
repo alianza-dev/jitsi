@@ -1697,7 +1697,8 @@ public class ImageLoader
      */
     public static BufferedImage getImage(ImageID imageID)
     {
-        return getImageLoaderService().getImage(imageID);
+        //TODO DEVTE-1304 fix me for GUI
+        return null;//getImageLoaderService().getImage(imageID);
     }
 
     /**

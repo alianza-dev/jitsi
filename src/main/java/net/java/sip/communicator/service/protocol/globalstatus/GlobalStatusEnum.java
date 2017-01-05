@@ -169,8 +169,10 @@ public class GlobalStatusEnum
      */
     public static byte[] loadIcon(String imagePath)
     {
-        return ProtocolProviderActivator.getResourceService()
-            .getImageInBytes(imagePath);
+        //TODO DEVTE-1304 fix me for GUI
+//        return ProtocolProviderActivator.getResourceService()
+//            .getImageInBytes(imagePath);
+        return null;
     }
 
     /**
@@ -180,8 +182,10 @@ public class GlobalStatusEnum
      */
     public static String getI18NStatusName(GlobalStatusEnum status)
     {
-        return ProtocolProviderActivator.getResourceService()
-            .getI18NString(status.i18NKey);
+        //TODO DEVTE-1304 fix me for GUI
+//        return ProtocolProviderActivator.getResourceService()
+//            .getI18NString(status.i18NKey);
+        return status.i18NKey;
     }
 
     /**

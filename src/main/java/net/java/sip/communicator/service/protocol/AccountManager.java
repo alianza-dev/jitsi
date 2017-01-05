@@ -46,7 +46,7 @@ public class AccountManager
     /**
      * The <tt>BundleContext</tt> this service is registered in.
      */
-    private final BundleContext bundleContext;
+    private final BundleContext bundleContext = null;
 
     /**
      * The <tt>AccountManagerListener</tt>s currently interested in the
@@ -94,17 +94,19 @@ public class AccountManager
      *            instance is loaded (and in which the caller will usually later
      *            register it as a service)
      */
-    public AccountManager(BundleContext bundleContext)
+    //TODO DEVTE-1304 fix me for GUI
+//    public AccountManager(BundleContext bundleContext)
+    public AccountManager()
     {
-        this.bundleContext = bundleContext;
-
-        this.bundleContext.addServiceListener(new ServiceListener()
-        {
-            public void serviceChanged(ServiceEvent serviceEvent)
-            {
-                AccountManager.this.serviceChanged(serviceEvent);
-            }
-        });
+//        this.bundleContext = bundleContext;
+//
+//        this.bundleContext.addServiceListener(new ServiceListener()
+//        {
+//            public void serviceChanged(ServiceEvent serviceEvent)
+//            {
+//                AccountManager.this.serviceChanged(serviceEvent);
+//            }
+//        });
     }
 
     /**

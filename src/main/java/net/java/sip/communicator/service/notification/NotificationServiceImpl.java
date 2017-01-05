@@ -37,8 +37,7 @@ import org.jitsi.service.configuration.*;
  * @author Yana Stamcheva
  * @author Ingo Bauersachs
  */
-class NotificationServiceImpl
-    implements NotificationService
+public class NotificationServiceImpl implements NotificationService
 {
     private static final String NOTIFICATIONS_PREFIX
         = "net.java.sip.communicator.impl.notifications";
@@ -656,139 +655,140 @@ class NotificationServiceImpl
      */
     private void loadNotifications()
     {
-        List<String> eventTypes = configService
-                .getPropertyNamesByPrefix(NOTIFICATIONS_PREFIX, true);
-
-        for (String eventTypeRootPropName : eventTypes)
-        {
-            boolean isEventActive =
-                isEnabled(eventTypeRootPropName + ".active");
-
-            String eventType
-                = configService.getString(eventTypeRootPropName);
-
-            List<String> actions = configService
-                .getPropertyNamesByPrefix(
-                    eventTypeRootPropName + ".actions", true);
-
-            for (String actionPropName : actions)
-            {
-                String actionType = configService.getString(actionPropName);
-
-                NotificationAction action = null;
-
-                if(actionType.equals(ACTION_SOUND))
-                {
-                    String soundFileDescriptor
-                        = configService.getString(
-                            actionPropName + ".soundFileDescriptor");
-
-                    String loopInterval
-                        = configService.getString(
-                            actionPropName + ".loopInterval");
-
-                    boolean isSoundNotificationEnabled
-                        = configService.getBoolean(
-                            actionPropName + ".isSoundNotificationEnabled",
-                            (soundFileDescriptor != null));
-
-                    boolean isSoundPlaybackEnabled
-                        = configService.getBoolean(
-                            actionPropName + ".isSoundPlaybackEnabled",
-                            false);
-
-                    boolean isSoundPCSpeakerEnabled
-                        = configService.getBoolean(
-                            actionPropName + ".isSoundPCSpeakerEnabled",
-                            false);
-
-                    action = new SoundNotificationAction(
-                        soundFileDescriptor,
-                        Integer.parseInt(loopInterval),
-                        isSoundNotificationEnabled,
-                        isSoundPlaybackEnabled,
-                        isSoundPCSpeakerEnabled);
-                }
-                else if(actionType.equals(ACTION_POPUP_MESSAGE))
-                {
-                    String defaultMessage
-                        = configService.getString(
-                            actionPropName + ".defaultMessage");
-                    long timeout
-                        = configService.getLong(
-                            actionPropName + ".timeout",-1);
-                    String groupName
-                        = configService.getString(
-                            actionPropName + ".groupName");
-                    action = new PopupMessageNotificationAction(
-                                    defaultMessage, timeout, groupName);
-                }
-                else if(actionType.equals(ACTION_LOG_MESSAGE))
-                {
-                    String logType
-                        = configService.getString(
-                            actionPropName + ".logType");
-
-                    action = new LogMessageNotificationAction(logType);
-                }
-                else if(actionType.equals(ACTION_COMMAND))
-                {
-                    String commandDescriptor
-                        = configService.getString(
-                            actionPropName + ".commandDescriptor");
-
-                    action = new CommandNotificationAction(commandDescriptor);
-                }
-                else if(actionType.equals(ACTION_VIBRATE))
-                {
-                    String descriptor
-                        = configService.getString(
-                            actionPropName + ".descriptor");
-
-                    int patternLen
-                        = configService.getInt(
-                            actionPropName + ".patternLength", -1);
-                    if(patternLen == -1)
-                    {
-                        logger.error("Invalid pattern length: "+patternLen);
-                        continue;
-                    }
-
-                    long[] pattern = new long[patternLen];
-                    for(int pIdx=0; pIdx<patternLen; pIdx++)
-                    {
-                        pattern[pIdx]
-                            = configService.getLong(
-                                actionPropName+".patternItem"+pIdx, -1);
-
-                        if(pattern[pIdx] == -1)
-                        {
-                            logger.error("Invalid pattern interval: "+pattern);
-                            continue;
-                        }
-                    }
-
-                    int repeat = configService.getInt(
-                            actionPropName + ".repeat", -1);
-
-                    action
-                        = new VibrateNotificationAction(
-                            descriptor, pattern, repeat);
-                }
-
-                action.setEnabled(isEnabled(actionPropName + ".enabled"));
-
-                // Load the data in the notifications table.
-                Notification notification = notifications.get(eventType);
-                if(notification == null)
-                {
-                    notification = new Notification(eventType);
-                    notifications.put(eventType, notification);
-                }
-                notification.setActive(isEventActive);
-                notification.addAction(action);
-            }
-        }
+        //TODO DEVTE-1304 fix me for GUI
+//        List<String> eventTypes = configService
+//                .getPropertyNamesByPrefix(NOTIFICATIONS_PREFIX, true);
+//
+//        for (String eventTypeRootPropName : eventTypes)
+//        {
+//            boolean isEventActive =
+//                isEnabled(eventTypeRootPropName + ".active");
+//
+//            String eventType
+//                = configService.getString(eventTypeRootPropName);
+//
+//            List<String> actions = configService
+//                .getPropertyNamesByPrefix(
+//                    eventTypeRootPropName + ".actions", true);
+//
+//            for (String actionPropName : actions)
+//            {
+//                String actionType = configService.getString(actionPropName);
+//
+//                NotificationAction action = null;
+//
+//                if(actionType.equals(ACTION_SOUND))
+//                {
+//                    String soundFileDescriptor
+//                        = configService.getString(
+//                            actionPropName + ".soundFileDescriptor");
+//
+//                    String loopInterval
+//                        = configService.getString(
+//                            actionPropName + ".loopInterval");
+//
+//                    boolean isSoundNotificationEnabled
+//                        = configService.getBoolean(
+//                            actionPropName + ".isSoundNotificationEnabled",
+//                            (soundFileDescriptor != null));
+//
+//                    boolean isSoundPlaybackEnabled
+//                        = configService.getBoolean(
+//                            actionPropName + ".isSoundPlaybackEnabled",
+//                            false);
+//
+//                    boolean isSoundPCSpeakerEnabled
+//                        = configService.getBoolean(
+//                            actionPropName + ".isSoundPCSpeakerEnabled",
+//                            false);
+//
+//                    action = new SoundNotificationAction(
+//                        soundFileDescriptor,
+//                        Integer.parseInt(loopInterval),
+//                        isSoundNotificationEnabled,
+//                        isSoundPlaybackEnabled,
+//                        isSoundPCSpeakerEnabled);
+//                }
+//                else if(actionType.equals(ACTION_POPUP_MESSAGE))
+//                {
+//                    String defaultMessage
+//                        = configService.getString(
+//                            actionPropName + ".defaultMessage");
+//                    long timeout
+//                        = configService.getLong(
+//                            actionPropName + ".timeout",-1);
+//                    String groupName
+//                        = configService.getString(
+//                            actionPropName + ".groupName");
+//                    action = new PopupMessageNotificationAction(
+//                                    defaultMessage, timeout, groupName);
+//                }
+//                else if(actionType.equals(ACTION_LOG_MESSAGE))
+//                {
+//                    String logType
+//                        = configService.getString(
+//                            actionPropName + ".logType");
+//
+//                    action = new LogMessageNotificationAction(logType);
+//                }
+//                else if(actionType.equals(ACTION_COMMAND))
+//                {
+//                    String commandDescriptor
+//                        = configService.getString(
+//                            actionPropName + ".commandDescriptor");
+//
+//                    action = new CommandNotificationAction(commandDescriptor);
+//                }
+//                else if(actionType.equals(ACTION_VIBRATE))
+//                {
+//                    String descriptor
+//                        = configService.getString(
+//                            actionPropName + ".descriptor");
+//
+//                    int patternLen
+//                        = configService.getInt(
+//                            actionPropName + ".patternLength", -1);
+//                    if(patternLen == -1)
+//                    {
+//                        logger.error("Invalid pattern length: "+patternLen);
+//                        continue;
+//                    }
+//
+//                    long[] pattern = new long[patternLen];
+//                    for(int pIdx=0; pIdx<patternLen; pIdx++)
+//                    {
+//                        pattern[pIdx]
+//                            = configService.getLong(
+//                                actionPropName+".patternItem"+pIdx, -1);
+//
+//                        if(pattern[pIdx] == -1)
+//                        {
+//                            logger.error("Invalid pattern interval: "+pattern);
+//                            continue;
+//                        }
+//                    }
+//
+//                    int repeat = configService.getInt(
+//                            actionPropName + ".repeat", -1);
+//
+//                    action
+//                        = new VibrateNotificationAction(
+//                            descriptor, pattern, repeat);
+//                }
+//
+//                action.setEnabled(isEnabled(actionPropName + ".enabled"));
+//
+//                // Load the data in the notifications table.
+//                Notification notification = notifications.get(eventType);
+//                if(notification == null)
+//                {
+//                    notification = new Notification(eventType);
+//                    notifications.put(eventType, notification);
+//                }
+//                notification.setActive(isEventActive);
+//                notification.addAction(action);
+//            }
+//        }
     }
 
     /**

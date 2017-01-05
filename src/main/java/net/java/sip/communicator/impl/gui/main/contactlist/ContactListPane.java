@@ -86,7 +86,9 @@ public class ContactListPane
         this.mainFrame = mainFrame;
 
         this.chatWindowManager
-            = GuiActivator.getUIService().getChatWindowManager();
+                //TODO DEVTE-1304 fix me for GUI
+//            = GuiActivator.getUIService().getChatWindowManager();
+            = new ChatWindowManager();
 
         this.setHorizontalScrollBarPolicy(
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -829,23 +831,24 @@ public class ContactListPane
     {
         // Search for plugin components registered through the OSGI bundle
         // context.
-        Collection<ServiceReference<PluginComponentFactory>> serRefs;
+        Collection<ServiceReference<PluginComponentFactory>> serRefs = null;
         String osgiFilter
             = "(" + Container.CONTAINER_ID + "="
                 + Container.CONTAINER_CONTACT_LIST.getID() + ")";
 
-        try
-        {
-            serRefs
-                = GuiActivator.bundleContext.getServiceReferences(
-                        PluginComponentFactory.class,
-                        osgiFilter);
-        }
-        catch (InvalidSyntaxException ex)
-        {
-            serRefs = null;
-            logger.error("Could not obtain plugin reference.", ex);
-        }
+        //TODO DEVTE-1304 fix me for GUI
+//        try
+//        {
+//            serRefs
+//                = GuiActivator.bundleContext.getServiceReferences(
+//                        PluginComponentFactory.class,
+//                        osgiFilter);
+//        }
+//        catch (InvalidSyntaxException ex)
+//        {
+//            serRefs = null;
+//            logger.error("Could not obtain plugin reference.", ex);
+//        }
 
         if ((serRefs != null) && !serRefs.isEmpty())
         {
@@ -886,7 +889,7 @@ public class ContactListPane
             }
         }
 
-        GuiActivator.getUIService().addPluginComponentListener(this);
+//        GuiActivator.getUIService().addPluginComponentListener(this);
     }
 
     /**

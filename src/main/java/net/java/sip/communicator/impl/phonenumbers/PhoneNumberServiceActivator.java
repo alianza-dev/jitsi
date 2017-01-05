@@ -39,10 +39,11 @@ public class PhoneNumberServiceActivator
     public void start(BundleContext bundleContext)
         throws Exception
     {
-        bundleContext.registerService(
-            PhoneNumberI18nService.class.getName(),
-            new PhoneNumberI18nServiceImpl(),
-            null);
+        //TODO DEVTE-1304 fix me for GUI
+//        bundleContext.registerService(
+//            PhoneNumberI18nService.class.getName(),
+//            new PhoneNumberI18nServiceImpl(),
+//            null);
 
         if (logger.isInfoEnabled())
             logger.info("Packet Logging Service ...[REGISTERED]");

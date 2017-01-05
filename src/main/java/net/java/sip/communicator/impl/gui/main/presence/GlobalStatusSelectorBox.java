@@ -126,8 +126,10 @@ public class GlobalStatusSelectorBox
 
         this.accountStatusPanel = accountStatusPanel;
 
-        JLabel titleLabel = new JLabel(GuiActivator.getResources()
-                        .getI18NString("service.gui.SET_GLOBAL_STATUS"));
+        //TODO DEVTE-1304 fix me for GUI
+//        JLabel titleLabel = new JLabel(GuiActivator.getResources()
+//                        .getI18NString("service.gui.SET_GLOBAL_STATUS"));
+        JLabel titleLabel = new JLabel("titleLabel");
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD));
 
@@ -145,37 +147,39 @@ public class GlobalStatusSelectorBox
 
         group.add(createMenuItem(GlobalStatusEnum.OFFLINE, -1));
 
-        if(!GuiActivator.getConfigurationService()
-                .getBoolean(HIDE_GLOBAL_STATUS_MESSAGE, false)
-            && isPresenceOpSetForProvidersAvailable())
-        {
-            this.addSeparator();
-
-            globalStatusMessageMenu = new GlobalStatusMessageMenu(true);
-            globalStatusMessageMenu.addPropertyChangeListener(
-                new PropertyChangeListener()
-                {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt)
-                    {
-                        if(evt.getPropertyName().equals(
-                            GlobalStatusMessageMenu.
-                                STATUS_MESSAGE_UPDATED_PROP))
-                        {
-                            changeTooltip((String)evt.getNewValue());
-                        }
-                    }
-                });
-            this.add((JMenu)globalStatusMessageMenu.getMenu());
-        }
+        //TODO DEVTE-1304 fix me for GUI
+//        if(!GuiActivator.getConfigurationService()
+//                .getBoolean(HIDE_GLOBAL_STATUS_MESSAGE, false)
+//            && isPresenceOpSetForProvidersAvailable())
+//        {
+//            this.addSeparator();
+//
+//            globalStatusMessageMenu = new GlobalStatusMessageMenu(true);
+//            globalStatusMessageMenu.addPropertyChangeListener(
+//                new PropertyChangeListener()
+//                {
+//                    @Override
+//                    public void propertyChange(PropertyChangeEvent evt)
+//                    {
+//                        if(evt.getPropertyName().equals(
+//                            GlobalStatusMessageMenu.
+//                                STATUS_MESSAGE_UPDATED_PROP))
+//                        {
+//                            changeTooltip((String)evt.getNewValue());
+//                        }
+//                    }
+//                });
+//            this.add((JMenu)globalStatusMessageMenu.getMenu());
+//        }
 
         if(!ConfigurationUtils.isHideAccountStatusSelectorsEnabled())
             this.addSeparator();
 
         this.setFont(titleLabel.getFont().deriveFont(Font.PLAIN, 11f));
 
-        if(offlineStatus != null)
-            this.setIcon(new ImageIcon(offlineStatus.getStatusIcon()));
+        //TODO DEVTE-1304 fix me for GUI
+//        if(offlineStatus != null)
+//            this.setIcon(new ImageIcon(offlineStatus.getStatusIcon()));
 
         this.setIconTextGap(2);
         this.setOpaque(false);
@@ -265,9 +269,10 @@ public class GlobalStatusSelectorBox
             if(globalStatusMessageMenu != null)
                 globalStatusMessageMenu.clearSelectedItems();
 
-            this.setToolTipText("<html><b>" + GuiActivator.getResources()
-                .getI18NString("service.gui.SET_GLOBAL_STATUS")
-                + "</b></html>");
+            //TODO DEVTE-1304 fix me for GUI
+//            this.setToolTipText("<html><b>" + GuiActivator.getResources()
+//                .getI18NString("service.gui.SET_GLOBAL_STATUS")
+//                + "</b></html>");
             accountStatusPanel.setStatusMessage(null);
         }
         else
@@ -290,20 +295,22 @@ public class GlobalStatusSelectorBox
         GlobalStatusEnum status,
         int index)
     {
-        JCheckBoxMenuItem menuItem
-            = new JCheckBoxMenuItem(
-                    GlobalStatusEnum.getI18NStatusName(status),
-                    new ImageIcon(status.getStatusIcon()));
+        //TODO DEVTE-1304 fix me for GUI
+//        JCheckBoxMenuItem menuItem
+//            = new JCheckBoxMenuItem(
+//                    GlobalStatusEnum.getI18NStatusName(status),
+//                    new ImageIcon(status.getStatusIcon()));
 
-        menuItem.setName(status.getStatusName());
-        menuItem.addActionListener(this);
+//        menuItem.setName(status.getStatusName());
+//        menuItem.addActionListener(this);
 
-        if(index == -1)
-            add(menuItem);
-        else
-            add(menuItem, index);
+//        if(index == -1)
+//            add(menuItem);
+//        else
+//            add(menuItem, index);
 
-        return menuItem;
+//        return menuItem;
+        return null;
     }
 
     /**
@@ -675,13 +682,14 @@ public class GlobalStatusSelectorBox
             {
                 AntialiasingManager.activateAntialiasing(g);
 
-                g.drawImage(
-                    arrowImage,
-                    textWidth + 2*IMAGE_INDENT + 2,
-                    getX()
-                        + (this.getHeight() - arrowImage.getHeight(null)) / 2
-                        + 1,
-                    null);
+                //TODO DEVTE-1304 fix me for GUI
+//                g.drawImage(
+//                    arrowImage,
+//                    textWidth + 2*IMAGE_INDENT + 2,
+//                    getX()
+//                        + (this.getHeight() - arrowImage.getHeight(null)) / 2
+//                        + 1,
+//                    null);
             }
             finally
             {
@@ -703,8 +711,9 @@ public class GlobalStatusSelectorBox
                 ? 0
                 : ComponentUtils.getStringWidth(this, text);
 
-        this.setPreferredSize(new Dimension(
-            textWidth + 2*IMAGE_INDENT + arrowImage.getWidth(null) + 5, 20));
+        //TODO DEVTE-1304 fix me for GUI
+//        this.setPreferredSize(new Dimension(
+//            textWidth + 2*IMAGE_INDENT + arrowImage.getWidth(null) + 5, 20));
     }
 
     /**

@@ -164,17 +164,18 @@ public class SystrayServiceJdicImpl
              * Delay the call to the #initSystray() method until the UIService
              * implementation becomes available.
              */
-            try
-            {
-                OsDependentActivator.bundleContext.addServiceListener(
-                        new DelayedInitSystrayServiceListener(),
-                        '('
-                            + Constants.OBJECTCLASS
-                            + '='
-                            + UIService.class.getName()
-                            + ')');
-            }
-            catch (InvalidSyntaxException ise)
+            //TODO DEVTE-1304 fix me for GUI
+//            try
+//            {
+//                OsDependentActivator.bundleContext.addServiceListener(
+//                        new DelayedInitSystrayServiceListener(),
+//                        '('
+//                            + Constants.OBJECTCLASS
+//                            + '='
+//                            + UIService.class.getName()
+//                            + ')');
+//            }
+//            catch (InvalidSyntaxException ise)
             {
                 /*
                  * Oh, it should not really happen. Besides, it is not clear at

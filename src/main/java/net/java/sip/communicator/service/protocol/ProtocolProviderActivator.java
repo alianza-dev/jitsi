@@ -118,14 +118,15 @@ public class ProtocolProviderActivator
      */
     public static ResourceManagementService getResourceService()
     {
-        if (resourceService == null)
-        {
-            resourceService
-                = (ResourceManagementService)
-                    bundleContext.getService(
-                        bundleContext.getServiceReference(
-                            ResourceManagementService.class.getName()));
-        }
+        //TODO DEVTE-1304 fix me for GUI
+//        if (resourceService == null)
+//        {
+//            resourceService
+//                = (ResourceManagementService)
+//                    bundleContext.getService(
+//                        bundleContext.getServiceReference(
+//                            ResourceManagementService.class.getName()));
+//        }
         return resourceService;
     }
 
@@ -207,7 +208,7 @@ public class ProtocolProviderActivator
     {
         ProtocolProviderActivator.bundleContext = bundleContext;
 
-        accountManager = new AccountManager(bundleContext);
+        accountManager = new AccountManager();
         accountManagerServiceRegistration =
             bundleContext.registerService(AccountManager.class.getName(),
                 accountManager, null);
