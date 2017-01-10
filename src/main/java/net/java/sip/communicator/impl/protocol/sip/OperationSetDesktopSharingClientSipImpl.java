@@ -43,7 +43,7 @@ import net.java.sip.communicator.util.*;
  */
 public class OperationSetDesktopSharingClientSipImpl
     extends AbstractOperationSetDesktopSharingClient
-                <ProtocolProviderServiceSipImpl>
+                <ProtocolProviderAlzService>
 {
     /**
      * Our class logger.
@@ -119,7 +119,7 @@ public class OperationSetDesktopSharingClientSipImpl
      * for which the new instance is to provide desktop sharing.
      */
     public OperationSetDesktopSharingClientSipImpl(
-            ProtocolProviderServiceSipImpl parentProvider)
+            ProtocolProviderAlzService parentProvider)
     {
         super(parentProvider);
 

@@ -38,14 +38,14 @@ public class OperationSetCusaxUtilsSipImpl
     /**
      * The parent jabber protocol provider.
      */
-    private final ProtocolProviderServiceSipImpl provider;
+    private final ProtocolProviderAlzService provider;
 
     /**
      * Constructs this operation set.
      * @param provider the parent provider.
      */
     public OperationSetCusaxUtilsSipImpl(
-        ProtocolProviderServiceSipImpl provider)
+        ProtocolProviderAlzService provider)
     {
         this.provider = provider;
     }

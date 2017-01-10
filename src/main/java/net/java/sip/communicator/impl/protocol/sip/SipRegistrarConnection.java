@@ -53,7 +53,7 @@ public class SipRegistrarConnection
     /**
     * A reference to the sip provider that created us.
     */
-    private ProtocolProviderServiceSipImpl sipProvider = null;
+    private ProtocolProviderAlzService sipProvider = null;
 
     /**
     * The SipURI containing the address port and transport of our registrar
@@ -189,13 +189,13 @@ public class SipRegistrarConnection
     * @param registrationTransport the transport to use when sending our
     * REGISTER request to the server.
     * @param sipProviderCallback a reference to the
-    * ProtocolProviderServiceSipImpl instance that created us.
+    * ProtocolProviderAlzService instance that created us.
     */
     public SipRegistrarConnection(
                             String       registrarName,
                             int          registrarPort,
                             String       registrationTransport,
-                            ProtocolProviderServiceSipImpl sipProviderCallback)
+                            ProtocolProviderAlzService sipProviderCallback)
     {
         this.registrarPort = registrarPort;
         this.registrationTransport = registrationTransport;
@@ -1302,7 +1302,7 @@ public class SipRegistrarConnection
     * registrar or null if this is a fake or "Registrarless" connection. If
     * our are trying to obtain an address to put in your from header and don't
     * no what to do in the case of registrarless accounts - think about using
-    * <tt>ProtocolProviderServiceSipImpl.createAddressOfRecord()</tt>.
+    * <tt>ProtocolProviderAlzService.createAddressOfRecord()</tt>.
     *
     * @return our Address Of Record
     */

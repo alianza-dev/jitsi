@@ -10,11 +10,11 @@
     <version>1.0.2</version>
   </parent>
 
-  <artifactId>jitsi</artifactId>
+  <artifactId>alz-jitsi</artifactId>
   <version>2.9-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>jitsi</name>
+  <name>alz-jitsi</name>
   <url>https://jitsi.org</url>
 
   <dependencies>
@@ -43,11 +43,6 @@
       <artifactId>libjitsi</artifactId>
       <version>1.0-20160707.163121-175</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>${project.groupId}</groupId>-->
-      <!--<artifactId>ice4j</artifactId>-->
-      <!--<version>2.0-SNAPSHOT</version>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.jitsi</groupId>
       <artifactId>ice4j</artifactId>
@@ -192,6 +187,11 @@
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
       <version>4.5.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.10</version>
     </dependency>
     <!--Test deps-->
     <dependency>

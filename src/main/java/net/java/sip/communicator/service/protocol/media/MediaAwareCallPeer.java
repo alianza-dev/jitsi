@@ -39,7 +39,7 @@ import org.jitsi.service.neomedia.event.*;
  * <tt>CallPeerMediaHandlerSipImpl</tt> or
  * <tt>CallPeerMediaHandlerJabberImpl</tt>
  * @param <V> the provider extension class like for example
- * <tt>ProtocolProviderServiceSipImpl</tt> or
+ * <tt>ProtocolProviderAlzService</tt> or
  * <tt>ProtocolProviderServiceJabberImpl</tt>
  *
  * @author Emil Ivov

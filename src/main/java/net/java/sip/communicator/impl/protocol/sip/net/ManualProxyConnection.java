@@ -122,7 +122,7 @@ public class ManualProxyConnection
         transport = account.getAccountPropertyString(PREFERRED_TRANSPORT);
 
         //check property sanity
-        if(!ProtocolProviderServiceSipImpl.isValidTransport(transport))
+        if(!ProtocolProviderAlzService.isValidTransport(transport))
             throw new IllegalArgumentException(
                 transport + " is not a valid SIP transport");
     }

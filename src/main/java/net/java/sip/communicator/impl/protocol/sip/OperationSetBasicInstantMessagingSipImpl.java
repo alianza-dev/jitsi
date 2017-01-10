@@ -55,7 +55,7 @@ public class OperationSetBasicInstantMessagingSipImpl
     /**
      * The provider that created us.
      */
-    private final ProtocolProviderServiceSipImpl sipProvider;
+    private final ProtocolProviderAlzService sipProvider;
 
     /**
      * Registration listener instance.
@@ -96,7 +96,7 @@ public class OperationSetBasicInstantMessagingSipImpl
      * connection.
      */
     OperationSetBasicInstantMessagingSipImpl(
-        ProtocolProviderServiceSipImpl provider)
+        ProtocolProviderAlzService provider)
     {
         this.sipProvider = provider;
 

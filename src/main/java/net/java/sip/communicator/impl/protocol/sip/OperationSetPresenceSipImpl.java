@@ -45,7 +45,7 @@ import org.w3c.dom.*;
  * @author Grigorii Balutsel
  */
 public class OperationSetPresenceSipImpl
-    extends AbstractOperationSetPersistentPresence<ProtocolProviderServiceSipImpl>
+    extends AbstractOperationSetPersistentPresence<ProtocolProviderAlzService>
     implements MethodProcessor,
                RegistrationStateChangeListener
 {
@@ -262,7 +262,7 @@ public class OperationSetPresenceSipImpl
     /**
      * Creates an instance of this operation set keeping a reference to the
      * specified parent <tt>provider</tt>.
-     * @param provider the ProtocolProviderServiceSipImpl instance that
+     * @param provider the ProtocolProviderAlzService instance that
      * created us.
      * @param presenceEnabled if we are activated or if we don't have to
      * handle the presence informations for contacts
@@ -272,7 +272,7 @@ public class OperationSetPresenceSipImpl
      * to use
      */
     public OperationSetPresenceSipImpl(
-        ProtocolProviderServiceSipImpl provider,
+        ProtocolProviderAlzService provider,
         boolean presenceEnabled,
         boolean forceP2PMode,
         int pollingPeriod,
@@ -3321,7 +3321,7 @@ public class OperationSetPresenceSipImpl
         catch (ParseException ex)
         {
             //Shouldn't happen
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "An unexpected error occurred while constructing the address",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
             return null;//unreachable but necessary.

@@ -62,7 +62,7 @@ public class SipActivator
      */
     private static ResourceManagementService resources        = null;
 
-    private static ProtocolProviderFactorySipImpl sipProviderFactory = null;
+    private static ProtocolProviderAlzFactory sipProviderFactory = null;
 
     private UriHandlerSipImpl uriHandlerSipImpl = null;
 
@@ -108,9 +108,9 @@ public class SipActivator
      * Creates the ProtocolProviderFactory for this protocol.
      * @return The created factory.
      */
-    protected ProtocolProviderFactorySipImpl createProtocolProviderFactory()
+    protected ProtocolProviderAlzFactory createProtocolProviderFactory()
     {
-    	return new ProtocolProviderFactorySipImpl();
+    	return new ProtocolProviderAlzFactory();
     }
 
     /**
@@ -209,10 +209,10 @@ public class SipActivator
     /**
      * Retrurns a reference to the protocol provider factory that we have
      * registered.
-     * @return a reference to the <tt>ProtocolProviderFactorySipImpl</tt>
+     * @return a reference to the <tt>ProtocolProviderAlzFactory</tt>
      * instance that we have registered from this package.
      */
-    public static ProtocolProviderFactorySipImpl getProtocolProviderFactory()
+    public static ProtocolProviderAlzFactory getProtocolProviderFactory()
     {
         return sipProviderFactory;
     }

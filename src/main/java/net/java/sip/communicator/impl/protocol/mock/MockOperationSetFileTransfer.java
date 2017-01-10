@@ -39,7 +39,7 @@ public class MockOperationSetFileTransfer
         = new Vector<FileTransferListener>();
 
     /**
-     * A reference to the <tt>ProtocolProviderServiceSipImpl</tt> instance
+     * A reference to the <tt>ProtocolProviderAlzService</tt> instance
      * that created us.
      */
     private final MockProvider protocolProvider;

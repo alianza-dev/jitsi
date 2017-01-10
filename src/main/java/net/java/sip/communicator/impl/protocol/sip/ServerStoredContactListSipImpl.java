@@ -106,7 +106,7 @@ public class ServerStoredContactListSipImpl
      *                           we could use for dispatching subscription events
      */
     ServerStoredContactListSipImpl(
-            ProtocolProviderServiceSipImpl sipProvider,
+            ProtocolProviderAlzService sipProvider,
             OperationSetPresenceSipImpl parentOperationSet)
     {
         super(sipProvider, parentOperationSet);

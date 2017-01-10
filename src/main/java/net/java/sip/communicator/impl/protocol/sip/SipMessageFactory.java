@@ -40,7 +40,7 @@ import net.java.sip.communicator.util.*;
  * This <tt>MessageFactory</tt> is just a wrapper around a "real"
  * <tt>Messagefactory</tt>, which will be passed to the constructor. Its only
  * purpose is to mark every created message with its
- * <tt>ProtocolProviderServiceSipImpl</tt>, so that the generated
+ * <tt>ProtocolProviderAlzService</tt>, so that the generated
  * <tt>Message</tt>-s will be easy to route or dispatch.
  *
  * @author Sebastien Mazy
@@ -59,7 +59,7 @@ public class SipMessageFactory
      * The service this <tt>SipMessageFactory</tt> belongs to;
      * used to mark messages.
      */
-    private final ProtocolProviderServiceSipImpl protocolProvider;
+    private final ProtocolProviderAlzService protocolProvider;
 
     /**
      * The wrapped factory. <tt>SipMessageFactory</tt> does nothing by itself
@@ -80,7 +80,7 @@ public class SipMessageFactory
      * @param wrappedFactory the <tt>MessageFactory</tt> which will really
      * create messages.
      */
-    public SipMessageFactory(ProtocolProviderServiceSipImpl service,
+    public SipMessageFactory(ProtocolProviderAlzService service,
             MessageFactory wrappedFactory)
     {
         if (service == null)
@@ -697,7 +697,7 @@ public class SipMessageFactory
         }
         catch (SipException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create " + method + " request.",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -748,14 +748,14 @@ public class SipMessageFactory
         catch (InvalidArgumentException ex)
         {
             // Shouldn't happen
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Error occurred while constructing the CSeqHeadder",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
         catch (ParseException exc)
         {
             // shouldn't happen
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Error while constructing a CSeqHeadder",
                 OperationFailedException.INTERNAL_ERROR, exc, logger);
         }
@@ -779,7 +779,7 @@ public class SipMessageFactory
         catch (ParseException ex)
         {
             // these two should never happen.
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "An unexpected erro occurred while"
                 + "constructing the ToHeader",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
@@ -803,7 +803,7 @@ public class SipMessageFactory
         catch (ParseException ex)
         {
             // shouldn't happen
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create invite Request!",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }

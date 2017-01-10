@@ -199,8 +199,8 @@ public class SslNetworkLayer
     private SSLSocketFactory getSSLSocketFactory(InetAddress address)
         throws IOException
     {
-        ProtocolProviderServiceSipImpl provider = null;
-        for (ProtocolProviderServiceSipImpl pps : ProtocolProviderServiceSipImpl
+        ProtocolProviderAlzService provider = null;
+        for (ProtocolProviderAlzService pps : ProtocolProviderAlzService
             .getAllInstances())
         {
             if (pps.getConnection() != null

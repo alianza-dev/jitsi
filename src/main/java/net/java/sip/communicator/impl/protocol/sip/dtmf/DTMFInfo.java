@@ -72,7 +72,7 @@ public class DTMFInfo
     /**
      * Involved protocol provider service.
      */
-    private final ProtocolProviderServiceSipImpl pps;
+    private final ProtocolProviderAlzService pps;
 
     /**
      * A list of listeners registered for dtmf tone events.
@@ -85,7 +85,7 @@ public class DTMFInfo
      *
      * @param pps the SIP Protocol provider service
      */
-    public DTMFInfo(ProtocolProviderServiceSipImpl pps)
+    public DTMFInfo(ProtocolProviderAlzService pps)
     {
         this.pps = pps;
 

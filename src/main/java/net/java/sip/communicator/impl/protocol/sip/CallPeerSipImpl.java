@@ -50,7 +50,7 @@ import org.jitsi.service.neomedia.control.*;
 public class CallPeerSipImpl
     extends MediaAwareCallPeer<CallSipImpl,
                                CallPeerMediaHandlerSipImpl,
-                               ProtocolProviderServiceSipImpl>
+                               ProtocolProviderAlzService>
 {
     /**
      * Our class logger.
@@ -1084,7 +1084,7 @@ public class CallPeerSipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create the BUSY_HERE response!",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -1100,7 +1100,7 @@ public class CallPeerSipImpl
         }
         catch (Exception ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to send the BUSY_HERE response",
                 OperationFailedException.NETWORK_FAILURE, ex, logger);
         }
@@ -1137,7 +1137,7 @@ public class CallPeerSipImpl
         }
         catch (SipException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to send the CANCEL request",
                 OperationFailedException.NETWORK_FAILURE, ex, logger);
         }
@@ -1199,7 +1199,7 @@ public class CallPeerSipImpl
         }
         catch (SipException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to determine whether the dialog should stay alive.",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
             return false;
@@ -1276,7 +1276,7 @@ public class CallPeerSipImpl
         catch (ParseException ex)
         {
             setState(CallPeerState.DISCONNECTED);
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to construct an OK response to an INVITE request",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -1294,7 +1294,7 @@ public class CallPeerSipImpl
         {
             // Shouldn't happen
             setState(CallPeerState.DISCONNECTED);
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create a content type header for the OK response",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -1352,7 +1352,7 @@ public class CallPeerSipImpl
         catch (Exception ex)
         {
             setState(CallPeerState.DISCONNECTED);
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to send an OK response to an INVITE request",
                 OperationFailedException.NETWORK_FAILURE, ex, logger);
         }
@@ -1391,7 +1391,7 @@ public class CallPeerSipImpl
         }
         catch (Exception ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create SDP offer to hold.",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -1441,7 +1441,7 @@ public class CallPeerSipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                     "Failed to parse SDP offer for the new invite.",
                     OperationFailedException.INTERNAL_ERROR,
                     ex,
@@ -1489,7 +1489,7 @@ public class CallPeerSipImpl
         }
         catch (Exception ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                     "An error occurred while sending invite request",
                     OperationFailedException.NETWORK_FAILURE,
                     ex,

@@ -33,7 +33,7 @@ import org.jitsi.service.neomedia.recording.*;
  * focusing on implementation-specific details.
  *
  * @param <T> the implementation specific provider class like for example
- * <tt>ProtocolProviderServiceSipImpl</tt>.
+ * <tt>ProtocolProviderAlzService</tt>.
  *
  * @author Lyubomir Marinov
  * @author Emil Ivov

@@ -45,10 +45,10 @@ public class OperationSetJitsiMeetToolsSipImpl
     private final List<JitsiMeetRequestListener> requestHandlers
         = new CopyOnWriteArrayList<JitsiMeetRequestListener>();
 
-    /*private ProtocolProviderServiceSipImpl parentProvider;
+    /*private ProtocolProviderAlzService parentProvider;
 
     public OperationSetJitsiMeetToolsSipImpl(
-        ProtocolProviderServiceSipImpl parentProvider)
+        ProtocolProviderAlzService parentProvider)
     {
         this.parentProvider = parentProvider;
     }*/

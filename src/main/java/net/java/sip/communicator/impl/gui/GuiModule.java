@@ -16,7 +16,7 @@ import net.java.sip.communicator.impl.neomedia.MediaConfigurationImpl;
 import net.java.sip.communicator.impl.osdependent.DesktopServiceImpl;
 import net.java.sip.communicator.impl.osdependent.jdic.SystrayServiceJdicImpl;
 import net.java.sip.communicator.impl.phonenumbers.PhoneNumberI18nServiceImpl;
-import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderServiceSipImpl;
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
 import net.java.sip.communicator.impl.replacement.directimage.ReplacementServiceDirectImageImpl;
 import net.java.sip.communicator.impl.replacement.smiley.ReplacementServiceSmileyImpl;
 import net.java.sip.communicator.impl.resources.ResourceManagementServiceImpl;
@@ -83,7 +83,7 @@ public class GuiModule extends AbstractModule {
         bind(MUCService.class).to(MUCServiceImpl.class);
         bind(MessageHistoryService.class).to(MessageHistoryServiceImpl.class);
         bind(PhoneNumberI18nService.class).to(PhoneNumberI18nServiceImpl.class);
-        bind(ProtocolProviderService.class).to(ProtocolProviderServiceSipImpl.class);
+        bind(ProtocolProviderService.class).to(ProtocolProviderAlzService.class);
         bind(UIService.class).to(UIServiceImpl.class);
         bind(MediaConfigurationService.class).to(MediaConfigurationImpl.class);
     }

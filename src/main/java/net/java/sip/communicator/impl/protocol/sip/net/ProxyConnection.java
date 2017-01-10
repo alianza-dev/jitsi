@@ -17,13 +17,17 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.net;
 
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
+import net.java.sip.communicator.impl.protocol.sip.SipAccountIDImpl;
+import net.java.sip.communicator.service.dns.DnssecException;
+
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.util.LinkedList;
+import java.util.List;
+
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.PROXY_AUTO_CONFIG;
-
-import java.net.*;
-import java.util.*;
-
-import net.java.sip.communicator.impl.protocol.sip.*;
-import net.java.sip.communicator.service.dns.*;
 
 /**
  * Abstract class for the determining the address for the SIP proxy.
@@ -168,7 +172,7 @@ public abstract class ProxyConnection
      * @param pps the protocol provider that needs a SIP server connection.
      * @return An instance of a derived class.
      */
-    public static ProxyConnection create(ProtocolProviderServiceSipImpl pps)
+    public static ProxyConnection create(ProtocolProviderAlzService pps)
     {
         if (pps.getAccountID().getAccountPropertyBoolean(PROXY_AUTO_CONFIG,
             true))

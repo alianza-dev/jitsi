@@ -117,7 +117,7 @@ public class OperationSetDesktopSharingServerSipImpl
      * this instance and for which telephony conferencing services are being
      * provided by this instance.
      */
-    private final ProtocolProviderServiceSipImpl parentProvider;
+    private final ProtocolProviderAlzService parentProvider;
 
     /**
      * The <tt>Timer</tt> which executes delayed tasks scheduled by

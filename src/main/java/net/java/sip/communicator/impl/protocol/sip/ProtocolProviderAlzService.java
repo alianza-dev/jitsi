@@ -17,30 +17,100 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.address.*;
-import gov.nist.javax.sip.header.*;
-import gov.nist.javax.sip.message.*;
-
-import java.net.*;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.impl.protocol.sip.net.*;
-import net.java.sip.communicator.impl.protocol.sip.security.*;
-import net.java.sip.communicator.service.dns.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import gov.nist.javax.sip.address.AddressFactoryEx;
+import gov.nist.javax.sip.address.AddressFactoryImpl;
+import gov.nist.javax.sip.address.SipUri;
+import gov.nist.javax.sip.header.HeaderFactoryImpl;
+import gov.nist.javax.sip.message.MessageFactoryImpl;
+import net.java.sip.communicator.impl.protocol.sip.net.AutoProxyConnection;
+import net.java.sip.communicator.impl.protocol.sip.net.ProxyConnection;
+import net.java.sip.communicator.impl.protocol.sip.security.SipSecurityManager;
+import net.java.sip.communicator.service.dns.DnssecException;
+import net.java.sip.communicator.service.protocol.AbstractProtocolProviderService;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSet;
+import net.java.sip.communicator.service.protocol.OperationSetAdvancedAutoAnswer;
+import net.java.sip.communicator.service.protocol.OperationSetAdvancedTelephony;
+import net.java.sip.communicator.service.protocol.OperationSetAvatar;
+import net.java.sip.communicator.service.protocol.OperationSetBasicAutoAnswer;
+import net.java.sip.communicator.service.protocol.OperationSetBasicInstantMessaging;
+import net.java.sip.communicator.service.protocol.OperationSetBasicTelephony;
+import net.java.sip.communicator.service.protocol.OperationSetCusaxUtils;
+import net.java.sip.communicator.service.protocol.OperationSetDTMF;
+import net.java.sip.communicator.service.protocol.OperationSetDesktopSharingClient;
+import net.java.sip.communicator.service.protocol.OperationSetDesktopSharingServer;
+import net.java.sip.communicator.service.protocol.OperationSetDesktopStreaming;
+import net.java.sip.communicator.service.protocol.OperationSetIncomingDTMF;
+import net.java.sip.communicator.service.protocol.OperationSetInstantMessageTransform;
+import net.java.sip.communicator.service.protocol.OperationSetInstantMessageTransformImpl;
+import net.java.sip.communicator.service.protocol.OperationSetJitsiMeetTools;
+import net.java.sip.communicator.service.protocol.OperationSetMessageWaiting;
+import net.java.sip.communicator.service.protocol.OperationSetPersistentPresence;
+import net.java.sip.communicator.service.protocol.OperationSetPresence;
+import net.java.sip.communicator.service.protocol.OperationSetSecureSDesTelephony;
+import net.java.sip.communicator.service.protocol.OperationSetSecureZrtpTelephony;
+import net.java.sip.communicator.service.protocol.OperationSetServerStoredAccountInfo;
+import net.java.sip.communicator.service.protocol.OperationSetTelephonyBLF;
+import net.java.sip.communicator.service.protocol.OperationSetTelephonyConferencing;
+import net.java.sip.communicator.service.protocol.OperationSetTelephonyPark;
+import net.java.sip.communicator.service.protocol.OperationSetTypingNotifications;
+import net.java.sip.communicator.service.protocol.OperationSetVideoTelephony;
+import net.java.sip.communicator.service.protocol.ProtocolIcon;
+import net.java.sip.communicator.service.protocol.ProtocolNames;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.SecurityAuthority;
+import net.java.sip.communicator.service.protocol.TransportProtocol;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
-
+import net.java.sip.communicator.util.NetworkUtils;
 import org.jitsi.service.version.Version;
-import org.jitsi.util.*;
-import org.osgi.framework.*;
+import org.jitsi.util.StringUtils;
+
+import javax.sip.ClientTransaction;
+import javax.sip.Dialog;
+import javax.sip.DialogTerminatedEvent;
+import javax.sip.IOExceptionEvent;
+import javax.sip.InvalidArgumentException;
+import javax.sip.ListeningPoint;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.ServerTransaction;
+import javax.sip.SipException;
+import javax.sip.SipListener;
+import javax.sip.SipProvider;
+import javax.sip.TimeoutEvent;
+import javax.sip.Transaction;
+import javax.sip.TransactionAlreadyExistsException;
+import javax.sip.TransactionState;
+import javax.sip.TransactionTerminatedEvent;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.address.Address;
+import javax.sip.address.SipURI;
+import javax.sip.header.CSeqHeader;
+import javax.sip.header.ContactHeader;
+import javax.sip.header.EventHeader;
+import javax.sip.header.Header;
+import javax.sip.header.HeaderFactory;
+import javax.sip.header.MaxForwardsHeader;
+import javax.sip.header.UserAgentHeader;
+import javax.sip.header.ViaHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A SIP implementation of the Protocol Provider Service.
@@ -49,8 +119,9 @@ import org.osgi.framework.*;
  * @author Lubomir Marinov
  * @author Alan Kelly
  * @author Grigorii Balutsel
+ * @author Mike Saavedra
  */
-public class ProtocolProviderServiceSipImpl
+public class ProtocolProviderAlzService
   extends AbstractProtocolProviderService
   implements SipListener,
              RegistrationStateChangeListener
@@ -59,7 +130,7 @@ public class ProtocolProviderServiceSipImpl
      * Our class logger.
      */
     private static final Logger logger =
-        Logger.getLogger(ProtocolProviderServiceSipImpl.class);
+        Logger.getLogger(ProtocolProviderAlzService.class);
 
     /**
      * The identifier of the account that this provider represents.
@@ -248,7 +319,7 @@ public class ProtocolProviderServiceSipImpl
     /**
      * Validates the contact identifier and returns an error message if
      * applicable and a suggested correction
-     * 
+     *
      * @param contactId the contact identifier to validate
      * @param result Must be supplied as an empty a list. Implementors add
      *            items:
@@ -496,10 +567,10 @@ public class ProtocolProviderServiceSipImpl
      *
      * @throws OperationFailedException with code INTERNAL_ERROR if we fail
      * initializing the SIP Stack.
-     * @throws java.lang.IllegalArgumentException if one or more of the account
+     * @throws IllegalArgumentException if one or more of the account
      * properties have invalid values.
      *
-     * @see net.java.sip.communicator.service.protocol.AccountID
+     * @see AccountID
      */
     protected void initialize(String    sipAddress,
                               SipAccountIDImpl accountID)
@@ -1578,39 +1649,14 @@ public class ProtocolProviderServiceSipImpl
     }
 
     /**
-     * Returns all running instances of ProtocolProviderServiceSipImpl
+     * Returns all running instances of ProtocolProviderAlzService
      *
-     * @return all running instances of ProtocolProviderServiceSipImpl
+     * @return all running instances of ProtocolProviderAlzService
      */
-    public static Set<ProtocolProviderServiceSipImpl> getAllInstances()
-    {
-        try
-        {
-            Set<ProtocolProviderServiceSipImpl> instances
-                = new HashSet<ProtocolProviderServiceSipImpl>();
-            BundleContext context = SipActivator.getBundleContext();
-            ServiceReference[] references = context.getServiceReferences(
-                    ProtocolProviderService.class.getName(),
-                    null
-                    );
-            for(ServiceReference reference : references)
-            {
-                Object service = context.getService(reference);
-                if(service instanceof ProtocolProviderServiceSipImpl)
-                    instances.add((ProtocolProviderServiceSipImpl) service);
-            }
-            return instances;
-        }
-        catch(InvalidSyntaxException ex)
-        {
-            if (logger.isDebugEnabled())
-                logger.debug("Problem parcing an osgi expression", ex);
-            // should never happen so crash if it ever happens
-            throw new RuntimeException(
-                    "getServiceReferences() wasn't supposed to fail!"
-                    );
-        }
-     }
+    public static Set<ProtocolProviderAlzService> getAllInstances() {
+        //TODO do we really need this?
+        return null;
+    }
 
     /**
      * Returns the default listening point that we use for communication over
@@ -1707,7 +1753,7 @@ public class ProtocolProviderServiceSipImpl
     /**
      * Initializes the SipRegistrarConnection that this class will be using.
      *
-     * @throws java.lang.IllegalArgumentException if one or more account
+     * @throws IllegalArgumentException if one or more account
      * properties have invalid values.
      */
     private void initRegistrarConnection()
@@ -1767,7 +1813,7 @@ public class ProtocolProviderServiceSipImpl
     /**
      * Initializes the SipRegistrarConnection that this class will be using.
      *
-     * @throws java.lang.IllegalArgumentException if one or more account
+     * @throws IllegalArgumentException if one or more account
      * properties have invalid values.
      */
     private void initRegistrarlessConnection()
@@ -2245,7 +2291,7 @@ public class ProtocolProviderServiceSipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to construct an OK response to an INVITE request",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -2258,7 +2304,7 @@ public class ProtocolProviderServiceSipImpl
         }
         catch (Exception ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to send an OK response to an INVITE request",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -2291,7 +2337,7 @@ public class ProtocolProviderServiceSipImpl
         }
         catch (TransactionUnavailableException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create a client transaction for request:\n"
                 + request, OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -2302,7 +2348,7 @@ public class ProtocolProviderServiceSipImpl
         }
         catch (SipException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to send request:\n" + request,
                 OperationFailedException.NETWORK_FAILURE,
                 ex,
@@ -2616,8 +2662,8 @@ public class ProtocolProviderServiceSipImpl
         if(event.getNewState() == RegistrationState.UNREGISTERED ||
            event.getNewState() == RegistrationState.CONNECTION_FAILED)
         {
-            ProtocolProviderServiceSipImpl listener
-                = (ProtocolProviderServiceSipImpl) event.getProvider();
+            ProtocolProviderAlzService listener
+                = (ProtocolProviderAlzService) event.getProvider();
             sipStackSharing.removeSipListener(listener);
             listener.removeRegistrationStateChangeListener(this);
         }

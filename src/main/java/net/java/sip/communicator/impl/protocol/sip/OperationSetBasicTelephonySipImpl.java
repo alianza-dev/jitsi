@@ -45,9 +45,9 @@ import net.java.sip.communicator.util.*;
  * @author Emanuel Onica
  */
 public class OperationSetBasicTelephonySipImpl
-    extends AbstractOperationSetBasicTelephony<ProtocolProviderServiceSipImpl>
+    extends AbstractOperationSetBasicTelephony<ProtocolProviderAlzService>
     implements MethodProcessor,
-               OperationSetAdvancedTelephony<ProtocolProviderServiceSipImpl>,
+               OperationSetAdvancedTelephony<ProtocolProviderAlzService>,
                OperationSetSecureZrtpTelephony,
                OperationSetSecureSDesTelephony
 {
@@ -58,10 +58,10 @@ public class OperationSetBasicTelephonySipImpl
         Logger.getLogger(OperationSetBasicTelephonySipImpl.class);
 
     /**
-     * A reference to the <tt>ProtocolProviderServiceSipImpl</tt> instance that
+     * A reference to the <tt>ProtocolProviderAlzService</tt> instance that
      * created us.
      */
-    private final ProtocolProviderServiceSipImpl protocolProvider;
+    private final ProtocolProviderAlzService protocolProvider;
 
     /**
      * A reference to the <tt>SipMessageFactory</tt> instance that we should
@@ -91,11 +91,11 @@ public class OperationSetBasicTelephonySipImpl
      * handler in the creating protocolProvider.
      *
      * @param protocolProvider a reference to the
-     *            <tt>ProtocolProviderServiceSipImpl</tt> instance that created
+     *            <tt>ProtocolProviderAlzService</tt> instance that created
      *            us.
      */
     public OperationSetBasicTelephonySipImpl(
-        ProtocolProviderServiceSipImpl protocolProvider)
+        ProtocolProviderAlzService protocolProvider)
     {
         this.protocolProvider = protocolProvider;
         this.messageFactory = protocolProvider.getMessageFactory();
@@ -1848,7 +1848,7 @@ public class OperationSetBasicTelephonySipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create " + eventType + " Event header.",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -1863,7 +1863,7 @@ public class OperationSetBasicTelephonySipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create " + subscriptionState
                 + " Subscription-State header.",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
@@ -1878,7 +1878,7 @@ public class OperationSetBasicTelephonySipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create Content-Type header.",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -1888,7 +1888,7 @@ public class OperationSetBasicTelephonySipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to set NOTIFY body/content.",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -2085,7 +2085,7 @@ public class OperationSetBasicTelephonySipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create Replaces header for target dialog "
                     + targetDialog,
                 OperationFailedException.ILLEGAL_ARGUMENT, ex, logger);
@@ -2099,7 +2099,7 @@ public class OperationSetBasicTelephonySipImpl
         catch (Exception ex)
         {
             //ParseException or UnsupportedEncodingException
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to set Replaces header " + replacesHeader
                 + " to SipURI " + sipURI,
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
@@ -2159,7 +2159,7 @@ public class OperationSetBasicTelephonySipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                  "Failed to parse address string " + addressString,
                  OperationFailedException.ILLEGAL_ARGUMENT, ex, logger);
         }
@@ -2192,7 +2192,7 @@ public class OperationSetBasicTelephonySipImpl
      * @return a reference to the <tt>ProtocolProviderService</tt> that created
      * this operation set.
      */
-    public ProtocolProviderServiceSipImpl getProtocolProvider()
+    public ProtocolProviderAlzService getProtocolProvider()
     {
         return protocolProvider;
     }

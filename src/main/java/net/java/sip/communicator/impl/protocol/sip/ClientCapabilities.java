@@ -59,7 +59,7 @@ public class ClientCapabilities
     /**
      * The protocol provider that created us.
      */
-    private final ProtocolProviderServiceSipImpl provider;
+    private final ProtocolProviderAlzService provider;
 
     /**
      * Registration listener instance.
@@ -81,9 +81,9 @@ public class ClientCapabilities
      * <tt>protocolProvider</tt>.
      *
      * @param protocolProvider a reference to the
-     * <tt>ProtocolProviderServiceSipImpl</tt> instance that created us.
+     * <tt>ProtocolProviderAlzService</tt> instance that created us.
      */
-    public ClientCapabilities(ProtocolProviderServiceSipImpl protocolProvider)
+    public ClientCapabilities(ProtocolProviderAlzService protocolProvider)
     {
         this.provider = protocolProvider;
 

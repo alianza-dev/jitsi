@@ -111,7 +111,7 @@ public class UriHandlerSipImpl
      *
      * @throws NullPointerException if <tt>protoFactory</tt> is <tt>null</tt>.
      */
-    public UriHandlerSipImpl(ProtocolProviderFactorySipImpl protoFactory)
+    public UriHandlerSipImpl(ProtocolProviderAlzFactory protoFactory)
         throws NullPointerException
     {
         if (protoFactory == null)

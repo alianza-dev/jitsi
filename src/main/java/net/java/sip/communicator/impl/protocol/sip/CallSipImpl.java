@@ -49,7 +49,7 @@ import org.jitsi.service.neomedia.MediaType;
 public class CallSipImpl
     extends MediaAwareCall<CallPeerSipImpl,
                            OperationSetBasicTelephonySipImpl,
-                           ProtocolProviderServiceSipImpl>
+                           ProtocolProviderAlzService>
     implements CallPeerListener
 {
     /**
@@ -444,14 +444,14 @@ public class CallSipImpl
     }
 
     /**
-     * Returns a reference to the <tt>ProtocolProviderServiceSipImpl</tt>
+     * Returns a reference to the <tt>ProtocolProviderAlzService</tt>
      * instance that created this call.
      *
-     * @return a reference to the <tt>ProtocolProviderServiceSipImpl</tt>
+     * @return a reference to the <tt>ProtocolProviderAlzService</tt>
      * instance that created this call.
      */
     @Override
-    public ProtocolProviderServiceSipImpl getProtocolProvider()
+    public ProtocolProviderAlzService getProtocolProvider()
     {
         return super.getProtocolProvider();
     }
@@ -523,7 +523,7 @@ public class CallSipImpl
         }
         catch (TransactionUnavailableException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create inviteTransaction.\n"
                     + "This is most probably a network connection error.",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);

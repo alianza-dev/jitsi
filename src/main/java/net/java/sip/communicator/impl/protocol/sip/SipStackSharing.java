@@ -40,9 +40,9 @@ import org.jitsi.util.*;
 /**
  * This class is the <tt>SipListener</tt> for all JAIN-SIP
  * <tt>SipProvider</tt>s. It is in charge of dispatching the received messages
- * to the suitable <tt>ProtocolProviderServiceSipImpl</tt>s registered with
+ * to the suitable <tt>ProtocolProviderAlzService</tt>s registered with
  * <tt>addSipListener</tt>. It also contains the JAIN-SIP pieces which are
- * common between all <tt>ProtocolProviderServiceSipImpl</tt>s (namely 1
+ * common between all <tt>ProtocolProviderAlzService</tt>s (namely 1
  * <tt>SipStack</tt>, 2 <tt>SipProvider</tt>s, 3 <tt>ListeningPoint</tt>s).
  *
  * @author Emil Ivov
@@ -90,8 +90,8 @@ public class SipStackSharing
      * issues reasons, better iterate on a copy of that set using
      * <tt>getSipListeners()</tt>.
      */
-    private final Set<ProtocolProviderServiceSipImpl> listeners
-        = new HashSet<ProtocolProviderServiceSipImpl>();
+    private final Set<ProtocolProviderAlzService> listeners
+        = new HashSet<ProtocolProviderAlzService>();
 
     /**
      * The property indicating the preferred UDP and TCP
@@ -164,7 +164,7 @@ public class SipStackSharing
      * @throws OperationFailedException if creating one of the underlying
      * <tt>SipProvider</tt>s fails for whatever reason.
      */
-    public void addSipListener(ProtocolProviderServiceSipImpl listener)
+    public void addSipListener(ProtocolProviderAlzService listener)
         throws OperationFailedException
     {
         synchronized(this.listeners)
@@ -184,7 +184,7 @@ public class SipStackSharing
      *
      * @param listener possible target to remove for the dispatching process.
      */
-    public void removeSipListener(ProtocolProviderServiceSipImpl listener)
+    public void removeSipListener(ProtocolProviderAlzService listener)
     {
         synchronized(this.listeners)
         {
@@ -203,11 +203,11 @@ public class SipStackSharing
      *
      * @return a copy of the <tt>listeners</tt> set.
      */
-    private Set<ProtocolProviderServiceSipImpl> getSipListeners()
+    private Set<ProtocolProviderAlzService> getSipListeners()
     {
         synchronized(this.listeners)
         {
-            return new HashSet<ProtocolProviderServiceSipImpl>(this.listeners);
+            return new HashSet<ProtocolProviderAlzService>(this.listeners);
         }
     }
 
@@ -562,8 +562,8 @@ public class SipStackSharing
     {
         try
         {
-            ProtocolProviderServiceSipImpl recipient
-                = (ProtocolProviderServiceSipImpl) SipApplicationData
+            ProtocolProviderAlzService recipient
+                = (ProtocolProviderAlzService) SipApplicationData
                     .getApplicationData(event.getDialog(),
                                         SipApplicationData.KEY_SERVICE);
             if(recipient == null)
@@ -666,7 +666,7 @@ public class SipStackSharing
                 }
             }
 
-            ProtocolProviderServiceSipImpl service
+            ProtocolProviderAlzService service
                 = getServiceData(event.getServerTransaction());
             if (service != null)
             {
@@ -678,7 +678,7 @@ public class SipStackSharing
                 if (service == null)
                 {
                     logger.error(
-                        "couldn't find a ProtocolProviderServiceSipImpl "
+                        "couldn't find a ProtocolProviderAlzService "
                             + "to dispatch to");
                     if (event.getServerTransaction() != null)
                         event.getServerTransaction().terminate();
@@ -745,7 +745,7 @@ public class SipStackSharing
                 return;
             }
 
-            ProtocolProviderServiceSipImpl service
+            ProtocolProviderAlzService service
                 = getServiceData(transaction);
             if (service != null)
             {
@@ -797,7 +797,7 @@ public class SipStackSharing
                 transaction = event.getClientTransaction();
             }
 
-            ProtocolProviderServiceSipImpl recipient
+            ProtocolProviderAlzService recipient
                 = getServiceData(transaction);
             if (recipient == null)
             {
@@ -836,7 +836,7 @@ public class SipStackSharing
             else
                 transaction = event.getClientTransaction();
 
-            ProtocolProviderServiceSipImpl recipient
+            ProtocolProviderAlzService recipient
                 = getServiceData(transaction);
 
             if (recipient == null)
@@ -860,7 +860,7 @@ public class SipStackSharing
     }
 
     /**
-     * Find the <tt>ProtocolProviderServiceSipImpl</tt> (one of our
+     * Find the <tt>ProtocolProviderAlzService</tt> (one of our
      * "candidate recipient" listeners) which this <tt>request</tt> should be
      * dispatched to. The strategy is to look first at the request URI, and
      * then at the To field to find a matching candidate for dispatching.
@@ -869,9 +869,9 @@ public class SipStackSharing
      * have no associated <tt>ServerTransaction</tt>.
      *
      * @param request the <tt>Request</tt> to find a recipient for.
-     * @return a suitable <tt>ProtocolProviderServiceSipImpl</tt>.
+     * @return a suitable <tt>ProtocolProviderAlzService</tt>.
      */
-    private ProtocolProviderServiceSipImpl findTargetFor(Request request)
+    private ProtocolProviderAlzService findTargetFor(Request request)
     {
         if(request == null)
         {
@@ -879,8 +879,8 @@ public class SipStackSharing
             return null;
         }
 
-        List<ProtocolProviderServiceSipImpl> currentListenersCopy
-            = new ArrayList<ProtocolProviderServiceSipImpl>(
+        List<ProtocolProviderAlzService> currentListenersCopy
+            = new ArrayList<ProtocolProviderAlzService>(
                                 this.getSipListeners());
 
         // Let's first narrow down candidate choice by comparing
@@ -900,12 +900,12 @@ public class SipStackSharing
         {
             String requestUser = ((SipURI) requestURI).getUser();
 
-            List<ProtocolProviderServiceSipImpl> candidates =
-                new ArrayList<ProtocolProviderServiceSipImpl>();
+            List<ProtocolProviderAlzService> candidates =
+                new ArrayList<ProtocolProviderAlzService>();
 
             // check if the Request-URI username is
             // one of ours usernames
-            for(ProtocolProviderServiceSipImpl listener : currentListenersCopy)
+            for(ProtocolProviderAlzService listener : currentListenersCopy)
             {
                 String ourUserID = listener.getAccountID().getUserID();
                 //logger.trace(ourUserID + " *** " + requestUser);
@@ -922,7 +922,7 @@ public class SipStackSharing
             // every other case is approximation
             if(candidates.size() == 1)
             {
-                ProtocolProviderServiceSipImpl perfectMatch = candidates.get(0);
+                ProtocolProviderAlzService perfectMatch = candidates.get(0);
 
                 if (logger.isTraceEnabled())
                     logger.trace("Will dispatch to \""
@@ -935,7 +935,7 @@ public class SipStackSharing
             {
                 // check if a custom param exists in the contact
                 // address (set for registrar accounts)
-                for (ProtocolProviderServiceSipImpl candidate : candidates)
+                for (ProtocolProviderAlzService candidate : candidates)
                 {
                     String hostValue = ((SipURI) requestURI).getParameter(
                             SipStackSharing.CONTACT_ADDRESS_CUSTOM_PARAM_NAME);
@@ -957,7 +957,7 @@ public class SipStackSharing
 
                 // check if the To header field host part
                 // matches any of our SIP hosts
-                for(ProtocolProviderServiceSipImpl candidate : candidates)
+                for(ProtocolProviderAlzService candidate : candidates)
                 {
                     URI fromURI = ((FromHeader) request
                             .getHeader(FromHeader.NAME)).getAddress().getURI();
@@ -985,7 +985,7 @@ public class SipStackSharing
                 }
 
                 // fallback on the first candidate
-                ProtocolProviderServiceSipImpl target =
+                ProtocolProviderAlzService target =
                     candidates.iterator().next();
                 logger.info("Will randomly dispatch to \""
                         + target.getAccountID()
@@ -997,7 +997,7 @@ public class SipStackSharing
             }
 
             // fallback on any account
-            ProtocolProviderServiceSipImpl target =
+            ProtocolProviderAlzService target =
                 currentListenersCopy.iterator().next();
             if (logger.isDebugEnabled())
                 logger.debug("Will randomly dispatch to \"" + target
@@ -1024,14 +1024,14 @@ public class SipStackSharing
      * @param request the request that we are currently dispatching
      */
     private void filterByAddress(
-                    List<ProtocolProviderServiceSipImpl> candidates,
+                    List<ProtocolProviderAlzService> candidates,
                     Request                              request)
     {
-        Iterator<ProtocolProviderServiceSipImpl> iterPP =
+        Iterator<ProtocolProviderAlzService> iterPP =
             candidates.iterator();
         while (iterPP.hasNext())
         {
-            ProtocolProviderServiceSipImpl candidate = iterPP.next();
+            ProtocolProviderAlzService candidate = iterPP.next();
             boolean forceProxyBypass
                 = candidate.getAccountID()
                     .getAccountPropertyBoolean(
@@ -1066,15 +1066,15 @@ public class SipStackSharing
      * @param transaction the transaction that we'd like to determine a provider
      * for.
      *
-     * @return a reference to the <tt>ProtocolProviderServiceSipImpl</tt> that
+     * @return a reference to the <tt>ProtocolProviderAlzService</tt> that
      * <tt>transaction</tt> was associated with or <tt>null</tt> if we couldn't
      * determine which one it is.
      */
-    private ProtocolProviderServiceSipImpl
+    private ProtocolProviderAlzService
         getServiceData(Transaction transaction)
     {
-        ProtocolProviderServiceSipImpl service
-            = (ProtocolProviderServiceSipImpl) SipApplicationData
+        ProtocolProviderAlzService service
+            = (ProtocolProviderAlzService) SipApplicationData
             .getApplicationData(transaction.getRequest(),
                     SipApplicationData.KEY_SERVICE);
 
@@ -1085,7 +1085,7 @@ public class SipStackSharing
             return service;
         }
 
-        service = (ProtocolProviderServiceSipImpl) SipApplicationData
+        service = (ProtocolProviderAlzService) SipApplicationData
             .getApplicationData(transaction.getDialog(),
                     SipApplicationData.KEY_SERVICE);
         if (service != null)
@@ -1285,7 +1285,7 @@ public class SipStackSharing
 
         if(event.getType() == ChangeEvent.ADDRESS_DOWN)
         {
-            for(final ProtocolProviderServiceSipImpl pp : listeners)
+            for(final ProtocolProviderAlzService pp : listeners)
             {
                 if(pp.getRegistrarConnection().getTransport() != null
                    && (pp.getRegistrarConnection().getTransport()
@@ -1330,13 +1330,13 @@ public class SipStackSharing
         /**
          * The protocol provider we are checking.
          */
-        private final ProtocolProviderServiceSipImpl protocolProvider;
+        private final ProtocolProviderAlzService protocolProvider;
 
         /**
          * Constructs this task.
          * @param pp
          */
-        ResetListeningPoint(ProtocolProviderServiceSipImpl pp)
+        ResetListeningPoint(ProtocolProviderAlzService pp)
         {
             this.protocolProvider = pp;
         }

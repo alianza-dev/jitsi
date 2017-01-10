@@ -48,7 +48,7 @@ public class ContactSipImpl
     /**
      * The provider that created us.
      */
-    private final ProtocolProviderServiceSipImpl parentProvider;
+    private final ProtocolProviderAlzService parentProvider;
 
     /**
      * The group that belong to.
@@ -122,7 +122,7 @@ public class ContactSipImpl
      */
     public ContactSipImpl(
                 Address contactAddress,
-                ProtocolProviderServiceSipImpl parentProvider)
+                ProtocolProviderAlzService parentProvider)
     {
         this.sipAddress = contactAddress;
         this.entry = new EntryType(contactAddress.getURI().toString());

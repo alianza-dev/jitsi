@@ -140,7 +140,7 @@ public class CallPeerMediaHandlerSipImpl
                 : createUpdateOffer(localSess);
 
         if (getConfigurationService().getBoolean(
-                ProtocolProviderServiceSipImpl
+                ProtocolProviderAlzService
                         .USE_SESSION_LEVEL_DIRECTION_IN_SDP,
                 false))
         {
@@ -372,7 +372,7 @@ public class CallPeerMediaHandlerSipImpl
         //fail if all devices were inactive
         if(mediaDescs.isEmpty())
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                     "We couldn't find any active Audio/Video devices and "
                         + "couldn't create a call",
                     OperationFailedException.GENERAL_ERROR,
@@ -446,7 +446,7 @@ public class CallPeerMediaHandlerSipImpl
                     : processUpdateOffer(offer, localSess);
 
             if (getConfigurationService().getBoolean(
-                    ProtocolProviderServiceSipImpl
+                    ProtocolProviderAlzService
                             .USE_SESSION_LEVEL_DIRECTION_IN_SDP,
                     false))
             {
@@ -1467,7 +1467,7 @@ public class CallPeerMediaHandlerSipImpl
             if (supportedFormats.isEmpty())
             {
                 //remote party must have messed up our SDP. throw an exception.
-                ProtocolProviderServiceSipImpl.throwOperationFailedException(
+                ProtocolProviderAlzService.throwOperationFailedException(
                     "Remote party sent an invalid SDP answer. The codecs in " +
                             "the answer are either not present or not " +
                             "supported",
@@ -1738,7 +1738,7 @@ public class CallPeerMediaHandlerSipImpl
                                                   Throwable cause)
         throws OperationFailedException
     {
-        ProtocolProviderServiceSipImpl.throwOperationFailedException(
+        ProtocolProviderAlzService.throwOperationFailedException(
                         message, errorCode, cause, logger);
     }
 

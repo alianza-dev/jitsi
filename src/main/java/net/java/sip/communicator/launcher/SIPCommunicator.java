@@ -26,6 +26,7 @@ import net.java.sip.communicator.service.ModuleService;
 import net.java.sip.communicator.util.ScStdOut;
 import net.java.sip.communicator.util.launchutils.LaunchArgHandler;
 import net.java.sip.communicator.util.launchutils.SipCommunicatorLock;
+import org.jitsi.service.libjitsi.LibJitsi;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -228,6 +229,7 @@ public class SIPCommunicator
         //there was no error, continue;
         System.setOut(new ScStdOut(System.out));
 //        Main.main(new String[0]);
+        LibJitsi.start();
         run();
 
         cleanShutdown();

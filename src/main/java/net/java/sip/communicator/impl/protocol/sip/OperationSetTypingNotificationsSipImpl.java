@@ -41,7 +41,7 @@ import org.w3c.dom.*;
  * @author Damian Minkov
  */
 public class OperationSetTypingNotificationsSipImpl
-    extends AbstractOperationSetTypingNotifications<ProtocolProviderServiceSipImpl>
+    extends AbstractOperationSetTypingNotifications<ProtocolProviderAlzService>
     implements SipMessageProcessor,
                MessageListener
 {
@@ -134,7 +134,7 @@ public class OperationSetTypingNotificationsSipImpl
      * @param opSetBasicIm the parent instant messaging operation set.
      */
     OperationSetTypingNotificationsSipImpl(
-        ProtocolProviderServiceSipImpl provider,
+        ProtocolProviderAlzService provider,
         OperationSetBasicInstantMessagingSipImpl opSetBasicIm)
     {
         super(provider);

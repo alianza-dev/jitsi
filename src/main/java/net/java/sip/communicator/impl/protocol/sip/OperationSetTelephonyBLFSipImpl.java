@@ -112,7 +112,7 @@ public class OperationSetTelephonyBLFSipImpl
     /**
      * The parent provider.
      */
-    private ProtocolProviderServiceSipImpl provider;
+    private ProtocolProviderAlzService provider;
 
     /**
      * The <code>EventPackageSubscriber</code> which provides the ability of
@@ -141,7 +141,7 @@ public class OperationSetTelephonyBLFSipImpl
      * @param provider
      */
     public OperationSetTelephonyBLFSipImpl(
-        ProtocolProviderServiceSipImpl provider)
+        ProtocolProviderAlzService provider)
     {
         this.provider = provider;
         this.provider.addRegistrationStateChangeListener(this);
@@ -276,7 +276,7 @@ public class OperationSetTelephonyBLFSipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to parse address string " + line.getAddress(),
                 OperationFailedException.ILLEGAL_ARGUMENT, ex, logger);
         }
@@ -295,7 +295,7 @@ public class OperationSetTelephonyBLFSipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create Replaces header for target call-id "
                     + details.callID,
                 OperationFailedException.ILLEGAL_ARGUMENT, ex, logger);
@@ -309,7 +309,7 @@ public class OperationSetTelephonyBLFSipImpl
         catch (Exception ex)
         {
             //ParseException or UnsupportedEncodingException
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to set Replaces header " + replacesHeader
                     + " to SipURI " + sipURI,
                 OperationFailedException.INTERNAL_ERROR, ex, logger);

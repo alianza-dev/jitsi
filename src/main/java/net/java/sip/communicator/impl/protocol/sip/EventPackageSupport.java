@@ -62,7 +62,7 @@ public class EventPackageSupport
      * The SIP <code>ProtocolProviderService</code> implementation for which
      * this instance provides support for a specific event package.
      */
-    protected final ProtocolProviderServiceSipImpl protocolProvider;
+    protected final ProtocolProviderAlzService protocolProvider;
 
     /**
      * The duration of each subscription managed by this instance and carried in
@@ -117,7 +117,7 @@ public class EventPackageSupport
      *            time-based tasks of the new instance
      */
     protected EventPackageSupport(
-        ProtocolProviderServiceSipImpl protocolProvider,
+        ProtocolProviderAlzService protocolProvider,
         String eventPackage,
         int subscriptionDuration,
         String contentSubType,
@@ -338,7 +338,7 @@ public class EventPackageSupport
      *             if processing the authentication challenge failed
      */
     static void processAuthenticationChallenge(
-            ProtocolProviderServiceSipImpl protocolProvider,
+            ProtocolProviderAlzService protocolProvider,
             ClientTransaction clientTransaction,
             Response response,
             SipProvider jainSipProvider)
@@ -468,7 +468,7 @@ public class EventPackageSupport
      * Sends a {@link Response#NOT_IMPLEMENTED} <tt>Response</tt> to a specific
      * {@link Request}.
      *
-     * @param provider the {@link ProtocolProviderServiceSipImpl} through which
+     * @param provider the {@link ProtocolProviderAlzService} through which
      * the <tt>Response</tt> is to be sent
      * @param requestEvent the <tt>Request</tt> to which the <tt>Response</tt>
      * to be sent is to respond
@@ -476,7 +476,7 @@ public class EventPackageSupport
      * sent; otherwise, <tt>false</tt>
      */
     public static boolean sendNotImplementedResponse(
-            ProtocolProviderServiceSipImpl provider,
+            ProtocolProviderAlzService provider,
             RequestEvent requestEvent)
     {
         ServerTransaction serverTransaction

@@ -87,7 +87,7 @@ public class ConfigHeaders
      */
     static void attachConfigHeaders(
         Message message,
-        ProtocolProviderServiceSipImpl protocolProvider)
+        ProtocolProviderAlzService protocolProvider)
     {
         if(message instanceof Response)
             return;

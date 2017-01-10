@@ -181,8 +181,8 @@ public class TestProtocolProviderServiceSipImpl
      */
     public void testContactSipImpl() throws Exception
     {
-        ProtocolProviderServiceSipImpl provider =
-            (ProtocolProviderServiceSipImpl) fixture.provider1;
+        ProtocolProviderAlzService provider =
+            (ProtocolProviderAlzService) fixture.provider1;
         Address reference =
             provider.parseAddressString("sip:User@Host");
         Contact referenceContact = new ContactSipImpl(reference, provider);

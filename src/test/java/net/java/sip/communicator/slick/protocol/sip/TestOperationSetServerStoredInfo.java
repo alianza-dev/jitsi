@@ -164,9 +164,9 @@ public class TestOperationSetServerStoredInfo extends TestCase
                                 .XCAP_SERVER_PROPERTY_NAME);
         XCapClient xCapClient = new XCapClientImpl();
         xCapClient.connect(new URI(xCapServerUri),
-                ((ProtocolProviderServiceSipImpl) fixture.provider1).
+                ((ProtocolProviderAlzService) fixture.provider1).
                         parseAddressString(userName),
-                ((SipUri)(((ProtocolProviderServiceSipImpl) fixture.provider1).
+                ((SipUri)(((ProtocolProviderAlzService) fixture.provider1).
                         parseAddressString(userName))).getUser(),
                 password);
         return xCapClient;
@@ -238,7 +238,7 @@ public class TestOperationSetServerStoredInfo extends TestCase
 //        presContent.setData(data);
         // Put pres-content to the server
 //        xCapClient.putPresContent(presContent,
-//                ProtocolProviderServiceSipImpl.PRES_CONTENT_IMAGE_NAME);
+//                ProtocolProviderAlzService.PRES_CONTENT_IMAGE_NAME);
     }
 
     /**

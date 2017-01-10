@@ -50,7 +50,7 @@ public class OperationSetDTMFSipImpl
      *
      * @param pps the SIP Protocol provider service
      */
-    public OperationSetDTMFSipImpl(ProtocolProviderServiceSipImpl pps)
+    public OperationSetDTMFSipImpl(ProtocolProviderAlzService pps)
     {
         super(pps);
 

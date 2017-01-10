@@ -47,13 +47,13 @@ public class RFC5922Matcher
     public final static String PNAME_STRICT_RFC5922 =
         "net.java.sip.communicator.sip.tls.STRICT_RFC5922";
 
-    private ProtocolProviderServiceSipImpl provider;
+    private ProtocolProviderAlzService provider;
 
     /**
      * Creates a new instance of this class.
      * @param provider The SIP Provider to which this matcher belongs.
      */
-    public RFC5922Matcher(ProtocolProviderServiceSipImpl provider)
+    public RFC5922Matcher(ProtocolProviderAlzService provider)
     {
         this.provider = provider;
     }

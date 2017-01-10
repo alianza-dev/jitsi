@@ -82,7 +82,7 @@ public class OperationSetAutoAnswerSipImpl
      * @param protocolProvider the parent Protocol Provider.
      */
     public OperationSetAutoAnswerSipImpl(
-            ProtocolProviderServiceSipImpl protocolProvider)
+            ProtocolProviderAlzService protocolProvider)
     {
         super(protocolProvider);
 
@@ -261,14 +261,14 @@ public class OperationSetAutoAnswerSipImpl
             if (logger.isTraceEnabled())
                 logger.trace("will send moved temporally response: ");
 
-            response = ((ProtocolProviderServiceSipImpl) protocolProvider)
+            response = ((ProtocolProviderAlzService) protocolProvider)
                 .getMessageFactory()
                 .createResponse(Response.MOVED_TEMPORARILY, invite);
 
             ContactHeader contactHeader =
                 (ContactHeader)response.getHeader(ContactHeader.NAME);
             AddressFactory addressFactory =
-                ((ProtocolProviderServiceSipImpl) protocolProvider)
+                ((ProtocolProviderAlzService) protocolProvider)
                 .getAddressFactory();
 
             String destination = getCallForward();

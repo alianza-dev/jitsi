@@ -33,7 +33,7 @@ import org.jitsi.util.event.*;
  * @param <T> the call extension class like for example <tt>CallSipImpl</tt>
  * or <tt>CallJabberImpl</tt>
  * @param <U> the provider extension class like for example
- * <tt>ProtocolProviderServiceSipImpl</tt> or
+ * <tt>ProtocolProviderAlzService</tt> or
  * <tt>ProtocolProviderServiceJabberImpl</tt>
  *
  * @author Emil Ivov

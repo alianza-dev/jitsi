@@ -35,7 +35,7 @@ import org.jitsi.util.event.*;
  * @param <T> the implementation specific telephony operation set class like for
  * example <tt>OperationSetBasicTelephonySipImpl</tt>.
  * @param <U> the implementation specific provider class like for example
- * <tt>ProtocolProviderServiceSipImpl</tt>.
+ * <tt>ProtocolProviderAlzService</tt>.
  * @param <V> the <tt>MediaAwareCall</tt> implementation like
  * <tt>CallSipImpl</tt> or <tt>CallJabberImpl</tt>.
  * @param <W> the <tt>MediaAwarePeerCall</tt> implementation like

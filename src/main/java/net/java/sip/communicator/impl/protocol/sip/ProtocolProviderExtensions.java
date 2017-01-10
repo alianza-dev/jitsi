@@ -32,7 +32,7 @@ public class ProtocolProviderExtensions
      * @param provider the protocol provider.
      */
     public static void registerCustomOperationSets(
-        ProtocolProviderServiceSipImpl provider)
+        ProtocolProviderAlzService provider)
     {
     }
 }

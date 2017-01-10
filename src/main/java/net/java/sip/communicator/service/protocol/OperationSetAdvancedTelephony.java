@@ -22,7 +22,7 @@ package net.java.sip.communicator.service.protocol;
  * operations such as call transfer.
  *
  * @param <T> the implementation specific provider class like for example
- * <tt>ProtocolProviderServiceSipImpl</tt>.
+ * <tt>ProtocolProviderAlzService</tt>.
  *
  * @author Lyubomir Marinov
  */

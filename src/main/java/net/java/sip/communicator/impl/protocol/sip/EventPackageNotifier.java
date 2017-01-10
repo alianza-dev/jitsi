@@ -79,7 +79,7 @@ public abstract class EventPackageNotifier
      * subscriptions to be managed by the new instance
      */
     public EventPackageNotifier(
-        ProtocolProviderServiceSipImpl protocolProvider,
+        ProtocolProviderAlzService protocolProvider,
         String eventPackage,
         int subscriptionDuration,
         String contentSubType,

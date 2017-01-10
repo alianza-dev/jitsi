@@ -38,7 +38,7 @@ public class MockOperationSetBasicTelephony
         = Logger.getLogger(MockOperationSetBasicTelephony.class);
 
     /**
-     * A reference to the <tt>ProtocolProviderServiceSipImpl</tt> instance
+     * A reference to the <tt>ProtocolProviderAlzService</tt> instance
      * that created us.
      */
     private MockProvider protocolProvider = null;

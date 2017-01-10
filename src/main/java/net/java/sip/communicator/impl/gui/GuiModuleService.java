@@ -44,12 +44,10 @@ import net.java.sip.communicator.service.replacement.ReplacementService;
 import net.java.sip.communicator.service.replacement.directimage.DirectImageReplacementService;
 import net.java.sip.communicator.service.replacement.smilies.SmiliesReplacementService;
 import net.java.sip.communicator.service.systray.SystrayService;
-import net.java.sip.communicator.util.ConfigAlzService;
+import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
 import net.java.sip.communicator.util.Logger;
 import net.java.sip.communicator.util.UtilModuleService;
-import org.jitsi.service.audionotifier.AudioNotifierService;
 import org.jitsi.service.configuration.ConfigurationService;
-import org.jitsi.service.fileaccess.FileAccessService;
 import org.jitsi.service.neomedia.MediaService;
 import org.jitsi.service.resources.ResourceManagementService;
 
@@ -121,7 +119,7 @@ public class GuiModuleService implements ModuleService
     MessageHistoryService messageHistoryService;
     PhoneNumberI18nService phoneNumberI18nService;
     UtilModuleService utilModuleService;
-    ConfigAlzService configAlzService;
+    JitsiConfigurationAlzService jitsiConfigurationAlzService;
 
     @Inject
     GuiModuleService(
@@ -152,7 +150,7 @@ public class GuiModuleService implements ModuleService
             MessageHistoryService messageHistoryService,
             PhoneNumberI18nService phoneNumberI18nService,
             UtilModuleService utilModuleService,
-            ConfigAlzService configAlzService
+            JitsiConfigurationAlzService jitsiConfigurationAlzService
     ) {
         //TODO DEVTE-1304 fix me for GUI
         this.uiService = uiService;
@@ -182,7 +180,7 @@ public class GuiModuleService implements ModuleService
         this.messageHistoryService = messageHistoryService;
         this.phoneNumberI18nService = phoneNumberI18nService;
         this.utilModuleService = utilModuleService;
-        this.configAlzService = configAlzService;
+        this.jitsiConfigurationAlzService = jitsiConfigurationAlzService;
     }
 
     @Override
@@ -192,7 +190,7 @@ public class GuiModuleService implements ModuleService
         //TODO DEVTE-1304 fix me for GUI
 //        GuiModuleService.bundleContext = bContext;
 
-        configAlzService.loadGuiConfigurations();
+        jitsiConfigurationAlzService.loadGuiConfigurations();
 
         try
         {

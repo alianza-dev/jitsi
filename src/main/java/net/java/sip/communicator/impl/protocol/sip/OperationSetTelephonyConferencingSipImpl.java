@@ -45,7 +45,7 @@ import org.jitsi.util.xml.*;
  */
 public class OperationSetTelephonyConferencingSipImpl
     extends AbstractOperationSetTelephonyConferencing<
-            ProtocolProviderServiceSipImpl,
+            ProtocolProviderAlzService,
             OperationSetBasicTelephonySipImpl,
             CallSipImpl,
             CallPeerSipImpl,
@@ -170,7 +170,7 @@ public class OperationSetTelephonyConferencingSipImpl
      * for which the new instance is to provide telephony conferencing services
      */
     public OperationSetTelephonyConferencingSipImpl(
-        ProtocolProviderServiceSipImpl parentProvider)
+        ProtocolProviderAlzService parentProvider)
     {
         super(parentProvider);
 
@@ -406,7 +406,7 @@ public class OperationSetTelephonyConferencingSipImpl
         }
         catch (ParseException pe)
         {
-            ProtocolProviderServiceSipImpl
+            ProtocolProviderAlzService
                 .throwOperationFailedException(
                         "Failed to parse callee address " + calleeAddressString,
                         OperationFailedException.ILLEGAL_ARGUMENT,
@@ -853,7 +853,7 @@ public class OperationSetTelephonyConferencingSipImpl
             extends EventPackageNotifier
     {
         ConferenceEventPackageNotifier(
-                ProtocolProviderServiceSipImpl protocolProvider,
+                ProtocolProviderAlzService protocolProvider,
                 TimerScheduler timer)
         {
             super(protocolProvider,

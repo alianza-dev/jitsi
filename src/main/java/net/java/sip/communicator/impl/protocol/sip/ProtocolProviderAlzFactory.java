@@ -17,30 +17,35 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
+import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.ProtocolNames;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.protocol.sip.SipAccountID;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.ServiceUtils;
 
-import net.java.sip.communicator.service.credentialsstorage.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.sip.*;
-import net.java.sip.communicator.util.*;
-
-import org.osgi.framework.*;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * A SIP implementation of the protocol provider factory interface.
  *
  * @author Emil Ivov
+ * @author Mike Saavedra
  */
-public class ProtocolProviderFactorySipImpl
+public class ProtocolProviderAlzFactory
     extends ProtocolProviderFactory
 {
     private static final Logger logger =
-        Logger.getLogger(ProtocolProviderFactorySipImpl.class);
+        Logger.getLogger(ProtocolProviderAlzFactory.class);
 
     /**
-     * Constructs a new instance of the ProtocolProviderFactorySipImpl.
+     * Constructs a new instance of the ProtocolProviderAlzFactory.
      */
-    public ProtocolProviderFactorySipImpl()
+    public ProtocolProviderAlzFactory()
     {
         super(SipActivator.getBundleContext(), ProtocolNames.SIP);
     }
@@ -108,10 +113,6 @@ public class ProtocolProviderFactorySipImpl
     public AccountID installAccount( String userIDStr,
                                  Map<String, String> accountProperties)
     {
-        BundleContext context = SipActivator.getBundleContext();
-        if (context == null)
-            throw new NullPointerException("The specified BundleContext was null");
-
         if (userIDStr == null)
             throw new NullPointerException("The specified AccountID was null");
         if (accountProperties == null)
@@ -162,19 +163,12 @@ public class ProtocolProviderFactorySipImpl
      * @param accountProperties a set of protocol (or implementation) specific
      * properties defining the new account.
      *
-     * @throws java.lang.NullPointerException if any of the arguments is null.
+     * @throws NullPointerException if any of the arguments is null.
      */
     @Override
     public void modifyAccount(  ProtocolProviderService protocolProvider,
                                 Map<String, String> accountProperties)
     {
-        BundleContext context
-            = SipActivator.getBundleContext();
-
-        if (context == null)
-            throw new NullPointerException(
-                "The specified BundleContext was null");
-
         if (protocolProvider == null)
             throw new NullPointerException(
                 "The specified Protocol Provider was null");
@@ -186,29 +180,6 @@ public class ProtocolProviderFactorySipImpl
         // we return.
         if(!registeredAccounts.containsKey(accountID))
             return;
-
-        ServiceRegistration registration = registeredAccounts.get(accountID);
-
-        // kill the service
-        if (registration != null)
-        {
-            // unregister provider before removing it.
-            try
-            {
-                // shutdown even if its not registered, a port maybe wrong
-                // shutdown will clean everything and we will start clean
-                //if(protocolProvider.isRegistered())
-                {
-                    protocolProvider.shutdown();
-                }
-            } catch (Throwable e)
-            {
-                // we don't care for this, cause we are modifying and
-                // will unregister the service and will register again
-            }
-
-            registration.unregister();
-        }
 
         if (accountProperties == null)
             throw new NullPointerException(
@@ -241,7 +212,7 @@ public class ProtocolProviderFactorySipImpl
             Exception initializationException = null;
             try
             {
-                ((ProtocolProviderServiceSipImpl)protocolProvider)
+                ((ProtocolProviderAlzService)protocolProvider)
                     .initialize(userIDStr, accountID);
             }
             catch (Exception ex)
@@ -255,13 +226,6 @@ public class ProtocolProviderFactorySipImpl
             // initialization failed - after all we're _modifying_ an account
             this.storeAccount(accountID);
 
-            registration
-                = context.registerService(
-                            ProtocolProviderService.class.getName(),
-                            protocolProvider,
-                            properties);
-
-            registeredAccounts.put(accountID, registration);
             if (initializationException != null)
                 throw initializationException;
         }
@@ -293,7 +257,7 @@ public class ProtocolProviderFactorySipImpl
     }
 
     /**
-     * Initializes a new <code>ProtocolProviderServiceSipImpl</code> instance
+     * Initializes a new <code>ProtocolProviderAlzService</code> instance
      * with a specific user ID to represent a specific <code>AccountID</code>.
      *
      * @param userID the user ID to initialize the new instance with
@@ -307,8 +271,8 @@ public class ProtocolProviderFactorySipImpl
     protected ProtocolProviderService createService(String userID,
         AccountID accountID)
     {
-        ProtocolProviderServiceSipImpl service
-            = new ProtocolProviderServiceSipImpl();
+        ProtocolProviderAlzService service
+            = new ProtocolProviderAlzService();
 
         try
         {

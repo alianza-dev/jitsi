@@ -78,7 +78,7 @@ public class ServerStoredContactListXivoImpl
      *                           we could use for dispatching subscription events
      */
     ServerStoredContactListXivoImpl(
-            ProtocolProviderServiceSipImpl sipProvider,
+            ProtocolProviderAlzService sipProvider,
             OperationSetPresenceSipImpl parentOperationSet)
     {
         super(sipProvider, parentOperationSet);

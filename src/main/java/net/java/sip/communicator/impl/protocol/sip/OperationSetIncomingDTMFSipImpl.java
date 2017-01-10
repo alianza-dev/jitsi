@@ -39,7 +39,7 @@ public class OperationSetIncomingDTMFSipImpl
      * @param provider the parent provider
      * @param opsetDTMFSip the dtmf implementation.
      */
-    OperationSetIncomingDTMFSipImpl(ProtocolProviderServiceSipImpl provider,
+    OperationSetIncomingDTMFSipImpl(ProtocolProviderAlzService provider,
                                     OperationSetDTMFSipImpl opsetDTMFSip)
     {
         this.opsetDTMFSip = opsetDTMFSip;

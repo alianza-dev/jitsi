@@ -42,16 +42,16 @@ public class OperationSetTelephonyParkSipImpl
         Logger.getLogger(OperationSetTelephonyParkSipImpl.class);
 
     /**
-     * A reference to the <tt>ProtocolProviderServiceSipImpl</tt> instance that
+     * A reference to the <tt>ProtocolProviderAlzService</tt> instance that
      * created us.
      */
-    private final ProtocolProviderServiceSipImpl protocolProvider;
+    private final ProtocolProviderAlzService protocolProvider;
 
     /**
      * Constructs <tt>OperationSetTelephonyParkSipImpl</tt>.
      * @param provider the parent provider.
      */
-    OperationSetTelephonyParkSipImpl(ProtocolProviderServiceSipImpl provider)
+    OperationSetTelephonyParkSipImpl(ProtocolProviderAlzService provider)
     {
         this.protocolProvider = provider;
     }
@@ -90,7 +90,7 @@ public class OperationSetTelephonyParkSipImpl
         }
         catch (ParseException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to parse address string " + addressString,
                 OperationFailedException.ILLEGAL_ARGUMENT, ex, logger);
         }

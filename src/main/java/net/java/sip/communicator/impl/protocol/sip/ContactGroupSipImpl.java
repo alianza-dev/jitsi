@@ -65,7 +65,7 @@ public class ContactGroupSipImpl
     /**
      * The protocol provider that created us.
      */
-    private ProtocolProviderServiceSipImpl parentProvider = null;
+    private ProtocolProviderAlzService parentProvider = null;
 
     /**
      * Determines whether this group has been resolved on the server.
@@ -98,7 +98,7 @@ public class ContactGroupSipImpl
      */
     public ContactGroupSipImpl(
                     String groupName,
-                    ProtocolProviderServiceSipImpl parentProvider)
+                    ProtocolProviderAlzService parentProvider)
     {
         this.list = new ListType();
         this.list.setName(groupName);

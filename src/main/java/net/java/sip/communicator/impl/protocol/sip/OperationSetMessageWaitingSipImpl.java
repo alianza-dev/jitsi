@@ -52,7 +52,7 @@ public class OperationSetMessageWaitingSipImpl
     /**
      * The provider that created us.
      */
-    private final ProtocolProviderServiceSipImpl provider;
+    private final ProtocolProviderAlzService provider;
 
     /**
      * The timer which will handle all the scheduled tasks
@@ -122,7 +122,7 @@ public class OperationSetMessageWaitingSipImpl
      * @param provider
      */
     OperationSetMessageWaitingSipImpl(
-            ProtocolProviderServiceSipImpl provider)
+            ProtocolProviderAlzService provider)
     {
         this.provider = provider;
         this.provider.addRegistrationStateChangeListener(this);

@@ -87,7 +87,7 @@ public class EventPackageSubscriber
      *            to refresh it
      */
     public EventPackageSubscriber(
-        ProtocolProviderServiceSipImpl protocolProvider,
+        ProtocolProviderAlzService protocolProvider,
         String eventPackage,
         int subscriptionDuration,
         String contentSubType,
@@ -954,7 +954,7 @@ public class EventPackageSubscriber
         }
         catch (OperationFailedException ex)
         {
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to create the subscription",
                 OperationFailedException.INTERNAL_ERROR, ex, logger);
         }
@@ -979,7 +979,7 @@ public class EventPackageSubscriber
             // this contact will never been accepted or rejected
             removeSubscription(callId, subscription);
 
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                 "Failed to send the subscription",
                 OperationFailedException.NETWORK_FAILURE, ex, logger);
         }

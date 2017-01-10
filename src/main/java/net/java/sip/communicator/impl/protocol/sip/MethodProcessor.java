@@ -21,7 +21,7 @@ import javax.sip.*;
 
 /**
  * Represents a processor of events with a specific method received in
- * {@link ProtocolProviderServiceSipImpl} much like <code>SipListener</code> but
+ * {@link ProtocolProviderAlzService} much like <code>SipListener</code> but
  * with the addition of signaling whether the specified event was indeed handled
  * in the processor and needs no further processing in other processors
  * registered for the same method.
@@ -63,11 +63,11 @@ public interface MethodProcessor
 
     /**
      * Processes a Request received on a
-     * <code>ProtocolProviderServiceSipImpl</code> upon which this processor is
+     * <code>ProtocolProviderAlzService</code> upon which this processor is
      * registered.
      *
      * @param requestEvent requestEvent fired from the
-     *            <code>ProtocolProviderServiceSipImpl</code> to the processor
+     *            <code>ProtocolProviderAlzService</code> to the processor
      *            representing a Request received from the network
      * @return <tt>true</tt> if the specified event has been handled by this
      *         processor and shouldn't be offered to other processors registered
@@ -77,11 +77,11 @@ public interface MethodProcessor
 
     /**
      * Processes a Response received on a
-     * <code>ProtocolProviderServiceSipImpl</code> upon which this processor is
+     * <code>ProtocolProviderAlzService</code> upon which this processor is
      * registered.
      *
      * @param responseEvent the responseEvent fired from the
-     *            <code>ProtocolProviderServiceSipImpl</code> to the processor
+     *            <code>ProtocolProviderAlzService</code> to the processor
      *            representing a Response received from the network
      * @return <tt>true</tt> if the specified event has been handled by this
      *         processor and shouldn't be offered to other processors registered

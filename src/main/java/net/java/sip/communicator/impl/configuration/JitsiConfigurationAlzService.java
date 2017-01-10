@@ -15,19 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.java.sip.communicator.util;
+package net.java.sip.communicator.impl.configuration;
 
-import net.java.sip.communicator.service.msghistory.MessageHistoryService;
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
 import net.java.sip.communicator.service.protocol.AccountID;
 import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
 import net.java.sip.communicator.service.protocol.ProtocolProviderService;
 import net.java.sip.communicator.service.resources.ResourceManagementServiceUtils;
-import org.jitsi.service.configuration.ConfigurationService;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.UtilActivator;
 import org.jitsi.service.neomedia.MediaType;
 import org.jitsi.service.neomedia.codec.EncodingConfiguration;
-import org.jitsi.service.resources.ResourceManagementService;
 import org.jitsi.util.OSUtils;
-import org.jitsi.util.StringUtils;
 
 import javax.inject.Inject;
 import javax.net.ssl.SSLSocket;
@@ -38,8 +37,6 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -50,13 +47,13 @@ import java.util.Map;
  * @author Yana Stamcheva
  * @author Damian Minkov
  */
-public class ConfigAlzService
+public class JitsiConfigurationAlzService
 {
     /**
      * The logger for this class.
      */
     private static final Logger logger
-        = Logger.getLogger(ConfigAlzService.class);
+        = Logger.getLogger(JitsiConfigurationAlzService.class);
 
     //region static fields
     /**
@@ -418,14 +415,15 @@ public class ConfigAlzService
 //    ConfigurationService configService = null;
     ProtocolProviderService lastCallConferenceProvider = null;
 
-    @Inject
-    ConfigAlzService(
+//    @Inject
+    JitsiConfigurationAlzService(
             //TODO DEVTE-1304 fix me for GUI
 //            ConfigurationService configService,
-            ProtocolProviderService lastCallConferenceProvider
+//            ProtocolProviderService lastCallConferenceProvider
     ) {
 //        this.configService = configService;
-        this.lastCallConferenceProvider = lastCallConferenceProvider;
+//        this.lastCallConferenceProvider = lastCallConferenceProvider;
+        this.lastCallConferenceProvider = new ProtocolProviderAlzService();
     }
     /**
      * Loads all user interface configurations.
@@ -2000,7 +1998,7 @@ public class ConfigAlzService
      */
     public void setShowOffline(boolean isShowOffline)
     {
-        ConfigAlzService.isShowOffline = isShowOffline;
+        JitsiConfigurationAlzService.isShowOffline = isShowOffline;
 
         //TODO DEVTE-1304 fix me for GUI
 //        configService.setProperty(
@@ -2017,7 +2015,7 @@ public class ConfigAlzService
      */
     public void setShowCallPanel(boolean isCallPanelShown)
     {
-        ConfigAlzService.isCallPanelShown = isCallPanelShown;
+        JitsiConfigurationAlzService.isCallPanelShown = isCallPanelShown;
 
         //TODO DEVTE-1304 fix me for GUI
 //        configService.setProperty(

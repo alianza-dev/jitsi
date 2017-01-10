@@ -536,7 +536,7 @@ public class SdpUtils
         catch (Exception cause)
         {
             // this is very unlikely to happen but we should still re-throw
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                             "Failed to create a media description",
                             OperationFailedException.INTERNAL_ERROR, cause,
                             logger);
@@ -641,7 +641,7 @@ public class SdpUtils
             // Failed to create session description for some reason. Must throw
             // an exception so we can inform the user. It could be we were
             // unable to open device or some problem with hostnames.
-            ProtocolProviderServiceSipImpl.throwOperationFailedException(
+            ProtocolProviderAlzService.throwOperationFailedException(
                     "An error occurred while creating session description",
                     OperationFailedException.INTERNAL_ERROR,
                     exc,

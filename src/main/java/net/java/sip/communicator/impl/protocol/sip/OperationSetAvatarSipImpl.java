@@ -26,7 +26,7 @@ import net.java.sip.communicator.service.protocol.*;
  * @author Damian Minkov
  */
 public class OperationSetAvatarSipImpl extends
-        AbstractOperationSetAvatar<ProtocolProviderServiceSipImpl>
+        AbstractOperationSetAvatar<ProtocolProviderAlzService>
 {
 
     /**
@@ -36,7 +36,7 @@ public class OperationSetAvatarSipImpl extends
      * @param accountInfoOpSet account info operation set
      */
     public OperationSetAvatarSipImpl(
-            ProtocolProviderServiceSipImpl parentProvider,
+            ProtocolProviderAlzService parentProvider,
             OperationSetServerStoredAccountInfo accountInfoOpSet)
     {
         super(parentProvider, accountInfoOpSet, 96, 96, 0);

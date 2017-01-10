@@ -132,10 +132,10 @@ public class ProxyRouter
         // the service which created it
         Object service  = SipApplicationData.getApplicationData(request,
                 SipApplicationData.KEY_SERVICE);
-        if (service instanceof ProtocolProviderServiceSipImpl)
+        if (service instanceof ProtocolProviderAlzService)
         {
-            ProtocolProviderServiceSipImpl sipProvider
-                = ((ProtocolProviderServiceSipImpl) service);
+            ProtocolProviderAlzService sipProvider
+                = ((ProtocolProviderAlzService) service);
 
             String proxy = sipProvider.getConnection().getOutboundProxyString();
 

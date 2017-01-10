@@ -37,7 +37,7 @@ public class OperationSetBasicTelephonyGibberishImpl
         = Logger.getLogger(OperationSetBasicTelephonyGibberishImpl.class);
 
     /**
-     * A reference to the <tt>ProtocolProviderServiceSipImpl</tt> instance
+     * A reference to the <tt>ProtocolProviderAlzService</tt> instance
      * that created us.
      */
     private ProtocolProviderServiceGibberishImpl protocolProvider = null;

@@ -74,7 +74,7 @@ public class SipSecurityManager
     /**
      * The protocol provider that creates our instance.
      */
-    private final ProtocolProviderServiceSipImpl protocolProvider;
+    private final ProtocolProviderAlzService protocolProvider;
 
     /**
      * Default constructor for the security manager.
@@ -84,7 +84,7 @@ public class SipSecurityManager
      */
     public SipSecurityManager(
             AccountID accountID,
-            ProtocolProviderServiceSipImpl protocolProvider)
+            ProtocolProviderAlzService protocolProvider)
     {
         this.accountID = accountID;
         this.protocolProvider = protocolProvider;

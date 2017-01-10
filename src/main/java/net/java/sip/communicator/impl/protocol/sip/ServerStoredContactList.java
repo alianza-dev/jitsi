@@ -51,7 +51,7 @@ public abstract class ServerStoredContactList
     /**
      * The provider that is on top of us.
      */
-    protected final ProtocolProviderServiceSipImpl sipProvider;
+    protected final ProtocolProviderAlzService sipProvider;
 
     /**
      * The operation set that created us and that we could use when dispatching
@@ -78,7 +78,7 @@ public abstract class ServerStoredContactList
      *                           we could use for dispatching subscription events
      */
     ServerStoredContactList(
-            ProtocolProviderServiceSipImpl sipProvider,
+            ProtocolProviderAlzService sipProvider,
             OperationSetPresenceSipImpl parentOperationSet)
     {
         this.sipProvider = sipProvider;

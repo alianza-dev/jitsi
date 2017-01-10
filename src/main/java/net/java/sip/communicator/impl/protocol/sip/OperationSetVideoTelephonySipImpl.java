@@ -49,7 +49,7 @@ import org.jitsi.service.neomedia.*;
 public class OperationSetVideoTelephonySipImpl
     extends AbstractOperationSetVideoTelephony<
         OperationSetBasicTelephonySipImpl,
-        ProtocolProviderServiceSipImpl,
+        ProtocolProviderAlzService,
         CallSipImpl,
         CallPeerSipImpl>
 {

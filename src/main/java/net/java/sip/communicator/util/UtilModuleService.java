@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.util;
 
-import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderFactorySipImpl;
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzFactory;
 import net.java.sip.communicator.service.ModuleService;
 import net.java.sip.communicator.service.gui.AlertUIService;
 import net.java.sip.communicator.service.gui.UIService;
@@ -64,7 +64,7 @@ public class UtilModuleService
     AccountManager accountManager;
     AlertUIService alertUIService;
     SystrayService systrayService;
-    ProtocolProviderFactorySipImpl protocolProviderFactorySip;
+    ProtocolProviderAlzFactory protocolProviderFactorySip;
 
     @Inject
     UtilModuleService(
@@ -77,7 +77,7 @@ public class UtilModuleService
             AccountManager accountManager,
             AlertUIService alertUIService,
             SystrayService systrayService,
-            ProtocolProviderFactorySipImpl protocolProviderFactorySip
+            ProtocolProviderAlzFactory protocolProviderFactorySip
     ) {
         //TODO DEVTE-1304 fix me for GUI
 //        this.configurationService = configurationService;

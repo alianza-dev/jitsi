@@ -36,7 +36,7 @@ public class SipRegistrarlessConnection
     /**
      * A reference to the sip provider that created us.
      */
-    private ProtocolProviderServiceSipImpl sipProvider = null;
+    private ProtocolProviderAlzService sipProvider = null;
 
     /**
      * The transport that we should claim to be using in case some of the other
@@ -55,13 +55,13 @@ public class SipRegistrarlessConnection
      * Creates a new instance of this class.
      *
      * @param sipProviderCallback a reference to the
-     * ProtocolProviderServiceSipImpl instance that created us.
+     * ProtocolProviderAlzService instance that created us.
      * @param defaultTransport the transport that we should fake to be using
      * in case some of the other components in the sip package wants to use it
      * as a default.
      */
     public SipRegistrarlessConnection(
-                    ProtocolProviderServiceSipImpl sipProviderCallback,
+                    ProtocolProviderAlzService sipProviderCallback,
                     String defaultTransport)
     {
         this.sipProvider = sipProviderCallback;

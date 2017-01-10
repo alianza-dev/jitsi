@@ -45,7 +45,7 @@ public class OperationSetServerStoredAccountInfoSipImpl
     /**
      * The provider that is on top of us.
      */
-    private ProtocolProviderServiceSipImpl provider;
+    private ProtocolProviderAlzService provider;
 
     /**
      * Current image.
@@ -67,7 +67,7 @@ public class OperationSetServerStoredAccountInfoSipImpl
      * @param provider the parent provider.
      */
     public OperationSetServerStoredAccountInfoSipImpl(
-            ProtocolProviderServiceSipImpl provider)
+            ProtocolProviderAlzService provider)
     {
         this.provider = provider;
         this.provider.addRegistrationStateChangeListener(this);

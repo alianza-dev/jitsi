@@ -31,7 +31,7 @@ import org.jitsi.service.neomedia.recording.*;
  * behind the basic telephony set.
  *
  * @param <T> the provider extension class like for example
- * <tt>ProtocolProviderServiceSipImpl</tt> or
+ * <tt>ProtocolProviderAlzService</tt> or
  * <tt>ProtocolProviderServiceJabberImpl</tt>
  *
  * @author Emil Ivov
