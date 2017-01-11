@@ -176,8 +176,12 @@ public class IceUdpTransportManager
 
                 if (credentials.isPasswordPersistent())
                 {
-                    JabberActivator.getProtocolProviderFactory()
-                        .storePassword(accID, password);
+                    try {
+                        JabberActivator.getProtocolProviderFactory()
+                            .storePassword(accID, password);
+                    } catch (OperationFailedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

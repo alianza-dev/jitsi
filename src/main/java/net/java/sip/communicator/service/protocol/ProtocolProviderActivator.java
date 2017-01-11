@@ -208,7 +208,7 @@ public class ProtocolProviderActivator
     {
         ProtocolProviderActivator.bundleContext = bundleContext;
 
-        accountManager = new AccountManager();
+        accountManager = AccountManager.getInstance();
         accountManagerServiceRegistration =
             bundleContext.registerService(AccountManager.class.getName(),
                 accountManager, null);

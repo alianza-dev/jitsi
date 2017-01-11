@@ -116,7 +116,7 @@ public class UriHandlerJabberImpl
 
         hookStoredAccounts();
 
-        this.protoFactory.getBundleContext().addServiceListener(this);
+//        this.protoFactory.getBundleContext().addServiceListener(this);
         /*
          * Registering the UriHandler isn't strictly necessary if the
          * requirement to register the protoFactory after creating this instance
@@ -132,7 +132,7 @@ public class UriHandlerJabberImpl
      */
     public void dispose()
     {
-        protoFactory.getBundleContext().removeServiceListener(this);
+//        protoFactory.getBundleContext().removeServiceListener(this);
         unregisterHandlerService();
 
         unhookStoredAccounts();
@@ -147,11 +147,9 @@ public class UriHandlerJabberImpl
     {
         if (accountManager == null)
         {
-            BundleContext bundleContext = protoFactory.getBundleContext();
+//            BundleContext bundleContext = protoFactory.getBundleContext();
 
-            accountManager =
-                (AccountManager) bundleContext.getService(bundleContext
-                    .getServiceReference(AccountManager.class.getName()));
+            accountManager = AccountManager.getInstance();
             accountManager.addListener(this);
         }
     }
@@ -615,14 +613,7 @@ public class UriHandlerJabberImpl
         // if we only have one provider - select it
         if (registeredAccounts.size() == 1)
         {
-            ServiceReference providerReference =
-                protoFactory.getProviderForAccount(registeredAccounts.get(0));
-
-            ProtocolProviderService provider =
-                (ProtocolProviderService) JabberActivator.bundleContext
-                    .getService(providerReference);
-
-            return provider;
+            return protoFactory.getProviderForAccount(registeredAccounts.get(0));
         }
 
         // otherwise - ask the user.
@@ -630,13 +621,7 @@ public class UriHandlerJabberImpl
             new ArrayList<ProviderComboBoxEntry>();
         for (AccountID accountID : registeredAccounts)
         {
-            ServiceReference providerReference =
-                protoFactory.getProviderForAccount(accountID);
-
-            ProtocolProviderService provider =
-                (ProtocolProviderService) JabberActivator.bundleContext
-                    .getService(providerReference);
-
+            ProtocolProviderService provider = protoFactory.getProviderForAccount(accountID);
             providers.add(new ProviderComboBoxEntry(provider));
         }
 

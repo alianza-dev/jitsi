@@ -23,6 +23,7 @@ import java.util.logging.*;
 
 import javax.net.ssl.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.net.*;
 import net.java.sip.communicator.util.Logger;
 
@@ -223,11 +224,11 @@ public class SipStackProperties
     {
         super();
 
-        String logDir
-            = SipActivator.getConfigurationService().getScHomeDirLocation()
-            + System.getProperty("file.separator")
-            + SipActivator.getConfigurationService().getScHomeDirName()
-            + System.getProperty("file.separator");
+        //TODO DEVTE-1321 needed for configuration
+        String logDir = "/tmp/sipStack.log";//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getScHomeDirLocation()
+//            + System.getProperty("file.separator")
+//            + ConfigurationAlzProvider.getJitsiConfigurationAlzService().getScHomeDirName()
+//            + System.getProperty("file.separator");
 
         // don't do it more than one time if many providers are initialised
         if (!NSPVALUE_DEBUG_LOG.startsWith(logDir))
@@ -331,8 +332,8 @@ public class SipStackProperties
 
         try
         {
-            String enabledSslProtocols = SipActivator.getConfigurationService()
-                .getString(NSPNAME_TLS_CLIENT_PROTOCOLS);
+            //TODO DEVTE-1321 needed for configuration
+            String enabledSslProtocols = "AES";//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getString(NSPNAME_TLS_CLIENT_PROTOCOLS);
             if(StringUtils.isNullOrEmpty(enabledSslProtocols, true))
             {
                 SSLSocket temp = (SSLSocket) SSLSocketFactory

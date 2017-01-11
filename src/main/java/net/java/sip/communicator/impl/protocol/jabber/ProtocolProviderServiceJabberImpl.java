@@ -2191,8 +2191,12 @@ public class ProtocolProviderServiceJabberImpl
             // all messages that were found in smack 3.1.0 were took in count
             if(isAuthenticationFailed(ex))
             {
-                JabberActivator.getProtocolProviderFactory().
-                    storePassword(getAccountID(), null);
+                try {
+                    JabberActivator.getProtocolProviderFactory().
+                        storePassword(getAccountID(), null);
+                } catch (OperationFailedException e) {
+                    e.printStackTrace();
+                }
 
                 reason = RegistrationStateChangeEvent
                     .REASON_AUTHENTICATION_FAILED;

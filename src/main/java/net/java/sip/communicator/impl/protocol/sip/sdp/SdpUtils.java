@@ -310,7 +310,7 @@ public class SdpUtils
 
         //now create the format.
         MediaFormat format
-            = SipActivator.getMediaService().getFormatFactory()
+            = SipAlzProvider.getMediaService().getFormatFactory()
                     .createMediaFormat(
                             payloadType,
                             encoding, clockRate, numChannels, frameRate,

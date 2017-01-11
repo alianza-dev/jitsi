@@ -25,6 +25,7 @@ import javax.sip.address.*;
 import javax.sip.header.*;
 import javax.sip.message.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 
 import net.java.sip.communicator.service.protocol.event.*;
@@ -71,11 +72,8 @@ public class OperationSetDesktopStreamingSipImpl
     {
         super(basicTelephony);
 
-        desktopControlOutOfDialogEnabled
-            = SipActivator.getConfigurationService().getBoolean(
-            DesktopSharingCallSipImpl
-                .ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP,
-            false);
+        //TODO DEVTE-1321 needed for configuration
+        desktopControlOutOfDialogEnabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
     }
 
     /**
@@ -367,7 +365,7 @@ public class OperationSetDesktopStreamingSipImpl
         return
             (device == null)
                 ? false
-                : SipActivator.getMediaService().isPartialStreaming(device);
+                : SipAlzProvider.getMediaService().isPartialStreaming(device);
     }
 
     /**
@@ -420,7 +418,7 @@ public class OperationSetDesktopStreamingSipImpl
     protected static Point getOriginForMediaDevice(MediaDevice device)
     {
         return
-            SipActivator.getMediaService().getOriginForDesktopStreamingDevice(
+            SipAlzProvider.getMediaService().getOriginForDesktopStreamingDevice(
                     device);
     }
 }

@@ -1674,11 +1674,7 @@ public class ConfigurationUtils
                 if (!accountId.getAccountUniqueID().equals(savedAccountId))
                     continue;
 
-                ServiceReference<ProtocolProviderService> serRef
-                    = providerFactory.getProviderForAccount(accountId);
-
-                protocolProvider
-                    = UtilActivator.bundleContext.getService(serRef);
+                protocolProvider = providerFactory.getProviderForAccount(accountId);
                 if (protocolProvider != null)
                     break;
             }

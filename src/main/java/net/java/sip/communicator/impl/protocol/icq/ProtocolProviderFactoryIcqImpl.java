@@ -42,8 +42,7 @@ public class ProtocolProviderFactoryIcqImpl
      */
     protected ProtocolProviderFactoryIcqImpl(boolean isAimFactory)
     {
-        super(IcqActivator.getBundleContext(), isAimFactory ? ProtocolNames.AIM
-            : ProtocolNames.ICQ);
+        super(isAimFactory ? ProtocolNames.AIM : ProtocolNames.ICQ);
 
         this.isAimFactory = isAimFactory;
     }
@@ -217,11 +216,11 @@ public class ProtocolProviderFactoryIcqImpl
         if(!registeredAccounts.containsKey(accountID))
             return;
 
-        ServiceRegistration registration = registeredAccounts.get(accountID);
+//        ServiceRegistration registration = registeredAccounts.get(accountID);
 
         // kill the service
-        if (registration != null)
-            registration.unregister();
+//        if (registration != null)
+//            registration.unregister();
 
         accountProperties.put(USER_ID, accountID.getUserID());
 
@@ -247,12 +246,12 @@ public class ProtocolProviderFactoryIcqImpl
         // during the protocol provider initialization.
         this.storeAccount(accountID);
 
-        registration
-            = context.registerService(
-                        ProtocolProviderService.class.getName(),
-                        protocolProvider,
-                        properties);
+//        registration
+//            = context.registerService(
+//                        ProtocolProviderService.class.getName(),
+//                        protocolProvider,
+//                        properties);
 
-        registeredAccounts.put(accountID, registration);
+//        registeredAccounts.put(accountID, registration);
     }
 }

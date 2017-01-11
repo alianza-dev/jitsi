@@ -190,7 +190,7 @@ public class ProtocolIconSipImpl
      */
     public static byte[] loadIcon(String imagePath)
     {
-        ResourceManagementService resources = SipActivator.getResources();
+        ResourceManagementService resources = SipAlzProvider.getResources();
         byte[] icon = null;
 
         if (resources != null)

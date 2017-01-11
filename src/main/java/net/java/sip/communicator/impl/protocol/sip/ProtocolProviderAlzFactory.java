@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
+import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
 import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
 import net.java.sip.communicator.service.protocol.AccountID;
 import net.java.sip.communicator.service.protocol.OperationFailedException;
@@ -47,7 +48,7 @@ public class ProtocolProviderAlzFactory
      */
     public ProtocolProviderAlzFactory()
     {
-        super(SipActivator.getBundleContext(), ProtocolNames.SIP);
+        super(ProtocolNames.SIP);
     }
 
     /**
@@ -79,15 +80,11 @@ public class ProtocolProviderAlzFactory
                         SipAccountID.OPT_CLIST_PASSWORD);
         if (password != null)
         {
-            CredentialsStorageService credentialsStorage
-                = ServiceUtils.getService(
-                getBundleContext(),
-                CredentialsStorageService.class);
+            CredentialsStorageService credentialStorageAlzService = CredentialsStorageAlzProvider.getCredentialStorageAlzService();
             String accountPrefix = accountID.getAccountUniqueID() + ".xcap";
-            credentialsStorage.storePassword(accountPrefix, password);
+            credentialStorageAlzService.storePassword(accountPrefix, password);
             // remove unsecured property
-            accountID.removeAccountProperty(
-                    SipAccountIDImpl.OPT_CLIST_PASSWORD);
+            accountID.removeAccountProperty(SipAccountIDImpl.OPT_CLIST_PASSWORD);
         }
     }
 
@@ -130,10 +127,6 @@ public class ProtocolProviderAlzFactory
             throw new IllegalStateException(
                 "An account for id " + userIDStr + " was already installed!");
 
-        //first store the account and only then load it as the load generates
-        //an osgi event, the osgi event triggers (through the UI) a call to
-        //the register() method and it needs to access the configuration service
-        //and check for a password.
         this.storeAccount(accountID, false);
 
         try
@@ -195,10 +188,6 @@ public class ProtocolProviderAlzFactory
         Map<String,String> oldAcccountProps = accountID.getAccountProperties();
         accountID.setAccountProperties(accountProperties);
 
-        // First store the account and only then load it as the load generates
-        // an osgi event, the osgi event triggers (through the UI) a call to
-        // the register() method and it needs to access the configuration service
-        // and check for a password.
         this.storeAccount(accountID);
 
         String userIDStr = accountProperties.get(USER_ID);

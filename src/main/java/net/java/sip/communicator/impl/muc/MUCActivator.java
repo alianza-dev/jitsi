@@ -301,11 +301,7 @@ public class MUCActivator
                 for (AccountID accountID
                         : providerFactory.getRegisteredAccounts())
                 {
-                    ServiceReference<ProtocolProviderService> ppsSerRef
-                        = providerFactory.getProviderForAccount(accountID);
-                    ProtocolProviderService protocolProvider
-                        = bundleContext.getService(ppsSerRef);
-
+                    ProtocolProviderService protocolProvider = providerFactory.getProviderForAccount(accountID);
                     handleProviderAdded(protocolProvider);
                 }
             }

@@ -355,12 +355,7 @@ public class IrcAccountRegistrationWizard
             AccountID accountID = providerFactory.installAccount(
                 user, accountProperties);
 
-            ServiceReference<ProtocolProviderService> serRef = providerFactory
-                .getProviderForAccount(accountID);
-
-            protocolProvider = (ProtocolProviderService)
-                IrcAccRegWizzActivator.bundleContext
-                .getService(serRef);
+            protocolProvider = providerFactory.getProviderForAccount(accountID);
         }
         catch (IllegalStateException exc)
         {

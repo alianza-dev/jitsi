@@ -419,12 +419,7 @@ public class SIPAccountRegistrationWizard
             AccountID accountID = providerFactory.installAccount(
                     userName, accountProperties);
 
-            ServiceReference serRef = providerFactory
-                .getProviderForAccount(accountID);
-
-            protocolProvider
-                = (ProtocolProviderService) SIPAccRegWizzActivator.bundleContext
-                    .getService(serRef);
+            protocolProvider = providerFactory.getProviderForAccount(accountID);
         }
         catch (IllegalStateException exc)
         {

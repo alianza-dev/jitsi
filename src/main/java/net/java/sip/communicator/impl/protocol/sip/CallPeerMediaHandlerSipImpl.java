@@ -22,6 +22,8 @@ import java.util.*;
 
 import javax.sdp.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
+import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
 import net.java.sip.communicator.impl.protocol.sip.sdp.*;
 import net.java.sip.communicator.service.netaddr.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -139,10 +141,8 @@ public class CallPeerMediaHandlerSipImpl
                 ? createFirstOffer()
                 : createUpdateOffer(localSess);
 
-        if (getConfigurationService().getBoolean(
-                ProtocolProviderAlzService
-                        .USE_SESSION_LEVEL_DIRECTION_IN_SDP,
-                false))
+        //TODO DEVTE-1321 needed for configuration
+        if (true) //getConfigurationService().getBoolean(ProtocolProviderAlzService.USE_SESSION_LEVEL_DIRECTION_IN_SDP, false))
         {
             SdpUtils.setSessionDirection(offer);
         }
@@ -281,11 +281,8 @@ public class CallPeerMediaHandlerSipImpl
                                                 .SDP_PARAMETER);
                             }
 
-                            int ptimeSetting
-                                = SipActivator.getConfigurationService().getInt(
-                                    "net.java.sip.communicator.impl.protocol" +
-                                        ".sip.PTIME_VALUE",
-                                    20);
+                            //TODO DEVTE-1321 needed for configuration
+                            int ptimeSetting = 0;//getConfigurationService().getInt("net.java.sip.communicator.impl.protocol" + ".sip.PTIME_VALUE", 20);
                             // the default value is 20ms
                             if(ptimeSetting != 20)
                             {
@@ -445,10 +442,8 @@ public class CallPeerMediaHandlerSipImpl
                     ? processFirstOffer(offer)
                     : processUpdateOffer(offer, localSess);
 
-            if (getConfigurationService().getBoolean(
-                    ProtocolProviderAlzService
-                            .USE_SESSION_LEVEL_DIRECTION_IN_SDP,
-                    false))
+            //TODO DEVTE-1321 needed for configuration
+            if (true)//getConfigurationService().getBoolean(ProtocolProviderAlzService.USE_SESSION_LEVEL_DIRECTION_IN_SDP, false))
             {
                 SdpUtils.setSessionDirection(answer);
             }
@@ -1142,7 +1137,7 @@ public class CallPeerMediaHandlerSipImpl
         if (ciphers == null)
         {
             ciphers
-                = SipActivator.getResources().getSettingsString(
+                = SipAlzProvider.getResources().getSettingsString(
                         SDesControl.SDES_CIPHER_SUITES);
         }
         sdesControl.setEnabledCiphers(Arrays.asList(ciphers.split(",")));
@@ -1693,7 +1688,7 @@ public class CallPeerMediaHandlerSipImpl
      */
     protected NetworkAddressManagerService getNetworkAddressManagerService()
     {
-        return SipActivator.getNetworkAddressManagerService();
+        return SipAlzProvider.getNetworkAddressManagerService();
     }
 
     /**
@@ -1702,9 +1697,9 @@ public class CallPeerMediaHandlerSipImpl
      *
      * @return a reference to the currently valid {@link MediaService}
      */
-    protected ConfigurationService getConfigurationService()
+    protected JitsiConfigurationAlzService getConfigurationService()
     {
-        return SipActivator.getConfigurationService();
+        return ConfigurationAlzProvider.getJitsiConfigurationAlzService();
     }
 
     /**
@@ -1715,7 +1710,7 @@ public class CallPeerMediaHandlerSipImpl
      */
     protected MediaService getMediaService()
     {
-        return SipActivator.getMediaService();
+        return SipAlzProvider.getMediaService();
     }
 
     /**

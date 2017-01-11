@@ -17,14 +17,21 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.lang.reflect.*;
-import java.util.*;
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
+import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
+import net.java.sip.communicator.impl.configuration.LibJitsiConfigurationAlzService;
+import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
+import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzService;
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzFactory;
+import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.service.credentialsstorage.*;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.configuration.*;
-import org.osgi.framework.*;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The ProtocolProviderFactory is what actually creates instances of a
@@ -522,12 +529,6 @@ public abstract class ProtocolProviderFactory
         = "cusax.XMPP_ACCOUNT_ID";
 
     /**
-     * The <code>BundleContext</code> containing (or to contain) the service
-     * registration of this factory.
-     */
-    private final BundleContext bundleContext;
-
-    /**
      * The name of the protocol this factory registers its
      * <code>ProtocolProviderService</code>s with and to be placed in the
      * properties of the accounts created by this factory.
@@ -537,13 +538,10 @@ public abstract class ProtocolProviderFactory
     /**
      * The table that we store our accounts in.
      * <p>
-     * TODO Synchronize the access to the field which may in turn be better
-     * achieved by also hiding it from protected into private access.
+     * TODO Use a thread-safe ConcurrentHashMap
      * </p>
      */
-    protected final Map<AccountID, ServiceRegistration<ProtocolProviderService>>
-        registeredAccounts
-            = new HashMap<AccountID, ServiceRegistration<ProtocolProviderService>>();
+    protected final Map<AccountID, ProtocolProviderService> registeredAccounts = new HashMap<>();
 
     /**
      * The name of the property that indicates the AVP type.
@@ -585,26 +583,11 @@ public abstract class ProtocolProviderFactory
     /**
      * Creates a new <tt>ProtocolProviderFactory</tt>.
      *
-     * @param bundleContext the bundle context reference of the service
      * @param protocolName the name of the protocol
      */
-    protected ProtocolProviderFactory(BundleContext bundleContext,
-        String protocolName)
+    protected ProtocolProviderFactory(String protocolName)
     {
-        this.bundleContext = bundleContext;
         this.protocolName = protocolName;
-    }
-
-    /**
-     * Gets the <code>BundleContext</code> containing (or to contain) the
-     * service registration of this factory.
-     *
-     * @return the <code>BundleContext</code> containing (or to contain) the
-     *         service registration of this factory
-     */
-    public BundleContext getBundleContext()
-    {
-        return bundleContext;
     }
 
     /**
@@ -676,30 +659,15 @@ public abstract class ProtocolProviderFactory
      * specified account id and null if the account id is unknown to the
      * provider factory.
      */
-    public ServiceReference<ProtocolProviderService> getProviderForAccount(
-            AccountID accountID)
-    {
-        ServiceRegistration<ProtocolProviderService> registration;
+    public ProtocolProviderService getProviderForAccount(AccountID accountID) {
+        ProtocolProviderService protocolProviderService;
 
         synchronized (registeredAccounts)
         {
-            registration = registeredAccounts.get(accountID);
+            protocolProviderService = registeredAccounts.get(accountID);
         }
 
-        try
-        {
-            if (registration != null)
-                return registration.getReference();
-        }
-        catch (IllegalStateException ise)
-        {
-            synchronized (registeredAccounts)
-            {
-                registeredAccounts.remove(accountID);
-            }
-        }
-
-        return null;
+        return protocolProviderService;
     }
 
     /**
@@ -717,47 +685,31 @@ public abstract class ProtocolProviderFactory
     public boolean uninstallAccount(AccountID accountID)
     {
         // Unregister the protocol provider.
-        ServiceReference<ProtocolProviderService> serRef
-            = getProviderForAccount(accountID);
+        ProtocolProviderService protocolProviderService = getProviderForAccount(accountID);
 
-        boolean wasAccountExisting = false;
+        boolean wasAccountExisting = protocolProviderService != null;
 
-        // If the protocol provider service is registered, first unregister the
-        // service.
-        if (serRef != null)
+        // If the protocol provider service is registered, first unregister the service.
+        if (protocolProviderService != null)
         {
-            BundleContext bundleContext = getBundleContext();
-            ProtocolProviderService protocolProvider
-                = bundleContext.getService(serRef);
-
             try
             {
-                protocolProvider.unregister();
+                protocolProviderService.unregister();
             }
             catch (OperationFailedException ex)
             {
-                logger.error(
-                        "Failed to unregister protocol provider for account: "
-                            + accountID + " caused by: " + ex);
+                logger.error("Failed to unregister protocol provider for account: " + accountID + " caused by: " + ex);
             }
         }
 
-        ServiceRegistration<ProtocolProviderService> registration;
-
+        // Now, remove it from our list of registeredAccounts
         synchronized (registeredAccounts)
         {
-            registration = registeredAccounts.remove(accountID);
+            registeredAccounts.remove(accountID);
         }
 
-        // first remove the stored account so when PP is unregistered we can
-        // distinguish between deleted or just disabled account
-        wasAccountExisting = removeStoredAccount(accountID);
-
-        if (registration != null)
-        {
-            // Kill the service.
-            registration.unregister();
-        }
+        // Now, remove the stored account so when PP is unregistered we can distinguish between deleted or just disabled account
+        wasAccountExisting |= removeStoredAccount(accountID);
 
         return wasAccountExisting;
     }
@@ -823,31 +775,6 @@ public abstract class ProtocolProviderFactory
     }
 
     /**
-     * Saves the password for the specified account after scrambling it a bit so
-     * that it is not visible from first sight. (The method remains highly
-     * insecure).
-     *
-     * @param accountID the AccountID for the account whose password we're
-     *            storing
-     * @param password the password itself
-     *
-     * @throws IllegalArgumentException if no account corresponding to
-     *             <code>accountID</code> has been previously stored
-     */
-    public void storePassword(AccountID accountID, String password)
-        throws IllegalArgumentException
-    {
-        try
-        {
-            storePassword(getBundleContext(), accountID, password);
-        }
-        catch (OperationFailedException ofex)
-        {
-            throw new UndeclaredThrowableException(ofex);
-        }
-    }
-
-    /**
      * Saves the password for the specified account after scrambling it a bit
      * so that it is not visible from first sight (Method remains highly
      * insecure).
@@ -857,7 +784,6 @@ public abstract class ProtocolProviderFactory
      * properties) is to be saved.
      * </p>
      *
-     * @param bundleContext a currently valid bundle context.
      * @param accountID the <tt>AccountID</tt> of the account whose password is
      * to be stored
      * @param password the password to be stored
@@ -867,17 +793,8 @@ public abstract class ProtocolProviderFactory
      * @throws OperationFailedException if anything goes wrong while storing the
      * specified <tt>password</tt>
      */
-    protected void storePassword(BundleContext bundleContext,
-                                 AccountID    accountID,
-                                 String       password)
-        throws IllegalArgumentException,
-               OperationFailedException
-    {
-        String accountPrefix
-            = findAccountPrefix(
-                bundleContext,
-                accountID,
-                getFactoryImplPackageName());
+    public void storePassword(AccountID accountID, String password) throws IllegalArgumentException, OperationFailedException {
+        String accountPrefix = findAccountPrefix(accountID, getFactoryImplPackageName());
 
         if (accountPrefix == null)
         {
@@ -889,10 +806,7 @@ public abstract class ProtocolProviderFactory
                             + getFactoryImplPackageName());
         }
 
-        CredentialsStorageService credentialsStorage
-            = ServiceUtils.getService(
-                    bundleContext,
-                    CredentialsStorageService.class);
+        CredentialsStorageService credentialsStorage = CredentialsStorageAlzProvider.getCredentialStorageAlzService();
 
         if (!credentialsStorage.storePassword(accountPrefix, password))
         {
@@ -911,46 +825,26 @@ public abstract class ProtocolProviderFactory
 
     /**
      * Returns the password last saved for the specified account.
-     *
-     * @param accountID the AccountID for the account whose password we're
-     *            looking for
-     *
-     * @return a String containing the password for the specified accountID
-     */
-    public String loadPassword(AccountID accountID)
-    {
-        return loadPassword(getBundleContext(), accountID);
-    }
-
-    /**
-     * Returns the password last saved for the specified account.
      * <p>
      * TODO Delegate the implementation to {@link AccountManager} because it
      * knows the format in which the password (among the other account
      * properties) was saved.
      * </p>
      *
-     * @param bundleContext a currently valid bundle context.
      * @param accountID the AccountID for the account whose password we're
      *            looking for..
      *
      * @return a String containing the password for the specified accountID.
      */
-    protected String loadPassword(BundleContext bundleContext,
-                                  AccountID     accountID)
-    {
-        String accountPrefix = findAccountPrefix(
-            bundleContext, accountID, getFactoryImplPackageName());
+    public String loadPassword(AccountID accountID) {
+        String accountPrefix = findAccountPrefix(accountID, getFactoryImplPackageName());
 
         if (accountPrefix == null)
             return null;
 
-        CredentialsStorageService credentialsStorage
-            = ServiceUtils.getService(
-                    bundleContext,
-                    CredentialsStorageService.class);
+        CredentialsStorageAlzService credentialsStorageAlzService = CredentialsStorageAlzProvider.getCredentialStorageAlzService();
 
-        return credentialsStorage.loadPassword(accountPrefix);
+        return credentialsStorageAlzService.loadPassword(accountPrefix);
     }
 
     /**
@@ -988,34 +882,18 @@ public abstract class ProtocolProviderFactory
         // Need to obtain the original user id property, instead of calling
         // accountID.getUserID(), because this method could return a modified
         // version of the user id property.
-        String userID
-            = accountID.getAccountPropertyString(
-                    ProtocolProviderFactory.USER_ID);
+        String userID = accountID.getAccountPropertyString(ProtocolProviderFactory.USER_ID);
 
         ProtocolProviderService service = createService(userID, accountID);
 
-        Dictionary<String, String> properties = new Hashtable<String, String>();
-        properties.put(PROTOCOL, protocolName);
-        properties.put(USER_ID, userID);
-
-        ServiceRegistration<ProtocolProviderService> serviceRegistration
-            = bundleContext.registerService(
-                    ProtocolProviderService.class,
-                    service,
-                    properties);
-
-        if (serviceRegistration == null)
-        {
-            return false;
-        }
-        else
-        {
+        if (service != null) {
             synchronized (registeredAccounts)
             {
-                registeredAccounts.put(accountID, serviceRegistration);
+                registeredAccounts.put(accountID, service);
             }
             return true;
         }
+        return false;
     }
 
     /**
@@ -1027,45 +905,29 @@ public abstract class ProtocolProviderFactory
      * @return true if an account with the specified ID existed and was unloaded
      * and false otherwise.
      */
-    public boolean unloadAccount(AccountID accountID)
-    {
+    //TODO what's the difference between uninstallAccount and unloadAccount?
+    public boolean unloadAccount(AccountID accountID) {
         // Unregister the protocol provider.
-        ServiceReference<ProtocolProviderService> serRef
-            = getProviderForAccount(accountID);
+        ProtocolProviderService protocolProviderService = getProviderForAccount(accountID);
 
-        if (serRef == null)
+        if (protocolProviderService == null)
         {
             return false;
         }
-
-        BundleContext bundleContext = getBundleContext();
-        ProtocolProviderService protocolProvider
-            = bundleContext.getService(serRef);
 
         try
         {
-            protocolProvider.unregister();
+            protocolProviderService.unregister();
         }
         catch (OperationFailedException ex)
         {
-            logger.error(
-                    "Failed to unregister protocol provider for account: "
-                        + accountID + " caused by: " + ex);
+            logger.error("Failed to unregister protocol provider for account: " + accountID + " caused by: " + ex);
         }
-
-        ServiceRegistration<ProtocolProviderService> registration;
 
         synchronized (registeredAccounts)
         {
-            registration = registeredAccounts.remove(accountID);
+            registeredAccounts.remove(accountID);
         }
-        if (registration == null)
-        {
-            return false;
-        }
-
-        // Kill the service.
-        registration.unregister();
 
         return true;
     }
@@ -1080,11 +942,6 @@ public abstract class ProtocolProviderFactory
      */
     public AccountID createAccount(Map<String, String> accountProperties)
     {
-        BundleContext bundleContext = getBundleContext();
-        if (bundleContext == null)
-            throw new NullPointerException(
-                "The specified BundleContext was null");
-
         if (accountProperties == null)
             throw new NullPointerException(
                 "The specified property map was null");
@@ -1171,7 +1028,6 @@ public abstract class ProtocolProviderFactory
     /**
      * Returns the prefix for all persistently stored properties of the account
      * with the specified id.
-     * @param bundleContext a currently valid bundle context.
      * @param accountID the AccountID of the account whose properties we're
      * looking for.
      * @param sourcePackageName a String containing the package name of the
@@ -1180,30 +1036,21 @@ public abstract class ProtocolProviderFactory
      * prefix under which all account properties are stored or null if no
      * account corresponding to the specified id was found.
      */
-    public static String findAccountPrefix(BundleContext bundleContext,
-                                       AccountID     accountID,
-                                       String sourcePackageName)
-    {
-        ServiceReference<ConfigurationService> confReference
-            = bundleContext.getServiceReference(ConfigurationService.class);
-        ConfigurationService configurationService
-            = bundleContext.getService(confReference);
+    public static String findAccountPrefix(AccountID accountID, String sourcePackageName) {
+        LibJitsiConfigurationAlzService libJitsiConfigurationAlzService = ConfigurationAlzProvider.getLibJitsiConfigurationAlzService();
+        JitsiConfigurationAlzService jitsiConfigurationAlzService = ConfigurationAlzProvider.getJitsiConfigurationAlzService();
 
         //first retrieve all accounts that we've registered
-        List<String> storedAccounts =
-            configurationService.getPropertyNamesByPrefix(sourcePackageName,
-                    true);
+        //TODO DEVTE-1321 needed for configuration
+        List<String> storedAccounts = Collections.EMPTY_LIST; //jitsiConfigurationAlzService.getPropertyNamesByPrefix(sourcePackageName, true);
 
         //find an account with the corresponding id.
         for (String accountRootPropertyName : storedAccounts)
         {
-            //unregister the account in the configuration service.
-            //all the properties must have been registered in the following
-            //hierarchy:
-            //net.java.sip.communicator.impl.protocol.PROTO_NAME.ACC_ID.PROP_NAME
-            String accountUID = configurationService.getString(
-                accountRootPropertyName //node id
-                + "." + ACCOUNT_UID); // propname
+            // Unregister the account in the configuration service. All the properties must have been registered in the following hierarchy:
+            // net.java.sip.communicator.impl.protocol.PROTO_NAME.ACC_ID.PROP_NAME
+            //TODO DEVTE-1321 needed for configuration
+            String accountUID = "";//libJitsiConfigurationAlzService.getString(accountRootPropertyName + "." + ACCOUNT_UID);
 
             if (accountID.getAccountUniqueID().equals(accountUID))
             {
@@ -1237,11 +1084,14 @@ public abstract class ProtocolProviderFactory
 
         synchronized (registeredAccounts)
         {
-            for (ServiceRegistration<ProtocolProviderService> reg
-                    : registeredAccounts.values())
+            for (ProtocolProviderService protocolProviderService : registeredAccounts.values())
             {
-                stop(reg);
-                reg.unregister();
+                stop(protocolProviderService);
+                try {
+                    protocolProviderService.unregister();
+                } catch (OperationFailedException e) {
+                    e.printStackTrace();
+                }
             }
 
             registeredAccounts.clear();
@@ -1249,19 +1099,11 @@ public abstract class ProtocolProviderFactory
     }
 
     /**
-     * Shuts down the <code>ProtocolProviderService</code> representing an
-     * account registered with this factory.
+     * Shuts down the <code>ProtocolProviderService</code> representing an account registered with this factory.
      *
-     * @param registeredAccount the <code>ServiceRegistration</code> of the
-     *            <code>ProtocolProviderService</code> representing an account
-     *            registered with this factory
+     * @param protocolProviderService the <code>ProtocolProviderService</code> representing an account registered with this factory
      */
-    protected void stop(
-            ServiceRegistration<ProtocolProviderService> registeredAccount)
-    {
-        ProtocolProviderService protocolProviderService
-            = getBundleContext().getService(registeredAccount.getReference());
-
+    protected void stop(ProtocolProviderService protocolProviderService) {
         protocolProviderService.shutdown();
     }
 
@@ -1270,47 +1112,19 @@ public abstract class ProtocolProviderFactory
      *
      * @return <tt>AccountManager</tt> of the protocol
      */
-    private AccountManager getAccountManager()
-    {
-        BundleContext bundleContext = getBundleContext();
-        ServiceReference<AccountManager> serviceReference
-            = bundleContext.getServiceReference(AccountManager.class);
-
-        return bundleContext.getService(serviceReference);
+    private AccountManager getAccountManager() {
+        return AccountManager.getInstance();
     }
 
 
     /**
      * Finds registered <tt>ProtocolProviderFactory</tt> for given
      * <tt>protocolName</tt>.
-     * @param bundleContext the OSGI bundle context that will be used.
      * @param protocolName the protocol name.
      * @return Registered <tt>ProtocolProviderFactory</tt> for given protocol
      * name or <tt>null</tt> if no provider was found.
      */
-    static public ProtocolProviderFactory getProtocolProviderFactory(
-            BundleContext bundleContext,
-            String protocolName)
-    {
-        Collection<ServiceReference<ProtocolProviderFactory>> serRefs;
-        String osgiFilter
-            = "(" + ProtocolProviderFactory.PROTOCOL + "=" + protocolName + ")";
-
-        try
-        {
-            serRefs
-                = bundleContext.getServiceReferences(
-                        ProtocolProviderFactory.class,
-                        osgiFilter);
-        }
-        catch (InvalidSyntaxException ex)
-        {
-            serRefs = null;
-            logger.error(ex);
-        }
-        if ((serRefs == null) || serRefs.isEmpty())
-            return null;
-        else
-            return bundleContext.getService(serRefs.iterator().next());
+    static public ProtocolProviderFactory getProtocolProviderFactory(String protocolName) {
+        return new ProtocolProviderAlzFactory();
     }
 }

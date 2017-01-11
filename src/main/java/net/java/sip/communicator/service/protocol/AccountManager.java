@@ -17,15 +17,28 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
+import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
+import net.java.sip.communicator.impl.configuration.LibJitsiConfigurationAlzService;
+import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
+import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
+import net.java.sip.communicator.service.protocol.event.AccountManagerEvent;
+import net.java.sip.communicator.service.protocol.event.AccountManagerListener;
+import net.java.sip.communicator.util.Base64;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.ServiceUtils;
+import org.jitsi.service.configuration.ConfigurationService;
 
-import net.java.sip.communicator.service.credentialsstorage.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
-import net.java.sip.communicator.util.Base64; //disambiguate from java.util.Base64
-
-import org.jitsi.service.configuration.*;
-import org.osgi.framework.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Vector;
 
 /**
  * Represents an implementation of <tt>AccountManager</tt> which loads the
@@ -42,11 +55,6 @@ public class AccountManager
      * for each <tt>ProtocolProviderFactory</tt> registration.
      */
     private static final long LOAD_STORED_ACCOUNTS_TIMEOUT = 30000;
-
-    /**
-     * The <tt>BundleContext</tt> this service is registered in.
-     */
-    private final BundleContext bundleContext = null;
 
     /**
      * The <tt>AccountManagerListener</tt>s currently interested in the
@@ -77,36 +85,31 @@ public class AccountManager
 
     /**
      * The list of <tt>AccountID</tt>s, corresponding to all stored accounts.
+     * TODO use thread-safe ConcurrentArrayList
      */
-    private final Vector<AccountID> storedAccounts = new Vector<AccountID>();
+    private final Vector<AccountID> storedAccounts = new Vector<>();
 
     /**
      * The prefix of the account unique identifier.
      */
     private static final String ACCOUNT_UID_PREFIX = "acc";
 
+    private static AccountManager instance = new AccountManager();
+
     /**
      * Initializes a new <tt>AccountManagerImpl</tt> instance loaded in a
      * specific <tt>BundleContext</tt> (in which the caller will usually
      * later register it).
      *
-     * @param bundleContext the <tt>BundleContext</tt> in which the new
-     *            instance is loaded (and in which the caller will usually later
-     *            register it as a service)
      */
-    //TODO DEVTE-1304 fix me for GUI
-//    public AccountManager(BundleContext bundleContext)
-    public AccountManager()
-    {
-//        this.bundleContext = bundleContext;
-//
-//        this.bundleContext.addServiceListener(new ServiceListener()
-//        {
-//            public void serviceChanged(ServiceEvent serviceEvent)
-//            {
-//                AccountManager.this.serviceChanged(serviceEvent);
-//            }
-//        });
+    private AccountManager() {}
+
+    public static synchronized AccountManager getInstance() {
+        if (instance == null) {
+            instance = new AccountManager();
+        }
+
+        return instance;
     }
 
     /**
@@ -160,10 +163,8 @@ public class AccountManager
             Map<String, String> accountProperties =
                 new Hashtable<String, String>();
             boolean disabled = false;
-            CredentialsStorageService credentialsStorage
-                = ServiceUtils.getService(
-                        bundleContext,
-                        CredentialsStorageService.class);
+            CredentialsStorageService credentialsStorage = CredentialsStorageAlzProvider.getCredentialStorageAlzService();
+
 
             int prefLen = storedAccount.length() + 1;
             for (Iterator<String> storedAccountPropertyIter
@@ -301,98 +302,8 @@ public class AccountManager
      * service with <tt>protocolName</tt> and <tt>userID</tt>,
      * <tt>false</tt> otherwise.
      */
-    public boolean hasStoredAccount(String protocolName,
-                                    boolean includeHidden,
-                                    String userID)
-    {
-        Collection<ServiceReference<ProtocolProviderFactory>> factoryRefs
-            = ServiceUtils.getServiceReferences(
-                    bundleContext,
-                    ProtocolProviderFactory.class);
-        boolean hasStoredAccounts = false;
-
-        if (!factoryRefs.isEmpty())
-        {
-            ConfigurationService configService
-                = ProtocolProviderActivator.getConfigurationService();
-
-            for (ServiceReference<ProtocolProviderFactory> factoryRef
-                    : factoryRefs)
-            {
-                ProtocolProviderFactory factory
-                    = bundleContext.getService(factoryRef);
-
-                if ((protocolName != null)
-                        && !protocolName.equals(factory.getProtocolName()))
-                {
-                    continue;
-                }
-
-                String factoryPackage = getFactoryImplPackageName(factory);
-                List<String> storedAccounts
-                    = configService
-                        .getPropertyNamesByPrefix(factoryPackage + ".acc",
-                            false);
-
-                /* Ignore the hidden accounts. */
-                for (Iterator<String> storedAccountIter =
-                    storedAccounts.iterator(); storedAccountIter.hasNext();)
-                {
-                    String storedAccount = storedAccountIter.next();
-                    List<String> storedAccountProperties =
-                        configService.getPropertyNamesByPrefix(storedAccount,
-                            true);
-                    boolean hidden = false;
-                    String accountUserID = null;
-
-                    if (!includeHidden || userID != null)
-                    {
-                        for (Iterator<String> storedAccountPropertyIter =
-                            storedAccountProperties.iterator();
-                            storedAccountPropertyIter.hasNext();)
-                        {
-                            String property = storedAccountPropertyIter.next();
-                            String value = configService.getString(property);
-
-                            property = stripPackagePrefix(property);
-
-                            if (ProtocolProviderFactory.IS_PROTOCOL_HIDDEN
-                                .equals(property))
-                            {
-                                hidden = (value != null);
-                            }
-                            else if (ProtocolProviderFactory.USER_ID
-                                    .equals(property))
-                            {
-                                accountUserID = value;
-                            }
-                        }
-                    }
-
-                    if (includeHidden || !hidden)
-                    {
-                        if(accountUserID != null
-                            && userID != null
-                            && userID.equals(accountUserID))
-                        {
-                            hasStoredAccounts = true;
-                            break;
-                        }
-                        else if(userID == null)
-                        {
-                            hasStoredAccounts = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (hasStoredAccounts || (protocolName != null))
-                {
-                    break;
-                }
-            }
-        }
-        return hasStoredAccounts;
+    public boolean hasStoredAccount(String protocolName, boolean includeHidden, String userID) {
+        return false;
     }
 
     /**
@@ -406,47 +317,10 @@ public class AccountManager
      */
     public AccountID findAccountID(String uid)
     {
-        Collection<ServiceReference<ProtocolProviderFactory>> factoryRefs
-            = ServiceUtils.getServiceReferences(
-                    bundleContext,
-                    ProtocolProviderFactory.class);
-
-        if (!factoryRefs.isEmpty())
+        for(AccountID acc : storedAccounts)
         {
-            ConfigurationService configService
-                = ProtocolProviderActivator.getConfigurationService();
-
-            for (ServiceReference<ProtocolProviderFactory> factoryRef
-                    : factoryRefs)
-            {
-                ProtocolProviderFactory factory
-                    = bundleContext.getService(factoryRef);
-
-                String factoryPackage = getFactoryImplPackageName(factory);
-                List<String> storedAccountsProps
-                    = configService
-                        .getPropertyNamesByPrefix(factoryPackage, true);
-
-                for (Iterator<String> storedAccountIter =
-                         storedAccountsProps.iterator();
-                     storedAccountIter.hasNext();)
-                {
-                    String storedAccount = storedAccountIter.next();
-
-                    if(!storedAccount.endsWith(uid))
-                        continue;
-
-                    String accountUID = configService.getString(
-                        storedAccount //node id
-                        + "." + ProtocolProviderFactory.ACCOUNT_UID);// propname
-
-                    for(AccountID acc : storedAccounts)
-                    {
-                        if(acc.getAccountUniqueID().equals(accountUID))
-                            return acc;
-                    }
-                }
-            }
+            if(acc.getAccountUniqueID().equals(uid))
+                return acc;
         }
         return null;
     }
@@ -612,34 +486,6 @@ public class AccountManager
     }
 
     /**
-     * Notifies this manager that an OSGi service has changed. The current
-     * implementation tracks the registrations of
-     * <tt>ProtocolProviderFactory</tt> services in order to queue them for
-     * loading their stored accounts.
-     *
-     * @param serviceEvent the <tt>ServiceEvent</tt> containing the event
-     *            data
-     */
-    private void serviceChanged(ServiceEvent serviceEvent)
-    {
-        switch (serviceEvent.getType())
-        {
-        case ServiceEvent.REGISTERED:
-            Object service
-                = bundleContext.getService(serviceEvent.getServiceReference());
-
-            if (service instanceof ProtocolProviderFactory)
-            {
-                protocolProviderFactoryRegistered(
-                    (ProtocolProviderFactory) service);
-            }
-            break;
-        default:
-            break;
-        }
-    }
-
-    /**
      * Stores an account represented in the form of an <tt>AccountID</tt>
      * created by a specific <tt>ProtocolProviderFactory</tt>.
      *
@@ -717,10 +563,7 @@ public class AccountManager
 
             if(secureStorePrefix != null)
             {
-                CredentialsStorageService credentialsStorage
-                        = ServiceUtils.getService(
-                                bundleContext,
-                                CredentialsStorageService.class);
+                CredentialsStorageService credentialsStorage = CredentialsStorageAlzProvider.getCredentialStorageAlzService();
 
                 // encrypt and store
                 if ((value != null)
@@ -755,10 +598,7 @@ public class AccountManager
                 !configurationProperties.containsKey(
                     factoryPackage+"."+accountNodeName+".ENCRYPTED_PASSWORD"))
         {
-            CredentialsStorageService credentialsStorage
-                    = ServiceUtils.getService(
-                            bundleContext,
-                            CredentialsStorageService.class);
+            CredentialsStorageService credentialsStorage = CredentialsStorageAlzProvider.getCredentialStorageAlzService();
             credentialsStorage.removePassword(
                 factoryPackage + "." + accountNodeName);
         }
@@ -848,24 +688,18 @@ public class AccountManager
         String factoryPackage = getFactoryImplPackageName(factory);
 
         // remove the stored password explicitly using credentials service
-        CredentialsStorageService credentialsStorage
-            = ServiceUtils.getService(
-                    bundleContext,
-                    CredentialsStorageService.class);
+        CredentialsStorageService credentialsStorage = CredentialsStorageAlzProvider.getCredentialStorageAlzService();
         String accountPrefix =
-            ProtocolProviderFactory.findAccountPrefix(bundleContext, accountID,
-                factoryPackage);
+            ProtocolProviderFactory.findAccountPrefix(accountID, factoryPackage);
 
         credentialsStorage.removePassword(accountPrefix);
 
-        ConfigurationService configurationService
-            = ServiceUtils.getService(
-                    bundleContext,
-                    ConfigurationService.class);
+        LibJitsiConfigurationAlzService libJitsiConfigurationAlzService = ConfigurationAlzProvider.getLibJitsiConfigurationAlzService();
+        JitsiConfigurationAlzService jitsiConfigurationAlzService = ConfigurationAlzProvider.getJitsiConfigurationAlzService();
+
         //first retrieve all accounts that we've registered
-        List<String> storedAccounts
-            = configurationService.getPropertyNamesByPrefix(
-                factoryPackage, true);
+        //TODO DEVTE-1321 needed for configuration
+        List<String> storedAccounts = Collections.EMPTY_LIST;//configurationService.getPropertyNamesByPrefix(factoryPackage, true);
 
         //find an account with the corresponding id.
         for (String accountRootPropertyName : storedAccounts)
@@ -874,24 +708,25 @@ public class AccountManager
             //all the properties must have been registered in the following
             //hierarchy:
             //net.java.sip.communicator.impl.protocol.PROTO_NAME.ACC_ID.PROP_NAME
-            String accountUID = configurationService.getString(
-                accountRootPropertyName //node id
-                + "." + ProtocolProviderFactory.ACCOUNT_UID); // propname
+            //TODO DEVTE-1321 needed for configuration
+            String accountUID = "";//configurationService.getString(accountRootPropertyName + "." + ProtocolProviderFactory.ACCOUNT_UID);
 
             if (accountID.getAccountUniqueID().equals(accountUID))
             {
                 //retrieve the names of all properties registered for the
                 //current account.
-                List<String> accountPropertyNames
-                    = configurationService.getPropertyNamesByPrefix(
-                        accountRootPropertyName, false);
+                //TODO DEVTE-1321 needed for configuration
+                List<String> accountPropertyNames = Collections.EMPTY_LIST;//configurationService.getPropertyNamesByPrefix(accountRootPropertyName, false);
 
                 //set all account properties to null in order to remove them.
-                for (String propName : accountPropertyNames)
-                    configurationService.setProperty(propName, null);
+                for (String propName : accountPropertyNames) {
+                    //TODO DEVTE-1321 needed for configuration
+//                    configurationService.setProperty(propName, null);
+                }
 
                 //and now remove the parent too.
-                configurationService.setProperty(accountRootPropertyName, null);
+                //TODO DEVTE-1321 needed for configuration
+//                configurationService.setProperty(accountRootPropertyName, null);
                 return true;
             }
         }
@@ -1021,15 +856,11 @@ public class AccountManager
                 accountID.getProtocolName());
 
         // Obtain the protocol provider.
-        ServiceReference<ProtocolProviderService> serRef
-            = providerFactory.getProviderForAccount(accountID);
+        ProtocolProviderService protocolProviderService = providerFactory.getProviderForAccount(accountID);
 
         // If there's no such provider we have nothing to do here.
-        if (serRef == null)
+        if (protocolProviderService == null)
             return;
-
-        ProtocolProviderService protocolProvider
-            = bundleContext.getService(serRef);
 
         // Set the account icon path for unloaded accounts.
         String iconPathProperty = accountID.getAccountPropertyString(
@@ -1039,7 +870,7 @@ public class AccountManager
         {
             accountID.putAccountProperty(
                 ProtocolProviderFactory.ACCOUNT_ICON_PATH,
-                protocolProvider.getProtocolIcon()
+                protocolProviderService.getProtocolIcon()
                     .getIconPath(ProtocolIcon.ICON_SIZE_32x32));
         }
 

@@ -283,10 +283,7 @@ public class JabberAccountRegistration
         // Remove additional STUN servers and Jingle Nodes properties,
         // before entering new from lists
         BundleContext bContext = ProtocolProviderActivator.getBundleContext();
-        ProtocolProviderFactory jbfFactory
-                = ProtocolProviderFactory
-                        .getProtocolProviderFactory( bContext,
-                                                     ProtocolNames.JABBER );
+        ProtocolProviderFactory jbfFactory = ProtocolProviderFactory.getProtocolProviderFactory(ProtocolNames.JABBER);
         AccountManager accManager =
                 ProtocolProviderActivator.getAccountManager();
         String accountNodeName =
@@ -369,10 +366,7 @@ public class JabberAccountRegistration
     {
         mergeProperties(account.getAccountProperties(), accountProperties);
 
-        String password
-            = ProtocolProviderFactory.getProtocolProviderFactory(
-                    bundleContext,
-                    ProtocolNames.JABBER).loadPassword(account);
+        String password = ProtocolProviderFactory.getProtocolProviderFactory(ProtocolNames.JABBER).loadPassword(account);
 
         setUserID(account.getUserID());
 

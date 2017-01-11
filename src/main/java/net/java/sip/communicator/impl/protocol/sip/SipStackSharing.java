@@ -29,6 +29,7 @@ import javax.sip.address.*;
 import javax.sip.header.*;
 import javax.sip.message.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.service.netaddr.event.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -143,7 +144,7 @@ public class SipStackSharing
             ((SIPTransactionStack) this.stack)
                 .setAddressResolver(addressResolver);
 
-            SipActivator.getNetworkAddressManagerService()
+            SipAlzProvider.getNetworkAddressManagerService()
                 .addNetworkConfigurationChangeListener(this);
         }
         catch(Exception ex)
@@ -495,14 +496,13 @@ public class SipStackSharing
      */
     private int getPreferredClearPort()
     {
-
-        int preferredPort =  SipActivator.getConfigurationService().getInt(
-            PREFERRED_CLEAR_PORT_PROPERTY_NAME, -1);
+        //TODO DEVTE-1321 needed for configuration
+        int preferredPort = -1;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getInt(PREFERRED_CLEAR_PORT_PROPERTY_NAME, -1);
 
         if(preferredPort <= 1)
         {
             // check for default value
-            preferredPort =  SipActivator.getResources().getSettingsInt(
+            preferredPort =  SipAlzProvider.getResources().getSettingsInt(
                 PREFERRED_CLEAR_PORT_PROPERTY_NAME);
         }
 
@@ -521,13 +521,13 @@ public class SipStackSharing
      */
     private int getPreferredSecurePort()
     {
-        int preferredPort =  SipActivator.getConfigurationService().getInt(
-            PREFERRED_SECURE_PORT_PROPERTY_NAME, -1);
+        //TODO DEVTE-1321 needed for configuration
+        int preferredPort = -1;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getInt(PREFERRED_SECURE_PORT_PROPERTY_NAME, -1);
 
         if(preferredPort <= 1)
         {
             // check for default value
-            preferredPort =  SipActivator.getResources().getSettingsInt(
+            preferredPort =  SipAlzProvider.getResources().getSettingsInt(
                 PREFERRED_SECURE_PORT_PROPERTY_NAME);
         }
 
@@ -546,9 +546,8 @@ public class SipStackSharing
      */
     private int getBindRetriesValue()
     {
-        return SipActivator.getConfigurationService().getInt(
-            ProtocolProviderService.BIND_RETRIES_PROPERTY_NAME,
-            ProtocolProviderService.BIND_RETRIES_DEFAULT_VALUE);
+        //TODO DEVTE-1321 needed for configuration
+        return 1;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getInt(ProtocolProviderService.BIND_RETRIES_PROPERTY_NAME, ProtocolProviderService.BIND_RETRIES_DEFAULT_VALUE);
     }
 
     /**

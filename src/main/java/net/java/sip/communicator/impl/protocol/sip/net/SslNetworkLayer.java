@@ -27,6 +27,7 @@ import java.util.*;
 
 import javax.net.ssl.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.*;
 import net.java.sip.communicator.service.certificate.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -69,14 +70,15 @@ public class SslNetworkLayer
      */
     public SslNetworkLayer()
     {
-        ServiceReference guiVerifyReference =
-            SipActivator.getBundleContext().getServiceReference(
-                CertificateService.class.getName());
-
-        if (guiVerifyReference != null)
-            certificateVerification =
-                (CertificateService) SipActivator.getBundleContext().getService(
-                    guiVerifyReference);
+        //TODO DEVTE-1321 needed for SSL
+//        ServiceReference guiVerifyReference =
+//            SipAlzProvider.getBundleContext().getServiceReference(
+//                CertificateService.class.getName());
+//
+//        if (guiVerifyReference != null)
+//            certificateVerification =
+//                (CertificateService) SipAlzProvider.getBundleContext().getService(
+//                    guiVerifyReference);
     }
 
     /**
@@ -409,11 +411,8 @@ public class SslNetworkLayer
      */
     private int getDSCP()
     {
-        ConfigurationService configService =
-            SipActivator.getConfigurationService();
-
-        String dscp =
-            (String)configService.getProperty(SIP_DSCP_PROPERTY);
+        //TODO DEVTE-1321 needed for configuration
+        String dscp = "0";//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getProperty(SIP_DSCP_PROPERTY);
 
         if(dscp != null)
         {

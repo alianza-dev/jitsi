@@ -24,6 +24,7 @@ import java.util.regex.*;
 
 import javax.sip.address.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.*;
 import net.java.sip.communicator.service.certificate.*;
 import net.java.sip.communicator.util.*;
@@ -72,8 +73,8 @@ public class RFC5922Matcher
     public void verify(Iterable<String> identitiesToTest, X509Certificate cert)
         throws CertificateException
     {
-        boolean strict = SipActivator.getConfigurationService()
-            .getBoolean(PNAME_STRICT_RFC5922, false);
+        //TODO DEVTE-1321 needed for configuration
+        boolean strict = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(PNAME_STRICT_RFC5922, false);
 
         // if any of the identities is contained in the certificate we're good
         boolean oneMatched = false;

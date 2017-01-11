@@ -609,9 +609,7 @@ public class JabberAccountRegistrationForm
         String packageSourceName = className.substring(0,
                 className.lastIndexOf('.'));
 
-        String accountPrefix = ProtocolProviderFactory.findAccountPrefix(
-                JabberAccRegWizzActivator.bundleContext,
-                accountID, packageSourceName);
+        String accountPrefix = ProtocolProviderFactory.findAccountPrefix(accountID, packageSourceName);
 
         CredentialsStorageService credentialsService =
             JabberAccRegWizzActivator.getCredentialsService();

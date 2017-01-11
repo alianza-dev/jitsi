@@ -285,7 +285,7 @@ public class SipLogger
     {
         try
         {
-            PacketLoggingService packetLogging = SipActivator.getPacketLogging();
+            PacketLoggingService packetLogging = SipAlzProvider.getPacketLogging();
             if( packetLogging == null
                 || !packetLogging.isLoggingEnabled(
                         PacketLoggingService.ProtocolName.SIP)

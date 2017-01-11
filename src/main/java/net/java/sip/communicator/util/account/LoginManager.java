@@ -127,11 +127,7 @@ public class LoginManager
     {
         for (AccountID accountID : providerFactory.getRegisteredAccounts())
         {
-            ServiceReference<ProtocolProviderService> serRef
-                = providerFactory.getProviderForAccount(accountID);
-            ProtocolProviderService protocolProvider
-                = UtilActivator.bundleContext.getService(serRef);
-
+            ProtocolProviderService protocolProvider = providerFactory.getProviderForAccount(accountID);
             handleProviderAdded(protocolProvider);
         }
     }

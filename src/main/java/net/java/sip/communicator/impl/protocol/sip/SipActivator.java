@@ -41,7 +41,7 @@ import org.osgi.framework.*;
 public class SipActivator
     implements BundleActivator
 {
-    private Logger logger = Logger.getLogger(SipActivator.class.getName());
+    private Logger logger = Logger.getLogger(SipAlzProvider.class.getName());
 
     private        ServiceRegistration  sipPpFactoryServReg   = null;
             static BundleContext        bundleContext         = null;

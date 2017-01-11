@@ -223,7 +223,7 @@ public class SipSecurityManager
             // need it later to see is the user has waited too long.
             long authenticationDuration = System.currentTimeMillis();
 
-            String storedPassword = SipActivator.getProtocolProviderFactory()
+            String storedPassword = SipAlzProvider.getProtocolProviderFactory()
                 .loadPassword(accountID);
 
             if(ccEntry == null)
@@ -263,7 +263,7 @@ public class SipSecurityManager
                     //need to authenticate the same transaction then the
                     //credentials we supplied the first time were wrong.
                     //remove password and ask user again.
-                    SipActivator.getProtocolProviderFactory().storePassword(
+                    SipAlzProvider.getProtocolProviderFactory().storePassword(
                         accountID, null);
 
                     protocolProvider.getRegistrarConnection()
@@ -410,7 +410,7 @@ public class SipSecurityManager
         cachedCredentials.clear();
 
         //also remove the stored password:
-        SipActivator.getProtocolProviderFactory().storePassword(
+        SipAlzProvider.getProtocolProviderFactory().storePassword(
                         accountID, null);
 
         //now recreate a transaction so that we could start all over again.
@@ -772,11 +772,13 @@ public class SipSecurityManager
         ccEntry.userCredentials = newCredentials;
 
         //store the password if the user wants us to
-        if( ccEntry.userCredentials != null
-            && ccEntry.userCredentials.isPasswordPersistent())
-                SipActivator.getProtocolProviderFactory().storePassword(
-                    accountID
-                    , ccEntry.userCredentials.getPasswordAsString());
+        if( ccEntry.userCredentials != null && ccEntry.userCredentials.isPasswordPersistent()) {
+            try {
+                ProtocolProviderFactory.getProtocolProviderFactory(ProtocolNames.SIP).storePassword(accountID, ccEntry.userCredentials.getPasswordAsString());
+            } catch (OperationFailedException e) {
+                e.printStackTrace();
+            }
+        }
 
         return ccEntry;
     }

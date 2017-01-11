@@ -718,8 +718,7 @@ public class AccountPanel
          * @throws IllegalArgumentException on failure (from
          * ProtocolProviderFactory.storePassword)
          */
-        void storeNewPassword(String newPass) throws IllegalArgumentException
-        {
+        void storeNewPassword(String newPass) throws IllegalArgumentException, OperationFailedException {
             AccountID accountID = parentForm.getWizard().getProtocolProvider().
                     getAccountID();
             ProtocolProviderFactory protocolProviderFactory =

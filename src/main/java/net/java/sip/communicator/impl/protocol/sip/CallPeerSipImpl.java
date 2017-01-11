@@ -30,6 +30,7 @@ import javax.sip.address.URI;
 import javax.sip.header.*;
 import javax.sip.message.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.sdp.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.Contact;
@@ -114,11 +115,10 @@ public class CallPeerSipImpl
      * <tt>picture_fast_update</tt> to this remote peer (as part of the
      * execution of {@link #requestKeyFrame()}).
      */
-    private boolean sendPictureFastUpdate
-        = KeyFrameControl.KeyFrameRequester.SIGNALING.equals(
-                SipActivator.getConfigurationService().getString(
-                        KeyFrameControl.KeyFrameRequester.PREFERRED_PNAME,
-                        KeyFrameControl.KeyFrameRequester.DEFAULT_PREFERRED));
+    private boolean sendPictureFastUpdate = KeyFrameControl.KeyFrameRequester.SIGNALING.equals(
+            //TODO DEVTE-1321 needed for configuration
+            ""//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getString(KeyFrameControl.KeyFrameRequester.PREFERRED_PNAME, KeyFrameControl.KeyFrameRequester.DEFAULT_PREFERRED)
+    );
 
     /**
      * Creates a new call peer with address <tt>peerAddress</tt>.

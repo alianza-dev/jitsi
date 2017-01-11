@@ -111,14 +111,15 @@ public abstract class BaseHttpXCapClient implements HttpXCapClient
      */
     public BaseHttpXCapClient()
     {
-        ServiceReference guiVerifyReference
-            = SipActivator.getBundleContext().getServiceReference(
-                CertificateService.class.getName());
-
-        if(guiVerifyReference != null)
-            certificateVerification
-                = (CertificateService)SipActivator.getBundleContext()
-                    .getService(guiVerifyReference);
+        //TODO DEVTE-1321 needed for XCAP client
+//        ServiceReference guiVerifyReference
+//            = SipAlzProvider.getBundleContext().getServiceReference(
+//                CertificateService.class.getName());
+//
+//        if(guiVerifyReference != null)
+//            certificateVerification
+//                = (CertificateService)SipAlzProvider.getBundleContext()
+//                    .getService(guiVerifyReference);
     }
 
     /**
@@ -231,7 +232,7 @@ public abstract class BaseHttpXCapClient implements HttpXCapClient
         catch (IOException e)
         {
             String errorMessage =
-                SipActivator.getResources().getI18NString(
+                SipAlzProvider.getResources().getI18NString(
                     "impl.protocol.sip.XCAP_ERROR_RESOURCE_ERR",
                     new String[]{uri.toString(),
                                 userAddress.getDisplayName()});
@@ -254,7 +255,7 @@ public abstract class BaseHttpXCapClient implements HttpXCapClient
         try
         {
             if(title == null)
-                title = SipActivator.getResources().getI18NString(
+                title = SipAlzProvider.getResources().getI18NString(
                     "impl.protocol.sip.XCAP_ERROR_TITLE");
 
             if(message == null)
@@ -263,8 +264,8 @@ public abstract class BaseHttpXCapClient implements HttpXCapClient
                     ex.getLocalizedMessage();
 
 
-            if(SipActivator.getUIService() != null)
-                SipActivator.getUIService().getPopupDialog()
+            if(SipAlzProvider.getUIService() != null)
+                SipAlzProvider.getUIService().getPopupDialog()
                     .showMessagePopupDialog(
                         message,
                         title,

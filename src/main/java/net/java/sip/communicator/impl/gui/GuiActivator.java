@@ -814,11 +814,7 @@ public class GuiActivator implements BundleActivator
                         for (AccountID accountID
                                 : providerFactory.getRegisteredAccounts())
                         {
-                            ServiceReference<ProtocolProviderService> serRef
-                                = providerFactory.getProviderForAccount(
-                                        accountID);
-                            ProtocolProviderService protocolProvider
-                                = GuiActivator.bundleContext.getService(serRef);
+                            ProtocolProviderService protocolProvider = providerFactory.getProviderForAccount(accountID);
 
                             if (protocolProvider.getAccountID()
                                     .getProtocolDisplayName()

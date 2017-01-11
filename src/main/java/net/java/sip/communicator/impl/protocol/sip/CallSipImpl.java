@@ -29,6 +29,8 @@ import javax.sip.message.*;
 import gov.nist.javax.sip.header.*;
 import gov.nist.javax.sip.stack.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
+import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
 import net.java.sip.communicator.impl.protocol.sip.sdp.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -159,15 +161,13 @@ public class CallSipImpl
 
         this.messageFactory = getProtocolProvider().getMessageFactory();
 
-        ConfigurationService cfg = SipActivator.getConfigurationService();
+        JitsiConfigurationAlzService cfg = ConfigurationAlzProvider.getJitsiConfigurationAlzService();
         int retransmitsRingingInterval = DEFAULT_RETRANSMITS_RINGING_INTERVAL;
 
         if (cfg != null)
         {
-            retransmitsRingingInterval
-                = cfg.getInt(
-                        RETRANSMITS_RINGING_INTERVAL,
-                        retransmitsRingingInterval);
+            //TODO DEVTE-1321 needed for configuration
+            retransmitsRingingInterval = 0;//cfg.getInt(RETRANSMITS_RINGING_INTERVAL,retransmitsRingingInterval);
         }
         this.retransmitsRingingInterval = retransmitsRingingInterval;
 

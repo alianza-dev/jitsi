@@ -643,7 +643,7 @@ public class XCapClientImpl extends BaseHttpXCapClient implements XCapClient
                         displayName = userAddress.toString();
 
                     showError(null, null,
-                        SipActivator.getResources().getI18NString(
+                        SipAlzProvider.getResources().getI18NString(
                             "impl.protocol.sip.XCAP_ERROR_UNAUTHORIZED",
                             new String[]{displayName}));
                 }

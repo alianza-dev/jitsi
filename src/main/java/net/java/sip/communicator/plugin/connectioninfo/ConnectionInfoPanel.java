@@ -152,10 +152,7 @@ public class ConnectionInfoPanel
 
             for (AccountID accountID : accountsList)
             {
-                serRef = providerFactory.getProviderForAccount(accountID);
-
-                protocolProvider = (ProtocolProviderService)ConnectionInfoActivator
-                    .bundleContext.getService(serRef);
+                protocolProvider = providerFactory.getProviderForAccount(accountID);
 
                 currentDetailsPanel = new ConnectionDetailsPanel(
                     dialog,

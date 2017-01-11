@@ -20,6 +20,7 @@ package net.java.sip.communicator.impl.protocol.sip;
 import java.text.*;
 import java.util.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.service.argdelegation.*;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -125,7 +126,6 @@ public class UriHandlerSipImpl
 
         hookStoredAccounts();
 
-        this.protoFactory.getBundleContext().addServiceListener(this);
         /*
          * Registering the UriHandler isn't strictly necessary if the
          * requirement to register the protoFactory after creating this instance
@@ -141,7 +141,6 @@ public class UriHandlerSipImpl
      */
     public void dispose()
     {
-        protoFactory.getBundleContext().removeServiceListener(this);
         unregisterHandlerService();
 
         unhookStoredAccounts();
@@ -156,11 +155,7 @@ public class UriHandlerSipImpl
     {
         if (accountManager == null)
         {
-            BundleContext bundleContext = protoFactory.getBundleContext();
-
-            accountManager =
-                (AccountManager) bundleContext.getService(bundleContext
-                    .getServiceReference(AccountManager.class.getName()));
+            accountManager = AccountManager.getInstance();
             accountManager.addListener(this);
         }
     }
@@ -230,28 +225,28 @@ public class UriHandlerSipImpl
      */
     public void registerHandlerService()
     {
-        synchronized (registrationLock)
-        {
-            if (ourServiceRegistration != null)
-            {
-                // ... we are already registered (this is probably
-                // happening during startup)
-                return;
-            }
-
-            Hashtable<String, String> registrationProperties =
-                new Hashtable<String, String>();
-
-            for (String protocol : getProtocol())
-            {
-                registrationProperties.put(UriHandler.PROTOCOL_PROPERTY,
-                    protocol);
-            }
-
-            ourServiceRegistration =
-                SipActivator.bundleContext.registerService(UriHandler.class
-                    .getName(), this, registrationProperties);
-        }
+//        synchronized (registrationLock)
+//        {
+//            if (ourServiceRegistration != null)
+//            {
+//                // ... we are already registered (this is probably
+//                // happening during startup)
+//                return;
+//            }
+//
+//            Hashtable<String, String> registrationProperties =
+//                new Hashtable<String, String>();
+//
+//            for (String protocol : getProtocol())
+//            {
+//                registrationProperties.put(UriHandler.PROTOCOL_PROPERTY,
+//                    protocol);
+//            }
+//
+//            ourServiceRegistration =
+//                SipAlzProvider.bundleContext.registerService(UriHandler.class
+//                    .getName(), this, registrationProperties);
+//        }
 
     }
 
@@ -335,10 +330,8 @@ public class UriHandlerSipImpl
         {
             // Allow a grace period for the provider to register in case
             // we have just started up
-            long initialRegistrationTimeout =
-                SipActivator.getConfigurationService()
-                    .getLong(INITIAL_REGISTRATION_TIMEOUT_PROP,
-                        DEFAULT_INITIAL_REGISTRATION_TIMEOUT);
+            //TODO DEVTE-1321 needed for configuration
+            long initialRegistrationTimeout = 300;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getLong(INITIAL_REGISTRATION_TIMEOUT_PROP, DEFAULT_INITIAL_REGISTRATION_TIMEOUT);
             final DelayRegistrationStateChangeListener listener =
                 new DelayRegistrationStateChangeListener(uri, provider);
             provider.addRegistrationStateChangeListener(listener);
@@ -467,7 +460,7 @@ public class UriHandlerSipImpl
         ProtocolProviderService provider)
     {
         int answer =
-            SipActivator
+            SipAlzProvider
                 .getUIService()
                 .getPopupDialog()
                 .showConfirmPopupDialog(
@@ -493,14 +486,14 @@ public class UriHandlerSipImpl
      */
     public void serviceChanged(ServiceEvent event)
     {
-        Object sourceService =
-            SipActivator.bundleContext.getService(event.getServiceReference());
+//        Object sourceService =
+//            SipAlzProvider.bundleContext.getService(event.getServiceReference());
 
         // ignore anything but our protocol factory.
-        if (sourceService != protoFactory)
-        {
-            return;
-        }
+//        if (sourceService != protoFactory)
+//        {
+//            return;
+//        }
 
         switch (event.getType())
         {
@@ -527,7 +520,7 @@ public class UriHandlerSipImpl
      */
     private void showErrorMessage(String message, Exception exc)
     {
-        SipActivator.getUIService().getPopupDialog().showMessagePopupDialog(
+        SipAlzProvider.getUIService().getPopupDialog().showMessagePopupDialog(
             message, "Failed to create call!", PopupDialog.ERROR_MESSAGE);
         logger.error(message, exc);
     }
@@ -579,7 +572,7 @@ public class UriHandlerSipImpl
 
             try
             {
-                handlerProvider.register(SipActivator.getUIService()
+                handlerProvider.register(SipAlzProvider.getUIService()
                     .getDefaultSecurityAuthority(handlerProvider));
             }
             catch (OperationFailedException exc)
@@ -655,12 +648,7 @@ public class UriHandlerSipImpl
         // if we only have one provider - select it
         if (registeredAccounts.size() == 1)
         {
-            ServiceReference providerReference =
-                protoFactory.getProviderForAccount(registeredAccounts.get(0));
-
-            ProtocolProviderService provider =
-                (ProtocolProviderService) SipActivator.getBundleContext()
-                    .getService(providerReference);
+            ProtocolProviderService provider = protoFactory.getProviderForAccount(registeredAccounts.get(0));
 
             return provider;
         }
@@ -670,18 +658,12 @@ public class UriHandlerSipImpl
             new ArrayList<ProviderComboBoxEntry>();
         for (AccountID accountID : registeredAccounts)
         {
-            ServiceReference providerReference =
-                protoFactory.getProviderForAccount(accountID);
-
-            ProtocolProviderService provider =
-                (ProtocolProviderService) SipActivator.getBundleContext()
-                    .getService(providerReference);
-
+            ProtocolProviderService provider = protoFactory.getProviderForAccount(accountID);
             providers.add(new ProviderComboBoxEntry(provider));
         }
 
         Object result =
-            SipActivator.getUIService().getPopupDialog().showInputPopupDialog(
+            SipAlzProvider.getUIService().getPopupDialog().showInputPopupDialog(
                 "Please select the account that you would like \n"
                     + "to use to call " + uri, "Account Selection",
                 PopupDialog.OK_CANCEL_OPTION, providers.toArray(),

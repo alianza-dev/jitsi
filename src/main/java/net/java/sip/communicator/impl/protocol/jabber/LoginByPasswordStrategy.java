@@ -244,8 +244,11 @@ public class LoginByPasswordStrategy
 
             if (credentials.isPasswordPersistent())
             {
-                JabberActivator.getProtocolProviderFactory()
-                        .storePassword(accountID, password);
+                try {
+                    ProtocolProviderFactory.getProtocolProviderFactory(ProtocolNames.SIP).storePassword(accountID, password);
+                } catch (OperationFailedException e) {
+                    e.printStackTrace();
+                }
             }
             else
                 cachedCredentials = credentials;

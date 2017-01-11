@@ -30,6 +30,7 @@ import javax.sip.address.*;
 import javax.sip.header.*;
 import javax.sip.message.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.util.*;
@@ -123,11 +124,8 @@ public class OperationSetDesktopSharingClientSipImpl
     {
         super(parentProvider);
 
-        final boolean desktopControlOutOfDialogEnabled
-            = SipActivator.getConfigurationService().getBoolean(
-                    DesktopSharingCallSipImpl
-                        .ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP,
-                    false);
+        //TODO DEVTE-1321 needed for configuration
+        final boolean desktopControlOutOfDialogEnabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
 
         notifier
             = new EventPackageNotifier(

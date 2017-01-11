@@ -152,10 +152,7 @@ public class AccountInfoPanel
 
             for (AccountID accountID : accountsList)
             {
-                serRef = providerFactory.getProviderForAccount(accountID);
-
-                protocolProvider = (ProtocolProviderService)AccountInfoActivator
-                    .bundleContext.getService(serRef);
+                protocolProvider = providerFactory.getProviderForAccount(accountID);
 
                 currentDetailsPanel = new AccountDetailsPanel(
                     dialog,

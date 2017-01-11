@@ -814,11 +814,19 @@ public class ProtocolProviderServiceIcqImpl
                 .REASON_AUTHENTICATION_FAILED)
             {
                 if(USING_ICQ)
-                    IcqActivator.getIcqProtocolProviderFactory().storePassword(
-                        getAccountID(), null);
+                    try {
+                        IcqActivator.getIcqProtocolProviderFactory().storePassword(
+                            getAccountID(), null);
+                    } catch (OperationFailedException e) {
+                        e.printStackTrace();
+                    }
                 else
-                    IcqActivator.getAimProtocolProviderFactory().storePassword(
-                        getAccountID(), null);
+                    try {
+                        IcqActivator.getAimProtocolProviderFactory().storePassword(
+                            getAccountID(), null);
+                    } catch (OperationFailedException e) {
+                        e.printStackTrace();
+                    }
 
                 reconnect(SecurityAuthority.WRONG_PASSWORD);
             }

@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.protocol.sip;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
 import net.java.sip.communicator.service.credentialsstorage.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.sip.*;
@@ -201,9 +202,7 @@ public class SipAccountIDImpl
     {
         if(key.equals(SipAccountID.OPT_CLIST_PASSWORD))
         {
-            CredentialsStorageService credentialsStorage
-                = ServiceUtils.getService(SipActivator.getBundleContext(),
-                                          CredentialsStorageService.class);
+            CredentialsStorageService credentialsStorage = CredentialsStorageAlzProvider.getCredentialStorageAlzService();
 
             return credentialsStorage.loadPassword(
                     getAccountUniqueID() + ".xcap");

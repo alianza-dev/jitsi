@@ -125,11 +125,7 @@ public class UserSearchActivator
                 for (AccountID accountID
                         : providerFactory.getRegisteredAccounts())
                 {
-                    serRef = providerFactory.getProviderForAccount(accountID);
-
-                    protocolProvider
-                        = (ProtocolProviderService) bundleContext
-                            .getService(serRef);
+                    protocolProvider = providerFactory.getProviderForAccount(accountID);
 
                     handleProviderAdded(protocolProvider);
 

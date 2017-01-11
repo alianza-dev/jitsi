@@ -623,7 +623,7 @@ public class ServerStoredContactListSipImpl
             if (accountID.isClistOptionUseSipCredentials())
             {
                 username = ((SipUri)userAddress.getURI()).getUser();
-                password = SipActivator.getProtocolProviderFactory().
+                password = SipAlzProvider.getProtocolProviderFactory().
                         loadPassword(accountID);
             }
             else

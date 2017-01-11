@@ -781,8 +781,7 @@ public abstract class AccountID
     /**
      * Returns if the encryption protocol given in parameter is enabled.
      *
-     * @param encryptionProtocolName The name of the encryption protocol
-     * ("ZRTP", "SDES" or "MIKEY").
+     * @param type The name of the encryption protocol ("ZRTP", "SDES" or "MIKEY").
      */
     public boolean isEncryptionProtocolEnabled(SrtpControlType type)
     {
@@ -853,19 +852,14 @@ public abstract class AccountID
                                              AccountID     accountID,
                                              String        namePrefix)
     {
-        ProtocolProviderFactory providerFactory
-                = ProtocolProviderFactory.getProtocolProviderFactory(
-                        bundleContext,
-                        accountID.getSystemProtocolName());
+        ProtocolProviderFactory providerFactory = ProtocolProviderFactory.getProtocolProviderFactory(accountID.getSystemProtocolName());
 
         String password = null;
         String className = providerFactory.getClass().getName();
         String packageSourceName
                 = className.substring(0, className.lastIndexOf('.'));
 
-        String accountPrefix = ProtocolProviderFactory.findAccountPrefix(
-                bundleContext,
-                accountID, packageSourceName);
+        String accountPrefix = ProtocolProviderFactory.findAccountPrefix(accountID, packageSourceName);
 
         CredentialsStorageService credentialsService
                 = ServiceUtils.getService(

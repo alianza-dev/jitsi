@@ -17,14 +17,21 @@
  */
 package net.java.sip.communicator.plugin.icqaccregwizz;
 
+import net.java.sip.communicator.service.gui.DesktopAccountRegistrationWizard;
+import net.java.sip.communicator.service.gui.WizardContainer;
+import net.java.sip.communicator.service.gui.WizardPage;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.util.Logger;
+
 import java.awt.*;
-import java.util.*;
-
-import net.java.sip.communicator.service.gui.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
-
-import org.osgi.framework.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The <tt>IcqAccountRegistrationWizard</tt> is an implementation of the
@@ -228,12 +235,7 @@ public class IcqAccountRegistrationWizard
             AccountID accountID =
                 providerFactory.installAccount(user, accountProperties);
 
-            ServiceReference serRef =
-                providerFactory.getProviderForAccount(accountID);
-
-            protocolProvider =
-                (ProtocolProviderService) IcqAccRegWizzActivator.bundleContext
-                    .getService(serRef);
+            protocolProvider = providerFactory.getProviderForAccount(accountID);
         }
         catch (IllegalStateException exc)
         {

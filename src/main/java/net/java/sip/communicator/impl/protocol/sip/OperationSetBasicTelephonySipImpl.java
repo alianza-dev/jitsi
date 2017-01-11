@@ -29,6 +29,7 @@ import javax.sip.address.*;
 import javax.sip.header.*;
 import javax.sip.message.*;
 
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.Contact;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -110,11 +111,20 @@ public class OperationSetBasicTelephonySipImpl
 
         protocolProvider.registerEvent("refer");
 
-        desktopControlOutOfDialogEnabled
-            = SipActivator.getConfigurationService().getBoolean(
-                DesktopSharingCallSipImpl
-                    .ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP,
-                false);
+        //TODO DEVTE-1321 needed for configuration
+        desktopControlOutOfDialogEnabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
+
+        setTransferAuthority(new TransferAuthority() {
+            @Override
+            public boolean processTransfer(Contact fromContact, String transferTo) {
+                return true;
+            }
+
+            @Override
+            public boolean processTransfer(String fromAddress, String transferTo) {
+                return true;
+            }
+        });
     }
 
     /**
@@ -1147,7 +1157,7 @@ public class OperationSetBasicTelephonySipImpl
             // if in paranoia mode and we don't find any encryption
             // fail peer/call send error with warning explaining why
             String reasonText =
-                SipActivator.getResources().getI18NString(
+                SipAlzProvider.getResources().getI18NString(
                     "service.gui.security.encryption.required");
 
             peer.setState(

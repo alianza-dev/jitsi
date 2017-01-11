@@ -22,6 +22,7 @@ import gov.nist.javax.sip.address.AddressFactoryImpl;
 import gov.nist.javax.sip.address.SipUri;
 import gov.nist.javax.sip.header.HeaderFactoryImpl;
 import gov.nist.javax.sip.message.MessageFactoryImpl;
+import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.net.AutoProxyConnection;
 import net.java.sip.communicator.impl.protocol.sip.net.ProxyConnection;
 import net.java.sip.communicator.impl.protocol.sip.security.SipSecurityManager;
@@ -59,7 +60,6 @@ import net.java.sip.communicator.service.protocol.OperationSetVideoTelephony;
 import net.java.sip.communicator.service.protocol.ProtocolIcon;
 import net.java.sip.communicator.service.protocol.ProtocolNames;
 import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
-import net.java.sip.communicator.service.protocol.ProtocolProviderService;
 import net.java.sip.communicator.service.protocol.RegistrationState;
 import net.java.sip.communicator.service.protocol.SecurityAuthority;
 import net.java.sip.communicator.service.protocol.TransportProtocol;
@@ -105,7 +105,6 @@ import java.net.InetSocketAddress;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.EventObject;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -356,7 +355,7 @@ public class ProtocolProviderAlzService
             }
             else
             {
-                result.add(SipActivator.getResources().getI18NString(
+                result.add(SipAlzProvider.getResources().getI18NString(
                     "impl.protocol.sip.INVALID_ADDRESS", new String[]
                 { contactId }));
                 result.add(((SipUri) address.getURI()).getUser());
@@ -365,7 +364,7 @@ public class ProtocolProviderAlzService
         catch (Exception ex)
         {
             logger.error("Validating SIP address failed for " + contactId, ex);
-            result.add(SipActivator.getResources()
+            result.add(SipAlzProvider.getResources()
                 .getI18NString("impl.protocol.sip.INVALID_ADDRESS", new String[]
             { contactId }));
 
@@ -629,9 +628,8 @@ public class ProtocolProviderAlzService
             OperationSetBasicTelephonySipImpl opSetBasicTelephonySipImpl
                 = new OperationSetBasicTelephonySipImpl(this);
 
-            boolean isCallingDisabled
-                = SipActivator.getConfigurationService()
-                    .getBoolean(IS_CALLING_DISABLED, false);
+            //TODO DEVTE-1321 needed for configuration
+            boolean isCallingDisabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(IS_CALLING_DISABLED, false);
 
             boolean isCallingDisabledForAccount
                 = accountID.getAccountPropertyBoolean(
@@ -684,9 +682,8 @@ public class ProtocolProviderAlzService
                     new OperationSetIncomingDTMFSipImpl(
                             this, operationSetDTMFSip));
 
-                boolean isDesktopStreamingDisabled
-                    = SipActivator.getConfigurationService()
-                        .getBoolean(IS_DESKTOP_STREAMING_DISABLED, false);
+                //TODO DEVTE-1321 needed for configuration
+                boolean isDesktopStreamingDisabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(IS_DESKTOP_STREAMING_DISABLED, false);
 
                 boolean isAccountDesktopStreamingDisabled
                     = accountID.getAccountPropertyBoolean(
@@ -754,9 +751,8 @@ public class ProtocolProviderAlzService
             }
 
             // Only init messaging and typing if enabled.
-            boolean isMessagingDisabled
-                = SipActivator.getConfigurationService()
-                    .getBoolean(IS_MESSAGING_DISABLED, false);
+            //TODO DEVTE-1321 needed for configuration
+            boolean isMessagingDisabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(IS_MESSAGING_DISABLED, false);
 
             if (!isMessagingDisabled)
             {
@@ -1382,7 +1378,7 @@ public class ProtocolProviderAlzService
             InetSocketAddress targetAddress =
                         getIntendedDestination(intendedDestination);
 
-            InetAddress localAddress = SipActivator
+            InetAddress localAddress = SipAlzProvider
                 .getNetworkAddressManagerService().getLocalHost(
                     targetAddress.getAddress());
 
@@ -1517,7 +1513,7 @@ public class ProtocolProviderAlzService
         try
         {
             //find the address to use with the target
-            InetAddress localAddress = SipActivator
+            InetAddress localAddress = SipAlzProvider
                 .getNetworkAddressManagerService()
                 .getLocalHost(targetAddress.getAddress());
 
@@ -1900,7 +1896,7 @@ public class ProtocolProviderAlzService
         InetSocketAddress destinationAddr
                     = getIntendedDestination(intendedDestination);
 
-        InetAddress localHost = SipActivator.getNetworkAddressManagerService()
+        InetAddress localHost = SipAlzProvider.getNetworkAddressManagerService()
             .getLocalHost(destinationAddr.getAddress());
 
         String userID = getAccountID().getUserID();
@@ -2084,9 +2080,8 @@ public class ProtocolProviderAlzService
         }
         else
         {
-            String userSpecifiedDefaultTransport
-                = SipActivator.getConfigurationService()
-                    .getString(DEFAULT_TRANSPORT);
+            //TODO DEVTE-1321 needed for configuration
+            String userSpecifiedDefaultTransport = "UDP";//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getString(DEFAULT_TRANSPORT);
 
             if(userSpecifiedDefaultTransport != null)
             {
@@ -2094,7 +2089,7 @@ public class ProtocolProviderAlzService
             }
             else
             {
-                String defTransportDefaultValue = SipActivator.getResources()
+                String defTransportDefaultValue = SipAlzProvider.getResources()
                         .getSettingsString(DEFAULT_TRANSPORT);
 
                 if(!StringUtils.isNullOrEmpty(defTransportDefaultValue))
@@ -2175,7 +2170,7 @@ public class ProtocolProviderAlzService
                 List<String> userAgentTokens = new LinkedList<String>();
 
                 Version ver =
-                        SipActivator.getVersionService().getCurrentVersion();
+                        SipAlzProvider.getVersionService().getCurrentVersion();
 
                 userAgentTokens.add(ver.getApplicationName());
                 userAgentTokens.add(ver.toString());

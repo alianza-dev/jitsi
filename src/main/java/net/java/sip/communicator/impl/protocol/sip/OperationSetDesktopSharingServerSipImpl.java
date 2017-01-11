@@ -145,7 +145,7 @@ public class OperationSetDesktopSharingServerSipImpl
         super(basicTelephony);
         parentProvider = basicTelephony.getProtocolProvider();
 
-        hidService = SipActivator.getHIDService();
+        hidService = SipAlzProvider.getHIDService();
 
         subscriber = new EventPackageSubscriber(
                 this.parentProvider,

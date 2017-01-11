@@ -37,7 +37,7 @@ public class ProtocolProviderFactoryGibberishImpl
      */
     public ProtocolProviderFactoryGibberishImpl()
     {
-        super(GibberishActivator.getBundleContext(), "Gibberish");
+        super("Gibberish");
     }
 
     /**
@@ -124,11 +124,11 @@ public class ProtocolProviderFactoryGibberishImpl
         if(!registeredAccounts.containsKey(accountID))
             return;
 
-        ServiceRegistration registration = registeredAccounts.get(accountID);
+//        ServiceRegistration registration = registeredAccounts.get(accountID);
 
         // kill the service
-        if (registration != null)
-            registration.unregister();
+//        if (registration != null)
+//            registration.unregister();
 
         accountProperties.put(USER_ID, accountID.getUserID());
 
@@ -154,14 +154,14 @@ public class ProtocolProviderFactoryGibberishImpl
         // during the protocol provider initialization.
         this.storeAccount(accountID);
 
-        registration
-            = context.registerService(
-                        ProtocolProviderService.class.getName(),
-                        protocolProvider,
-                        properties);
+//        registration
+//            = context.registerService(
+//                        ProtocolProviderService.class.getName(),
+//                        protocolProvider,
+//                        properties);
 
         // We store the modified account registration.
-        registeredAccounts.put(accountID, registration);
+//        registeredAccounts.put(accountID, registration);
     }
 
     @Override

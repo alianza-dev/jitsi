@@ -281,9 +281,7 @@ public class FirstWizardPage
     public void loadAccount(ProtocolProviderService protocolProvider)
     {
         AccountID accountID = protocolProvider.getAccountID();
-        String password =
-            GibberishAccRegWizzActivator.getGibberishProtocolProviderFactory()
-                .loadPassword(accountID);
+        String password = ProtocolProviderFactory.getProtocolProviderFactory(ProtocolNames.SIP).loadPassword(accountID);
 
         this.userIDField.setEnabled(false);
         this.userIDField.setText(accountID.getUserID());

@@ -282,8 +282,7 @@ public class GoogleContactsActivator implements BundleActivator
             {
                 String className = provider.getClass().getName();
                 className = className.substring(0, className.lastIndexOf('.'));
-                String acc = ProtocolProviderFactory.findAccountPrefix(
-                        bundleContext, provider.getAccountID(), className);
+                String acc = ProtocolProviderFactory.findAccountPrefix(provider.getAccountID(), className);
 
                 if(configService.getBoolean(acc + ".GOOGLE_CONTACTS_ENABLED",
                     true))

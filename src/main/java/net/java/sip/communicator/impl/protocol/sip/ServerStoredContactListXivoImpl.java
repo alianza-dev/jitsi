@@ -499,7 +499,7 @@ public class ServerStoredContactListXivoImpl
                 String password;
                 if (useSipCredentials)
                 {
-                    password = SipActivator.getProtocolProviderFactory().
+                    password = SipAlzProvider.getProtocolProviderFactory().
                             loadPassword(accountID);
                 }
                 else
@@ -829,8 +829,8 @@ public class ServerStoredContactListXivoImpl
                     ex.getClass().getName() + ": " +
                     ex.getLocalizedMessage();
 
-            if(SipActivator.getUIService() != null)
-                SipActivator.getUIService().getPopupDialog()
+            if(SipAlzProvider.getUIService() != null)
+                SipAlzProvider.getUIService().getPopupDialog()
                     .showMessagePopupDialog(
                         message,
                         title,

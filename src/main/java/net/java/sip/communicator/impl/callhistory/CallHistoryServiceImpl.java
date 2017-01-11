@@ -1517,11 +1517,7 @@ public class CallHistoryServiceImpl
             {
                 if (accountID.getAccountUniqueID().equals(accountUID))
                 {
-                    ServiceReference<ProtocolProviderService> serRef
-                        = providerFactory.getProviderForAccount(accountID);
-
-                    return
-                        CallHistoryActivator.bundleContext.getService(serRef);
+                    return providerFactory.getProviderForAccount(accountID);
                 }
             }
         }

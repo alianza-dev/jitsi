@@ -74,7 +74,7 @@ public class ProtocolProviderFactoryIrcImpl
      */
     public ProtocolProviderFactoryIrcImpl()
     {
-        super(IrcActivator.getBundleContext(), ProtocolNames.IRC);
+        super(ProtocolNames.IRC);
     }
 
     /**
@@ -215,13 +215,13 @@ public class ProtocolProviderFactoryIrcImpl
             return;
         }
 
-        ServiceRegistration<ProtocolProviderService> registration =
+        ProtocolProviderService protocolProviderService =
             registeredAccounts.get(accountID);
 
         // kill the service
-        if (registration != null)
+        if (protocolProviderService != null)
         {
-            registration.unregister();
+//            protocolProviderService.unregister();
         }
 
         accountProperties.put(USER_ID, accountID.getUserID());
@@ -249,10 +249,10 @@ public class ProtocolProviderFactoryIrcImpl
         // during the protocol provider initialization.
         this.storeAccount(accountID);
 
-        registration =
-            context.registerService(ProtocolProviderService.class,
-                protocolProvider, properties);
+//        protocolProviderService =
+//            context.registerService(ProtocolProviderService.class,
+//                protocolProvider, properties);
 
-        registeredAccounts.put(accountID, registration);
+        registeredAccounts.put(accountID, protocolProviderService);
     }
 }

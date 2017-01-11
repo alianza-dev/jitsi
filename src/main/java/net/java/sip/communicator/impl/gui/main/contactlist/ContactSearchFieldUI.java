@@ -138,9 +138,7 @@ public class ContactSearchFieldUI
         {
             for(AccountID accountID : providerFactory.getRegisteredAccounts())
             {
-                ProtocolProviderService pps 
-                    = GuiActivator.bundleContext.getService(
-                            providerFactory.getProviderForAccount(accountID));
+                ProtocolProviderService pps = providerFactory.getProviderForAccount(accountID);
                 providers.add(pps);
                 pps.addRegistrationStateChangeListener(
                     providerRegistrationStateListener);

@@ -93,9 +93,7 @@ public class JabberAccountIDImpl
         String packageSourceName = className.substring(0,
                 className.lastIndexOf('.'));
 
-        String accountPrefix = ProtocolProviderFactory.findAccountPrefix(
-                JabberActivator.bundleContext,
-                this, packageSourceName);
+        String accountPrefix = ProtocolProviderFactory.findAccountPrefix(this, packageSourceName);
 
         CredentialsStorageService credentialsService =
             JabberActivator.getCredentialsStorageService();

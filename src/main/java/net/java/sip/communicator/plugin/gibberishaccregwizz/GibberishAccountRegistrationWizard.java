@@ -213,12 +213,7 @@ public class GibberishAccountRegistrationWizard
             AccountID accountID = providerFactory.installAccount(
                 user, accountProperties);
 
-            ServiceReference serRef = providerFactory
-                .getProviderForAccount(accountID);
-
-            protocolProvider = (ProtocolProviderService)
-                GibberishAccRegWizzActivator.bundleContext
-                .getService(serRef);
+            protocolProvider = providerFactory.getProviderForAccount(accountID);
         }
         catch (IllegalStateException exc)
         {

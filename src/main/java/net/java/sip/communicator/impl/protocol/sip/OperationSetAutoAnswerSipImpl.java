@@ -145,7 +145,7 @@ public class OperationSetAutoAnswerSipImpl
                 Boolean.toString(answerWithVideo));
 
         acc.setAccountProperties(accProps);
-        SipActivator.getProtocolProviderFactory().storeAccount(acc);
+        SipAlzProvider.getProtocolProviderFactory().storeAccount(acc);
     }
 
     /**

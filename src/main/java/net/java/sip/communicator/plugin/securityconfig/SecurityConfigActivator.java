@@ -287,11 +287,7 @@ public class SecurityConfigActivator
                 = getFactoryImplPackageName(providerFactory);
             for (AccountID accountID : providerFactory.getRegisteredAccounts())
             {
-                String accountPrefix
-                    = ProtocolProviderFactory.findAccountPrefix(
-                            bundleContext,
-                            accountID,
-                            sourcePackageName);
+                String accountPrefix = ProtocolProviderFactory.findAccountPrefix(accountID, sourcePackageName);
                 if (credentialsStorageService.isStoredEncrypted(accountPrefix))
                     accountIDs.put(accountID, accountPrefix);
             }
