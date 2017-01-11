@@ -22,8 +22,7 @@ import java.util.*;
 
 import javax.sdp.*;
 
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.sdp.*;
 import net.java.sip.communicator.service.netaddr.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -141,8 +140,7 @@ public class CallPeerMediaHandlerSipImpl
                 ? createFirstOffer()
                 : createUpdateOffer(localSess);
 
-        //TODO DEVTE-1321 needed for configuration
-        if (true) //getConfigurationService().getBoolean(ProtocolProviderAlzService.USE_SESSION_LEVEL_DIRECTION_IN_SDP, false))
+        if (getConfigurationService().getBoolean(ProtocolProviderAlzService.USE_SESSION_LEVEL_DIRECTION_IN_SDP, false))
         {
             SdpUtils.setSessionDirection(offer);
         }
@@ -281,8 +279,7 @@ public class CallPeerMediaHandlerSipImpl
                                                 .SDP_PARAMETER);
                             }
 
-                            //TODO DEVTE-1321 needed for configuration
-                            int ptimeSetting = 0;//getConfigurationService().getInt("net.java.sip.communicator.impl.protocol" + ".sip.PTIME_VALUE", 20);
+                            int ptimeSetting = getConfigurationService().getInt("net.java.sip.communicator.impl.protocol" + ".sip.PTIME_VALUE", 20);
                             // the default value is 20ms
                             if(ptimeSetting != 20)
                             {
@@ -442,8 +439,7 @@ public class CallPeerMediaHandlerSipImpl
                     ? processFirstOffer(offer)
                     : processUpdateOffer(offer, localSess);
 
-            //TODO DEVTE-1321 needed for configuration
-            if (true)//getConfigurationService().getBoolean(ProtocolProviderAlzService.USE_SESSION_LEVEL_DIRECTION_IN_SDP, false))
+            if (getConfigurationService().getBoolean(ProtocolProviderAlzService.USE_SESSION_LEVEL_DIRECTION_IN_SDP, false))
             {
                 SdpUtils.setSessionDirection(answer);
             }
@@ -1697,9 +1693,9 @@ public class CallPeerMediaHandlerSipImpl
      *
      * @return a reference to the currently valid {@link MediaService}
      */
-    protected JitsiConfigurationAlzService getConfigurationService()
+    protected ConfigurationService getConfigurationService()
     {
-        return ConfigurationAlzProvider.getJitsiConfigurationAlzService();
+        return LibJitsiAlzProvider.getConfigurationService();
     }
 
     /**

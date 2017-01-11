@@ -257,7 +257,7 @@ public class ProtocolProviderAlzFactory
      *         <code>AccountID</code>
      */
     @Override
-    protected ProtocolProviderService createService(String userID,
+    public ProtocolProviderService createService(String userID,
         AccountID accountID)
     {
         ProtocolProviderAlzService service

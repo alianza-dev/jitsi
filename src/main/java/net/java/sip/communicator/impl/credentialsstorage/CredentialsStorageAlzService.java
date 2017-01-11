@@ -17,14 +17,12 @@
  */
 package net.java.sip.communicator.impl.credentialsstorage;
 
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
 import net.java.sip.communicator.service.credentialsstorage.CryptoException;
 import net.java.sip.communicator.service.credentialsstorage.MasterPasswordInputService;
 import net.java.sip.communicator.util.Base64;
 import net.java.sip.communicator.util.Logger;
-import net.java.sip.communicator.util.ServiceUtils;
 import org.jitsi.service.configuration.ConfigurationService;
 
 import java.util.Collections;
@@ -75,7 +73,7 @@ public class CredentialsStorageAlzService
     /**
      * The configuration service.
      */
-    private JitsiConfigurationAlzService configurationService;
+    private ConfigurationService configurationService;
 
     /**
      * A {@link Crypto} instance that does the actual encryption and decryption.
@@ -83,7 +81,7 @@ public class CredentialsStorageAlzService
     private Crypto crypto;
 
     public CredentialsStorageAlzService() {
-        configurationService = ConfigurationAlzProvider.getJitsiConfigurationAlzService();
+        configurationService = LibJitsiAlzProvider.getConfigurationService();
 
         /*
          * If a master password is set, the migration of the unencrypted
@@ -198,8 +196,7 @@ public class CredentialsStorageAlzService
      */
     public boolean isUsingMasterPassword()
     {
-        //TODO DEVTE-1321 needed for configuration
-        return false;//null != configurationService.getString(MASTER_PROP);
+        return null != configurationService.getString(MASTER_PROP);
     }
 
     /**
@@ -257,8 +254,7 @@ public class CredentialsStorageAlzService
     public boolean changeMasterPassword(String oldPassword, String newPassword)
     {
         // get all encrypted account password properties
-        //TODO DEVTE-1321 needed for configuration
-        List<String> encryptedAccountProps = Collections.EMPTY_LIST;//configurationService.getPropertyNamesBySuffix(ACCOUNT_ENCRYPTED_PASSWORD);
+        List<String> encryptedAccountProps = configurationService.getPropertyNamesBySuffix(ACCOUNT_ENCRYPTED_PASSWORD);
 
         // this map stores propName -> password
         Map<String, String> passwords = new HashMap<String, String>();
@@ -268,8 +264,7 @@ public class CredentialsStorageAlzService
             setMasterPassword(oldPassword);
             for (String propName : encryptedAccountProps)
             {
-                //TODO DEVTE-1321 needed for configuration
-                String propValue = null;//configurationService.getString(propName);
+                String propValue = configurationService.getString(propName);
                 if (propValue != null)
                 {
                     String decrypted = crypto.decrypt(propValue);
@@ -281,8 +276,7 @@ public class CredentialsStorageAlzService
             for (Map.Entry<String, String> entry : passwords.entrySet())
             {
                 String encrypted = crypto.encrypt(entry.getValue());
-                //TODO DEVTE-1321 needed for configuration
-//                configurationService.setProperty(entry.getKey(), encrypted);
+                configurationService.setProperty(entry.getKey(), encrypted);
             }
             // save the verification value, encrypted with the new MP,
             // or remove it if the newPassword is null (we are unsetting MP)
@@ -315,9 +309,7 @@ public class CredentialsStorageAlzService
      */
     private void moveAllPasswordProperties()
     {
-        //TODO DEVTE-1321 needed for configuration
-        List<String> unencryptedProperties = Collections.EMPTY_LIST;
-//            = configurationService.getPropertyNamesBySuffix(ACCOUNT_UNENCRYPTED_PASSWORD);
+        List<String> unencryptedProperties = configurationService.getPropertyNamesBySuffix(ACCOUNT_UNENCRYPTED_PASSWORD);
 
         for (String prop : unencryptedProperties)
         {
@@ -387,20 +379,18 @@ public class CredentialsStorageAlzService
     private void writeVerificationValue(boolean remove)
     {
         if (remove) {
-            //TODO DEVTE-1321 needed for configuration
-//            configurationService.removeProperty(MASTER_PROP);
+            configurationService.removeProperty(MASTER_PROP);
         } else {
-//            try
-//            {
-                //TODO DEVTE-1321 needed for configuration
-//                configurationService.setProperty(MASTER_PROP, crypto.encrypt(MASTER_PROP_VALUE));
-//            }
-//            catch (CryptoException cex)
-//            {
-//                logger.error(
-//                        "Failed to encrypt and write verification value",
-//                        cex);
-//            }
+            try
+            {
+                configurationService.setProperty(MASTER_PROP, crypto.encrypt(MASTER_PROP_VALUE));
+            }
+            catch (CryptoException cex)
+            {
+                logger.error(
+                        "Failed to encrypt and write verification value",
+                        cex);
+            }
         }
     }
 
@@ -504,8 +494,7 @@ public class CredentialsStorageAlzService
      */
     private String getEncryptedMasterPropValue()
     {
-        //TODO DEVTE-1321 needed for configuration
-        return "";//configurationService.getString(MASTER_PROP);
+        return configurationService.getString(MASTER_PROP);
     }
 
     /**
@@ -516,8 +505,7 @@ public class CredentialsStorageAlzService
      */
     private String getEncrypted(String accountPrefix)
     {
-        //TODO DEVTE-1321 needed for configuration
-        return "";//configurationService.getString(accountPrefix + "." + ACCOUNT_ENCRYPTED_PASSWORD);
+        return configurationService.getString(accountPrefix + "." + ACCOUNT_ENCRYPTED_PASSWORD);
     }
 
     /**
@@ -528,8 +516,7 @@ public class CredentialsStorageAlzService
      */
     private void setEncrypted(String accountPrefix, String value)
     {
-        //TODO DEVTE-1321 needed for configuration
-//        configurationService.setProperty(accountPrefix + "." + ACCOUNT_ENCRYPTED_PASSWORD, value);
+        configurationService.setProperty(accountPrefix + "." + ACCOUNT_ENCRYPTED_PASSWORD, value);
     }
 
     /**
@@ -540,8 +527,7 @@ public class CredentialsStorageAlzService
      */
     public boolean isStoredEncrypted(String accountPrefix)
     {
-        //TODO DEVTE-1321 needed for configuration
-        return false;//configurationService.getString(accountPrefix + "." + ACCOUNT_ENCRYPTED_PASSWORD) != null;
+        return configurationService.getString(accountPrefix + "." + ACCOUNT_ENCRYPTED_PASSWORD) != null;
     }
 
     /**
@@ -552,8 +538,7 @@ public class CredentialsStorageAlzService
      */
     private String getUnencrypted(String accountPrefix)
     {
-        //TODO DEVTE-1321 needed for configuration
-        return "";//configurationService.getString(accountPrefix + "." + ACCOUNT_UNENCRYPTED_PASSWORD);
+        return configurationService.getString(accountPrefix + "." + ACCOUNT_UNENCRYPTED_PASSWORD);
     }
 
     /**
@@ -564,7 +549,6 @@ public class CredentialsStorageAlzService
      */
     private void setUnencrypted(String accountPrefix, String value)
     {
-        //TODO DEVTE-1321 needed for configuration
-//        configurationService.setProperty(accountPrefix + "." + ACCOUNT_UNENCRYPTED_PASSWORD, value);
+        configurationService.setProperty(accountPrefix + "." + ACCOUNT_UNENCRYPTED_PASSWORD, value);
     }
 }

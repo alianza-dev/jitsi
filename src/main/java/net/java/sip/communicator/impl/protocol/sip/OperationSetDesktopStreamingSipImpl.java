@@ -17,22 +17,21 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.awt.*;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.service.protocol.*;
-
-import net.java.sip.communicator.service.protocol.event.*;
-import org.jitsi.service.neomedia.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetDesktopStreaming;
 import org.jitsi.service.neomedia.MediaType;
-import org.jitsi.service.neomedia.device.*;
-import org.jitsi.service.neomedia.format.*;
+import org.jitsi.service.neomedia.MediaUseCase;
+import org.jitsi.service.neomedia.VideoMediaStream;
+import org.jitsi.service.neomedia.device.MediaDevice;
+import org.jitsi.service.neomedia.format.VideoMediaFormat;
+
+import javax.sip.address.Address;
+import javax.sip.header.Header;
+import java.awt.*;
+import java.text.ParseException;
 
 /**
  * Implements all desktop streaming related functions for SIP.
@@ -72,8 +71,7 @@ public class OperationSetDesktopStreamingSipImpl
     {
         super(basicTelephony);
 
-        //TODO DEVTE-1321 needed for configuration
-        desktopControlOutOfDialogEnabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
+        desktopControlOutOfDialogEnabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
     }
 
     /**

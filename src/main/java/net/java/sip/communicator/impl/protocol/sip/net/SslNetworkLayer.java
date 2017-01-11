@@ -17,25 +17,28 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.net;
 
-import gov.nist.core.net.*;
-import gov.nist.javax.sip.*;
+import gov.nist.core.net.NetworkLayer;
+import gov.nist.javax.sip.SipStackImpl;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
+import net.java.sip.communicator.service.certificate.CertificateService;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.sip.SipAccountID;
+import net.java.sip.communicator.util.Logger;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import java.util.*;
-
-import javax.net.ssl.*;
-
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.impl.protocol.sip.*;
-import net.java.sip.communicator.service.certificate.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.sip.*;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.configuration.*;
-import org.osgi.framework.*;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 
 /**
  * Manages jain-sip socket creation. When dealing with ssl sockets we interact
@@ -411,8 +414,7 @@ public class SslNetworkLayer
      */
     private int getDSCP()
     {
-        //TODO DEVTE-1321 needed for configuration
-        String dscp = "0";//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getProperty(SIP_DSCP_PROPERTY);
+        String dscp = (String)LibJitsiAlzProvider.getConfigurationService().getProperty(SIP_DSCP_PROPERTY);
 
         if(dscp != null)
         {

@@ -22,7 +22,7 @@ import gov.nist.javax.sip.address.AddressFactoryImpl;
 import gov.nist.javax.sip.address.SipUri;
 import gov.nist.javax.sip.header.HeaderFactoryImpl;
 import gov.nist.javax.sip.message.MessageFactoryImpl;
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.net.AutoProxyConnection;
 import net.java.sip.communicator.impl.protocol.sip.net.ProxyConnection;
 import net.java.sip.communicator.impl.protocol.sip.security.SipSecurityManager;
@@ -628,8 +628,7 @@ public class ProtocolProviderAlzService
             OperationSetBasicTelephonySipImpl opSetBasicTelephonySipImpl
                 = new OperationSetBasicTelephonySipImpl(this);
 
-            //TODO DEVTE-1321 needed for configuration
-            boolean isCallingDisabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(IS_CALLING_DISABLED, false);
+            boolean isCallingDisabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(IS_CALLING_DISABLED, false);
 
             boolean isCallingDisabledForAccount
                 = accountID.getAccountPropertyBoolean(
@@ -682,8 +681,7 @@ public class ProtocolProviderAlzService
                     new OperationSetIncomingDTMFSipImpl(
                             this, operationSetDTMFSip));
 
-                //TODO DEVTE-1321 needed for configuration
-                boolean isDesktopStreamingDisabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(IS_DESKTOP_STREAMING_DISABLED, false);
+                boolean isDesktopStreamingDisabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(IS_DESKTOP_STREAMING_DISABLED, false);
 
                 boolean isAccountDesktopStreamingDisabled
                     = accountID.getAccountPropertyBoolean(
@@ -751,8 +749,7 @@ public class ProtocolProviderAlzService
             }
 
             // Only init messaging and typing if enabled.
-            //TODO DEVTE-1321 needed for configuration
-            boolean isMessagingDisabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(IS_MESSAGING_DISABLED, false);
+            boolean isMessagingDisabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(IS_MESSAGING_DISABLED, false);
 
             if (!isMessagingDisabled)
             {
@@ -2080,8 +2077,7 @@ public class ProtocolProviderAlzService
         }
         else
         {
-            //TODO DEVTE-1321 needed for configuration
-            String userSpecifiedDefaultTransport = "UDP";//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getString(DEFAULT_TRANSPORT);
+            String userSpecifiedDefaultTransport = LibJitsiAlzProvider.getConfigurationService().getString(DEFAULT_TRANSPORT);
 
             if(userSpecifiedDefaultTransport != null)
             {

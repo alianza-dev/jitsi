@@ -17,17 +17,19 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
-
-import javax.net.ssl.*;
-
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.impl.protocol.sip.net.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.net.AndroidNetworkLayer;
+import net.java.sip.communicator.impl.protocol.sip.net.SslNetworkLayer;
 import net.java.sip.communicator.util.Logger;
+import org.jitsi.util.OSUtils;
+import org.jitsi.util.StringUtils;
 
-import org.jitsi.util.*;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 /**
  * The properties used at the creation of the JAIN-SIP stack.
@@ -224,11 +226,10 @@ public class SipStackProperties
     {
         super();
 
-        //TODO DEVTE-1321 needed for configuration
-        String logDir = "/tmp/sipStack.log";//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getScHomeDirLocation()
-//            + System.getProperty("file.separator")
-//            + ConfigurationAlzProvider.getJitsiConfigurationAlzService().getScHomeDirName()
-//            + System.getProperty("file.separator");
+        String logDir = LibJitsiAlzProvider.getConfigurationService().getScHomeDirLocation()
+            + System.getProperty("file.separator")
+            + LibJitsiAlzProvider.getConfigurationService().getScHomeDirName()
+            + System.getProperty("file.separator");
 
         // don't do it more than one time if many providers are initialised
         if (!NSPVALUE_DEBUG_LOG.startsWith(logDir))
@@ -332,8 +333,7 @@ public class SipStackProperties
 
         try
         {
-            //TODO DEVTE-1321 needed for configuration
-            String enabledSslProtocols = "AES";//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getString(NSPNAME_TLS_CLIENT_PROTOCOLS);
+            String enabledSslProtocols = LibJitsiAlzProvider.getConfigurationService().getString(NSPNAME_TLS_CLIENT_PROTOCOLS);
             if(StringUtils.isNullOrEmpty(enabledSslProtocols, true))
             {
                 SSLSocket temp = (SSLSocket) SSLSocketFactory

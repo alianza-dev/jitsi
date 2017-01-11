@@ -31,7 +31,7 @@ import javax.sip.address.*;
 import javax.sip.header.*;
 import javax.sip.message.*;
 
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.util.*;
@@ -204,8 +204,7 @@ public class SipRegistrarConnection
         this.sipProvider = sipProviderCallback;
 
         //init expiration timeout
-        //TODO DEVTE-1321 needed for configuration
-        this.registrationsExpiration = 3600;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getInt(REGISTRATION_EXPIRATION, DEFAULT_REGISTRATION_EXPIRATION);
+        this.registrationsExpiration = LibJitsiAlzProvider.getConfigurationService().getInt(REGISTRATION_EXPIRATION, DEFAULT_REGISTRATION_EXPIRATION);
 
         //init our address of record to save time later
         getAddressOfRecord();

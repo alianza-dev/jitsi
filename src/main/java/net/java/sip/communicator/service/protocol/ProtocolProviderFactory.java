@@ -17,18 +17,16 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
-import net.java.sip.communicator.impl.configuration.LibJitsiConfigurationAlzService;
 import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
 import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzService;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzFactory;
 import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
 import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.configuration.ConfigurationService;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1037,20 +1035,17 @@ public abstract class ProtocolProviderFactory
      * account corresponding to the specified id was found.
      */
     public static String findAccountPrefix(AccountID accountID, String sourcePackageName) {
-        LibJitsiConfigurationAlzService libJitsiConfigurationAlzService = ConfigurationAlzProvider.getLibJitsiConfigurationAlzService();
-        JitsiConfigurationAlzService jitsiConfigurationAlzService = ConfigurationAlzProvider.getJitsiConfigurationAlzService();
+        ConfigurationService configurationService = LibJitsiAlzProvider.getConfigurationService();
 
         //first retrieve all accounts that we've registered
-        //TODO DEVTE-1321 needed for configuration
-        List<String> storedAccounts = Collections.EMPTY_LIST; //jitsiConfigurationAlzService.getPropertyNamesByPrefix(sourcePackageName, true);
+        List<String> storedAccounts = configurationService.getPropertyNamesByPrefix(sourcePackageName, true);
 
         //find an account with the corresponding id.
         for (String accountRootPropertyName : storedAccounts)
         {
             // Unregister the account in the configuration service. All the properties must have been registered in the following hierarchy:
             // net.java.sip.communicator.impl.protocol.PROTO_NAME.ACC_ID.PROP_NAME
-            //TODO DEVTE-1321 needed for configuration
-            String accountUID = "";//libJitsiConfigurationAlzService.getString(accountRootPropertyName + "." + ACCOUNT_UID);
+            String accountUID = configurationService.getString(accountRootPropertyName + "." + ACCOUNT_UID);
 
             if (accountID.getAccountUniqueID().equals(accountUID))
             {

@@ -17,17 +17,34 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.text.*;
-import java.util.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.service.argdelegation.UriHandler;
+import net.java.sip.communicator.service.gui.PopupDialog;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.AccountManager;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetBasicTelephony;
+import net.java.sip.communicator.service.protocol.OperationSetVideoTelephony;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.event.AccountManagerEvent;
+import net.java.sip.communicator.service.protocol.event.AccountManagerListener;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
+import net.java.sip.communicator.util.Logger;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
+import org.osgi.framework.ServiceRegistration;
 
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.service.argdelegation.*;
-import net.java.sip.communicator.service.gui.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
-
-import org.osgi.framework.*;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The sip implementation of the URI handler. This class handles sip URIs by
@@ -330,8 +347,7 @@ public class UriHandlerSipImpl
         {
             // Allow a grace period for the provider to register in case
             // we have just started up
-            //TODO DEVTE-1321 needed for configuration
-            long initialRegistrationTimeout = 300;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getLong(INITIAL_REGISTRATION_TIMEOUT_PROP, DEFAULT_INITIAL_REGISTRATION_TIMEOUT);
+            long initialRegistrationTimeout = LibJitsiAlzProvider.getConfigurationService().getLong(INITIAL_REGISTRATION_TIMEOUT_PROP, DEFAULT_INITIAL_REGISTRATION_TIMEOUT);
             final DelayRegistrationStateChangeListener listener =
                 new DelayRegistrationStateChangeListener(uri, provider);
             provider.addRegistrationStateChangeListener(listener);

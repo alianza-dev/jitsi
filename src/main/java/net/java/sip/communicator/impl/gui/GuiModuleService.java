@@ -44,7 +44,7 @@ import net.java.sip.communicator.service.replacement.ReplacementService;
 import net.java.sip.communicator.service.replacement.directimage.DirectImageReplacementService;
 import net.java.sip.communicator.service.replacement.smilies.SmiliesReplacementService;
 import net.java.sip.communicator.service.systray.SystrayService;
-import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
+import net.java.sip.communicator.util.ConfigurationUtils;
 import net.java.sip.communicator.util.Logger;
 import net.java.sip.communicator.util.UtilModuleService;
 import org.jitsi.service.configuration.ConfigurationService;
@@ -119,7 +119,7 @@ public class GuiModuleService implements ModuleService
     MessageHistoryService messageHistoryService;
     PhoneNumberI18nService phoneNumberI18nService;
     UtilModuleService utilModuleService;
-    JitsiConfigurationAlzService jitsiConfigurationAlzService;
+    ConfigurationService configurationService;
 
     @Inject
     GuiModuleService(
@@ -150,7 +150,7 @@ public class GuiModuleService implements ModuleService
             MessageHistoryService messageHistoryService,
             PhoneNumberI18nService phoneNumberI18nService,
             UtilModuleService utilModuleService,
-            JitsiConfigurationAlzService jitsiConfigurationAlzService
+            ConfigurationService configurationService
     ) {
         //TODO DEVTE-1304 fix me for GUI
         this.uiService = uiService;
@@ -180,7 +180,7 @@ public class GuiModuleService implements ModuleService
         this.messageHistoryService = messageHistoryService;
         this.phoneNumberI18nService = phoneNumberI18nService;
         this.utilModuleService = utilModuleService;
-        this.jitsiConfigurationAlzService = jitsiConfigurationAlzService;
+        this.configurationService = configurationService;
     }
 
     @Override
@@ -190,7 +190,7 @@ public class GuiModuleService implements ModuleService
         //TODO DEVTE-1304 fix me for GUI
 //        GuiModuleService.bundleContext = bContext;
 
-        jitsiConfigurationAlzService.loadGuiConfigurations();
+        ConfigurationUtils.loadGuiConfigurations();
 
         try
         {

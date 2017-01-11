@@ -17,17 +17,22 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.net;
 
-import java.security.cert.*;
-import java.text.*;
-import java.util.*;
-import java.util.regex.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
+import net.java.sip.communicator.service.certificate.CertificateMatcher;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.NetworkUtils;
 
-import javax.sip.address.*;
-
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.impl.protocol.sip.*;
-import net.java.sip.communicator.service.certificate.*;
-import net.java.sip.communicator.util.*;
+import javax.sip.address.SipURI;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Matcher that extracts certificate identities according to <a
@@ -73,8 +78,7 @@ public class RFC5922Matcher
     public void verify(Iterable<String> identitiesToTest, X509Certificate cert)
         throws CertificateException
     {
-        //TODO DEVTE-1321 needed for configuration
-        boolean strict = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(PNAME_STRICT_RFC5922, false);
+        boolean strict = LibJitsiAlzProvider.getConfigurationService().getBoolean(PNAME_STRICT_RFC5922, false);
 
         // if any of the identities is contained in the certificate we're good
         boolean oneMatched = false;

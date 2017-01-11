@@ -17,23 +17,34 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import java.util.Queue;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.service.protocol.AbstractOperationSetDesktopSharingClient;
+import net.java.sip.communicator.service.protocol.CallPeer;
+import net.java.sip.communicator.service.protocol.CallPeerState;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetBasicTelephony;
+import net.java.sip.communicator.service.protocol.event.CallPeerAdapter;
+import net.java.sip.communicator.service.protocol.event.CallPeerChangeEvent;
+import net.java.sip.communicator.service.protocol.event.CallPeerListener;
+import net.java.sip.communicator.util.Logger;
 
-import javax.sip.*;
+import javax.sip.ClientTransaction;
 import javax.sip.Dialog;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import javax.sip.RequestEvent;
+import javax.sip.address.Address;
+import javax.sip.header.CallIdHeader;
+import javax.sip.header.Header;
+import javax.sip.header.SubscriptionStateHeader;
+import javax.sip.message.Response;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 // disambiguation
 
 /**
@@ -124,8 +135,7 @@ public class OperationSetDesktopSharingClientSipImpl
     {
         super(parentProvider);
 
-        //TODO DEVTE-1321 needed for configuration
-        final boolean desktopControlOutOfDialogEnabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
+        final boolean desktopControlOutOfDialogEnabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
 
         notifier
             = new EventPackageNotifier(

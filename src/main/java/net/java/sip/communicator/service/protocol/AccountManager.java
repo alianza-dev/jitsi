@@ -17,20 +17,16 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
-import net.java.sip.communicator.impl.configuration.JitsiConfigurationAlzService;
-import net.java.sip.communicator.impl.configuration.LibJitsiConfigurationAlzService;
 import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
 import net.java.sip.communicator.service.protocol.event.AccountManagerEvent;
 import net.java.sip.communicator.service.protocol.event.AccountManagerListener;
 import net.java.sip.communicator.util.Base64;
 import net.java.sip.communicator.util.Logger;
-import net.java.sip.communicator.util.ServiceUtils;
 import org.jitsi.service.configuration.ConfigurationService;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -694,12 +690,10 @@ public class AccountManager
 
         credentialsStorage.removePassword(accountPrefix);
 
-        LibJitsiConfigurationAlzService libJitsiConfigurationAlzService = ConfigurationAlzProvider.getLibJitsiConfigurationAlzService();
-        JitsiConfigurationAlzService jitsiConfigurationAlzService = ConfigurationAlzProvider.getJitsiConfigurationAlzService();
+        ConfigurationService configurationService = LibJitsiAlzProvider.getConfigurationService();
 
         //first retrieve all accounts that we've registered
-        //TODO DEVTE-1321 needed for configuration
-        List<String> storedAccounts = Collections.EMPTY_LIST;//configurationService.getPropertyNamesByPrefix(factoryPackage, true);
+        List<String> storedAccounts = configurationService.getPropertyNamesByPrefix(factoryPackage, true);
 
         //find an account with the corresponding id.
         for (String accountRootPropertyName : storedAccounts)
@@ -708,25 +702,21 @@ public class AccountManager
             //all the properties must have been registered in the following
             //hierarchy:
             //net.java.sip.communicator.impl.protocol.PROTO_NAME.ACC_ID.PROP_NAME
-            //TODO DEVTE-1321 needed for configuration
-            String accountUID = "";//configurationService.getString(accountRootPropertyName + "." + ProtocolProviderFactory.ACCOUNT_UID);
+            String accountUID = configurationService.getString(accountRootPropertyName + "." + ProtocolProviderFactory.ACCOUNT_UID);
 
             if (accountID.getAccountUniqueID().equals(accountUID))
             {
                 //retrieve the names of all properties registered for the
                 //current account.
-                //TODO DEVTE-1321 needed for configuration
-                List<String> accountPropertyNames = Collections.EMPTY_LIST;//configurationService.getPropertyNamesByPrefix(accountRootPropertyName, false);
+                List<String> accountPropertyNames = configurationService.getPropertyNamesByPrefix(accountRootPropertyName, false);
 
                 //set all account properties to null in order to remove them.
                 for (String propName : accountPropertyNames) {
-                    //TODO DEVTE-1321 needed for configuration
-//                    configurationService.setProperty(propName, null);
+                    configurationService.setProperty(propName, null);
                 }
 
                 //and now remove the parent too.
-                //TODO DEVTE-1321 needed for configuration
-//                configurationService.setProperty(accountRootPropertyName, null);
+                configurationService.setProperty(accountRootPropertyName, null);
                 return true;
             }
         }

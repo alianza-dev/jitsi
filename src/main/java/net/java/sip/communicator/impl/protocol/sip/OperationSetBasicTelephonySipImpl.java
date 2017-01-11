@@ -29,7 +29,7 @@ import javax.sip.address.*;
 import javax.sip.header.*;
 import javax.sip.message.*;
 
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.Contact;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -111,8 +111,7 @@ public class OperationSetBasicTelephonySipImpl
 
         protocolProvider.registerEvent("refer");
 
-        //TODO DEVTE-1321 needed for configuration
-        desktopControlOutOfDialogEnabled = false;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
+        desktopControlOutOfDialogEnabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(DesktopSharingCallSipImpl.ENABLE_OUTOFDIALOG_DESKTOP_CONTROL_PROP, false);
 
         setTransferAuthority(new TransferAuthority() {
             @Override

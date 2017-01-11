@@ -1,6 +1,7 @@
 package net.java.sip.communicator.impl.libjitsi;
 
 import org.jitsi.service.audionotifier.AudioNotifierService;
+import org.jitsi.service.configuration.ConfigurationService;
 import org.jitsi.service.fileaccess.FileAccessService;
 import org.jitsi.service.libjitsi.LibJitsi;
 import org.jitsi.service.neomedia.MediaService;
@@ -20,10 +21,10 @@ public class LibJitsiAlzProvider {
         return LibJitsi.getAudioNotifierService();
     }
 
-//    public static ConfigurationService getConfigurationService()
-//    {
-//        return LibJitsi.getConfigurationService();
-//    }
+    public static ConfigurationService getConfigurationService()
+    {
+        return LibJitsi.getConfigurationService();
+    }
 
     public static FileAccessService getFileAccessService()
     {

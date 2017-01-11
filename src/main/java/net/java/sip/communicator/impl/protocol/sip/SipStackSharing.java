@@ -29,7 +29,7 @@ import javax.sip.address.*;
 import javax.sip.header.*;
 import javax.sip.message.*;
 
-import net.java.sip.communicator.impl.configuration.ConfigurationAlzProvider;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.netaddr.event.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -496,8 +496,7 @@ public class SipStackSharing
      */
     private int getPreferredClearPort()
     {
-        //TODO DEVTE-1321 needed for configuration
-        int preferredPort = -1;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getInt(PREFERRED_CLEAR_PORT_PROPERTY_NAME, -1);
+        int preferredPort = LibJitsiAlzProvider.getConfigurationService().getInt(PREFERRED_CLEAR_PORT_PROPERTY_NAME, -1);
 
         if(preferredPort <= 1)
         {
@@ -521,8 +520,7 @@ public class SipStackSharing
      */
     private int getPreferredSecurePort()
     {
-        //TODO DEVTE-1321 needed for configuration
-        int preferredPort = -1;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getInt(PREFERRED_SECURE_PORT_PROPERTY_NAME, -1);
+        int preferredPort = LibJitsiAlzProvider.getConfigurationService().getInt(PREFERRED_SECURE_PORT_PROPERTY_NAME, -1);
 
         if(preferredPort <= 1)
         {
@@ -546,8 +544,7 @@ public class SipStackSharing
      */
     private int getBindRetriesValue()
     {
-        //TODO DEVTE-1321 needed for configuration
-        return 1;//ConfigurationAlzProvider.getJitsiConfigurationAlzService().getInt(ProtocolProviderService.BIND_RETRIES_PROPERTY_NAME, ProtocolProviderService.BIND_RETRIES_DEFAULT_VALUE);
+        return LibJitsiAlzProvider.getConfigurationService().getInt(ProtocolProviderService.BIND_RETRIES_PROPERTY_NAME, ProtocolProviderService.BIND_RETRIES_DEFAULT_VALUE);
     }
 
     /**
