@@ -18,10 +18,19 @@
 package net.java.sip.communicator.impl.protocol.sip;
 
 import lombok.extern.slf4j.Slf4j;
+import net.java.sip.communicator.impl.certificate.CertificateServiceImpl;
+import net.java.sip.communicator.impl.gui.UIServiceImpl;
+import net.java.sip.communicator.impl.hid.HIDServiceImpl;
+import net.java.sip.communicator.impl.netaddr.NetworkAddressManagerServiceImpl;
+import net.java.sip.communicator.impl.packetlogging.PacketLoggingServiceImpl;
+import net.java.sip.communicator.impl.resources.ResourceManagementServiceImpl;
+import net.java.sip.communicator.impl.version.VersionServiceImpl;
 import net.java.sip.communicator.service.certificate.CertificateService;
 import net.java.sip.communicator.service.gui.UIService;
 import net.java.sip.communicator.service.hid.HIDService;
 import net.java.sip.communicator.service.netaddr.NetworkAddressManagerService;
+import org.jitsi.impl.fileaccess.FileAccessServiceImpl;
+import org.jitsi.impl.neomedia.MediaServiceImpl;
 import org.jitsi.service.fileaccess.FileAccessService;
 import org.jitsi.service.neomedia.MediaService;
 import org.jitsi.service.packetlogging.PacketLoggingService;
@@ -36,19 +45,27 @@ import org.jitsi.service.version.VersionService;
 @Slf4j
 public class SipAlzProvider {
     private static NetworkAddressManagerService networkAddressManagerService = null;
-    private static MediaService         mediaService          = null;
-    private static VersionService       versionService        = null;
-    private static UIService            uiService             = null;
-    private static HIDService           hidService            = null;
-    private static PacketLoggingService packetLoggingService  = null;
-    private static CertificateService   certService           = null;
-    private static FileAccessService    fileService           = null;
-    private static ResourceManagementService resources        = null;
-    private static ProtocolProviderAlzFactory sipProviderFactory = null;
-    private UriHandlerSipImpl uriHandlerSipImpl = null;
+    private static MediaService                 mediaService                 = null;
+    private static VersionService               versionService               = null;
+    private static UIService                    uiService                    = null;
+    private static HIDService                   hidService                   = null;
+    private static PacketLoggingService         packetLoggingService         = null;
+    private static CertificateService           certService                  = null;
+    private static FileAccessService            fileService                  = null;
+    private static ResourceManagementService    resources                    = null;
+    private static ProtocolProviderAlzFactory   sipProviderFactory           = null;
+    private static UriHandlerSipImpl            uriHandlerSipImpl            = null;
 
-    public void start() throws Exception
-    {
+    static {
+        networkAddressManagerService = new NetworkAddressManagerServiceImpl();
+        mediaService = new MediaServiceImpl();
+        versionService = new VersionServiceImpl();
+        uiService = new UIServiceImpl();
+        hidService = new HIDServiceImpl();
+        packetLoggingService = new PacketLoggingServiceImpl();
+        certService = new CertificateServiceImpl();
+        fileService = new FileAccessServiceImpl();
+        resources = new ResourceManagementServiceImpl();
         sipProviderFactory = new ProtocolProviderAlzFactory();
         uriHandlerSipImpl = new UriHandlerSipImpl(sipProviderFactory);
     }

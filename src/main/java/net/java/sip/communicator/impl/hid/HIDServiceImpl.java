@@ -53,7 +53,7 @@ public class HIDServiceImpl implements HIDService
     /**
      * Constructor.
      */
-    protected HIDServiceImpl()
+    public HIDServiceImpl()
     {
         try
         {
