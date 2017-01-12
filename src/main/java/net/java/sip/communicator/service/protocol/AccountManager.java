@@ -19,6 +19,7 @@ package net.java.sip.communicator.service.protocol;
 
 import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
 import net.java.sip.communicator.service.protocol.event.AccountManagerEvent;
 import net.java.sip.communicator.service.protocol.event.AccountManagerListener;
@@ -130,8 +131,7 @@ public class AccountManager
      */
     private void doLoadStoredAccounts(ProtocolProviderFactory factory)
     {
-        ConfigurationService configService
-            = ProtocolProviderActivator.getConfigurationService();
+        ConfigurationService configService = LibJitsiAlzProvider.getConfigurationService();
         String factoryPackage = getFactoryImplPackageName(factory);
         List<String> accounts
             = configService.getPropertyNamesByPrefix(factoryPackage, true);
@@ -503,8 +503,7 @@ public class AccountManager
                 storedAccounts.add(accountID);
         }
 
-        ConfigurationService configurationService
-            = ProtocolProviderActivator.getConfigurationService();
+        ConfigurationService configurationService = LibJitsiAlzProvider.getConfigurationService();
         String factoryPackage = getFactoryImplPackageName(factory);
 
         String accountNodeName
@@ -619,8 +618,7 @@ public class AccountManager
     public String getAccountNodeName( ProtocolProviderFactory factory,
                                       String accountUID )
     {
-        ConfigurationService configurationService
-                = ProtocolProviderActivator.getConfigurationService();
+        ConfigurationService configurationService = LibJitsiAlzProvider.getConfigurationService();
         String factoryPackage = getFactoryImplPackageName(factory);
 
         // First check if such accountID already exists in the configuration.
@@ -676,9 +674,7 @@ public class AccountManager
          */
         if (factory == null)
         {
-            factory
-                = ProtocolProviderActivator.getProtocolProviderFactory(
-                        accountID.getProtocolName());
+            factory = SipAlzProvider.getProtocolProviderFactory();
         }
 
         String factoryPackage = getFactoryImplPackageName(factory);
@@ -759,9 +755,7 @@ public class AccountManager
 
                 for (AccountID storedAccount : storedAccounts)
                 {
-                    ProtocolProviderFactory ppf
-                        = ProtocolProviderActivator.getProtocolProviderFactory(
-                                storedAccount.getProtocolName());
+                    ProtocolProviderFactory ppf = SipAlzProvider.getProtocolProviderFactory();
 
                     if (ppf != null)
                         ppf.uninstallAccount(storedAccount);
@@ -809,9 +803,7 @@ public class AccountManager
         if (isAccountLoaded(accountID))
             return;
 
-        ProtocolProviderFactory providerFactory
-            = ProtocolProviderActivator.getProtocolProviderFactory(
-                accountID.getProtocolName());
+        ProtocolProviderFactory providerFactory = SipAlzProvider.getProtocolProviderFactory();
 
         if(providerFactory.loadAccount(accountID))
         {
@@ -841,9 +833,7 @@ public class AccountManager
         if (!isAccountLoaded(accountID))
             return;
 
-        ProtocolProviderFactory providerFactory
-            = ProtocolProviderActivator.getProtocolProviderFactory(
-                accountID.getProtocolName());
+        ProtocolProviderFactory providerFactory = SipAlzProvider.getProtocolProviderFactory();
 
         // Obtain the protocol provider.
         ProtocolProviderService protocolProviderService = providerFactory.getProviderForAccount(accountID);

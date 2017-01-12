@@ -19,6 +19,7 @@ package net.java.sip.communicator.service.protocol.globalstatus;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
 
@@ -169,10 +170,7 @@ public class GlobalStatusEnum
      */
     public static byte[] loadIcon(String imagePath)
     {
-        //TODO DEVTE-1304 fix me for GUI
-//        return ProtocolProviderActivator.getResourceService()
-//            .getImageInBytes(imagePath);
-        return null;
+        return SipAlzProvider.getResources().getImageInBytes(imagePath);
     }
 
     /**
@@ -182,10 +180,7 @@ public class GlobalStatusEnum
      */
     public static String getI18NStatusName(GlobalStatusEnum status)
     {
-        //TODO DEVTE-1304 fix me for GUI
-//        return ProtocolProviderActivator.getResourceService()
-//            .getI18NString(status.i18NKey);
-        return status.i18NKey;
+        return SipAlzProvider.getResources().getI18NString(status.i18NKey);
     }
 
     /**

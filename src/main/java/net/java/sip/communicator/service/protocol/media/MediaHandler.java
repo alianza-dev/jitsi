@@ -22,6 +22,7 @@ import java.beans.*;
 import java.util.*;
 import java.util.List;
 
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.protocol.OperationFailedException;
 import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.service.protocol.event.DTMFListener;
@@ -916,7 +917,7 @@ public class MediaHandler
                 logger.trace("The media types of device and format differ.");
 
             MediaService mediaService
-                = ProtocolMediaActivator.getMediaService();
+                = SipAlzProvider.getMediaService();
             SrtpControl srtpControl = srtpControls.findFirst(mediaType);
 
             // If a SrtpControl does not exist yet, create a default one.

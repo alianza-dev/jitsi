@@ -19,6 +19,7 @@ package net.java.sip.communicator.service.protocol.media;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.util.*;
 
 import org.jitsi.service.neomedia.format.*;
@@ -145,10 +146,7 @@ public class DynamicPayloadTypeRegistry
         if(mediaMappings == null)
         {
             Map<MediaFormat, Byte> mappings
-                = new HashMap<MediaFormat, Byte>(
-                        ProtocolMediaActivator
-                            .getMediaService()
-                                .getDynamicPayloadTypePreferences());
+                = new HashMap<MediaFormat, Byte>(SipAlzProvider.getMediaService().getDynamicPayloadTypePreferences());
 
             if(localPayloadTypePreferences == null)
                 return mappings;

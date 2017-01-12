@@ -120,10 +120,7 @@ import java.util.Set;
  * @author Grigorii Balutsel
  * @author Mike Saavedra
  */
-public class ProtocolProviderAlzService
-  extends AbstractProtocolProviderService
-  implements SipListener,
-             RegistrationStateChangeListener
+public class ProtocolProviderAlzService extends AbstractProtocolProviderService implements SipListener, RegistrationStateChangeListener
 {
     /**
      * Our class logger.
@@ -556,274 +553,146 @@ public class ProtocolProviderAlzService
     }
 
     /**
-     * Initializes the service implementation, and puts it in a state where it
-     * could interoperate with other services.
+     * Initializes the service implementation, and puts it in a state where it could interoperate with other services.
      *
-     * @param sipAddress the account id/uin/screenname of the account that we're
-     * about to create
-     * @param accountID the identifier of the account that this protocol
-     * provider represents.
+     * @param sipAddress the account id/uin/screenname of the account that we're about to create
+     * @param accountID the identifier of the account that this protocol provider represents.
      *
-     * @throws OperationFailedException with code INTERNAL_ERROR if we fail
-     * initializing the SIP Stack.
-     * @throws IllegalArgumentException if one or more of the account
-     * properties have invalid values.
+     * @throws OperationFailedException with code INTERNAL_ERROR if we fail initializing the SIP Stack.
+     * @throws IllegalArgumentException if one or more of the account properties have invalid values.
      *
      * @see AccountID
      */
-    protected void initialize(String    sipAddress,
-                              SipAccountIDImpl accountID)
-        throws OperationFailedException, IllegalArgumentException
-    {
+    protected void initialize(String sipAddress, SipAccountIDImpl accountID) throws OperationFailedException, IllegalArgumentException {
         synchronized (initializationLock)
         {
-
             this.accountID = accountID;
 
-            String protocolIconPath =
-                accountID
-                    .getAccountPropertyString(ProtocolProviderFactory.PROTOCOL_ICON_PATH);
+            String protocolIconPath = accountID.getAccountPropertyString(ProtocolProviderFactory.PROTOCOL_ICON_PATH);
 
-            if (protocolIconPath == null)
+            if (protocolIconPath == null) {
                 protocolIconPath = "resources/images/protocol/sip";
+            }
 
             this.protocolIcon = new ProtocolIconSipImpl(protocolIconPath);
 
             this.sipStatusEnum = new SipStatusEnum(protocolIconPath);
 
-            if(sipStackSharing == null)
+            if(sipStackSharing == null) {
                 sipStackSharing = new SipStackSharing();
+            }
 
             // get the presence options
-            boolean enablePresence =
-                accountID.getAccountPropertyBoolean(
-                    ProtocolProviderFactory.IS_PRESENCE_ENABLED, true);
+            boolean enablePresence = accountID.getAccountPropertyBoolean(ProtocolProviderFactory.IS_PRESENCE_ENABLED, true);
 
-            boolean forceP2P = accountID.getAccountPropertyBoolean(
-                            ProtocolProviderFactory.FORCE_P2P_MODE, true);
+            boolean forceP2P = accountID.getAccountPropertyBoolean(ProtocolProviderFactory.FORCE_P2P_MODE, true);
 
-            int pollingValue =
-                accountID.getAccountPropertyInt(
-                    ProtocolProviderFactory.POLLING_PERIOD, 30);
+            int pollingValue = accountID.getAccountPropertyInt(ProtocolProviderFactory.POLLING_PERIOD, 30);
 
-            int subscriptionExpiration =
-                accountID.getAccountPropertyInt(
-                    ProtocolProviderFactory.SUBSCRIPTION_EXPIRATION, 3600);
+            int subscriptionExpiration = accountID.getAccountPropertyInt(ProtocolProviderFactory.SUBSCRIPTION_EXPIRATION, 3600);
 
             //create SIP factories.
             headerFactory = new HeaderFactoryImpl();
             addressFactory = new AddressFactoryImpl();
 
             //initialize our display name
-            ourDisplayName = accountID.getAccountPropertyString(
-                                    ProtocolProviderFactory.DISPLAY_NAME);
+            ourDisplayName = accountID.getAccountPropertyString(ProtocolProviderFactory.DISPLAY_NAME);
 
-            if(ourDisplayName == null
-               || ourDisplayName.trim().length() == 0)
-            {
+            if(ourDisplayName == null || ourDisplayName.trim().length() == 0) {
                 ourDisplayName = accountID.getUserID();
             }
 
             //init our call processor
-            OperationSetBasicTelephonySipImpl opSetBasicTelephonySipImpl
-                = new OperationSetBasicTelephonySipImpl(this);
+            OperationSetBasicTelephonySipImpl opSetBasicTelephonySipImpl = new OperationSetBasicTelephonySipImpl(this);
 
             boolean isCallingDisabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(IS_CALLING_DISABLED, false);
 
-            boolean isCallingDisabledForAccount
-                = accountID.getAccountPropertyBoolean(
-                    ProtocolProviderFactory.IS_CALLING_DISABLED_FOR_ACCOUNT,
-                    false);
+            boolean isCallingDisabledForAccount = accountID.getAccountPropertyBoolean(ProtocolProviderFactory.IS_CALLING_DISABLED_FOR_ACCOUNT, false);
 
-            if (!isCallingDisabled && !isCallingDisabledForAccount)
-            {
-                addSupportedOperationSet(
-                    OperationSetBasicTelephony.class,
-                    opSetBasicTelephonySipImpl);
-
-                addSupportedOperationSet(
-                    OperationSetAdvancedTelephony.class,
-                    opSetBasicTelephonySipImpl);
-
-                OperationSetAutoAnswerSipImpl autoAnswerOpSet
-                    = new OperationSetAutoAnswerSipImpl(this);
-                addSupportedOperationSet(
-                    OperationSetBasicAutoAnswer.class, autoAnswerOpSet);
-                addSupportedOperationSet(
-                    OperationSetAdvancedAutoAnswer.class, autoAnswerOpSet);
-
+            if (!isCallingDisabled && !isCallingDisabledForAccount) {
+                addSupportedOperationSet(OperationSetBasicTelephony.class,opSetBasicTelephonySipImpl);
+                addSupportedOperationSet(OperationSetAdvancedTelephony.class, opSetBasicTelephonySipImpl);
+                OperationSetAutoAnswerSipImpl autoAnswerOpSet = new OperationSetAutoAnswerSipImpl(this);
+                addSupportedOperationSet(OperationSetBasicAutoAnswer.class, autoAnswerOpSet);
+                addSupportedOperationSet(OperationSetAdvancedAutoAnswer.class, autoAnswerOpSet);
                 // init call security
-                addSupportedOperationSet(
-                    OperationSetSecureZrtpTelephony.class,
-                    opSetBasicTelephonySipImpl);
-                addSupportedOperationSet(
-                    OperationSetSecureSDesTelephony.class,
-                    opSetBasicTelephonySipImpl);
-
+                addSupportedOperationSet(OperationSetSecureZrtpTelephony.class, opSetBasicTelephonySipImpl);
+                addSupportedOperationSet(OperationSetSecureSDesTelephony.class, opSetBasicTelephonySipImpl);
                 // OperationSetVideoTelephony
-                addSupportedOperationSet(
-                    OperationSetVideoTelephony.class,
-                    new OperationSetVideoTelephonySipImpl(
-                            opSetBasicTelephonySipImpl));
-
-                addSupportedOperationSet(
-                    OperationSetTelephonyConferencing.class,
-                    new OperationSetTelephonyConferencingSipImpl(this));
-
+                addSupportedOperationSet(OperationSetVideoTelephony.class, new OperationSetVideoTelephonySipImpl(opSetBasicTelephonySipImpl));
+                addSupportedOperationSet(OperationSetTelephonyConferencing.class, new OperationSetTelephonyConferencingSipImpl(this));
                 // init DTMF (from JM Heitz)
-                OperationSetDTMFSipImpl operationSetDTMFSip
-                    = new OperationSetDTMFSipImpl(this);
-                addSupportedOperationSet(
-                    OperationSetDTMF.class, operationSetDTMFSip);
-
-                addSupportedOperationSet(
-                    OperationSetIncomingDTMF.class,
-                    new OperationSetIncomingDTMFSipImpl(
-                            this, operationSetDTMFSip));
-
+                OperationSetDTMFSipImpl operationSetDTMFSip = new OperationSetDTMFSipImpl(this);
+                addSupportedOperationSet(OperationSetDTMF.class, operationSetDTMFSip);
+                addSupportedOperationSet(OperationSetIncomingDTMF.class, new OperationSetIncomingDTMFSipImpl(this, operationSetDTMFSip));
                 boolean isDesktopStreamingDisabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(IS_DESKTOP_STREAMING_DISABLED, false);
+                boolean isAccountDesktopStreamingDisabled = accountID.getAccountPropertyBoolean(ProtocolProviderFactory.IS_DESKTOP_STREAMING_DISABLED, false);
 
-                boolean isAccountDesktopStreamingDisabled
-                    = accountID.getAccountPropertyBoolean(
-                        ProtocolProviderFactory.IS_DESKTOP_STREAMING_DISABLED,
-                        false);
-
-                if (!isDesktopStreamingDisabled
-                    && !isAccountDesktopStreamingDisabled)
-                {
+                if (!isDesktopStreamingDisabled && !isAccountDesktopStreamingDisabled) {
                     // OperationSetDesktopStreaming
-                    addSupportedOperationSet(
-                        OperationSetDesktopStreaming.class,
-                        new OperationSetDesktopStreamingSipImpl(
-                                opSetBasicTelephonySipImpl));
-
-                    if(!accountID.getAccountPropertyBoolean(
-                        ProtocolProviderFactory
-                            .IS_DESKTOP_REMOTE_CONTROL_DISABLED,
-                        false))
-                    {
+                    addSupportedOperationSet(OperationSetDesktopStreaming.class, new OperationSetDesktopStreamingSipImpl(opSetBasicTelephonySipImpl));
+                    if(!accountID.getAccountPropertyBoolean(ProtocolProviderFactory.IS_DESKTOP_REMOTE_CONTROL_DISABLED, false)) {
                         // OperationSetDesktopSharingServer
-                        addSupportedOperationSet(
-                           OperationSetDesktopSharingServer.class,
-                           new OperationSetDesktopSharingServerSipImpl(
-                                   opSetBasicTelephonySipImpl));
-
+                        addSupportedOperationSet(OperationSetDesktopSharingServer.class, new OperationSetDesktopSharingServerSipImpl(opSetBasicTelephonySipImpl));
                         // OperationSetDesktopSharingClient
-                        addSupportedOperationSet(
-                            OperationSetDesktopSharingClient.class,
-                            new OperationSetDesktopSharingClientSipImpl(this));
+                        addSupportedOperationSet(OperationSetDesktopSharingClient.class, new OperationSetDesktopSharingClientSipImpl(this));
                     }
                 }
 
                 // Jitsi Meet Tools
-                addSupportedOperationSet(
-                    OperationSetJitsiMeetTools.class,
-                    new OperationSetJitsiMeetToolsSipImpl());
-
-                boolean isParkingEnabled
-                    = accountID.getAccountPropertyBoolean(
-                        OperationSetTelephonyPark.IS_CALL_PARK_ENABLED,
-                        false);
-                if(isParkingEnabled)
-                {
-                    addSupportedOperationSet(
-                        OperationSetTelephonyPark.class,
-                        new OperationSetTelephonyParkSipImpl(this));
+                addSupportedOperationSet(OperationSetJitsiMeetTools.class, new OperationSetJitsiMeetToolsSipImpl());
+                boolean isParkingEnabled = accountID.getAccountPropertyBoolean(OperationSetTelephonyPark.IS_CALL_PARK_ENABLED, false);
+                if(isParkingEnabled) {
+                    addSupportedOperationSet(OperationSetTelephonyPark.class, new OperationSetTelephonyParkSipImpl(this));
                 }
             }
 
-            if (enablePresence)
-            {
+            if (enablePresence) {
                 //init presence op set.
-                this.opSetPersPresence
-                    = new OperationSetPresenceSipImpl(this, enablePresence,
-                            forceP2P, pollingValue, subscriptionExpiration);
-
-                addSupportedOperationSet(
-                    OperationSetPersistentPresence.class,
-                    opSetPersPresence);
+                this.opSetPersPresence = new OperationSetPresenceSipImpl(this, enablePresence, forceP2P, pollingValue, subscriptionExpiration);
+                addSupportedOperationSet(OperationSetPersistentPresence.class, opSetPersPresence);
                 //also register with standard presence
-                addSupportedOperationSet(
-                    OperationSetPresence.class,
-                    opSetPersPresence);
+                addSupportedOperationSet(OperationSetPresence.class, opSetPersPresence);
             }
 
             // Only init messaging and typing if enabled.
             boolean isMessagingDisabled = LibJitsiAlzProvider.getConfigurationService().getBoolean(IS_MESSAGING_DISABLED, false);
-
-            if (!isMessagingDisabled)
-            {
+            if (!isMessagingDisabled) {
                 // init instant messaging
-                this.opSetBasicIM =
-                    new OperationSetBasicInstantMessagingSipImpl(this);
-
-                addSupportedOperationSet(
-                    OperationSetBasicInstantMessaging.class,
-                    opSetBasicIM);
-
+                this.opSetBasicIM = new OperationSetBasicInstantMessagingSipImpl(this);
+                addSupportedOperationSet(OperationSetBasicInstantMessaging.class, opSetBasicIM);
                 // init typing notifications
-                this.opSetTypingNotif
-                    = new OperationSetTypingNotificationsSipImpl(
-                        this, opSetBasicIM);
-                addSupportedOperationSet(
-                    OperationSetTypingNotifications.class,
-                    opSetTypingNotif);
-
-                addSupportedOperationSet(
-                    OperationSetInstantMessageTransform.class,
-                    new OperationSetInstantMessageTransformImpl());
+                this.opSetTypingNotif = new OperationSetTypingNotificationsSipImpl(this, opSetBasicIM);
+                addSupportedOperationSet(OperationSetTypingNotifications.class, opSetTypingNotif);
+                addSupportedOperationSet(OperationSetInstantMessageTransform.class, new OperationSetInstantMessageTransformImpl());
             }
 
-            this.opSetSSAccountInfo =
-                new OperationSetServerStoredAccountInfoSipImpl(this);
-
+            this.opSetSSAccountInfo = new OperationSetServerStoredAccountInfoSipImpl(this);
             // Set the display name.
             opSetSSAccountInfo.setOurDisplayName(ourDisplayName);
-
             // init avatar
-            addSupportedOperationSet(
-                OperationSetServerStoredAccountInfo.class,
-                opSetSSAccountInfo);
-
-            addSupportedOperationSet(
-                OperationSetAvatar.class,
-                new OperationSetAvatarSipImpl(this, opSetSSAccountInfo));
+            addSupportedOperationSet(OperationSetServerStoredAccountInfo.class, opSetSSAccountInfo);
+            addSupportedOperationSet(OperationSetAvatar.class, new OperationSetAvatarSipImpl(this, opSetSSAccountInfo));
 
             // MWI is enabled by default
-            if(accountID.getAccountPropertyBoolean(
-                    ProtocolProviderFactory.VOICEMAIL_ENABLED,
-                    true))
-            {
+            if (accountID.getAccountPropertyBoolean(ProtocolProviderFactory.VOICEMAIL_ENABLED, true)) {
                 this.opSetMWI = new OperationSetMessageWaitingSipImpl(this);
-                addSupportedOperationSet(
-                    OperationSetMessageWaiting.class,
-                    opSetMWI);
+                addSupportedOperationSet(OperationSetMessageWaiting.class, opSetMWI);
             }
 
-            if(getAccountID().getAccountPropertyString(
-                ProtocolProviderFactory.CUSAX_PROVIDER_ACCOUNT_PROP) != null)
-            {
-                addSupportedOperationSet(
-                    OperationSetCusaxUtils.class,
-                    new OperationSetCusaxUtilsSipImpl(this));
+            if (getAccountID().getAccountPropertyString(ProtocolProviderFactory.CUSAX_PROVIDER_ACCOUNT_PROP) != null) {
+                addSupportedOperationSet(OperationSetCusaxUtils.class, new OperationSetCusaxUtilsSipImpl(this));
             }
 
-            if(accountID.getAccountPropertyBoolean(
-                OperationSetTelephonyBLFSipImpl.BLF_ENABLED_ACC_PROP,
-                false))
-            {
-                addSupportedOperationSet(
-                    OperationSetTelephonyBLF.class,
-                    new OperationSetTelephonyBLFSipImpl(this));
+            if (accountID.getAccountPropertyBoolean(OperationSetTelephonyBLFSipImpl.BLF_ENABLED_ACC_PROP, false)) {
+                addSupportedOperationSet(OperationSetTelephonyBLF.class, new OperationSetTelephonyBLFSipImpl(this));
             }
 
             //initialize our OPTIONS handler
             this.capabilities = new ClientCapabilities(this);
-
             //init the security manager
             this.sipSecurityManager = new SipSecurityManager(accountID, this);
             sipSecurityManager.setHeaderFactory(headerFactory);
-
             // register any available custom extensions
             ProtocolProviderExtensions.registerCustomOperationSets(this);
 
@@ -1775,8 +1644,9 @@ public class ProtocolProviderAlzService
         if(registrarAddressStr == null
            || registrarAddressStr.trim().length() == 0)
         {
-            initRegistrarlessConnection();
-            return;
+            throw new IllegalArgumentException("Registration Server address not set: registrarAddressStr=" + registrarAddressStr);
+//            initRegistrarlessConnection();
+//            return;
         }
 
         //init registrar port

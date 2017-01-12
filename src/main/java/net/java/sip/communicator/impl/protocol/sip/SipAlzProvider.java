@@ -60,8 +60,8 @@ public class SipAlzProvider {
         networkAddressManagerService = new NetworkAddressManagerServiceImpl();
         mediaService = new MediaServiceImpl();
         versionService = new VersionServiceImpl();
-        uiService = new UIServiceImpl();
-        hidService = new HIDServiceImpl();
+//        uiService = new UIServiceImpl();
+//        hidService = new HIDServiceImpl();
         packetLoggingService = new PacketLoggingServiceImpl();
         certService = new CertificateServiceImpl();
         fileService = new FileAccessServiceImpl();

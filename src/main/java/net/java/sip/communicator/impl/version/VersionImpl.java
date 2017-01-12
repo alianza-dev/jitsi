@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.version;
 
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.util.*;
 
 import org.jitsi.service.resources.*;
@@ -173,38 +174,25 @@ public class VersionImpl
      * @return the name of the application that we're currently running. Default
      * MUST be Jitsi.
      */
-    public String getApplicationName()
-    {
-        if (applicationName == null)
-        {
-            try
-            {
+    public String getApplicationName() {
+        if (applicationName == null) {
+            try {
                 /*
                  * XXX There is no need to have the ResourceManagementService
                  * instance as a static field of the VersionImpl class because
                  * it will be used once only anyway.
                  */
-                ResourceManagementService resources
-                    = ServiceUtils.getService(
-                            VersionActivator.getBundleContext(),
-                            ResourceManagementService.class);
-
-                if (resources != null)
-                {
-                    applicationName
-                        = resources.getSettingsString(
-                                "service.gui.APPLICATION_NAME");
+                ResourceManagementService resources = SipAlzProvider.getResources();
+                if (resources != null) {
+                    applicationName = resources.getSettingsString("service.gui.APPLICATION_NAME");
                 }
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 // if resource bundle is not found or the key is missing
                 // return the default name
-            }
-            finally
-            {
-                if (applicationName == null)
+            } finally {
+                if (applicationName == null) {
                     applicationName = DEFAULT_APPLICATION_NAME;
+                }
             }
         }
         return applicationName;

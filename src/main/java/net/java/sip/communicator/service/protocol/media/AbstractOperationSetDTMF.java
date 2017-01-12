@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import org.jitsi.service.configuration.*;
 import org.jitsi.service.neomedia.*;
@@ -93,7 +94,7 @@ public abstract class AbstractOperationSetDTMF
         else
         {
             ConfigurationService cfg =
-                ProtocolProviderActivator.getConfigurationService();
+                LibJitsiAlzProvider.getConfigurationService();
             // Check if there is a custom value for the minimal tone duration.
             if(cfg != null)
             {
@@ -116,8 +117,7 @@ public abstract class AbstractOperationSetDTMF
             = OperationSetDTMF.DEFAULT_DTMF_MAXIMAL_TONE_DURATION;
 
         // Look at the global property.
-        ConfigurationService cfg
-            = ProtocolProviderActivator.getConfigurationService();
+        ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
         // Check if there is a custom value for the maximal tone duration.
         if(cfg != null)
         {

@@ -21,6 +21,7 @@ import gov.nist.core.net.NetworkLayer;
 import gov.nist.javax.sip.SipStackImpl;
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.certificate.CertificateService;
 import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
 import net.java.sip.communicator.service.protocol.sip.SipAccountID;
@@ -73,15 +74,7 @@ public class SslNetworkLayer
      */
     public SslNetworkLayer()
     {
-        //TODO DEVTE-1321 needed for SSL
-//        ServiceReference guiVerifyReference =
-//            SipAlzProvider.getBundleContext().getServiceReference(
-//                CertificateService.class.getName());
-//
-//        if (guiVerifyReference != null)
-//            certificateVerification =
-//                (CertificateService) SipAlzProvider.getBundleContext().getService(
-//                    guiVerifyReference);
+        certificateVerification = SipAlzProvider.getCertificateVerificationService();
     }
 
     /**

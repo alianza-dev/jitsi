@@ -19,6 +19,8 @@ package net.java.sip.communicator.service.protocol.media;
 
 import java.net.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.netaddr.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
@@ -315,7 +317,7 @@ public abstract class TransportManager<U extends MediaAwareCallPeer<?, ?, ?>>
         throws OperationFailedException
     {
         NetworkAddressManagerService nam
-            = ProtocolMediaActivator.getNetworkAddressManagerService();
+            = SipAlzProvider.getNetworkAddressManagerService();
         InetAddress intendedDestination = getIntendedDestination(getCallPeer());
         InetAddress localHostForPeer = nam.getLocalHost(intendedDestination);
 
@@ -371,7 +373,7 @@ public abstract class TransportManager<U extends MediaAwareCallPeer<?, ?, ?>>
     {
         //try the default tracker first
         ConfigurationService cfg
-            = ProtocolMediaActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
         String minPort, maxPort;
 
         minPort
@@ -500,7 +502,7 @@ public abstract class TransportManager<U extends MediaAwareCallPeer<?, ?, ?>>
         }
 
         NetworkAddressManagerService nam
-            = ProtocolMediaActivator.getNetworkAddressManagerService();
+            = SipAlzProvider.getNetworkAddressManagerService();
         InetAddress intendedDestination = getIntendedDestination(getCallPeer());
 
         return nam.getLocalHost(intendedDestination);
@@ -520,7 +522,7 @@ public abstract class TransportManager<U extends MediaAwareCallPeer<?, ?, ?>>
 
         //check how many hole punch packets we would be supposed to send:
         int packetCount
-            = ProtocolMediaActivator.getConfigurationService().getInt(
+            = LibJitsiAlzProvider.getConfigurationService().getInt(
                     HOLE_PUNCH_PKT_COUNT_PROPERTY,
                     DEFAULT_HOLE_PUNCH_PKT_COUNT);
 
@@ -664,7 +666,7 @@ public abstract class TransportManager<U extends MediaAwareCallPeer<?, ?, ?>>
         return
             (dscpPropertyName == null)
                 ? 0
-                : (ProtocolMediaActivator.getConfigurationService().getInt(
+                : (LibJitsiAlzProvider.getConfigurationService().getInt(
                         dscpPropertyName,
                         0)
                     << 2);

@@ -23,6 +23,7 @@ import java.net.*;
 import java.util.*;
 import java.util.List;
 
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
 
@@ -899,7 +900,7 @@ public abstract class CallPeerMediaHandler<T extends MediaAwareCallPeer<?,?,?>>
              */
 
             EncodingConfiguration encodingConfiguration
-                = ProtocolMediaActivator.getMediaService()
+                = SipAlzProvider.getMediaService()
                         .createEmptyEncodingConfiguration();
 
             encodingConfiguration.loadProperties(

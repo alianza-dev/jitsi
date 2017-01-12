@@ -17,16 +17,20 @@
  */
 package net.java.sip.communicator.impl.resources;
 
-import java.io.*;
-import java.net.*;
+import net.java.sip.communicator.impl.resources.util.SkinJarBuilder;
+import net.java.sip.communicator.service.gui.UIService;
+import net.java.sip.communicator.service.resources.AbstractResourcesService;
+import net.java.sip.communicator.service.resources.ImagePack;
+import net.java.sip.communicator.service.resources.SkinPack;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.ServiceUtils;
+//import org.osgi.framework.ServiceEvent;
 
 import javax.swing.*;
-
-import net.java.sip.communicator.impl.resources.util.*;
-import net.java.sip.communicator.service.gui.*;
-import net.java.sip.communicator.service.resources.*;
-import net.java.sip.communicator.util.*;
-import org.osgi.framework.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 /**
  * A default implementation of the <tt>ResourceManagementService</tt>.
@@ -56,7 +60,8 @@ public class ResourceManagementServiceImpl
      */
     public ResourceManagementServiceImpl()
     {
-        super(ResourceManagementActivator.bundleContext);
+//        super(ResourceManagementActivator.bundleContext);
+        super();
 
         UIService serv = getUIService();
         if (serv != null)
@@ -74,10 +79,10 @@ public class ResourceManagementServiceImpl
     {
         if (uiService == null)
         {
-            uiService
-                = ServiceUtils.getService(
-                        ResourceManagementActivator.bundleContext,
-                        UIService.class);
+//            uiService
+//                = ServiceUtils.getService(
+//                        ResourceManagementActivator.bundleContext,
+//                        UIService.class);
         }
         return uiService;
     }
@@ -87,29 +92,29 @@ public class ResourceManagementServiceImpl
      *
      * @param event the <tt>ServiceEvent</tt> that has notified us
      */
-    @Override
-    public void serviceChanged(ServiceEvent event)
-    {
-        super.serviceChanged(event);
-
-        Object sService = ResourceManagementActivator.bundleContext
-                .getService(event.getServiceReference());
-
-        if (sService instanceof UIService && uiService == null
-                && event.getType() == ServiceEvent.REGISTERED)
-        {
-            uiService = (UIService) sService;
-            uiService.repaintUI();
-        }
-        else if (sService instanceof UIService
-                && event.getType() == ServiceEvent.UNREGISTERING)
-        {
-            if (uiService != null && uiService.equals(sService))
-            {
-                uiService = null;
-            }
-        }
-    }
+//    @Override
+//    public void serviceChanged(ServiceEvent event)
+//    {
+//        super.serviceChanged(event);
+//
+//        Object sService = ResourceManagementActivator.bundleContext
+//                .getService(event.getServiceReference());
+//
+//        if (sService instanceof UIService && uiService == null
+//                && event.getType() == ServiceEvent.REGISTERED)
+//        {
+//            uiService = (UIService) sService;
+//            uiService.repaintUI();
+//        }
+//        else if (sService instanceof UIService
+//                && event.getType() == ServiceEvent.UNREGISTERING)
+//        {
+//            if (uiService != null && uiService.equals(sService))
+//            {
+//                uiService = null;
+//            }
+//        }
+//    }
 
     /**
      * Repaints the whole UI when a skin pack has changed.

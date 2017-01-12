@@ -19,6 +19,7 @@ package net.java.sip.communicator.service.protocol;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.util.*;
 import net.java.sip.communicator.service.credentialsstorage.*;
 
@@ -1287,9 +1288,7 @@ public abstract class AccountID
      */
     public static String getDefaultStr(String key)
     {
-        return ProtocolProviderActivator
-                .getConfigurationService()
-                .getString(DEFAULTS_PREFIX +key);
+        return LibJitsiAlzProvider.getConfigurationService().getString(DEFAULTS_PREFIX +key);
     }
 
     /**

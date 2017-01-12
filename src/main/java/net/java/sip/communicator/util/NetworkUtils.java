@@ -17,15 +17,37 @@
  */
 package net.java.sip.communicator.util;
 
-import java.net.*;
-import java.text.*;
-import java.util.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.service.dns.DnssecException;
+import net.java.sip.communicator.service.dns.DnssecRuntimeException;
+import org.xbill.DNS.AAAARecord;
+import org.xbill.DNS.ARecord;
+import org.xbill.DNS.Cache;
+import org.xbill.DNS.DClass;
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.NAPTRRecord;
+import org.xbill.DNS.Name;
+import org.xbill.DNS.Record;
+import org.xbill.DNS.ResolverConfig;
+import org.xbill.DNS.TextParseException;
+import org.xbill.DNS.Type;
 
-import net.java.sip.communicator.service.dns.*;
-
-import net.java.sip.communicator.util.SRVRecord;
-
-import org.xbill.DNS.*;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Utility methods and fields to use when working with network addresses.
@@ -1286,7 +1308,7 @@ public class NetworkUtils
         throws TextParseException
     {
         // make domain name absolute if requested
-        if(UtilActivator.getConfigurationService().getBoolean(
+        if(LibJitsiAlzProvider.getConfigurationService().getBoolean(
             PNAME_DNS_ALWAYS_ABSOLUTE,
             PDEFAULT_DNS_ALWAYS_ABSOLUTE))
         {

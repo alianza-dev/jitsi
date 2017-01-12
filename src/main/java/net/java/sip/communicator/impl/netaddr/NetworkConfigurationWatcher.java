@@ -17,15 +17,24 @@
  */
 package net.java.sip.communicator.impl.netaddr;
 
-import java.net.*;
-import java.util.*;
+import net.java.sip.communicator.service.netaddr.event.ChangeEvent;
+import net.java.sip.communicator.service.netaddr.event.NetworkConfigurationChangeListener;
+import net.java.sip.communicator.service.sysactivity.SystemActivityChangeListener;
+import net.java.sip.communicator.service.sysactivity.SystemActivityNotificationsService;
+import net.java.sip.communicator.service.sysactivity.event.SystemActivityEvent;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.service.netaddr.event.*;
-import net.java.sip.communicator.service.sysactivity.*;
-import net.java.sip.communicator.service.sysactivity.event.*;
-import net.java.sip.communicator.util.*;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.osgi.framework.*;
+//import org.osgi.framework.*;
 
 /**
  * Periodically checks the current network interfaces to track changes
@@ -33,10 +42,8 @@ import org.osgi.framework.*;
  *
  * @author Damian Minkov
  */
-public class NetworkConfigurationWatcher
-    implements SystemActivityChangeListener,
-               ServiceListener,
-               Runnable
+//public class NetworkConfigurationWatcher implements SystemActivityChangeListener, ServiceListener, Runnable
+public class NetworkConfigurationWatcher implements SystemActivityChangeListener, Runnable
 {
     /**
      * Our class logger.
@@ -98,16 +105,16 @@ public class NetworkConfigurationWatcher
 
         initialFireEvents(listener);
 
-        NetaddrActivator.getBundleContext().addServiceListener(this);
+//        NetaddrActivator.getBundleContext().addServiceListener(this);
 
         if(this.systemActivityNotificationsService == null)
         {
-            SystemActivityNotificationsService systActService
-                = ServiceUtils.getService(
-                        NetaddrActivator.getBundleContext(),
-                        SystemActivityNotificationsService.class);
-
-            handleNewSystemActivityNotificationsService(systActService);
+//            SystemActivityNotificationsService systActService
+//                = ServiceUtils.getService(
+//                        NetaddrActivator.getBundleContext(),
+//                        SystemActivityNotificationsService.class);
+//
+//            handleNewSystemActivityNotificationsService(systActService);
         }
     }
 
@@ -218,40 +225,40 @@ public class NetworkConfigurationWatcher
      *
      * @param serviceEvent ServiceEvent
      */
-    public void serviceChanged(ServiceEvent serviceEvent)
-    {
-        ServiceReference serviceRef = serviceEvent.getServiceReference();
-
-        // if the event is caused by a bundle being stopped, we don't want to
-        // know we are shutting down
-        if (serviceRef.getBundle().getState() == Bundle.STOPPING)
-        {
-            return;
-        }
-
-        Object sService = NetaddrActivator.getBundleContext()
-                .getService(serviceRef);
-
-        if(sService instanceof SystemActivityNotificationsService)
-        {
-            switch (serviceEvent.getType())
-            {
-                case ServiceEvent.REGISTERED:
-                    if(this.systemActivityNotificationsService != null)
-                        break;
-
-                    handleNewSystemActivityNotificationsService(
-                        (SystemActivityNotificationsService)sService);
-                    break;
-                case ServiceEvent.UNREGISTERING:
-                    ((SystemActivityNotificationsService)sService)
-                        .removeSystemActivityChangeListener(this);
-                    break;
-            }
-
-            return;
-        }
-    }
+//    public void serviceChanged(ServiceEvent serviceEvent)
+//    {
+//        ServiceReference serviceRef = serviceEvent.getServiceReference();
+//
+//        // if the event is caused by a bundle being stopped, we don't want to
+//        // know we are shutting down
+//        if (serviceRef.getBundle().getState() == Bundle.STOPPING)
+//        {
+//            return;
+//        }
+//
+//        Object sService = NetaddrActivator.getBundleContext()
+//                .getService(serviceRef);
+//
+//        if(sService instanceof SystemActivityNotificationsService)
+//        {
+//            switch (serviceEvent.getType())
+//            {
+//                case ServiceEvent.REGISTERED:
+//                    if(this.systemActivityNotificationsService != null)
+//                        break;
+//
+//                    handleNewSystemActivityNotificationsService(
+//                        (SystemActivityNotificationsService)sService);
+//                    break;
+//                case ServiceEvent.UNREGISTERING:
+//                    ((SystemActivityNotificationsService)sService)
+//                        .removeSystemActivityChangeListener(this);
+//                    break;
+//            }
+//
+//            return;
+//        }
+//    }
 
     /**
      * Stop.

@@ -57,7 +57,7 @@ public class ResourceManagementActivator
      */
     public void stop(BundleContext bc) throws Exception
     {
-        bc.removeServiceListener(serviceImpl);
+//        bc.removeServiceListener(serviceImpl);
     }
 
     /**

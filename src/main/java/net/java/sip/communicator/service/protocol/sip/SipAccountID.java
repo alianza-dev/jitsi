@@ -19,6 +19,7 @@ package net.java.sip.communicator.service.protocol.sip;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 
 /**
@@ -619,7 +620,7 @@ public class SipAccountID
 
     public static String getDefaultStr(String key)
     {
-        String value = ProtocolProviderActivator
+        String value = LibJitsiAlzProvider
                 .getConfigurationService()
                 .getString(SIP_DEFAULTS_PREFIX +key);
 

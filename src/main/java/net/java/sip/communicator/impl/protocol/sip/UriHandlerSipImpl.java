@@ -33,9 +33,9 @@ import net.java.sip.communicator.service.protocol.event.AccountManagerListener;
 import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
 import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
-import org.osgi.framework.ServiceEvent;
-import org.osgi.framework.ServiceListener;
-import org.osgi.framework.ServiceRegistration;
+//import org.osgi.framework.ServiceEvent;
+//import org.osgi.framework.ServiceListener;
+//import org.osgi.framework.ServiceRegistration;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -53,8 +53,8 @@ import java.util.TimerTask;
  * @author Emil Ivov
  * @author Lubomir Marinov
  */
-public class UriHandlerSipImpl
-    implements UriHandler, ServiceListener, AccountManagerListener
+//public class UriHandlerSipImpl implements UriHandler, ServiceListener, AccountManagerListener
+public class UriHandlerSipImpl implements UriHandler, AccountManagerListener
 {
     /**
      * Property to set the amount of time to wait for SIP registration
@@ -85,7 +85,7 @@ public class UriHandlerSipImpl
     /**
      * A reference to the OSGi registration we create with this handler.
      */
-    private ServiceRegistration ourServiceRegistration = null;
+//    private ServiceRegistration ourServiceRegistration = null;
 
     /**
      * The object that we are using to synchronize our service registration.
@@ -274,11 +274,11 @@ public class UriHandlerSipImpl
     {
         synchronized (registrationLock)
         {
-            if (ourServiceRegistration != null)
-            {
-                ourServiceRegistration.unregister();
-                ourServiceRegistration = null;
-            }
+//            if (ourServiceRegistration != null)
+//            {
+//                ourServiceRegistration.unregister();
+//                ourServiceRegistration = null;
+//            }
         }
     }
 
@@ -500,8 +500,8 @@ public class UriHandlerSipImpl
      *
      * @param event the OSGi <tt>ServiceEvent</tt>
      */
-    public void serviceChanged(ServiceEvent event)
-    {
+//    public void serviceChanged(ServiceEvent event)
+//    {
 //        Object sourceService =
 //            SipAlzProvider.bundleContext.getService(event.getServiceReference());
 
@@ -511,21 +511,21 @@ public class UriHandlerSipImpl
 //            return;
 //        }
 
-        switch (event.getType())
-        {
-        case ServiceEvent.REGISTERED:
+//        switch (event.getType())
+//        {
+//        case ServiceEvent.REGISTERED:
             // our factory has just been registered as a service ...
-            registerHandlerService();
-            break;
-        case ServiceEvent.UNREGISTERING:
+//            registerHandlerService();
+//            break;
+//        case ServiceEvent.UNREGISTERING:
             // our factory just died - seppuku.
-            unregisterHandlerService();
-            break;
-        default:
+//            unregisterHandlerService();
+//            break;
+//        default:
             // we don't care.
-            break;
-        }
-    }
+//            break;
+//        }
+//    }
 
     /**
      * Uses the <tt>UIService</tt> to show an error <tt>message</tt> and log and

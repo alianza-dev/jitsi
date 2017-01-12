@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import org.jitsi.service.neomedia.*;
 
 /**
@@ -79,7 +80,7 @@ public class SrtpControls
         if (element == null)
         {
             element
-                = ProtocolMediaActivator.getMediaService().createSrtpControl(
+                = SipAlzProvider.getMediaService().createSrtpControl(
                         srtpControlType);
             if (element != null)
                 elements[index] = element;

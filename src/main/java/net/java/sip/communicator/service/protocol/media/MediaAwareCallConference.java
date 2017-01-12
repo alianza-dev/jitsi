@@ -21,6 +21,7 @@ import java.beans.*;
 import java.lang.ref.*;
 import java.util.*;
 
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import org.jitsi.service.neomedia.*;
 import org.jitsi.service.neomedia.device.*;
 import org.jitsi.util.*;
@@ -140,8 +141,7 @@ public class MediaAwareCallConference
     {
         if (mediaServicePropertyChangeListener == null)
         {
-            final MediaService mediaService
-                = ProtocolMediaActivator.getMediaService();
+            final MediaService mediaService = SipAlzProvider.getMediaService();
 
             if (mediaService != null)
             {
@@ -245,7 +245,7 @@ public class MediaAwareCallConference
     {
         int mediaTypeIndex = mediaType.ordinal();
         MediaDevice device = devices[mediaTypeIndex];
-        MediaService mediaService = ProtocolMediaActivator.getMediaService();
+        MediaService mediaService = SipAlzProvider.getMediaService();
 
         if (device == null)
             device = mediaService.getDefaultDevice(mediaType, useCase);
@@ -344,7 +344,7 @@ public class MediaAwareCallConference
             if (videoRTPTranslator == null)
             {
                 videoRTPTranslator
-                    = ProtocolMediaActivator
+                    = SipAlzProvider
                         .getMediaService()
                             .createRTPTranslator();
             }
@@ -389,7 +389,7 @@ public class MediaAwareCallConference
                 if (newValue == null)
                 {
                     newValue
-                        = ProtocolMediaActivator
+                        = SipAlzProvider
                             .getMediaService()
                                 .getDefaultDevice(
                                         MediaType.AUDIO,

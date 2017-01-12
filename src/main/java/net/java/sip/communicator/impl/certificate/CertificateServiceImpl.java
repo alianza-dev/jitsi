@@ -30,6 +30,10 @@ import java.util.*;
 import javax.net.ssl.*;
 import javax.security.auth.callback.*;
 
+import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
+import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzService;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.certificate.*;
 import net.java.sip.communicator.service.credentialsstorage.*;
 import net.java.sip.communicator.service.gui.*;
@@ -85,13 +89,13 @@ public class CertificateServiceImpl
         Logger.getLogger(CertificateServiceImpl.class);
 
     private final ResourceManagementService R =
-        CertificateVerificationActivator.getResources();
+        SipAlzProvider.getResources();
 
     private final ConfigurationService config =
-        CertificateVerificationActivator.getConfigurationService();
+        LibJitsiAlzProvider.getConfigurationService();
 
     private final CredentialsStorageService credService =
-        CertificateVerificationActivator.getCredService();
+            CredentialsStorageAlzProvider.getCredentialStorageAlzService();
 
     // ------------------------------------------------------------------------
     // properties
@@ -440,38 +444,38 @@ public class CertificateServiceImpl
                                     .toCharArray());
                                 return;
                             }
-                            else
-                            {
-                                AuthenticationWindowService
-                                    authenticationWindowService =
-                                        CertificateVerificationActivator
-                                            .getAuthenticationWindowService();
+//                            else
+//                            {
+//                                AuthenticationWindowService
+//                                    authenticationWindowService = null;
+//                                        CertificateVerificationActivator
+//                                            .getAuthenticationWindowService();
 
-                                if(authenticationWindowService == null)
-                                {
-                                    logger.error(
-                                        "No AuthenticationWindowService " +
-                                            "implementation");
-                                    throw new IOException("User cancel");
-                                }
-
-                                AuthenticationWindowService.AuthenticationWindow
-                                    aw = authenticationWindowService.create(
-                                            f.getName(),
-                                            null,
-                                            kt.getName(),
-                                            false,
-                                            false,
-                                            null, null, null, null,
-                                            null, null, null);
-
-                                aw.setAllowSavePassword(false);
-                                aw.setVisible(true);
-                                if (!aw.isCanceled())
-                                    pwcb.setPassword(aw.getPassword());
-                                else
-                                    throw new IOException("User cancel");
-                            }
+//                                if(authenticationWindowService == null)
+//                                {
+//                                    logger.error(
+//                                        "No AuthenticationWindowService " +
+//                                            "implementation");
+//                                    throw new IOException("User cancel");
+//                                }
+//
+//                                AuthenticationWindowService.AuthenticationWindow
+//                                    aw = authenticationWindowService.create(
+//                                            f.getName(),
+//                                            null,
+//                                            kt.getName(),
+//                                            false,
+//                                            false,
+//                                            null, null, null, null,
+//                                            null, null, null);
+//
+//                                aw.setAllowSavePassword(false);
+//                                aw.setVisible(true);
+//                                if (!aw.isCanceled())
+//                                    pwcb.setPassword(aw.getPassword());
+//                                else
+//                                    throw new IOException("User cancel");
+//                            }
                         }
                     }
                 }));
@@ -685,10 +689,7 @@ public class CertificateServiceImpl
             {
                 // check and default configurations for property
                 // if missing default is null - false
-                String defaultAlwaysTrustMode =
-                    CertificateVerificationActivator.getResources()
-                        .getSettingsString(
-                            CertificateService.PNAME_ALWAYS_TRUST);
+                String defaultAlwaysTrustMode = SipAlzProvider.getResources().getSettingsString(CertificateService.PNAME_ALWAYS_TRUST);
 
                 if(config.getBoolean(PNAME_ALWAYS_TRUST,
                             Boolean.parseBoolean(defaultAlwaysTrustMode)))
@@ -1033,28 +1034,29 @@ public class CertificateServiceImpl
      */
     protected int verify(final X509Certificate[] chain, final String message)
     {
-        if(config.getBoolean(PNAME_NO_USER_INTERACTION, false))
-            return DO_NOT_TRUST;
-
-        if(CertificateVerificationActivator
-                .getCertificateDialogService() == null)
-        {
-            logger.error("Missing CertificateDialogService by default " +
-                "will not trust!");
-            return DO_NOT_TRUST;
-        }
-
-        VerifyCertificateDialogService.VerifyCertificateDialog dialog =
-            CertificateVerificationActivator.getCertificateDialogService()
-                .createDialog(chain, null, message);
-        dialog.setVisible(true);
-
-        if(!dialog.isTrusted())
-            return DO_NOT_TRUST;
-        else if(dialog.isAlwaysTrustSelected())
-            return TRUST_ALWAYS;
-        else
-            return TRUST_THIS_SESSION_ONLY;
+        //TODO DEVTE-1321 fix me (maybe?)
+//        if(config.getBoolean(PNAME_NO_USER_INTERACTION, false))
+//            return DO_NOT_TRUST;
+//
+//        if(CertificateVerificationActivator.getCertificateDialogService() == null)
+//        {
+//            logger.error("Missing CertificateDialogService by default " +
+//                "will not trust!");
+//            return DO_NOT_TRUST;
+//        }
+//
+//        VerifyCertificateDialogService.VerifyCertificateDialog dialog =
+//            CertificateVerificationActivator.getCertificateDialogService()
+//                .createDialog(chain, null, message);
+//        dialog.setVisible(true);
+//
+//        if(!dialog.isTrusted())
+//            return DO_NOT_TRUST;
+//        else if(dialog.isAlwaysTrustSelected())
+//            return TRUST_ALWAYS;
+//        else
+//            return TRUST_THIS_SESSION_ONLY;
+        return TRUST_ALWAYS;
     }
 
     /**

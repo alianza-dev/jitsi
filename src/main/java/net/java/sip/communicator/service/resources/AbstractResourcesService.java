@@ -17,27 +17,30 @@
  */
 package net.java.sip.communicator.service.resources;
 
-import java.io.*;
-import java.net.*;
-import java.text.*;
-import java.util.*;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.resources.ResourceManagementService;
+//import org.osgi.framework.BundleContext;
+//import org.osgi.framework.ServiceEvent;
+//import org.osgi.framework.ServiceListener;
+//import org.osgi.framework.ServiceReference;
 
 import javax.swing.*;
-
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.configuration.*;
-import org.jitsi.service.resources.*;
-import org.osgi.framework.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * The abstract class for ResourceManagementService. It listens for
  * {@link ResourcePack} that are registered and exposes them later for use by
  * subclasses. It implements default behaviour for most methods.
  */
-public abstract class AbstractResourcesService
-        implements ResourceManagementService,
-        ServiceListener
+//public abstract class AbstractResourcesService implements ResourceManagementService, ServiceListener
+public abstract class AbstractResourcesService implements ResourceManagementService
 {
     /**
      * The logger
@@ -48,7 +51,7 @@ public abstract class AbstractResourcesService
     /**
      * The OSGI BundleContext
      */
-    private BundleContext bundleContext;
+//    private BundleContext bundleContext;
 
     /**
      * Resources for currently loaded <tt>SettingsPack</tt>.
@@ -115,11 +118,11 @@ public abstract class AbstractResourcesService
     /**
      * Creates an instance of <tt>AbstractResourcesService</tt>.
      *
-     * @param bundleContext the OSGi bundle context
      */
-    public AbstractResourcesService(BundleContext bundleContext)
+//    public AbstractResourcesService(BundleContext bundleContext)
+    public AbstractResourcesService()
     {
-        this.bundleContext = bundleContext;
+//        this.bundleContext = bundleContext;
         //TODO DEVTE-1304 fix me for GUI
 //        bundleContext.addServiceListener(this);
 
@@ -196,157 +199,157 @@ public abstract class AbstractResourcesService
      *
      * @param event the <tt>ServiceEvent</tt> that notified us
      */
-    public void serviceChanged(ServiceEvent event)
-    {
-        Object sService = bundleContext.getService(
-                event.getServiceReference());
-
-        if (!(sService instanceof ResourcePack))
-        {
-            return;
-        }
-
-        ResourcePack resourcePack = (ResourcePack) sService;
-
-        if (event.getType() == ServiceEvent.REGISTERED)
-        {
-            if (logger.isInfoEnabled())
-                logger.info("Resource registered " + resourcePack);
-
-            Map<String, String> resources = getResources(resourcePack);
-
-            if(resourcePack instanceof ColorPack && colorPack == null)
-            {
-                colorPack = resourcePack;
-                colorResources = resources;
-            }
-            else if(resourcePack instanceof ImagePack && imagePack == null)
-            {
-                imagePack = (ImagePack) resourcePack;
-                imageResources = resources;
-            }
-            else if(resourcePack instanceof LanguagePack
-                    && languagePack == null)
-            {
-                languagePack = (LanguagePack) resourcePack;
-                languageLocale = Locale.getDefault();
-                languageResources = resources;
-            }
-            else if(resourcePack instanceof SettingsPack
-                    && settingsPack == null)
-            {
-                settingsPack = resourcePack;
-                settingsResources = resources;
-            }
-            else if(resourcePack instanceof SoundPack && soundPack == null)
-            {
-                soundPack = resourcePack;
-                soundResources = resources;
-            }
-            else if(resourcePack instanceof SkinPack && skinPack == null)
-            {
-                skinPack = (SkinPack) resourcePack;
-
-                if (imagePack!=null)
-                    imageResources = getResources(imagePack);
-
-                if (colorPack!=null)
-                    colorResources = getResources(colorPack);
-
-                if (settingsPack != null)
-                    settingsResources = getResources(settingsPack);
-
-                if (imageResources != null)
-                    imageResources.putAll(skinPack.getImageResources());
-                colorResources.putAll(skinPack.getColorResources());
-                settingsResources.putAll(skinPack.getSettingsResources());
-
-                onSkinPackChanged();
-            }
-        }
-        else if (event.getType() == ServiceEvent.UNREGISTERING)
-        {
-            if(resourcePack instanceof ColorPack
-                    && colorPack.equals(resourcePack))
-            {
-                colorPack
-                    = getDefaultResourcePack(
-                            ColorPack.class,
-                            ColorPack.RESOURCE_NAME_DEFAULT_VALUE);
-                if (colorPack != null)
-                    colorResources = getResources(colorPack);
-            }
-            else if(resourcePack instanceof ImagePack
-                    && imagePack.equals(resourcePack))
-            {
-                imagePack
-                    = getDefaultResourcePack(
-                            ImagePack.class,
-                            ImagePack.RESOURCE_NAME_DEFAULT_VALUE);
-                if (imagePack != null)
-                    imageResources = getResources(imagePack);
-            }
-            else if(resourcePack instanceof LanguagePack
-                    && languagePack.equals(resourcePack))
-            {
-                languagePack
-                    = getDefaultResourcePack(
-                            LanguagePack.class,
-                            LanguagePack.RESOURCE_NAME_DEFAULT_VALUE);
-            }
-            else if(resourcePack instanceof SettingsPack
-                    && settingsPack.equals(resourcePack))
-            {
-                settingsPack
-                    = getDefaultResourcePack(
-                            SettingsPack.class,
-                            SettingsPack.RESOURCE_NAME_DEFAULT_VALUE);
-                if (settingsPack != null)
-                    settingsResources = getResources(settingsPack);
-            }
-            else if(resourcePack instanceof SoundPack
-                    && soundPack.equals(resourcePack))
-            {
-                soundPack
-                    = getDefaultResourcePack(
-                            SoundPack.class,
-                            SoundPack.RESOURCE_NAME_DEFAULT_VALUE);
-                if (soundPack != null)
-                    soundResources = getResources(soundPack);
-            }
-            else if(resourcePack instanceof SkinPack
-                    && skinPack.equals(resourcePack))
-            {
-                if(imagePack!=null)
-                {
-                    imageResources = getResources(imagePack);
-                }
-
-                if(colorPack!=null)
-                {
-                    colorResources = getResources(colorPack);
-                }
-
-                if(settingsPack!=null)
-                {
-                    settingsResources = getResources(settingsPack);
-                }
-
-                skinPack
-                    = getDefaultResourcePack(
-                            SkinPack.class,
-                            SkinPack.RESOURCE_NAME_DEFAULT_VALUE);
-                if (skinPack != null)
-                {
-                    imageResources.putAll(skinPack.getImageResources());
-                    colorResources.putAll(skinPack.getColorResources());
-                    settingsResources.putAll(skinPack.getSettingsResources());
-                }
-
-                onSkinPackChanged();
-            }
-        }
-    }
+//    public void serviceChanged(ServiceEvent event)
+//    {
+//        Object sService = bundleContext.getService(
+//                event.getServiceReference());
+//
+//        if (!(sService instanceof ResourcePack))
+//        {
+//            return;
+//        }
+//
+//        ResourcePack resourcePack = (ResourcePack) sService;
+//
+//        if (event.getType() == ServiceEvent.REGISTERED)
+//        {
+//            if (logger.isInfoEnabled())
+//                logger.info("Resource registered " + resourcePack);
+//
+//            Map<String, String> resources = getResources(resourcePack);
+//
+//            if(resourcePack instanceof ColorPack && colorPack == null)
+//            {
+//                colorPack = resourcePack;
+//                colorResources = resources;
+//            }
+//            else if(resourcePack instanceof ImagePack && imagePack == null)
+//            {
+//                imagePack = (ImagePack) resourcePack;
+//                imageResources = resources;
+//            }
+//            else if(resourcePack instanceof LanguagePack
+//                    && languagePack == null)
+//            {
+//                languagePack = (LanguagePack) resourcePack;
+//                languageLocale = Locale.getDefault();
+//                languageResources = resources;
+//            }
+//            else if(resourcePack instanceof SettingsPack
+//                    && settingsPack == null)
+//            {
+//                settingsPack = resourcePack;
+//                settingsResources = resources;
+//            }
+//            else if(resourcePack instanceof SoundPack && soundPack == null)
+//            {
+//                soundPack = resourcePack;
+//                soundResources = resources;
+//            }
+//            else if(resourcePack instanceof SkinPack && skinPack == null)
+//            {
+//                skinPack = (SkinPack) resourcePack;
+//
+//                if (imagePack!=null)
+//                    imageResources = getResources(imagePack);
+//
+//                if (colorPack!=null)
+//                    colorResources = getResources(colorPack);
+//
+//                if (settingsPack != null)
+//                    settingsResources = getResources(settingsPack);
+//
+//                if (imageResources != null)
+//                    imageResources.putAll(skinPack.getImageResources());
+//                colorResources.putAll(skinPack.getColorResources());
+//                settingsResources.putAll(skinPack.getSettingsResources());
+//
+//                onSkinPackChanged();
+//            }
+//        }
+//        else if (event.getType() == ServiceEvent.UNREGISTERING)
+//        {
+//            if(resourcePack instanceof ColorPack
+//                    && colorPack.equals(resourcePack))
+//            {
+//                colorPack
+//                    = getDefaultResourcePack(
+//                            ColorPack.class,
+//                            ColorPack.RESOURCE_NAME_DEFAULT_VALUE);
+//                if (colorPack != null)
+//                    colorResources = getResources(colorPack);
+//            }
+//            else if(resourcePack instanceof ImagePack
+//                    && imagePack.equals(resourcePack))
+//            {
+//                imagePack
+//                    = getDefaultResourcePack(
+//                            ImagePack.class,
+//                            ImagePack.RESOURCE_NAME_DEFAULT_VALUE);
+//                if (imagePack != null)
+//                    imageResources = getResources(imagePack);
+//            }
+//            else if(resourcePack instanceof LanguagePack
+//                    && languagePack.equals(resourcePack))
+//            {
+//                languagePack
+//                    = getDefaultResourcePack(
+//                            LanguagePack.class,
+//                            LanguagePack.RESOURCE_NAME_DEFAULT_VALUE);
+//            }
+//            else if(resourcePack instanceof SettingsPack
+//                    && settingsPack.equals(resourcePack))
+//            {
+//                settingsPack
+//                    = getDefaultResourcePack(
+//                            SettingsPack.class,
+//                            SettingsPack.RESOURCE_NAME_DEFAULT_VALUE);
+//                if (settingsPack != null)
+//                    settingsResources = getResources(settingsPack);
+//            }
+//            else if(resourcePack instanceof SoundPack
+//                    && soundPack.equals(resourcePack))
+//            {
+//                soundPack
+//                    = getDefaultResourcePack(
+//                            SoundPack.class,
+//                            SoundPack.RESOURCE_NAME_DEFAULT_VALUE);
+//                if (soundPack != null)
+//                    soundResources = getResources(soundPack);
+//            }
+//            else if(resourcePack instanceof SkinPack
+//                    && skinPack.equals(resourcePack))
+//            {
+//                if(imagePack!=null)
+//                {
+//                    imageResources = getResources(imagePack);
+//                }
+//
+//                if(colorPack!=null)
+//                {
+//                    colorResources = getResources(colorPack);
+//                }
+//
+//                if(settingsPack!=null)
+//                {
+//                    settingsResources = getResources(settingsPack);
+//                }
+//
+//                skinPack
+//                    = getDefaultResourcePack(
+//                            SkinPack.class,
+//                            SkinPack.RESOURCE_NAME_DEFAULT_VALUE);
+//                if (skinPack != null)
+//                {
+//                    imageResources.putAll(skinPack.getImageResources());
+//                    colorResources.putAll(skinPack.getColorResources());
+//                    settingsResources.putAll(skinPack.getSettingsResources());
+//                }
+//
+//                onSkinPackChanged();
+//            }
+//        }
+//    }
 
     /**
      * Method is invoked when the SkinPack is loaded or unloaded.
@@ -357,7 +360,7 @@ public abstract class AbstractResourcesService
             Class<T> clazz,
             String typeName)
     {
-        Collection<ServiceReference<T>> serRefs;
+//        Collection<ServiceReference<T>> serRefs;
         String osgiFilter
             = "(" + ResourcePack.RESOURCE_NAME + "=" + typeName + ")";
 
@@ -368,14 +371,14 @@ public abstract class AbstractResourcesService
 //        }
 //        catch (InvalidSyntaxException ex)
 //        {
-            serRefs = null;
+//            serRefs = null;
 //            logger.error("Could not obtain resource packs reference.", ex);
 //        }
 
-        if ((serRefs != null) && !serRefs.isEmpty())
-        {
-            return bundleContext.getService(serRefs.iterator().next());
-        }
+//        if ((serRefs != null) && !serRefs.isEmpty())
+//        {
+//            return bundleContext.getService(serRefs.iterator().next());
+//        }
         return null;
     }
 

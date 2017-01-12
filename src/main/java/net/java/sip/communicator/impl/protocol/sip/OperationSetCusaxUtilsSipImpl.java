@@ -79,9 +79,7 @@ public class OperationSetCusaxUtilsSipImpl
         if (cusaxProviderID == null)
             return null;
 
-        AccountID acc
-            = ProtocolProviderActivator.getAccountManager()
-                .findAccountID(cusaxProviderID);
+        AccountID acc = AccountManager.getInstance().findAccountID(cusaxProviderID);
 
         if(acc == null)
         {
@@ -89,17 +87,17 @@ public class OperationSetCusaxUtilsSipImpl
                 + cusaxProviderID);
             return null;
         }
-        else
-        {
-            for (ProtocolProviderService pProvider :
-              ProtocolProviderActivator.getProtocolProviders())
-            {
-                if(pProvider.getAccountID().equals(acc))
-                {
-                    return pProvider;
-                }
-            }
-        }
+//        else
+//        {
+//            for (ProtocolProviderService pProvider :
+//              ProtocolProviderActivator.getProtocolProviders())
+//            {
+//                if(pProvider.getAccountID().equals(acc))
+//                {
+//                    return pProvider;
+//                }
+//            }
+//        }
 
         return null;
     }

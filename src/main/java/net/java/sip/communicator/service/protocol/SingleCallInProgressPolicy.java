@@ -22,6 +22,7 @@ import static net.java.sip.communicator.service.protocol.OperationSetBasicTeleph
 import java.util.*;
 import java.util.regex.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.calendar.*;
 import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.util.*;
@@ -197,11 +198,7 @@ public class SingleCallInProgressPolicy
 
         if (CallState.CALL_INITIALIZATION.equals(ev.getOldValue())
                 && CallState.CALL_IN_PROGRESS.equals(call.getCallState())
-                && ProtocolProviderActivator
-                    .getConfigurationService()
-                        .getBoolean(
-                                PNAME_SINGLE_CALL_IN_PROGRESS_POLICY_ENABLED,
-                                true))
+                && LibJitsiAlzProvider.getConfigurationService().getBoolean(PNAME_SINGLE_CALL_IN_PROGRESS_POLICY_ENABLED, true))
         {
             CallConference conference = call.getConference();
 
@@ -306,8 +303,7 @@ public class SingleCallInProgressPolicy
         // already on call
         if (CallState.CALL_INITIALIZATION.equals(call.getCallState()))
         {
-            ConfigurationService config
-                = ProtocolProviderActivator.getConfigurationService();
+            ConfigurationService config = LibJitsiAlzProvider.getConfigurationService();
 
             if (config.getBoolean(PNAME_CALL_WAITING_DISABLED, false))
             {
@@ -773,7 +769,7 @@ public class SingleCallInProgressPolicy
                 logger.trace("On the phone status policy run.");
             }
 
-            if (!ProtocolProviderActivator.getConfigurationService().getBoolean(
+            if (!LibJitsiAlzProvider.getConfigurationService().getBoolean(
                     PNAME_ON_THE_PHONE_STATUS_ENABLED,
                     false))
             {

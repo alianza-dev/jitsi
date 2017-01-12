@@ -20,6 +20,7 @@ package net.java.sip.communicator.service.protocol.media;
 import java.beans.*;
 import java.util.*;
 
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
 
@@ -656,7 +657,7 @@ public abstract class MediaAwareCall<
         throws OperationFailedException
     {
         final Recorder recorder
-            = ProtocolMediaActivator.getMediaService().createRecorder(
+            = SipAlzProvider.getMediaService().createRecorder(
                     getDefaultDevice(MediaType.AUDIO));
 
         if (recorder != null)
@@ -721,8 +722,7 @@ public abstract class MediaAwareCall<
 
             addCallChangeListener(callChangeListener);
 
-            Iterator<Recorder.Listener> iterListeners =
-                ProtocolMediaActivator.getMediaService().getRecorderListeners();
+            Iterator<Recorder.Listener> iterListeners = SipAlzProvider.getMediaService().getRecorderListeners();
             while(iterListeners.hasNext())
                 recorder.addListener(iterListeners.next());
 
@@ -739,7 +739,7 @@ public abstract class MediaAwareCall<
                             removeCallChangeListener(callChangeListener);
 
                             Iterator<Recorder.Listener> iter
-                                = ProtocolMediaActivator.getMediaService()
+                                = SipAlzProvider.getMediaService()
                                     .getRecorderListeners();
 
                             while(iter.hasNext())
@@ -834,10 +834,9 @@ public abstract class MediaAwareCall<
         }
         finally
         {
-            if (CallState.CALL_ENDED.equals(getCallState()))
-                ProtocolMediaActivator
-                    .getMediaService()
-                        .removePropertyChangeListener(this);
+            if (CallState.CALL_ENDED.equals(getCallState())) {
+                SipAlzProvider.getMediaService().removePropertyChangeListener(this);
+            }
         }
     }
 
