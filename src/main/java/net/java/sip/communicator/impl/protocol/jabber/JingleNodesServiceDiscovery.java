@@ -20,6 +20,7 @@ package net.java.sip.communicator.impl.protocol.jabber;
 import java.util.*;
 import java.util.concurrent.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.util.Logger;
 
 import org.jitsi.util.*;
@@ -114,7 +115,7 @@ public class JingleNodesServiceDiscovery
             if(searchNodesWithPrefix == null
                 || searchNodesWithPrefix.length() == 0)
                 searchNodesWithPrefix =
-                    JabberActivator.getConfigurationService()
+                    LibJitsiAlzProvider.getConfigurationService()
                         .getString(JINGLE_NODES_SEARCH_PREFIX_PROP);
 
             // if there are no default prefix settings or
@@ -299,7 +300,7 @@ public class JingleNodesServiceDiscovery
             {
                 stopOnFirst = Boolean.parseBoolean(stopOnFirstDefaultValue);
             }
-            stopOnFirst = JabberActivator.getConfigurationService().getBoolean(
+            stopOnFirst = LibJitsiAlzProvider.getConfigurationService().getBoolean(
                 JINGLE_NODES_SEARCH_PREFIXES_STOP_ON_FIRST_PROP,
                 stopOnFirst);
 

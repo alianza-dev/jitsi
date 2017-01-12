@@ -24,6 +24,7 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.util.Logger;
 
@@ -290,7 +291,7 @@ public class CallRecordingConfigForm
     private void loadValues()
     {
         ConfigurationService configuration
-            = NeomediaActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
         String format = configuration.getString(Recorder.FORMAT);
 
         formatsComboBox.setSelectedItem(

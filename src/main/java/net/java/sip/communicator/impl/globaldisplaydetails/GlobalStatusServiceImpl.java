@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.globaldisplaydetails;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -268,7 +269,7 @@ public class GlobalStatusServiceImpl
         String lastStatus = null;
 
         ConfigurationService configService
-            = GlobalDisplayDetailsActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
         String prefix = "net.java.sip.communicator.impl.gui.accounts";
         List<String> accounts
             = configService.getPropertyNamesByPrefix(prefix, true);
@@ -664,7 +665,7 @@ public class GlobalStatusServiceImpl
             String statusName)
     {
         ConfigurationService configService
-            = GlobalDisplayDetailsActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
         String prefix = "net.java.sip.communicator.impl.gui.accounts";
 

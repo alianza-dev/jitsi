@@ -34,6 +34,7 @@ import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.main.chat.conference.*;
 import net.java.sip.communicator.impl.gui.main.chat.filetransfer.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.SwingWorker;
 import net.java.sip.communicator.service.contactlist.*;
@@ -1684,7 +1685,7 @@ public class ChatPanel
                 List<UIContactDetail> uiContactDetailList;
 
                 boolean useAllNumbers =
-                    GuiActivator.getConfigurationService().getBoolean(
+                        LibJitsiAlzProvider.getConfigurationService().getBoolean(
                         USE_ADDITIONAL_NUMBERS_PROP, false);
 
                 if(useAllNumbers)

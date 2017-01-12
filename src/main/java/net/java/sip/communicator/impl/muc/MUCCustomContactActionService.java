@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.muc;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.chat.*;
 import net.java.sip.communicator.service.contactsource.*;
 import net.java.sip.communicator.service.customcontactactions.*;
@@ -689,7 +690,7 @@ public class MUCCustomContactActionService
                     return true;
 
                 boolean ownerCannotRemoveRoom
-                    = MUCActivator.getConfigurationService().getBoolean(
+                    = LibJitsiAlzProvider.getConfigurationService().getBoolean(
                             OWNER_CANT_REMOVE_CHATROOM_PROPERTY, false);
 
                 // when joined role will be owner or member

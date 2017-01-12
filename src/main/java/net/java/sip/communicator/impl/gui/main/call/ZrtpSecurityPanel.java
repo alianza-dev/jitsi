@@ -26,6 +26,7 @@ import javax.swing.*;
 
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -197,7 +198,7 @@ public class ZrtpSecurityPanel
         zidNameKey = "net.java.sip.communicator.zrtp.ZIDNAME" + zidString;
         zidAorKey = "net.java.sip.communicator.zrtp.ZIDAOR" + zidString;
 
-        configService = GuiActivator.getConfigurationService();
+        configService = LibJitsiAlzProvider.getConfigurationService();
         zidNameValue = configService.getString(zidNameKey);
         zidAorValue = configService.getString(zidAorKey);
 

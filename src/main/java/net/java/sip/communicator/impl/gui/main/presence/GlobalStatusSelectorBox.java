@@ -148,7 +148,7 @@ public class GlobalStatusSelectorBox
         group.add(createMenuItem(GlobalStatusEnum.OFFLINE, -1));
 
         //TODO DEVTE-1304 fix me for GUI
-//        if(!GuiActivator.getConfigurationService()
+//        if(!LibJitsiAlzProvider.getConfigurationService()
 //                .getBoolean(HIDE_GLOBAL_STATUS_MESSAGE, false)
 //            && isPresenceOpSetForProvidersAvailable())
 //        {

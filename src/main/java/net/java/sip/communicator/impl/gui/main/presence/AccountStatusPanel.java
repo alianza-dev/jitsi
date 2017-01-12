@@ -169,7 +169,7 @@ public class AccountStatusPanel
 //                                .getImage(ImageLoader.DEFAULT_USER_PHOTO)),
 //                    AVATAR_ICON_WIDTH,
 //                    AVATAR_ICON_HEIGHT);
-//        if (!GuiActivator.getConfigurationService().getBoolean(
+//        if (!LibJitsiAlzProvider.getConfigurationService().getBoolean(
 //            PNAME_DISABLE_AVATAR_MENU, false))
 //        {
 //            imageWithMenu.setPopupMenu(new SelectAvatarMenu(imageWithMenu));

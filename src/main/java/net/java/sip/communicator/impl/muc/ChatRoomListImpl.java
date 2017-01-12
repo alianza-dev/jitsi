@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.muc;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.muc.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -171,7 +172,7 @@ public class ChatRoomListImpl
         providersList.add(chatRoomProvider);
 
         ConfigurationService configService
-            = MUCActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
         String prefix = "net.java.sip.communicator.impl.gui.accounts";
 
@@ -261,7 +262,7 @@ public class ChatRoomListImpl
                 .removeRegistrationStateChangeListener(this);
 
             ConfigurationService configService
-                = MUCActivator.getConfigurationService();
+                = LibJitsiAlzProvider.getConfigurationService();
             String prefix = "net.java.sip.communicator.impl.gui.accounts";
             AccountID accountID =
                     chatRoomProvider.getProtocolProvider().getAccountID();

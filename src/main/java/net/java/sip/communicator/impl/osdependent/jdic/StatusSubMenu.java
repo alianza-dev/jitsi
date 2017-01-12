@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.osdependent.*;
 import net.java.sip.communicator.plugin.desktoputil.presence.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -98,7 +99,7 @@ public class StatusSubMenu
                     hideAccountsStatusDefaultValue);
 
             hideAccountStatusSelectors =
-                OsDependentActivator.getConfigurationService()
+                LibJitsiAlzProvider.getConfigurationService()
                     .getBoolean(
                         hideAccountStatusSelectorsProperty,
                         hideAccountStatusSelectors);

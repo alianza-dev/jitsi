@@ -23,6 +23,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
 import org.jitsi.service.configuration.*;
@@ -43,7 +44,7 @@ public class ButtonsPanel
     private static final long serialVersionUID = 1L;
 
     private final ConfigurationService confService 
-        = PropertiesEditorActivator.getConfigurationService();
+        = LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * The delete button.

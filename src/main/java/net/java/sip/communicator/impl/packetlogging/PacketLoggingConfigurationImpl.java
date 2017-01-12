@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.packetlogging;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import org.jitsi.service.configuration.*;
 import org.jitsi.service.packetlogging.*;
 
@@ -37,8 +38,7 @@ public class PacketLoggingConfigurationImpl
     PacketLoggingConfigurationImpl()
     {
         // load values from config service
-        ConfigurationService configService =
-                PacketLoggingActivator.getConfigurationService();
+        ConfigurationService configService = LibJitsiAlzProvider.getConfigurationService();
 
         super.setGlobalLoggingEnabled(
             configService.getBoolean(
@@ -83,7 +83,7 @@ public class PacketLoggingConfigurationImpl
     {
         super.setGlobalLoggingEnabled(enabled);
 
-        PacketLoggingActivator.getConfigurationService().setProperty(
+        LibJitsiAlzProvider.getConfigurationService().setProperty(
             PACKET_LOGGING_ENABLED_PROPERTY_NAME, enabled);
     }
 
@@ -97,7 +97,7 @@ public class PacketLoggingConfigurationImpl
     {
         super.setSipLoggingEnabled(enabled);
 
-        PacketLoggingActivator.getConfigurationService().setProperty(
+        LibJitsiAlzProvider.getConfigurationService().setProperty(
             PACKET_LOGGING_SIP_ENABLED_PROPERTY_NAME,
             enabled);
     }
@@ -112,7 +112,7 @@ public class PacketLoggingConfigurationImpl
     {
         super.setJabberLoggingEnabled(enabled);
 
-        PacketLoggingActivator.getConfigurationService().setProperty(
+        LibJitsiAlzProvider.getConfigurationService().setProperty(
             PACKET_LOGGING_JABBER_ENABLED_PROPERTY_NAME,
             enabled);
     }
@@ -127,7 +127,7 @@ public class PacketLoggingConfigurationImpl
     {
         super.setRTPLoggingEnabled(enabled);
 
-        PacketLoggingActivator.getConfigurationService().setProperty(
+        LibJitsiAlzProvider.getConfigurationService().setProperty(
             PACKET_LOGGING_RTP_ENABLED_PROPERTY_NAME,
             enabled);
     }
@@ -142,7 +142,7 @@ public class PacketLoggingConfigurationImpl
     {
         super.setIce4JLoggingEnabled(enabled);
 
-        PacketLoggingActivator.getConfigurationService().setProperty(
+        LibJitsiAlzProvider.getConfigurationService().setProperty(
             PACKET_LOGGING_ICE4J_ENABLED_PROPERTY_NAME,
             enabled);
     }
@@ -156,7 +156,7 @@ public class PacketLoggingConfigurationImpl
     {
         super.setLimit(limit);
 
-        PacketLoggingActivator.getConfigurationService().setProperty(
+        LibJitsiAlzProvider.getConfigurationService().setProperty(
                 PACKET_LOGGING_FILE_SIZE_PROPERTY_NAME,
                 limit);
     }
@@ -170,7 +170,7 @@ public class PacketLoggingConfigurationImpl
     {
         super.setLogfileCount(logfileCount);
 
-        PacketLoggingActivator.getConfigurationService().setProperty(
+        LibJitsiAlzProvider.getConfigurationService().setProperty(
                 PACKET_LOGGING_FILE_COUNT_PROPERTY_NAME,
                 logfileCount);
     }

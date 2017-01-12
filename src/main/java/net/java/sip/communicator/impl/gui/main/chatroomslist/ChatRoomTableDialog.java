@@ -28,6 +28,7 @@ import javax.swing.border.*;
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.main.*;
 import net.java.sip.communicator.impl.gui.main.chat.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.muc.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -433,7 +434,7 @@ public class ChatRoomTableDialog
                         chatRoomWrapper.getChatRoomID(),
                         chatRoomWrapper.getChatRoomName());
 
-                    if(GuiActivator.getConfigurationService()
+                    if(LibJitsiAlzProvider.getConfigurationService()
                         .getBoolean(ENABLE_ROOM_AUTO_JOIN_ON_CREATION, false))
                     {
                         chatRoomWrapper.setAutoJoin(true);
@@ -449,7 +450,7 @@ public class ChatRoomTableDialog
                 if(nickName == null)
                     return;
 
-                if(GuiActivator.getConfigurationService()
+                if(LibJitsiAlzProvider.getConfigurationService()
                     .getBoolean(REMOVE_ROOM_ON_FIRST_JOIN_FAILED, false))
                 {
                     chatRoomWrapper.addPropertyChangeListener(

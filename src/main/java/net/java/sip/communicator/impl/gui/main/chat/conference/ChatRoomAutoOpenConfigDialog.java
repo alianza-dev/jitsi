@@ -24,6 +24,7 @@ import java.beans.*;
 import javax.swing.*;
 
 import net.java.sip.communicator.impl.gui.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.msghistory.*;
 import net.java.sip.communicator.service.muc.*;
@@ -227,12 +228,12 @@ public class ChatRoomAutoOpenConfigDialog
     private void refreshValue()
     {
         value = MUCService.getChatRoomAutoOpenOption(pps, chatRoomId);
-        
-        GuiActivator.getConfigurationService().addPropertyChangeListener(
+
+        LibJitsiAlzProvider.getConfigurationService().addPropertyChangeListener(
             MessageHistoryService.PNAME_IS_MESSAGE_HISTORY_ENABLED, 
             propertyListener);
-        
-        GuiActivator.getConfigurationService().addPropertyChangeListener(
+
+        LibJitsiAlzProvider.getConfigurationService().addPropertyChangeListener(
             MessageHistoryService
                 .PNAME_IS_MESSAGE_HISTORY_PER_CONTACT_ENABLED_PREFIX + "."
                     + chatRoomId, 
@@ -315,10 +316,10 @@ public class ChatRoomAutoOpenConfigDialog
      */
     private void clearListeners()
     {
-        GuiActivator.getConfigurationService().removePropertyChangeListener(
+        LibJitsiAlzProvider.getConfigurationService().removePropertyChangeListener(
             MessageHistoryService.PNAME_IS_MESSAGE_HISTORY_ENABLED,
             propertyListener);
-        GuiActivator.getConfigurationService().removePropertyChangeListener(
+        LibJitsiAlzProvider.getConfigurationService().removePropertyChangeListener(
             MessageHistoryService
                 .PNAME_IS_MESSAGE_HISTORY_PER_CONTACT_ENABLED_PREFIX + "."
                     + chatRoomId,

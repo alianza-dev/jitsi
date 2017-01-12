@@ -28,6 +28,7 @@ import javax.swing.text.*;
 
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.TransparentPanel;
 import net.java.sip.communicator.service.gui.call.*;
@@ -455,7 +456,7 @@ public class OneToOneCallPeerPanel
 
         add(remoteLevelPanel, constraints);
 
-        if(!GuiActivator.getConfigurationService().getBoolean(
+        if(!LibJitsiAlzProvider.getConfigurationService().getBoolean(
                 "net.java.sip.communicator.impl.gui.main.call."
                     + "DISABLE_SOUND_LEVEL_INDICATORS",
                 false))
@@ -635,7 +636,7 @@ public class OneToOneCallPeerPanel
      */
     private boolean isComponentEnabled(String componentHidePropertyName)
     {
-        return !GuiActivator.getConfigurationService().getBoolean(
+        return !LibJitsiAlzProvider.getConfigurationService().getBoolean(
             componentHidePropertyName,
             false);
     }

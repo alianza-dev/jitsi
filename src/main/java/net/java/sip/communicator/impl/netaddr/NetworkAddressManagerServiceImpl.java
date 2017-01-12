@@ -24,6 +24,7 @@ import java.net.*;
 import java.text.*;
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.dns.*;
 import net.java.sip.communicator.service.netaddr.*;
 import net.java.sip.communicator.service.netaddr.event.*;
@@ -410,7 +411,7 @@ public class NetworkAddressManagerServiceImpl
     {
         DatagramSocket resultSocket = null;
         String bindRetriesStr
-            = NetaddrActivator.getConfigurationService().getString(
+            = LibJitsiAlzProvider.getConfigurationService().getString(
                 BIND_RETRIES_PROPERTY_NAME);
 
         int bindRetries = 5;

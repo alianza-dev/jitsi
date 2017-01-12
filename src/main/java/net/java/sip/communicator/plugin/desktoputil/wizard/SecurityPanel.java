@@ -27,6 +27,7 @@ import javax.swing.border.*;
 import javax.swing.table.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
 import net.java.sip.communicator.plugin.desktoputil.*;
@@ -115,7 +116,7 @@ public class SecurityPanel
         private List<Entry> data = new ArrayList<Entry>();
 
         private final String defaultCiphers =
-            UtilActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .getString(SDesControl.SDES_CIPHER_SUITES);
 
         CipherTableModel(String ciphers)

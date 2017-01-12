@@ -27,6 +27,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.generalconfig.autoaway.*;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.msghistory.*;
@@ -125,7 +126,7 @@ public class GeneralConfigurationPanel
         scroller.setBorder(new EmptyBorder(0, 0, 0, 0));
         this.add(scroller, BorderLayout.CENTER);
 
-        if(!GeneralConfigPluginActivator.getConfigurationService()
+        if(!LibJitsiAlzProvider.getConfigurationService()
                 .getBoolean(STARTUP_CONFIG_DISABLED_PROP, false))
         {
             Component startupConfigPanel = createStartupConfigPanel();
@@ -136,21 +137,21 @@ public class GeneralConfigurationPanel
             }
         }
 
-        if(!GeneralConfigPluginActivator.getConfigurationService()
+        if(!LibJitsiAlzProvider.getConfigurationService()
                 .getBoolean(MESSAGE_CONFIG_DISABLED_PROP, false))
         {
             mainPanel.add(createMessageConfigPanel());
             mainPanel.add(Box.createVerticalStrut(10));
         }
 
-        if(!GeneralConfigPluginActivator.getConfigurationService()
+        if(!LibJitsiAlzProvider.getConfigurationService()
                 .getBoolean(AUTO_AWAY_CONFIG_DISABLED_PROP, false))
         {
             mainPanel.add(new AutoAwayConfigurationPanel());
             mainPanel.add(Box.createVerticalStrut(10));
         }
 
-        if(!GeneralConfigPluginActivator.getConfigurationService()
+        if(!LibJitsiAlzProvider.getConfigurationService()
                 .getBoolean(NOTIFICATION_CONFIG_DISABLED_PROP, false))
         {
             Component notifConfigPanel = createNotificationConfigPanel();
@@ -161,14 +162,14 @@ public class GeneralConfigurationPanel
             }
         }
 
-        if(!GeneralConfigPluginActivator.getConfigurationService()
+        if(!LibJitsiAlzProvider.getConfigurationService()
                 .getBoolean(LOCALE_CONFIG_DISABLED_PROP, false))
         {
             mainPanel.add(createLocaleConfigPanel());
             mainPanel.add(Box.createVerticalStrut(10));
         }
 
-        if(!GeneralConfigPluginActivator.getConfigurationService()
+        if(!LibJitsiAlzProvider.getConfigurationService()
                 .getBoolean(CALL_CONFIG_DISABLED_PROP, false))
         {
             mainPanel.add(createCallConfigPanel());
@@ -417,7 +418,7 @@ public class GeneralConfigurationPanel
                 mhs.setHistoryLoggingEnabled(logHistoryCheckBox.isSelected());
             }
         });
-        GeneralConfigPluginActivator.getConfigurationService()
+        LibJitsiAlzProvider.getConfigurationService()
             .addPropertyChangeListener(
                 MessageHistoryService.PNAME_IS_MESSAGE_HISTORY_ENABLED,
                 new PropertyChangeListener()
@@ -1011,7 +1012,7 @@ public class GeneralConfigurationPanel
 
             public void actionPerformed(ActionEvent e)
             {
-                GeneralConfigPluginActivator.getConfigurationService()
+                LibJitsiAlzProvider.getConfigurationService()
                     .setProperty(
                         "net.java.sip.communicator.plugin.updatechecker.ENABLED",
                     Boolean.toString(
@@ -1020,7 +1021,7 @@ public class GeneralConfigurationPanel
         });
 
         updateCheckBox.setSelected(
-            GeneralConfigPluginActivator.getConfigurationService().getBoolean((
+            LibJitsiAlzProvider.getConfigurationService().getBoolean((
                 "net.java.sip.communicator.plugin.updatechecker.ENABLED"), true));
 
         return updateCheckBox;

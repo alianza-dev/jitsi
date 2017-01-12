@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.protocol.jabber;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.carbon.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.mailnotification.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.messagecorrection.*;
@@ -1169,7 +1170,7 @@ public class OperationSetBasicInstantMessagingJabberImpl
 
         Iterator<MailThreadInfo> threads = mailboxIQ.threads();
 
-        String maxThreadsStr = (String)JabberActivator.getConfigurationService()
+        String maxThreadsStr = (String) LibJitsiAlzProvider.getConfigurationService()
             .getProperty(PNAME_MAX_GMAIL_THREADS_PER_NOTIFICATION);
 
         int maxThreads = 5;

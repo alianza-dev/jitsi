@@ -23,6 +23,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
 import org.jitsi.service.configuration.*;
@@ -144,7 +145,7 @@ public class PropertiesEditorPanel
     private Object[][] initTableModel()
     {
         ConfigurationService confService
-            = PropertiesEditorActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
         java.util.List<String> properties = confService.getAllPropertyNames();
         Object[][] data = new Object[properties.size()][];
         int i = 0;

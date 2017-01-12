@@ -26,6 +26,7 @@ import java.util.*;
 
 import javax.net.ssl.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.jabber.debugger.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.carbon.*;
@@ -879,7 +880,7 @@ public class ProtocolProviderServiceJabberImpl
                     {
                         // if failover mechanism is enabled, use it,
                         // default is not enabled.
-                        if(JabberActivator.getConfigurationService()
+                        if(LibJitsiAlzProvider.getConfigurationService()
                             .getBoolean(FailoverConnectionMonitor
                                                 .REVERSE_FAILOVER_ENABLED_PROP,
                                 false
@@ -1045,7 +1046,7 @@ public class ProtocolProviderServiceJabberImpl
     private void loadProxy() throws OperationFailedException
     {
         String globalProxyType =
-            JabberActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
             .getString(ProxyInfo.CONNECTION_PROXY_TYPE_PROPERTY_NAME);
         if(globalProxyType == null ||
            globalProxyType.equals(ProxyInfo.ProxyType.NONE.name()))
@@ -1055,10 +1056,10 @@ public class ProtocolProviderServiceJabberImpl
         else
         {
             String globalProxyAddress =
-                JabberActivator.getConfigurationService().getString(
+                LibJitsiAlzProvider.getConfigurationService().getString(
                 ProxyInfo.CONNECTION_PROXY_ADDRESS_PROPERTY_NAME);
             String globalProxyPortStr =
-                JabberActivator.getConfigurationService().getString(
+                LibJitsiAlzProvider.getConfigurationService().getString(
                 ProxyInfo.CONNECTION_PROXY_PORT_PROPERTY_NAME);
             int globalProxyPort;
             try
@@ -1075,10 +1076,10 @@ public class ProtocolProviderServiceJabberImpl
                     ex);
             }
             String globalProxyUsername =
-                JabberActivator.getConfigurationService().getString(
+                LibJitsiAlzProvider.getConfigurationService().getString(
                 ProxyInfo.CONNECTION_PROXY_USERNAME_PROPERTY_NAME);
             String globalProxyPassword =
-                JabberActivator.getConfigurationService().getString(
+                LibJitsiAlzProvider.getConfigurationService().getString(
                 ProxyInfo.CONNECTION_PROXY_PASSWORD_PROPERTY_NAME);
             if(globalProxyAddress == null ||
                 globalProxyAddress.length() <= 0)
@@ -1772,7 +1773,7 @@ public class ProtocolProviderServiceJabberImpl
 
             //initialize the telephony operation set
             boolean isCallingDisabled
-                = JabberActivator.getConfigurationService()
+                = LibJitsiAlzProvider.getConfigurationService()
                     .getBoolean(IS_CALLING_DISABLED, false);
 
             boolean isCallingDisabledForAccount
@@ -1818,7 +1819,7 @@ public class ProtocolProviderServiceJabberImpl
 
                 // Only init video bridge if enabled
                 boolean isVideobridgeDisabled
-                    = JabberActivator.getConfigurationService()
+                    = LibJitsiAlzProvider.getConfigurationService()
                       .getBoolean(OperationSetVideoBridge.
                           IS_VIDEO_BRIDGE_DISABLED, false);
 
@@ -1844,7 +1845,7 @@ public class ProtocolProviderServiceJabberImpl
 
                 // Check if desktop streaming is enabled.
                 boolean isDesktopStreamingDisabled
-                    = JabberActivator.getConfigurationService()
+                    = LibJitsiAlzProvider.getConfigurationService()
                         .getBoolean(IS_DESKTOP_STREAMING_DISABLED, false);
 
                 boolean isAccountDesktopStreamingDisabled
@@ -2850,7 +2851,7 @@ public class ProtocolProviderServiceJabberImpl
         if(s != null)
         {
             ConfigurationService configService =
-                JabberActivator.getConfigurationService();
+                LibJitsiAlzProvider.getConfigurationService();
             String dscp = configService.getString(XMPP_DSCP_PROPERTY);
 
             if(dscp != null)

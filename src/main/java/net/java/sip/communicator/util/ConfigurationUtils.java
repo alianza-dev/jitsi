@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.net.ssl.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.msghistory.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.resources.*;
@@ -242,7 +243,7 @@ public class ConfigurationUtils
      * The configuration service.
      */
     private static ConfigurationService configService
-        = UtilActivator.getConfigurationService();
+        = LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * The parent of the last contact.

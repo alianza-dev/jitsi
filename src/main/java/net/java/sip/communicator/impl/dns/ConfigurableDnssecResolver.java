@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.dns.*;
 import net.java.sip.communicator.service.notification.*;
 import net.java.sip.communicator.util.Logger;
@@ -66,7 +67,7 @@ public class ConfigurableDnssecResolver
     final static String EVENT_TYPE = "DNSSEC_NOTIFICATION";
 
     private ConfigurationService config
-        = DnsUtilActivator.getConfigurationService();
+        = LibJitsiAlzProvider.getConfigurationService();
     private ResourceManagementService R
         = DnsUtilActivator.getResources();
     private Map<String, Date> lastNotifications
@@ -400,7 +401,7 @@ public class ConfigurableDnssecResolver
     @Override
     public void reset()
     {
-        String forwarders = DnsUtilActivator.getConfigurationService()
+        String forwarders = LibJitsiAlzProvider.getConfigurationService()
             .getString(DnsUtilActivator.PNAME_DNSSEC_NAMESERVERS);
         if(!StringUtils.isNullOrEmpty(forwarders, true))
         {

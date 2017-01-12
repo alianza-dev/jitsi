@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.globaldisplaydetails;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.globaldisplaydetails.*;
 import net.java.sip.communicator.service.globaldisplaydetails.event.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -89,10 +90,7 @@ public class GlobalDisplayDetailsImpl
      */
     public GlobalDisplayDetailsImpl()
     {
-        //TODO DEVTE-1304 fix me for GUI
-        provisionedDisplayName = GLOBAL_DISPLAY_NAME_PROP;
-//            = GlobalDisplayDetailsActivator.getConfigurationService()
-//                .getString(GLOBAL_DISPLAY_NAME_PROP, null);
+        provisionedDisplayName = LibJitsiAlzProvider.getConfigurationService().getString(GLOBAL_DISPLAY_NAME_PROP, null);
 
         Iterator<ProtocolProviderService> providersIter
             = AccountUtils.getRegisteredProviders().iterator();

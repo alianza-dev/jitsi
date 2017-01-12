@@ -22,6 +22,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.Logger;
@@ -79,7 +80,7 @@ public class AuthenticationWindow
     private final JCheckBox rememberPassCheckBox = new SIPCommCheckBox(
         DesktopUtilActivator.getResources()
             .getI18NString("service.gui.REMEMBER_PASSWORD"),
-        DesktopUtilActivator.getConfigurationService()
+        LibJitsiAlzProvider.getConfigurationService()
             .getBoolean(PNAME_SAVE_PASSWORD_TICKED, false));
 
     /**
@@ -515,7 +516,7 @@ public class AuthenticationWindow
         {
             allowRememberPassword = Boolean.parseBoolean(allowRemPassStr);
         }
-        allowRememberPassword = DesktopUtilActivator.getConfigurationService()
+        allowRememberPassword = LibJitsiAlzProvider.getConfigurationService()
             .getBoolean(PNAME_ALLOW_SAVE_PASSWORD, allowRememberPassword);
 
         setAllowSavePassword(allowRememberPassword);

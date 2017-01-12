@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.protocol.jabber;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.caps.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.messagecorrection.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -486,7 +487,7 @@ public class OperationSetContactCapabilitiesJabberImpl
         OperationSetPresence opsetPresence
         = parentProvider.getOperationSet(OperationSetPresence.class);
         if (opsetPresence != null) {
-            if(JabberActivator.getConfigurationService()
+            if(LibJitsiAlzProvider.getConfigurationService()
                 .getBoolean(
                     PROP_XMPP_USE_ALL_RESOURCES_FOR_CAPABILITIES,
                     USE_ALL_RESOURCES_FOR_CAPABILITIES_DEFAULT)
@@ -567,7 +568,7 @@ public class OperationSetContactCapabilitiesJabberImpl
     public void fireContactCapabilitiesChanged(String user,
         ArrayList<String> fullJids)
     {
-        if(!JabberActivator.getConfigurationService()
+        if(!LibJitsiAlzProvider.getConfigurationService()
             .getBoolean(
                 PROP_XMPP_USE_ALL_RESOURCES_FOR_CAPABILITIES,
                 USE_ALL_RESOURCES_FOR_CAPABILITIES_DEFAULT)

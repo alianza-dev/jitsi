@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.plugin.generalconfig;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
 import org.jitsi.service.configuration.*;
@@ -122,7 +123,7 @@ public class OpusConfigForm
      * The <tt>ConfigurationService</tt> to be used to access configuration
      */
     private final ConfigurationService configurationService
-            = GeneralConfigPluginActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * The "restore defaults" button

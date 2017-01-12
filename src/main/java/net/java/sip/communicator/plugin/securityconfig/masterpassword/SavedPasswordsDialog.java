@@ -27,6 +27,7 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.securityconfig.*;
 import net.java.sip.communicator.service.credentialsstorage.*;
 import net.java.sip.communicator.service.gui.*;
@@ -514,7 +515,7 @@ public class SavedPasswordsDialog
             String PROVISIONING_PROPERTIES_PREFIX =
                 "net.java.sip.communicator.plugin.provisioning.auth";
             ConfigurationService configurationService =
-                    SecurityConfigActivator.getConfigurationService();
+                    LibJitsiAlzProvider.getConfigurationService();
             String uname = configurationService
                 .getString(PROVISIONING_PROPERTIES_PREFIX + ".USERNAME");
             if(uname != null && uname.length() > 0)

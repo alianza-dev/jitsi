@@ -29,6 +29,7 @@ import javax.swing.*;
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.main.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.transparent.*;
 import net.java.sip.communicator.service.contactlist.*;
@@ -3576,7 +3577,7 @@ public class CallManager
     private static boolean showDesktopSharingWarning()
     {
         Boolean isWarningEnabled
-            = GuiActivator.getConfigurationService().getBoolean(
+            = LibJitsiAlzProvider.getConfigurationService().getBoolean(
                     desktopSharingWarningProperty,
                     true);
 
@@ -3598,7 +3599,7 @@ public class CallManager
                 case MessageDialog.CANCEL_RETURN_CODE:
                     return false;
                 case MessageDialog.OK_DONT_ASK_CODE:
-                    GuiActivator.getConfigurationService().setProperty(
+                    LibJitsiAlzProvider.getConfigurationService().setProperty(
                             desktopSharingWarningProperty,
                             false);
                     return true;
@@ -4152,7 +4153,7 @@ public class CallManager
                 getOperationSetForCall(isVideo, isDesktop));
 
         boolean ignorePreferredProvider =
-            GuiActivator.getConfigurationService().getBoolean(
+                LibJitsiAlzProvider.getConfigurationService().getBoolean(
                 IGNORE_PREFERRED_PROVIDER_PROP, false);
 
         call(   telephonyContacts,

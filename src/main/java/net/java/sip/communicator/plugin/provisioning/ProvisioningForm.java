@@ -24,6 +24,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
@@ -99,7 +100,7 @@ public class ProvisioningForm
             = ProvisioningActivator.getResourceService();
 
         ConfigurationService config
-            = ProvisioningActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
         enableCheckBox = new SIPCommCheckBox(
             resources.getI18NString("plugin.provisioning.ENABLE_DISABLE"));
@@ -326,7 +327,7 @@ public class ProvisioningForm
 
         // creadentials
         forgetPasswordButton.setEnabled(isProvEnabled);
-        usernameField.setText(ProvisioningActivator.getConfigurationService()
+        usernameField.setText(LibJitsiAlzProvider.getConfigurationService()
             .getString(ProvisioningServiceImpl.PROPERTY_PROVISIONING_USERNAME));
 
         if(ProvisioningActivator.getCredentialsStorageService()
@@ -487,7 +488,7 @@ public class ProvisioningForm
                     ProvisioningActivator.getCredentialsStorageService()
                         .removePassword(ProvisioningServiceImpl.
                             PROPERTY_PROVISIONING_PASSWORD);
-                    ProvisioningActivator.getConfigurationService()
+                    LibJitsiAlzProvider.getConfigurationService()
                         .removeProperty(ProvisioningServiceImpl.
                             PROPERTY_PROVISIONING_USERNAME);
 

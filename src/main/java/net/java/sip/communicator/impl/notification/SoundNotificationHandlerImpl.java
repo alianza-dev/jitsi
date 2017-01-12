@@ -21,6 +21,7 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.notification.*;
 
@@ -101,7 +102,7 @@ public class SoundNotificationHandlerImpl
         // no further communicating can be done after the notification.
         // So we skip playing notification if we have a call running
         ConfigurationService cfg
-            = NotificationActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
         if(cfg != null
                 && cfg.getBoolean(
                     PROP_DISABLE_NOTIFICATION_DURING_CALL,

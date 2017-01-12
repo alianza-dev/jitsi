@@ -32,6 +32,7 @@ import net.java.sip.communicator.impl.gui.main.chat.conference.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.*;
 import net.java.sip.communicator.impl.gui.main.menus.*;
 import net.java.sip.communicator.impl.gui.main.presence.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.event.*;
 import net.java.sip.communicator.service.contacteventhandler.*;
@@ -358,11 +359,11 @@ public class MainFrame
 //        searchPanel.add(searchField);
         searchPanel.add(new DialPadButton(), BorderLayout.WEST);
 
-//        if(!GuiActivator.getConfigurationService().getBoolean(
-//            "net.java.sip.communicator.impl.gui.CALL_HISTORY_BUTTON_DISABLED",
-//            false))
+        if(!LibJitsiAlzProvider.getConfigurationService().getBoolean(
+            "net.java.sip.communicator.impl.gui.CALL_HISTORY_BUTTON_DISABLED",
+            false))
         {
-//            searchPanel.add(createButtonPanel(), BorderLayout.EAST);
+            searchPanel.add(createButtonPanel(), BorderLayout.EAST);
         }
 
         northPanel.add(accountStatusPanel, BorderLayout.CENTER);
@@ -1217,7 +1218,7 @@ public class MainFrame
             ProtocolProviderService protocolProvider)
     {
         ConfigurationService configService
-            = GuiActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
         String prefix = "net.java.sip.communicator.impl.gui.accounts";
 
@@ -1277,7 +1278,7 @@ public class MainFrame
             String accountRootPropName)
     {
         ConfigurationService configService
-            = GuiActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
         int accountIndex = -1;
 
         for (ProtocolProviderService pps : protocolProviders.keySet())
@@ -1309,7 +1310,7 @@ public class MainFrame
     private void updateProvidersIndexes(ProtocolProviderService removedProvider)
     {
         ConfigurationService configService
-            = GuiActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
         String prefix = "net.java.sip.communicator.impl.gui.accounts";
 

@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.neomedia;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.neomedia.codec.video.h264.*;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.notification.*;
@@ -405,7 +406,7 @@ public class NeomediaActivator
         if (logger.isDebugEnabled())
             logger.debug("Media Configuration ... [REGISTERED]");
 
-        ConfigurationService cfg = NeomediaActivator.getConfigurationService();
+        ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
         Dictionary<String, String> mediaProps = new Hashtable<String, String>();
 
         mediaProps.put( ConfigurationForm.FORM_TYPE,

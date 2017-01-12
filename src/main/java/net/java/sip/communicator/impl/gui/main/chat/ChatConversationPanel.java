@@ -39,6 +39,7 @@ import net.java.sip.communicator.impl.gui.main.chat.menus.*;
 import net.java.sip.communicator.impl.gui.main.chat.replacers.*;
 import net.java.sip.communicator.impl.gui.utils.*;
 import net.java.sip.communicator.impl.gui.utils.Constants;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.SwingWorker;
 import net.java.sip.communicator.service.gui.*;
@@ -958,7 +959,7 @@ public class ChatConversationPanel
          * Replacements will be processed only if it is enabled in the
          * property.
          */
-        ConfigurationService cfg = GuiActivator.getConfigurationService();
+        ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
 
         if (cfg.getBoolean(ReplacementProperty.REPLACEMENT_ENABLE, true)
                 ||cfg.getBoolean(ReplacementProperty.REPLACEMENT_PROPOSAL, true)
@@ -2109,7 +2110,7 @@ public class ChatConversationPanel
             this.messageID = messageID;
             this.chatString = chatString;
 
-            ConfigurationService cfg = GuiActivator.getConfigurationService();
+            ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
             isEnabled = cfg.getBoolean(
                 ReplacementProperty.REPLACEMENT_ENABLE,
                 true);
@@ -2270,7 +2271,7 @@ public class ChatConversationPanel
 
             Matcher m = pattern.matcher(plainText);
 
-            ConfigurationService cfg = GuiActivator.getConfigurationService();
+            ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
             boolean isSmiley
                 = rService instanceof SmiliesReplacementService;
             boolean isDirectImage

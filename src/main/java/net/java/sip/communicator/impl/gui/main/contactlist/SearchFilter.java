@@ -22,6 +22,7 @@ import java.util.regex.*;
 
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.contactsource.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.contactsource.*;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.gui.event.*;
@@ -136,7 +137,7 @@ public class SearchFilter
             // corresponding configuration property.
             if (sourceContactList.getDefaultFilter()
                     .equals(TreeContactList.presenceFilter)
-                && GuiActivator.getConfigurationService().getBoolean(
+                && LibJitsiAlzProvider.getConfigurationService().getBoolean(
                     DISABLE_CALL_HISTORY_SEARCH_PROP, false)
                 && filterSource.getContactSourceService().getType()
                     == ContactSourceService.HISTORY_TYPE)

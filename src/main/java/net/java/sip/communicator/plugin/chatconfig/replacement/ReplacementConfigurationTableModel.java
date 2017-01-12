@@ -21,6 +21,7 @@ import java.util.*;
 
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.chatconfig.*;
 import net.java.sip.communicator.service.replacement.*;
 
@@ -49,7 +50,7 @@ public class ReplacementConfigurationTableModel
      * The configuration service
      */
     private static ConfigurationService configService =
-        ChatConfigActivator.getConfigurationService();
+        LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * Creates an instance of <tt>ReplacementConfigurationTableModel</tt> by

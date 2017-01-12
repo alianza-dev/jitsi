@@ -27,6 +27,7 @@ import javax.swing.event.*;
 import javax.swing.plaf.*;
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.plaf.*;
 import net.java.sip.communicator.util.skin.*;
@@ -70,7 +71,7 @@ public class SearchField
     }
 
     private final ConfigurationService confService
-        = PropertiesEditorActivator.getConfigurationService();
+        = LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * The <tt>String</tt> that filters the <tt>ConfigurationService</tt>

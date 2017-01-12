@@ -20,6 +20,7 @@ package net.java.sip.communicator.service.protocol.jabber;
 import java.io.*;
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
 
@@ -292,7 +293,7 @@ public class JabberAccountRegistration
         if(accountNodeName != null)
         {
             ConfigurationService configSrvc =
-                    ProtocolProviderActivator.getConfigurationService();
+                    LibJitsiAlzProvider.getConfigurationService();
             String factoryPackage =
                     accManager.getFactoryImplPackageName(jbfFactory);
             String accountPrefix = factoryPackage + "." + accountNodeName;

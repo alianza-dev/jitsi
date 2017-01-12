@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.browserlauncher;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.browserlauncher.*;
 import net.java.sip.communicator.util.Logger;
 
@@ -102,7 +103,7 @@ public class BrowserLauncherImpl
         if (linuxBrowser == null)
         {
             ConfigurationService cfg
-                    = BrowserLauncherActivator.getConfigurationService();
+                    = LibJitsiAlzProvider.getConfigurationService();
             if (cfg != null)
             {
                 String browsers= cfg.getString(LINUX_BROWSERS_PROP_NAME);

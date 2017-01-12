@@ -22,6 +22,7 @@ import java.net.*;
 import java.text.*;
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.*;
 import net.java.sip.communicator.util.*;
 
@@ -65,7 +66,7 @@ public class InfoRetreiver
         this.jabberProvider = jabberProvider;
 
         vcardTimeoutReply
-            = JabberActivator.getConfigurationService().getLong(
+            = LibJitsiAlzProvider.getConfigurationService().getLong(
                     ProtocolProviderServiceJabberImpl
                         .VCARD_REPLY_TIMEOUT_PROPERTY,
                     -1);

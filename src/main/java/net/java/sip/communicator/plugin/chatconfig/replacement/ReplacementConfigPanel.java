@@ -25,6 +25,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.replacement.smiley.*;
 import net.java.sip.communicator.plugin.chatconfig.*;
 import net.java.sip.communicator.plugin.desktoputil.*;
@@ -255,7 +256,7 @@ public class ReplacementConfigPanel
     private void initValues()
     {
         ConfigurationService configService =
-            ChatConfigActivator.getConfigurationService();
+            LibJitsiAlzProvider.getConfigurationService();
 
         this.enableSmiley.setSelected(
             configService.getBoolean(
@@ -284,7 +285,7 @@ public class ReplacementConfigPanel
     private void saveData()
     {
         ConfigurationService configService =
-            ChatConfigActivator.getConfigurationService();
+            LibJitsiAlzProvider.getConfigurationService();
 
         configService.setProperty(ReplacementProperty
             .getPropertyName(ReplacementServiceSmileyImpl.SMILEY_SOURCE),

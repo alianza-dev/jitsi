@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.protocol.jabber;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.coin.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.jingle.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -99,7 +100,7 @@ public class OperationSetTelephonyConferencingJabberImpl
         super(parentProvider);
 
         this.isCoinDisabled
-            = JabberActivator.getConfigurationService()
+            = LibJitsiAlzProvider.getConfigurationService()
                     .getBoolean(DISABLE_COIN_PROP_NAME, false);
     }
 

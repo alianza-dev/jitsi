@@ -24,6 +24,7 @@ import java.util.*;
 
 import javax.net.ssl.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.util.Logger;
 import net.java.sip.communicator.service.gui.*;
 
@@ -868,7 +869,7 @@ public class HttpUtils
                     // if they seem not correct later will be removed.
                     if(authWindow.isRememberPassword())
                     {
-                        HttpUtilActivator.getConfigurationService().setProperty(
+                        LibJitsiAlzProvider.getConfigurationService().setProperty(
                             usernamePropertyName,
                             authWindow.getUserName());
                         HttpUtilActivator.getCredentialsService().storePassword(
@@ -888,12 +889,12 @@ public class HttpUtils
             {
                 // we have saved values lets return them
                 authUsername =
-                HttpUtilActivator.getConfigurationService().getString(
+                LibJitsiAlzProvider.getConfigurationService().getString(
                         usernamePropertyName);
                 authPassword = pass;
 
                 return new UsernamePasswordCredentials(
-                        HttpUtilActivator.getConfigurationService().getString(
+                        LibJitsiAlzProvider.getConfigurationService().getString(
                             usernamePropertyName),
                         pass);
             }
@@ -914,7 +915,7 @@ public class HttpUtils
                 if(usernamePropertyName == null)
                     usernamePropertyName = getCredentialProperty(usedScope);
 
-                HttpUtilActivator.getConfigurationService().removeProperty(
+                LibJitsiAlzProvider.getConfigurationService().removeProperty(
                     usernamePropertyName);
                 HttpUtilActivator.getCredentialsService().removePassword(
                     passwordPropertyName);

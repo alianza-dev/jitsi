@@ -21,6 +21,7 @@ import java.util.*;
 
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.main.chat.conference.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
 
@@ -80,7 +81,7 @@ public class AdHocChatRoomList
         providersList.add(chatRoomProvider);
 
         ConfigurationService configService
-            = GuiActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
         String prefix = "net.java.sip.communicator.impl.gui.accounts";
 
@@ -146,7 +147,7 @@ public class AdHocChatRoomList
         providersList.remove(adHocChatRoomProvider);
 
         ConfigurationService configService
-            = GuiActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
         String prefix = "net.java.sip.communicator.impl.gui.accounts";
         String providerAccountUID
             = adHocChatRoomProvider

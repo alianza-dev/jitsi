@@ -23,6 +23,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.osdependent.*;
 import net.java.sip.communicator.service.gui.*;
 
@@ -154,7 +155,7 @@ public final class TrayMenuFactory
         };
 
         Boolean showOptions
-            = OsDependentActivator.getConfigurationService().getBoolean(
+            = LibJitsiAlzProvider.getConfigurationService().getBoolean(
                 "net.java.sip.communicator.impl.gui.main.configforms."
                 + "SHOW_OPTIONS_WINDOW",
                 true);
@@ -175,7 +176,7 @@ public final class TrayMenuFactory
         addSeparator(trayMenu);
 
         Boolean chatPresenceDisabled
-            = OsDependentActivator.getConfigurationService().getBoolean(
+            = LibJitsiAlzProvider.getConfigurationService().getBoolean(
                 "net.java.sip.communicator.impl.gui.main.presence."
                 + "CHAT_PRESENCE_DISABLED",
                 false);

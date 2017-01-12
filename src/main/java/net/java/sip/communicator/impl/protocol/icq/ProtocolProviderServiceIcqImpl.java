@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.protocol.icq;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.util.*;
@@ -329,16 +330,16 @@ public class ProtocolProviderServiceIcqImpl
                 new Screenname(getAccountID().getUserID()));
 
             String globalProxyType =
-                IcqActivator.getConfigurationService()
+                LibJitsiAlzProvider.getConfigurationService()
                     .getString(ProxyInfo.CONNECTION_PROXY_TYPE_PROPERTY_NAME);
             if(globalProxyType != null &&
                globalProxyType.equals(ProxyInfo.ProxyType.HTTP.name()))
             {
                 String globalProxyAddress =
-                    IcqActivator.getConfigurationService().getString(
+                    LibJitsiAlzProvider.getConfigurationService().getString(
                         ProxyInfo.CONNECTION_PROXY_ADDRESS_PROPERTY_NAME);
                 String globalProxyPortStr =
-                    IcqActivator.getConfigurationService().getString(
+                    LibJitsiAlzProvider.getConfigurationService().getString(
                         ProxyInfo.CONNECTION_PROXY_PORT_PROPERTY_NAME);
 
                 int proxyPort;
@@ -353,10 +354,10 @@ public class ProtocolProviderServiceIcqImpl
                 }
 
                 String globalProxyUsername =
-                    IcqActivator.getConfigurationService().getString(
+                    LibJitsiAlzProvider.getConfigurationService().getString(
                         ProxyInfo.CONNECTION_PROXY_USERNAME_PROPERTY_NAME);
                 String globalProxyPassword =
-                    IcqActivator.getConfigurationService().getString(
+                    LibJitsiAlzProvider.getConfigurationService().getString(
                         ProxyInfo.CONNECTION_PROXY_PASSWORD_PROPERTY_NAME);
                 if(globalProxyAddress == null ||
                     globalProxyAddress.length() <= 0)

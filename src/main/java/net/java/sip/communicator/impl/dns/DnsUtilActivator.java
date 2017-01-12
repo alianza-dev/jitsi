@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.dns;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.dns.*;
 import net.java.sip.communicator.service.netaddr.*;
 import net.java.sip.communicator.service.netaddr.event.*;
@@ -130,7 +131,7 @@ public class DnsUtilActivator
             return;
         }
 
-        if(UtilActivator.getConfigurationService().getBoolean(
+        if(LibJitsiAlzProvider.getConfigurationService().getBoolean(
                 DnsUtilActivator.PNAME_BACKUP_RESOLVER_ENABLED,
                 DnsUtilActivator.PDEFAULT_BACKUP_RESOLVER_ENABLED)
             && !getConfigurationService().getBoolean(

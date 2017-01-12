@@ -22,6 +22,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.util.Logger;
 
 import org.jitsi.service.configuration.*;
@@ -287,7 +288,7 @@ public class SIPCommDialog
      */
     private void setSizeAndLocation()
     {
-        ConfigurationService config = DesktopUtilActivator.getConfigurationService();
+        ConfigurationService config = LibJitsiAlzProvider.getConfigurationService();
         String className = this.getClass().getName().replaceAll("\\$", "_");
 
         int width = config.getInt(className + ".width", 0);
@@ -329,7 +330,7 @@ public class SIPCommDialog
      */
     private void ensureOnScreenLocationAndSize()
     {
-        ConfigurationService config = DesktopUtilActivator.getConfigurationService();
+        ConfigurationService config = LibJitsiAlzProvider.getConfigurationService();
         if(!config.getBoolean(SIPCommFrame.PNAME_CALCULATED_POSITIONING, true))
             return;
 

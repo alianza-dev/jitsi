@@ -23,6 +23,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
 import org.osgi.framework.*;
@@ -226,7 +227,7 @@ public class PluginManagerPanel
             }
             currentValue = showSysBundlesCheckBox.isSelected();
             //Save the current value of the showSystemBundles check box.
-            PluginManagerActivator.getConfigurationService().setProperty(
+            LibJitsiAlzProvider.getConfigurationService().setProperty(
                 "net.java.sip.communicator.plugin.pluginManager.showSystemBundles",
                 new Boolean(showSysBundlesCheckBox.isSelected()));
 

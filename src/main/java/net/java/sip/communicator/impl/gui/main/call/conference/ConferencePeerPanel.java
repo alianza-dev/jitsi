@@ -26,6 +26,7 @@ import javax.swing.*;
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.main.call.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.globaldisplaydetails.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -388,7 +389,7 @@ public class ConferencePeerPanel
     static boolean isSoundLevelIndicatorEnabled()
     {
         return
-            !GuiActivator.getConfigurationService().getBoolean(
+            !LibJitsiAlzProvider.getConfigurationService().getBoolean(
                     "net.java.sip.communicator.impl.gui.main.call"
                         + ".DISABLE_SOUND_LEVEL_INDICATORS",
                     false);

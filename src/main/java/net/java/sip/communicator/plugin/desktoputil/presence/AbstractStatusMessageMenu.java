@@ -24,6 +24,7 @@ import java.util.*;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.util.*;
 import org.jitsi.service.resources.*;
@@ -367,12 +368,12 @@ public abstract class AbstractStatusMessageMenu
 
             // and now let's delete the saved values
             java.util.List<String> customMessagesProps =
-                DesktopUtilActivator.getConfigurationService()
+                LibJitsiAlzProvider.getConfigurationService()
                     .getPropertyNamesByPrefix(CUSTOM_MESSAGES_PREFIX, false);
 
             for(String p : customMessagesProps)
             {
-                DesktopUtilActivator.getConfigurationService()
+                LibJitsiAlzProvider.getConfigurationService()
                     .removeProperty(p);
             }
 
@@ -514,7 +515,7 @@ public abstract class AbstractStatusMessageMenu
             {
                 // lets save it
                 int saveIx = getLastCustomStatusMessageIndex();
-                DesktopUtilActivator.getConfigurationService().setProperty(
+                LibJitsiAlzProvider.getConfigurationService().setProperty(
                     CUSTOM_MESSAGES_PREFIX + "." +  String.valueOf(saveIx + 1),
                     message
                 );
@@ -544,7 +545,7 @@ public abstract class AbstractStatusMessageMenu
         int ix = -1;
 
         java.util.List<String> customMessagesProps =
-            DesktopUtilActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .getPropertyNamesByPrefix(CUSTOM_MESSAGES_PREFIX, false);
 
         int prefixLen = CUSTOM_MESSAGES_PREFIX.length() + 1;
@@ -574,7 +575,7 @@ public abstract class AbstractStatusMessageMenu
     private void loadCustomStatusMessages()
     {
         java.util.List<String> customMessagesProps =
-            DesktopUtilActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .getPropertyNamesByPrefix(CUSTOM_MESSAGES_PREFIX, false);
 
         if(customMessagesProps.size() > 0)
@@ -585,7 +586,7 @@ public abstract class AbstractStatusMessageMenu
         for(String p : customMessagesProps)
         {
             String message =
-                DesktopUtilActivator.getConfigurationService().getString(p);
+                LibJitsiAlzProvider.getConfigurationService().getString(p);
 
             createsCustomMessageItem(message, -1, false);
         }
@@ -597,7 +598,7 @@ public abstract class AbstractStatusMessageMenu
     private void loadProvisionedStatusMessages()
     {
         java.util.List<String> provMessagesProps =
-            DesktopUtilActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .getPropertyNamesByPrefix(PROVISIONED_MESSAGES_PREFIX, false);
 
         if(provMessagesProps.size() > 0)
@@ -608,7 +609,7 @@ public abstract class AbstractStatusMessageMenu
         for(String p : provMessagesProps)
         {
             String message =
-                DesktopUtilActivator.getConfigurationService().getString(p);
+                LibJitsiAlzProvider.getConfigurationService().getString(p);
 
             createsProvisionedMessageItem(message);
         }
@@ -890,7 +891,7 @@ public abstract class AbstractStatusMessageMenu
         if(evt.getPropertyName().equals(CUSTOM_STATUS_MESSAGES_UPDATED_PROP))
         {
             java.util.List<String> customMessagesProps =
-                DesktopUtilActivator.getConfigurationService()
+                LibJitsiAlzProvider.getConfigurationService()
                     .getPropertyNamesByPrefix(CUSTOM_MESSAGES_PREFIX, false);
 
             if(customMessagesProps.isEmpty())
@@ -907,7 +908,7 @@ public abstract class AbstractStatusMessageMenu
             for(String p : customMessagesProps)
             {
                 customMessages.add(
-                    DesktopUtilActivator.getConfigurationService().getString(p));
+                    LibJitsiAlzProvider.getConfigurationService().getString(p));
             }
 
             for(Object o : getMenuComponents())

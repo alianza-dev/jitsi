@@ -26,6 +26,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import net.java.sip.communicator.impl.gui.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -155,7 +156,7 @@ public class AccountsConfigurationPanel
                 if (result == JOptionPane.YES_OPTION)
                 {
                     ConfigurationService configService
-                        = GuiActivator.getConfigurationService();
+                        = LibJitsiAlzProvider.getConfigurationService();
                     String prefix
                         = "net.java.sip.communicator.impl.gui.accounts";
                     List<String> accounts

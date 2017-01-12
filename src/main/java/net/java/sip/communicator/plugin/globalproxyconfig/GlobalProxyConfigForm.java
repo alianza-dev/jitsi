@@ -22,6 +22,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.protocol.*;
 
@@ -254,7 +255,7 @@ public class GlobalProxyConfigForm
     private void loadValues()
     {
         ConfigurationService configService =
-            GlobalProxyPluginActivator.getConfigurationService();
+            LibJitsiAlzProvider.getConfigurationService();
 
         String serverAddress = configService.getString(
             ProxyInfo.CONNECTION_PROXY_ADDRESS_PROPERTY_NAME);
@@ -323,7 +324,7 @@ public class GlobalProxyConfigForm
     private void saveValues()
     {
         ConfigurationService configService =
-            GlobalProxyPluginActivator.getConfigurationService();
+            LibJitsiAlzProvider.getConfigurationService();
 
         if(typeCombo.getSelectedItem().equals(ProxyInfo.ProxyType.NONE))
         {

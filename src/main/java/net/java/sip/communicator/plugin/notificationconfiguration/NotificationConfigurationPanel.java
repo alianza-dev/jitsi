@@ -25,6 +25,7 @@ import java.net.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.notification.*;
 import net.java.sip.communicator.util.Logger;
 import net.java.sip.communicator.plugin.desktoputil.*;
@@ -461,7 +462,7 @@ public class NotificationConfigurationPanel
      */
     private String getLastSoundPath()
     {
-        return NotificationConfigurationActivator.getConfigurationService()
+        return LibJitsiAlzProvider.getConfigurationService()
             .getString(SOUND_LAST_PATH_PROP, "");
     }
 
@@ -472,7 +473,7 @@ public class NotificationConfigurationPanel
      */
     private void setLastSoundPath(String path)
     {
-        NotificationConfigurationActivator.getConfigurationService()
+        LibJitsiAlzProvider.getConfigurationService()
             .setProperty(SOUND_LAST_PATH_PROP, path);
     }
 
@@ -483,7 +484,7 @@ public class NotificationConfigurationPanel
      */
     private String getLastProgramPath()
     {
-        return NotificationConfigurationActivator.getConfigurationService()
+        return LibJitsiAlzProvider.getConfigurationService()
             .getString(PROGRAM_LAST_PATH_PROP, "");
     }
 
@@ -494,7 +495,7 @@ public class NotificationConfigurationPanel
      */
     private void setLastProgramPath(String path)
     {
-        NotificationConfigurationActivator.getConfigurationService()
+        LibJitsiAlzProvider.getConfigurationService()
             .setProperty(PROGRAM_LAST_PATH_PROP, path);
     }
 }

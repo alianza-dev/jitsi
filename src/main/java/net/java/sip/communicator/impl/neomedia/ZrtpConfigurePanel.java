@@ -26,6 +26,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
 import org.jitsi.service.configuration.*;
@@ -93,7 +94,7 @@ public class ZrtpConfigurePanel
         buttonBar.add(Box.createHorizontalStrut(10));
         buttonBar.add(saveButton);
 
-        ConfigurationService cfg = NeomediaActivator.getConfigurationService();
+        ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
         boolean trusted = cfg.getBoolean(TRUSTED_PROP, false);
         boolean sasSign = cfg.getBoolean(SASSIGN_PROP, false);
 
@@ -139,7 +140,7 @@ public class ZrtpConfigurePanel
                 else if (source == saveButton)
                 {
                     ConfigurationService cfg
-                        = NeomediaActivator.getConfigurationService();
+                        = LibJitsiAlzProvider.getConfigurationService();
 
                     cfg.setProperty(
                             TRUSTED_PROP,
@@ -224,7 +225,7 @@ public class ZrtpConfigurePanel
             String id = getPropertyID(ZrtpConstants.SupportedPubKeys.DH2K);
 
             String savedConf
-                = NeomediaActivator.getConfigurationService().getString(id);
+                = LibJitsiAlzProvider.getConfigurationService().getString(id);
             if (savedConf == null)
                 savedConf = "DH3K;MULT;";
 
@@ -247,7 +248,7 @@ public class ZrtpConfigurePanel
             String value = getPropertyValue(ZrtpConstants.SupportedPubKeys.DH2K);
             String id = getPropertyID(ZrtpConstants.SupportedPubKeys.DH2K);
 
-            NeomediaActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .setProperty(id, value);
         }
     }
@@ -263,7 +264,7 @@ public class ZrtpConfigurePanel
             String id = getPropertyID(ZrtpConstants.SupportedHashes.S256);
 
             String savedConf
-                = NeomediaActivator.getConfigurationService()
+                = LibJitsiAlzProvider.getConfigurationService()
                     .getString(id);
             if (savedConf == null)
                 savedConf = "S256";
@@ -286,7 +287,7 @@ public class ZrtpConfigurePanel
         {
             String value = getPropertyValue(ZrtpConstants.SupportedHashes.S256);
             String id = getPropertyID(ZrtpConstants.SupportedHashes.S256);
-            NeomediaActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .setProperty(id, value);
         }
     }
@@ -301,7 +302,7 @@ public class ZrtpConfigurePanel
         {
             String id = getPropertyID(ZrtpConstants.SupportedSymCiphers.AES1);
             String savedConf
-                = NeomediaActivator.getConfigurationService().getString(id);
+                = LibJitsiAlzProvider.getConfigurationService().getString(id);
             if (savedConf == null)
                 savedConf = "AES1";
 
@@ -324,7 +325,7 @@ public class ZrtpConfigurePanel
             String value
                 = getPropertyValue(ZrtpConstants.SupportedSymCiphers.AES1);
             String id = getPropertyID(ZrtpConstants.SupportedSymCiphers.AES1);
-            NeomediaActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .setProperty(id, value);
         }
     }
@@ -338,7 +339,7 @@ public class ZrtpConfigurePanel
         {
             String id = getPropertyID(ZrtpConstants.SupportedSASTypes.B32);
             String savedConf
-                = NeomediaActivator.getConfigurationService()
+                = LibJitsiAlzProvider.getConfigurationService()
                     .getString(id);
             if (savedConf == null)
                 savedConf = "B32";
@@ -361,7 +362,7 @@ public class ZrtpConfigurePanel
         {
             String value = getPropertyValue(ZrtpConstants.SupportedSASTypes.B32);
             String id = getPropertyID(ZrtpConstants.SupportedSASTypes.B32);
-            NeomediaActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .setProperty(id, value);
         }
     }
@@ -376,7 +377,7 @@ public class ZrtpConfigurePanel
         {
             String id = getPropertyID(ZrtpConstants.SupportedAuthLengths.HS32);
             String savedConf
-                = NeomediaActivator.getConfigurationService().getString(id);
+                = LibJitsiAlzProvider.getConfigurationService().getString(id);
             if (savedConf == null)
                 savedConf = "HS32;HS80;";
 
@@ -399,7 +400,7 @@ public class ZrtpConfigurePanel
             String value
                 = getPropertyValue(ZrtpConstants.SupportedAuthLengths.HS32);
             String id = getPropertyID(ZrtpConstants.SupportedAuthLengths.HS32);
-            NeomediaActivator.getConfigurationService()
+            LibJitsiAlzProvider.getConfigurationService()
                 .setProperty(id, value);
         }
     }

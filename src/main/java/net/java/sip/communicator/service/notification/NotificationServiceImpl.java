@@ -26,6 +26,7 @@ import static net.java.sip.communicator.service.notification.event.NotificationE
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.notification.event.*;
 import net.java.sip.communicator.util.*;
 
@@ -57,7 +58,7 @@ public class NotificationServiceImpl implements NotificationService
         = new Vector<NotificationChangeListener>();
 
     private final ConfigurationService configService =
-        NotificationServiceActivator.getConfigurationService();
+            LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * A set of all registered event notifications.

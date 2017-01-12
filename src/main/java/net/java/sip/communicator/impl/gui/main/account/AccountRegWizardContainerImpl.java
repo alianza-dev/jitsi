@@ -30,6 +30,7 @@ import javax.swing.text.*;
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.customcontrols.wizard.*;
 import net.java.sip.communicator.impl.gui.main.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
@@ -55,7 +56,7 @@ public class AccountRegWizardContainerImpl
     private AccountRegistrationWizard currentWizard;
 
     private final ConfigurationService configService
-        = GuiActivator.getConfigurationService();
+        = LibJitsiAlzProvider.getConfigurationService();
 
     private final Map<String, AccountRegistrationWizard> registeredWizards =
         new Hashtable<String, AccountRegistrationWizard>();

@@ -29,6 +29,7 @@ import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.main.chat.*;
 import net.java.sip.communicator.impl.gui.main.chat.history.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.filehistory.*;
@@ -308,7 +309,7 @@ public class HistorySelectorBox
         eraseAllHistory.addActionListener(this);
         popupMenu.add(eraseAllHistory);
 
-        GuiActivator.getConfigurationService().addPropertyChangeListener(this);
+        LibJitsiAlzProvider.getConfigurationService().addPropertyChangeListener(this);
 
         chatContainer.addChatChangeListener(this);
     }
@@ -421,7 +422,7 @@ public class HistorySelectorBox
      */
     public void dispose()
     {
-        GuiActivator.getConfigurationService()
+        LibJitsiAlzProvider.getConfigurationService()
             .removePropertyChangeListener(this);
         chatContainer.removeChatChangeListener(this);
     }

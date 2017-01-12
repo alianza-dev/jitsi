@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.keybindings.*;
 import net.java.sip.communicator.util.Logger;
 
@@ -374,7 +375,7 @@ public class SIPCommFrame
             props.put(className + ".x", component.getX());
             props.put(className + ".y", component.getY());
         }
-        DesktopUtilActivator.getConfigurationService().setProperties(props);
+        LibJitsiAlzProvider.getConfigurationService().setProperties(props);
     }
 
     /**
@@ -388,7 +389,7 @@ public class SIPCommFrame
         }
 
         ConfigurationService configService =
-            DesktopUtilActivator.getConfigurationService();
+            LibJitsiAlzProvider.getConfigurationService();
         String className = this.getClass().getName();
 
         //TODO DEVTE-1304 fix me for GUI
@@ -454,7 +455,7 @@ public class SIPCommFrame
      */
     private void ensureOnScreenLocationAndSize()
     {
-        ConfigurationService config = DesktopUtilActivator.getConfigurationService();
+        ConfigurationService config = LibJitsiAlzProvider.getConfigurationService();
         if(!config.getBoolean(SIPCommFrame.PNAME_CALCULATED_POSITIONING, true))
             return;
 

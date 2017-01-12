@@ -25,6 +25,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.certificate.*;
 import net.java.sip.communicator.service.gui.*;
@@ -102,7 +103,7 @@ public class CertConfigPanel
             grpTrustStore.add(rdoUseWindows);
             pnlCertConfig.add(rdoUseWindows);
 
-            if ("Windows-ROOT".equals(CertConfigActivator.getConfigService()
+            if ("Windows-ROOT".equals(LibJitsiAlzProvider.getConfigurationService()
                 .getProperty(CertificateService.PNAME_TRUSTSTORE_TYPE)))
             {
                 rdoUseWindows.setSelected(true);
@@ -210,26 +211,26 @@ public class CertConfigPanel
         }
         if (e.getSource() == rdoUseJava)
         {
-            CertConfigActivator.getConfigService().setProperty(
+            LibJitsiAlzProvider.getConfigurationService().setProperty(
                 CertificateService.PNAME_TRUSTSTORE_TYPE,
                 "meta:default");
-            CertConfigActivator.getConfigService().removeProperty(
+            LibJitsiAlzProvider.getConfigurationService().removeProperty(
                 CertificateService.PNAME_TRUSTSTORE_FILE);
             CertConfigActivator.getCredService().removePassword(
                 CertificateService.PNAME_TRUSTSTORE_PASSWORD);
         }
         if (e.getSource() == rdoUseWindows)
         {
-            CertConfigActivator.getConfigService().setProperty(
+            LibJitsiAlzProvider.getConfigurationService().setProperty(
                 CertificateService.PNAME_TRUSTSTORE_TYPE, "Windows-ROOT");
-            CertConfigActivator.getConfigService().removeProperty(
+            LibJitsiAlzProvider.getConfigurationService().removeProperty(
                 CertificateService.PNAME_TRUSTSTORE_FILE);
             CertConfigActivator.getCredService().removePassword(
                 CertificateService.PNAME_TRUSTSTORE_PASSWORD);
         }
         if (e.getSource() == chkEnableRevocationCheck)
         {
-            CertConfigActivator.getConfigService().setProperty(
+            LibJitsiAlzProvider.getConfigurationService().setProperty(
                 CertificateService.PNAME_REVOCATION_CHECK_ENABLED,
                 chkEnableRevocationCheck.isSelected());
 
@@ -241,7 +242,7 @@ public class CertConfigPanel
         }
         if (e.getSource() == chkEnableOcsp)
         {
-            CertConfigActivator.getConfigService().setProperty(
+            LibJitsiAlzProvider.getConfigurationService().setProperty(
                 CertificateService.PNAME_OCSP_ENABLED,
                 chkEnableOcsp.isSelected());
 

@@ -23,6 +23,7 @@ import java.util.*;
 
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.Logger;
@@ -58,7 +59,7 @@ public class RecordButton
      * Configuration service.
      */
     private static final ConfigurationService configuration
-        = GuiActivator.getConfigurationService();
+        = LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * Resource service.

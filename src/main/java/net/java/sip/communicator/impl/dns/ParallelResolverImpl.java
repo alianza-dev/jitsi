@@ -23,6 +23,7 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.dns.*;
 import net.java.sip.communicator.util.*;
 
@@ -108,7 +109,7 @@ public class ParallelResolverImpl
     ParallelResolverImpl()
     {
         backupQueriesPool = Executors.newCachedThreadPool();
-        DnsUtilActivator.getConfigurationService()
+        LibJitsiAlzProvider.getConfigurationService()
             .addPropertyChangeListener(this);
         initProperties();
         reset();
@@ -117,11 +118,11 @@ public class ParallelResolverImpl
     private void initProperties()
     {
         String rslvrAddrStr
-            = DnsUtilActivator.getConfigurationService().getString(
+            = LibJitsiAlzProvider.getConfigurationService().getString(
                 DnsUtilActivator.PNAME_BACKUP_RESOLVER,
                 DnsUtilActivator.DEFAULT_BACKUP_RESOLVER);
         String customResolverIP
-            = DnsUtilActivator.getConfigurationService().getString(
+            = LibJitsiAlzProvider.getConfigurationService().getString(
                 DnsUtilActivator.PNAME_BACKUP_RESOLVER_FALLBACK_IP,
                 DnsUtilActivator.getResources().getSettingsString(
                     DnsUtilActivator.PNAME_BACKUP_RESOLVER_FALLBACK_IP));
@@ -153,7 +154,7 @@ public class ParallelResolverImpl
             }
         }
 
-        int resolverPort = DnsUtilActivator.getConfigurationService().getInt(
+        int resolverPort = LibJitsiAlzProvider.getConfigurationService().getInt(
             DnsUtilActivator.PNAME_BACKUP_RESOLVER_PORT,
             SimpleResolver.DEFAULT_PORT);
 
@@ -162,11 +163,11 @@ public class ParallelResolverImpl
 
         setBackupServers(new InetSocketAddress[]{ resolverSockAddr });
 
-        currentDnsPatience = DnsUtilActivator.getConfigurationService()
+        currentDnsPatience = LibJitsiAlzProvider.getConfigurationService()
             .getLong(PNAME_DNS_PATIENCE, DNS_PATIENCE);
 
         currentDnsRedemption
-            = DnsUtilActivator.getConfigurationService()
+            = LibJitsiAlzProvider.getConfigurationService()
                 .getInt(PNAME_DNS_REDEMPTION, DNS_REDEMPTION);
     }
 

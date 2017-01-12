@@ -22,6 +22,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import org.jitsi.service.configuration.*;
 
 import net.java.sip.communicator.plugin.desktoputil.*;
@@ -56,7 +57,7 @@ extends TransparentPanel
      * The <tt>ConfigurationService</tt> to be used to access configuration
      */
     private final ConfigurationService configurationService
-    = GeneralConfigPluginActivator.getConfigurationService();
+    = LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * Creates the form.

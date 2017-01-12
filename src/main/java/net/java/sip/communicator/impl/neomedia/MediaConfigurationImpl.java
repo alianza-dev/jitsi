@@ -29,6 +29,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.TransparentPanel;
 import net.java.sip.communicator.util.*;
@@ -995,7 +996,7 @@ public class MediaConfigurationImpl
             AudioNotifierService audioNotifServ
                 = NeomediaActivator.getAudioNotifierService();
             String testSoundFilename
-                = NeomediaActivator.getConfigurationService()
+                = LibJitsiAlzProvider.getConfigurationService()
                     .getString(
                             TEST_SOUND_FILENAME_PROP,
                             NeomediaActivator.getResources().getSoundPath(
@@ -1271,7 +1272,7 @@ public class MediaConfigurationImpl
     {
         final boolean setAudioSystemIsDisabled
             = (type == DeviceConfigurationComboBoxModel.AUDIO)
-                && NeomediaActivator.getConfigurationService().getBoolean(
+                && LibJitsiAlzProvider.getConfigurationService().getBoolean(
                         MediaServiceImpl.DISABLE_SET_AUDIO_SYSTEM_PNAME,
                         false);
         final DeviceComboBoxField deviceComboBox;
@@ -1415,7 +1416,7 @@ public class MediaConfigurationImpl
      */
     private Component createControls(int type)
     {
-        ConfigurationService cfg = NeomediaActivator.getConfigurationService();
+        ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
 
         Component devicesComponent = null;
         Component encodingsComponent = null;

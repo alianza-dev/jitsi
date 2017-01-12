@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import org.jitsi.service.resources.*;
 import org.jitsi.util.*;
 
@@ -288,7 +289,7 @@ public class SourceUIContact
         PhoneNumberI18nService phoneNumberService
             = GuiActivator.getPhoneNumberI18nService();
         boolean filterToNumbers
-            = GuiActivator.getConfigurationService().getBoolean(
+            = LibJitsiAlzProvider.getConfigurationService().getBoolean(
                 FILTER_CALL_DETAILS_TO_NUMBERS_PROP, false);
 
         while (details.hasNext())

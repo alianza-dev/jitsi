@@ -21,6 +21,7 @@ import java.beans.*;
 
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import org.jitsi.service.configuration.*;
 
 /**
@@ -37,7 +38,7 @@ public class PropsTableModel
     private static final long serialVersionUID = 1L;
 
     private final ConfigurationService confService
-        = PropertiesEditorActivator.getConfigurationService();
+        = LibJitsiAlzProvider.getConfigurationService();
 
     /**
      * Creates an instance of <tt>PropsTableModel</tt>.

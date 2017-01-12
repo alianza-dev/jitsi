@@ -36,6 +36,7 @@ import net.java.sip.communicator.impl.gui.event.*;
 import net.java.sip.communicator.impl.gui.main.chat.conference.*;
 import net.java.sip.communicator.impl.gui.main.chat.menus.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.contactsource.*;
@@ -174,7 +175,7 @@ public class ChatWritePanel
 
         // initialize send command to Ctrl+Enter
         ConfigurationService configService =
-            GuiActivator.getConfigurationService();
+                LibJitsiAlzProvider.getConfigurationService();
 
         disableMergedSmsMode = configService.getBoolean(
             MERGE_SMS_MODE_DISABLED_PROP, disableMergedSmsMode);

@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.protocol.jabber;
 
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.util.*;
@@ -110,7 +111,7 @@ public class FailoverConnectionMonitor
 
         // checks for custom interval check configuration
         CHECK_FOR_PRIMARY_UP_INTERVAL =
-            JabberActivator.getConfigurationService().getInt(
+            LibJitsiAlzProvider.getConfigurationService().getInt(
                 FAILOVER_CHECK_INTERVAL_PROP,
                 CHECK_FOR_PRIMARY_UP_INTERVAL);
     }

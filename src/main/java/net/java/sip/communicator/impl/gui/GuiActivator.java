@@ -24,6 +24,7 @@ import javax.swing.*;
 import net.java.sip.communicator.impl.gui.main.account.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.browserlauncher.*;
 import net.java.sip.communicator.service.callhistory.*;
 import net.java.sip.communicator.service.contactlist.*;
@@ -181,7 +182,7 @@ public class GuiActivator implements BundleActivator
                 {
                     uiService.loadApplicationGui();
 
-                    GuiActivator.getConfigurationService()
+                    LibJitsiAlzProvider.getConfigurationService()
                                 .addPropertyChangeListener(uiService);
 
                     bundleContext.addServiceListener(uiService);
@@ -238,7 +239,7 @@ public class GuiActivator implements BundleActivator
             logger.info("UI Service ...[STOPPED]");
         isStarted = false;
 
-        GuiActivator.getConfigurationService()
+        LibJitsiAlzProvider.getConfigurationService()
             .removePropertyChangeListener(uiService);
 
         bContext.removeServiceListener(uiService);

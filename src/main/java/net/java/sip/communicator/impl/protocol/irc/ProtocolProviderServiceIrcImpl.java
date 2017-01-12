@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.protocol.irc;
 
 import java.net.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.irc.ClientConfigImpl.SASLImpl;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
@@ -371,7 +372,7 @@ public class ProtocolProviderServiceIrcImpl
     private Proxy loadProxy() throws OperationFailedException
     {
         final ConfigurationService configSvc =
-            IrcActivator.getConfigurationService();
+            LibJitsiAlzProvider.getConfigurationService();
         if (configSvc == null)
         {
             return null;

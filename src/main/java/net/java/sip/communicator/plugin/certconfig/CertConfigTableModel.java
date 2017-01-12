@@ -22,6 +22,7 @@ import java.util.*;
 
 import javax.swing.table.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.certificate.*;
 
 import org.jitsi.service.resources.*;
@@ -46,7 +47,7 @@ public class CertConfigTableModel
      */
     public CertConfigTableModel()
     {
-        CertConfigActivator.getConfigService().addPropertyChangeListener(this);
+        LibJitsiAlzProvider.getConfigurationService().addPropertyChangeListener(this);
         cvs = CertConfigActivator.getCertService();
         model = cvs.getClientAuthCertificateConfigs();
     }

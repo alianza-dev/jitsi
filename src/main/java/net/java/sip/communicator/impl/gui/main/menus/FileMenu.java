@@ -29,6 +29,7 @@ import net.java.sip.communicator.impl.gui.main.chatroomslist.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.addgroup.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.gui.*;
 import net.java.sip.communicator.service.muc.*;
@@ -185,7 +186,7 @@ public class FileMenu
         }
 
         if (!ConfigurationUtils.isGoToChatroomDisabled()
-            && !GuiActivator.getConfigurationService()
+            && !LibJitsiAlzProvider.getConfigurationService()
                     .getBoolean(MUCService.DISABLED_PROPERTY, false))
         {
             this.add(myChatRoomsItem);

@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.plugin.generalconfig.autoaway;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.generalconfig.*;
 import org.jitsi.service.configuration.*;
 import org.jitsi.service.resources.*;
@@ -75,7 +76,7 @@ public final class Preferences
     static int getTimer()
     {
         ConfigurationService cfg
-            = GeneralConfigPluginActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
         ResourceManagementService resources
             = GeneralConfigPluginActivator.getResources();
 
@@ -111,7 +112,7 @@ public final class Preferences
     static void saveData(boolean enabled, String timer)
     {
         ConfigurationService cfg
-            = GeneralConfigPluginActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
         cfg.setProperty(Preferences.ENABLE, Boolean.toString(enabled));
         cfg.setProperty(Preferences.TIMER, timer);

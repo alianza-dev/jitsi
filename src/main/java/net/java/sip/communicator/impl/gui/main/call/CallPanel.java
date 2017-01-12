@@ -33,6 +33,7 @@ import net.java.sip.communicator.impl.gui.event.*;
 import net.java.sip.communicator.impl.gui.main.call.conference.*;
 import net.java.sip.communicator.impl.gui.utils.*;
 import net.java.sip.communicator.impl.gui.utils.Constants;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.gui.*;
@@ -611,7 +612,7 @@ public class CallPanel
         else if (buttonName.equals(CRM_BUTTON))
         {
             String command =
-                GuiActivator.getConfigurationService().getString(
+                    LibJitsiAlzProvider.getConfigurationService().getString(
                     "net.java.sip.communicator.impl.gui.main.call.CRM_COMMAND");
             if (command == null)
             {
@@ -1731,7 +1732,7 @@ public class CallPanel
      */
     private boolean isButtonEnabled(String buttonHidePropertyName)
     {
-        return !GuiActivator.getConfigurationService().getBoolean(
+        return !LibJitsiAlzProvider.getConfigurationService().getBoolean(
             buttonHidePropertyName,
             false);
     }

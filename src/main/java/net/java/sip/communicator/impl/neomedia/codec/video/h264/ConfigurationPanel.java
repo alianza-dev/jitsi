@@ -23,6 +23,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.neomedia.*;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
@@ -179,7 +180,7 @@ public class ConfigurationPanel
         contentPanel.add(keyintSpinner, cnstrnts);
 
         // Load the values from the ConfigurationService into the UI components.
-        ConfigurationService cfg = NeomediaActivator.getConfigurationService();
+        ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
 
         setSelectedNameValuePair(
                 defaultProfileComboBox,
@@ -272,7 +273,7 @@ public class ConfigurationPanel
 
                         if (nameValuePair != null)
                         {
-                            NeomediaActivator.getConfigurationService()
+                            LibJitsiAlzProvider.getConfigurationService()
                                     .setProperty(property, nameValuePair.value);
                         }
                     }

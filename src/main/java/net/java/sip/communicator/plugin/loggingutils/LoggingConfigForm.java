@@ -25,6 +25,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.httputil.*;
 import net.java.sip.communicator.service.notification.*;
 import net.java.sip.communicator.util.Logger;
@@ -268,7 +269,7 @@ public class LoggingConfigForm
         // check first in configuration it can be manually set
         // or by provisioning
         String uploadLocation =
-            LoggingUtilsActivator.getConfigurationService()
+                LibJitsiAlzProvider.getConfigurationService()
                 .getString(UPLOAD_LOCATION_PROPETY);
         // if missing check default settings
         if(uploadLocation == null || uploadLocation.length() == 0)

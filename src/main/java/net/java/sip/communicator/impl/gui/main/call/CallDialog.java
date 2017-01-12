@@ -23,6 +23,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import net.java.sip.communicator.impl.gui.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
 /**
@@ -130,7 +131,7 @@ public class CallDialog
             pack();
 
             // checks whether we need to open the call dialog in minimized mode
-            if(GuiActivator.getConfigurationService()
+            if(LibJitsiAlzProvider.getConfigurationService()
                     .getBoolean(FORCE_MINIMIZED_MODE, false))
             {
                 setState(ICONIFIED);

@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.impl.protocol.jabber;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.jabber.sasl.*;
 import net.java.sip.communicator.service.certificate.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -134,7 +135,7 @@ public class LoginByPasswordStrategy
                 // in order to support some incompatible servers
                 boolean disableCustomDigestMD5
                     = disableCustomDigestMD5PerAccount
-                    || JabberActivator.getConfigurationService().getBoolean(
+                    || LibJitsiAlzProvider.getConfigurationService().getBoolean(
                         DISABLE_CUSTOM_DIGEST_MD5_CONFIG_PROP, false);
 
                 if(!disableCustomDigestMD5)

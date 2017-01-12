@@ -34,6 +34,7 @@ import net.java.sip.communicator.impl.gui.main.configforms.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.contactsource.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.SwingWorker;
 import net.java.sip.communicator.service.contactlist.*;
@@ -236,7 +237,7 @@ public class MainToolBar
         // We only add the options button if the property SHOW_OPTIONS_WINDOW
         // specifies so or if it's not set.
         Boolean showOptionsProp
-            = GuiActivator.getConfigurationService()
+            = LibJitsiAlzProvider.getConfigurationService()
                 .getBoolean(ConfigurationFrame.SHOW_OPTIONS_WINDOW_PROPERTY,
                             false);
 

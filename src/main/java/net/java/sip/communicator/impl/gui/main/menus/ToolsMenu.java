@@ -32,6 +32,7 @@ import net.java.sip.communicator.impl.gui.main.call.conference.*;
 import net.java.sip.communicator.impl.gui.main.configforms.*;
 import net.java.sip.communicator.impl.gui.main.contactlist.*;
 import net.java.sip.communicator.impl.gui.utils.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.plugin.desktoputil.SwingWorker;
 import net.java.sip.communicator.service.gui.*;
@@ -368,7 +369,7 @@ public class ToolsMenu
     {
         // We only add the options button if the property SHOW_OPTIONS_WINDOW
         // specifies so or if it's not set.
-        ConfigurationService cfg = GuiActivator.getConfigurationService();
+        ConfigurationService cfg = LibJitsiAlzProvider.getConfigurationService();
         Boolean showOptionsProp
             = cfg.getBoolean(
                     ConfigurationFrame.SHOW_OPTIONS_WINDOW_PROPERTY,
@@ -547,7 +548,7 @@ public class ToolsMenu
     private void initVideoBridgeMenu()
     {
         // If video bridge is enabled in the config then add the menu item
-        if (GuiActivator.getConfigurationService()
+        if (LibJitsiAlzProvider.getConfigurationService()
              .getBoolean(OperationSetVideoBridge
                 .IS_VIDEO_BRIDGE_DISABLED, false))
         {

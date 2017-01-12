@@ -20,6 +20,7 @@ package net.java.sip.communicator.impl.gui.main.contactlist;
 import javax.swing.*;
 
 import net.java.sip.communicator.impl.gui.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.gui.*;
 
 /**
@@ -105,7 +106,7 @@ public abstract class UIContactImpl
      */
     protected String filterAddressDisplay(String addressToDisplay)
     {
-        if(!GuiActivator.getConfigurationService()
+        if(!LibJitsiAlzProvider.getConfigurationService()
             .getBoolean(FILTER_DOMAIN_IN_TIP_ADDRESSES, false))
             return addressToDisplay;
 

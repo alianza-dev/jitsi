@@ -20,6 +20,7 @@ package net.java.sip.communicator.impl.muc;
 
 import java.beans.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.msghistory.*;
 import net.java.sip.communicator.service.muc.*;
 import net.java.sip.communicator.service.protocol.*;
@@ -125,11 +126,11 @@ public class ChatRoomWrapperImpl
             getParentProvider().getProtocolProvider().getAccountID()
             .getAccountUniqueID(), chatRoomID) + ".password";
         
-        MUCActivator.getConfigurationService().addPropertyChangeListener(
+        LibJitsiAlzProvider.getConfigurationService().addPropertyChangeListener(
             MessageHistoryService.PNAME_IS_MESSAGE_HISTORY_ENABLED, 
             propertyListener);
         
-        MUCActivator.getConfigurationService().addPropertyChangeListener(
+        LibJitsiAlzProvider.getConfigurationService().addPropertyChangeListener(
             MessageHistoryService
                 .PNAME_IS_MESSAGE_HISTORY_PER_CONTACT_ENABLED_PREFIX + "."
                     + getChatRoomID(), 
@@ -328,10 +329,10 @@ public class ChatRoomWrapperImpl
      */
     public void removeListeners()
     {
-        MUCActivator.getConfigurationService().removePropertyChangeListener(
+        LibJitsiAlzProvider.getConfigurationService().removePropertyChangeListener(
             MessageHistoryService.PNAME_IS_MESSAGE_HISTORY_ENABLED,
             propertyListener);
-        MUCActivator.getConfigurationService().removePropertyChangeListener(
+        LibJitsiAlzProvider.getConfigurationService().removePropertyChangeListener(
             MessageHistoryService
                 .PNAME_IS_MESSAGE_HISTORY_PER_CONTACT_ENABLED_PREFIX + "."
                     + getChatRoomID(),

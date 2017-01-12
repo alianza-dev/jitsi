@@ -24,6 +24,7 @@ import java.beans.*;
 import javax.swing.*;
 
 import net.java.sip.communicator.impl.gui.*;
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.Logger;
@@ -131,7 +132,7 @@ public class OneToOneCallPanel
         addCallPeerPanel(callPeer, uiVideoHandler);
 
         int preferredHeight = 400;
-        if(GuiActivator.getConfigurationService().getBoolean(
+        if(LibJitsiAlzProvider.getConfigurationService().getBoolean(
                 OneToOneCallPeerPanel.HIDE_PLACEHOLDER_PIC_PROP,
                 false))
         {

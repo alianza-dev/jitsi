@@ -26,6 +26,7 @@ import java.util.regex.*;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.httputil.*;
 import net.java.sip.communicator.service.provisioning.*;
 import net.java.sip.communicator.util.*;
@@ -135,13 +136,13 @@ public class ProvisioningServiceImpl
      public ProvisioningServiceImpl()
      {
          // check if UUID is already configured
-         String uuid = (String)ProvisioningActivator.getConfigurationService().
+         String uuid = (String) LibJitsiAlzProvider.getConfigurationService().
              getProperty(PROVISIONING_UUID_PROP);
 
          if(uuid == null || uuid.equals(""))
          {
              uuid = UUID.randomUUID().toString();
-             ProvisioningActivator.getConfigurationService().setProperty(
+             LibJitsiAlzProvider.getConfigurationService().setProperty(
                  PROVISIONING_UUID_PROP, uuid);
          }
 
@@ -169,7 +170,7 @@ public class ProvisioningServiceImpl
                  /* store the provisioning URL in local configuration in case
                   * the provisioning discovery failed (DHCP/DNS unavailable, ...)
                   */
-                 ProvisioningActivator.getConfigurationService().setProperty(
+                 LibJitsiAlzProvider.getConfigurationService().setProperty(
                          PROPERTY_PROVISIONING_URL, url);
 
                  updateConfiguration(data);
@@ -186,7 +187,7 @@ public class ProvisioningServiceImpl
      public String getProvisioningMethod()
      {
          String provMethod
-             = ProvisioningActivator.getConfigurationService().getString(
+             = LibJitsiAlzProvider.getConfigurationService().getString(
                  PROVISIONING_METHOD_PROP);
 
          if (provMethod == null || provMethod.length() <= 0)
@@ -210,7 +211,7 @@ public class ProvisioningServiceImpl
       */
      public void setProvisioningMethod(String provisioningMethod)
      {
-         ProvisioningActivator.getConfigurationService().setProperty(
+         LibJitsiAlzProvider.getConfigurationService().setProperty(
              PROVISIONING_METHOD_PROP, provisioningMethod);
      }
 
@@ -222,7 +223,7 @@ public class ProvisioningServiceImpl
      public String getProvisioningUri()
      {
          String provUri
-             = ProvisioningActivator.getConfigurationService().getString(
+             = LibJitsiAlzProvider.getConfigurationService().getString(
                  PROPERTY_PROVISIONING_URL);
 
          if (provUri == null || provUri.length() <= 0)
@@ -244,7 +245,7 @@ public class ProvisioningServiceImpl
       */
      public void setProvisioningUri(String uri)
      {
-         ProvisioningActivator.getConfigurationService().setProperty(
+         LibJitsiAlzProvider.getConfigurationService().setProperty(
              PROPERTY_PROVISIONING_URL, uri);
      }
 
@@ -336,21 +337,21 @@ public class ProvisioningServiceImpl
             if(url.indexOf("${home.location}") != -1)
             {
                 url = url.replace("${home.location}",
-                    ProvisioningActivator.getConfigurationService()
+                    LibJitsiAlzProvider.getConfigurationService()
                         .getScHomeDirLocation());
             }
 
             if(url.indexOf("${home.name}") != -1)
             {
                 url = url.replace("${home.name}",
-                    ProvisioningActivator.getConfigurationService()
+                    LibJitsiAlzProvider.getConfigurationService()
                         .getScHomeDirName());
             }
 
             if(url.indexOf("${uuid}") != -1)
             {
                 url = url.replace("${uuid}",
-                    (String)ProvisioningActivator.getConfigurationService()
+                    (String)LibJitsiAlzProvider.getConfigurationService()
                         .getProperty(PROVISIONING_UUID_PROP));
             }
 
@@ -388,7 +389,7 @@ public class ProvisioningServiceImpl
             if(url.indexOf("${locale}") != -1)
             {
                 String locale =
-                    ProvisioningActivator.getConfigurationService().getString(
+                    LibJitsiAlzProvider.getConfigurationService().getString(
                         ResourceManagementService.DEFAULT_LOCALE_CONFIG);
                 if(locale == null)
                     locale = "";
@@ -604,7 +605,7 @@ public class ProvisioningServiceImpl
             {
                 // if canceled, lets check whether provisioning is
                 // mandatory
-                if(ProvisioningActivator.getConfigurationService().getBoolean(
+                if(LibJitsiAlzProvider.getConfigurationService().getBoolean(
                     PROPERTY_PROVISIONING_MANDATORY, false))
                 {
                     String errorMsg;
@@ -768,9 +769,9 @@ public class ProvisioningServiceImpl
             try
             {
                 /* save and reload the "new" configuration */
-                ProvisioningActivator.getConfigurationService().
+                LibJitsiAlzProvider.getConfigurationService().
                     storeConfiguration();
-                ProvisioningActivator.getConfigurationService().
+                LibJitsiAlzProvider.getConfigurationService().
                     reloadConfiguration();
             }
             catch(Exception e)
@@ -835,7 +836,7 @@ public class ProvisioningServiceImpl
     {
         if((value instanceof String) && value.equals("${null}"))
         {
-            ProvisioningActivator.getConfigurationService().removeProperty(key);
+            LibJitsiAlzProvider.getConfigurationService().removeProperty(key);
         }
         else if(key.endsWith(".PASSWORD"))
         {
@@ -858,7 +859,7 @@ public class ProvisioningServiceImpl
         }
         else
         {
-            ProvisioningActivator.getConfigurationService().setProperty(key,
+            LibJitsiAlzProvider.getConfigurationService().setProperty(key,
                 value);
         }
 
@@ -875,7 +876,7 @@ public class ProvisioningServiceImpl
     private void checkEnforcePrefix(String enforcePrefix)
     {
         ConfigurationService config =
-            ProvisioningActivator.getConfigurationService();
+            LibJitsiAlzProvider.getConfigurationService();
         String prefixes[] = null;
 
         if(enforcePrefix == null)

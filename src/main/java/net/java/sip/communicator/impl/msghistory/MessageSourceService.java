@@ -22,6 +22,7 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.contactlist.*;
 import net.java.sip.communicator.service.contactlist.event.*;
 import net.java.sip.communicator.service.contactsource.*;
@@ -166,7 +167,7 @@ public class MessageSourceService
         this.messageHistoryService = messageHistoryService;
 
         ConfigurationService conf
-            = MessageHistoryActivator.getConfigurationService();
+            = LibJitsiAlzProvider.getConfigurationService();
 
         if(conf.getBoolean(IN_HISTORY_PROPERTY , false))
         {
