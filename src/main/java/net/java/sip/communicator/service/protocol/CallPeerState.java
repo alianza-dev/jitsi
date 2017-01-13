@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 
 /**
  * The CallPeerState class reflects the current state of a call
@@ -67,7 +67,7 @@ public class CallPeerState
      */
     public static final CallPeerState UNKNOWN
         = new CallPeerState(_UNKNOWN,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.UNKNOWN_STATUS"));
 
     /**
@@ -86,7 +86,7 @@ public class CallPeerState
      */
     public static final CallPeerState INITIATING_CALL
         = new CallPeerState(_INITIATING_CALL,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.INITIATING_CALL_STATUS"));
 
     /**
@@ -103,7 +103,7 @@ public class CallPeerState
      */
     public static final CallPeerState CONNECTING
         = new CallPeerState(_CONNECTING,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.CONNECTING_STATUS"));
 
     /**
@@ -120,7 +120,7 @@ public class CallPeerState
      */
     public static final CallPeerState CONNECTING_WITH_EARLY_MEDIA
         = new CallPeerState( _CONNECTING_WITH_EARLY_MEDIA,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.CONNECTING_EARLY_MEDIA_STATUS"));
 
     /**
@@ -130,7 +130,7 @@ public class CallPeerState
      */
     public static final CallPeerState CONNECTING_INCOMING_CALL
         = new CallPeerState( _CONNECTING_WITH_EARLY_MEDIA,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.CONNECTING_STATUS"));
 
     /**
@@ -142,7 +142,7 @@ public class CallPeerState
      */
     public static final CallPeerState CONNECTING_INCOMING_CALL_WITH_MEDIA
         = new CallPeerState( _CONNECTING_WITH_EARLY_MEDIA,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.CONNECTING_EARLY_MEDIA_STATUS"));
 
     /**
@@ -161,7 +161,7 @@ public class CallPeerState
      */
     public static final CallPeerState ALERTING_REMOTE_SIDE
         = new CallPeerState(_ALERTING_REMOTE_SIDE,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.RINGING_STATUS"));
 
     /**
@@ -179,7 +179,7 @@ public class CallPeerState
      */
     public static final CallPeerState INCOMING_CALL
          = new CallPeerState(_INCOMING_CALL,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                  "service.gui.INCOMING_CALL_STATUS"));
 
     /**
@@ -196,7 +196,7 @@ public class CallPeerState
      */
     public static final CallPeerState CONNECTED
         = new CallPeerState(_CONNECTED,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.CONNECTED_STATUS"));
 
     /**
@@ -213,7 +213,7 @@ public class CallPeerState
      */
     public static final CallPeerState DISCONNECTED
         = new CallPeerState(_DISCONNECTED,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.DISCONNECTED_STATUS"));
 
     /**
@@ -230,7 +230,7 @@ public class CallPeerState
      */
     public static final CallPeerState REFERRED
         = new CallPeerState(_REFERRED,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.REFERRED_STATUS"));
 
     /**
@@ -248,7 +248,7 @@ public class CallPeerState
      */
     public static final CallPeerState BUSY
         = new CallPeerState(_BUSY,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.BUSY_STATUS"));
 
     /**
@@ -264,7 +264,7 @@ public class CallPeerState
      */
     public static final CallPeerState FAILED
         = new CallPeerState(_FAILED,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.FAILED_STATUS"));
 
     /**
@@ -281,7 +281,7 @@ public class CallPeerState
      */
     public static final CallPeerState ON_HOLD_LOCALLY
         = new CallPeerState(_ON_HOLD_LOCALLY,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.LOCALLY_ON_HOLD_STATUS"));
 
     /**
@@ -298,7 +298,7 @@ public class CallPeerState
      */
     public static final CallPeerState ON_HOLD_MUTUALLY
         = new CallPeerState(_ON_HOLD_MUTUALLY,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.MUTUALLY_ON_HOLD_STATUS"));
 
     /**
@@ -316,7 +316,7 @@ public class CallPeerState
      */
     public static final CallPeerState ON_HOLD_REMOTELY
         = new CallPeerState(_ON_HOLD_REMOTELY,
-            LibJitsiAlzProvider.getResourceManagementService().getI18NString(
+            SipAlzProvider.getResources().getI18NString(
                 "service.gui.REMOTELY_ON_HOLD_STATUS"));
 
     /**

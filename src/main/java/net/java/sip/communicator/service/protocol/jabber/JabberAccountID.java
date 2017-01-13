@@ -17,6 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol.jabber;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 
 import java.util.*;
@@ -670,7 +671,7 @@ public class JabberAccountID
      */
     public static String getDefaultStr(String key)
     {
-        String value = ProtocolProviderActivator
+        String value = LibJitsiAlzProvider
                 .getConfigurationService()
                 .getString(JBR_DEFAULTS_PREFIX +key);
 

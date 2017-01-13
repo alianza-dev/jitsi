@@ -18,6 +18,7 @@
 package net.java.sip.communicator.service.protocol;
 
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.util.*;
 import org.jitsi.service.neomedia.*;
 
@@ -89,7 +90,7 @@ public abstract class SecurityAccountRegistration
         encryptionProtocolStatus = new HashMap<String, Boolean>(1);
         encryptionProtocolStatus.put("ZRTP", true);
         sdesCipherSuites
-            = LibJitsiAlzProvider.getResourceManagementService().getSettingsString(
+            = SipAlzProvider.getResources().getSettingsString(
                     SDesControl.SDES_CIPHER_SUITES);
     }
 

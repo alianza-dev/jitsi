@@ -19,6 +19,7 @@ package net.java.sip.communicator.plugin.propertieseditor;
 
 import java.awt.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
 import org.jitsi.service.configuration.*;
@@ -38,7 +39,7 @@ public class StartingPanel
      */
     private static final long serialVersionUID = 1L;
 
-    private ConfigurationService confService = PropertiesEditorActivator
+    private ConfigurationService confService = LibJitsiAlzProvider
         .getConfigurationService();
 
     /*

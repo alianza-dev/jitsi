@@ -22,6 +22,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.plugin.desktoputil.*;
 
 import org.jitsi.service.configuration.*;
@@ -46,7 +47,7 @@ public class WarningPanel
     private ResourceManagementService resourceManagementService =
         PropertiesEditorActivator.getResourceManagementService();
 
-    private ConfigurationService confService = PropertiesEditorActivator
+    private ConfigurationService confService = LibJitsiAlzProvider
         .getConfigurationService();
 
     private JCheckBox checkBox;

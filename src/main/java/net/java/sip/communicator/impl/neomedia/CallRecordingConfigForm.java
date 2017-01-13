@@ -133,9 +133,7 @@ public class CallRecordingConfigForm
             else
             {
                 // remove default directory prop
-                NeomediaActivator
-                    .getConfigurationService()
-                        .setProperty(Recorder.SAVED_CALLS_PATH, null);
+                LibJitsiAlzProvider.getConfigurationService().setProperty(Recorder.SAVED_CALLS_PATH, null);
                 callDirTextField.setText(null);
             }
         }
@@ -167,7 +165,7 @@ public class CallRecordingConfigForm
             savedCallsDir = dir.getAbsolutePath();
             if(changeCallDirTextField)
                 callDirTextField.setText(savedCallsDir);
-            NeomediaActivator
+            LibJitsiAlzProvider
                 .getConfigurationService()
                     .setProperty(Recorder.SAVED_CALLS_PATH, savedCallsDir);
 
@@ -210,7 +208,7 @@ public class CallRecordingConfigForm
             {
                 if (event.getStateChange() == ItemEvent.SELECTED)
                 {
-                    NeomediaActivator
+                    LibJitsiAlzProvider
                         .getConfigurationService()
                             .setProperty(Recorder.FORMAT, event.getItem());
                 }

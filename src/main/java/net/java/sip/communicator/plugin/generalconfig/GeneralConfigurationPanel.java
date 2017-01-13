@@ -641,7 +641,7 @@ public class GeneralConfigurationPanel
 
         final JComboBox notifConfigComboBox = new JComboBox();
 
-        String configuredHandler = (String) GeneralConfigPluginActivator
+        String configuredHandler = (String) LibJitsiAlzProvider
             .getConfigurationService().getProperty("systray.POPUP_HANDLER");
 
         for (ServiceReference ref : handlerRefs)

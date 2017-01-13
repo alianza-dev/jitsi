@@ -98,7 +98,7 @@ public class PluginManagerPanel
     private void initSystemBundleCheckBox()
     {
         //Obtains previously saved value for the showSystemBundles check box.
-        String showSystemBundlesProp = PluginManagerActivator
+        String showSystemBundlesProp = LibJitsiAlzProvider
             .getConfigurationService().getString(
             "net.java.sip.communicator.plugin.pluginManager.showSystemBundles");
 

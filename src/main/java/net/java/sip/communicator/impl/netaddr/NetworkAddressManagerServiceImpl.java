@@ -529,7 +529,7 @@ public class NetworkAddressManagerServiceImpl
                             + ") and maxPort (" + maxPort + ")");
         }
 
-        ConfigurationService config = NetaddrActivator
+        ConfigurationService config = LibJitsiAlzProvider
                         .getConfigurationService();
 
         int bindRetries = config.getInt(BIND_RETRIES_PROPERTY_NAME,

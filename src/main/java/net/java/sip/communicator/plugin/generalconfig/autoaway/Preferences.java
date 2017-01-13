@@ -62,7 +62,7 @@ public final class Preferences
                     Preferences.ENABLE);
 
         return
-            GeneralConfigPluginActivator
+                LibJitsiAlzProvider
                 .getConfigurationService()
                     .getBoolean(
                             Preferences.ENABLE,
@@ -125,7 +125,7 @@ public final class Preferences
     static void addEnableChangeListener(PropertyChangeListener listener)
     {
         // listens for changes in configuration enable/disable
-        GeneralConfigPluginActivator
+        LibJitsiAlzProvider
             .getConfigurationService()
                 .addPropertyChangeListener(
                         ENABLE,
@@ -139,7 +139,7 @@ public final class Preferences
     static void addTimerChangeListener(PropertyChangeListener listener)
     {
         // listens for changes in configuration enable/disable
-        GeneralConfigPluginActivator
+        LibJitsiAlzProvider
             .getConfigurationService()
                 .addPropertyChangeListener(
                         TIMER,

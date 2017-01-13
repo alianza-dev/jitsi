@@ -218,7 +218,7 @@ public class ConfigurationPanel
                     {
                         JCheckBox checkBox = (JCheckBox) e.getSource();
 
-                        NeomediaActivator
+                        LibJitsiAlzProvider
                             .getConfigurationService()
                                 .setProperty(
                                         JNIEncoder.DEFAULT_INTRA_REFRESH_PNAME,
@@ -239,7 +239,7 @@ public class ConfigurationPanel
                             = (SpinnerNumberModel) spinner.getModel();
                         int value = model.getNumber().intValue();
 
-                        NeomediaActivator
+                        LibJitsiAlzProvider
                             .getConfigurationService()
                                 .setProperty(
                                         JNIEncoder.KEYINT_PNAME,
