@@ -161,7 +161,7 @@ public class OperationSetBasicTelephonySipImpl
      * @throws OperationFailedException if initializing the new outgoing
      * <tt>Call</tt> fails
      */
-    protected synchronized CallSipImpl createOutgoingCall()
+    public synchronized CallSipImpl createOutgoingCall()
         throws OperationFailedException
     {
         assertRegistered();

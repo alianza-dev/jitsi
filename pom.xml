@@ -28,11 +28,11 @@
       <artifactId>jain-sip-ri</artifactId>
       <version>1.2.321</version>
     </dependency>
-    <dependency>
-      <groupId>org.jitsi</groupId>
-      <artifactId>jain-sip-ri-ossonly</artifactId>
-      <version>1.2.279-jitsi-oss1</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.jitsi</groupId>-->
+      <!--<artifactId>jain-sip-ri-ossonly</artifactId>-->
+      <!--<version>1.2.279-jitsi-oss1</version>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>jitsi-libjitsi</artifactId>
@@ -47,6 +47,12 @@
       <groupId>org.jitsi</groupId>
       <artifactId>ice4j</artifactId>
       <version>1.0</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>java-sdp-nist-bridge</artifactId>
+          <groupId>org.opentelecoms.sdp</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <artifactId>jmyspell-core</artifactId>
@@ -219,7 +225,7 @@
         <executions>
           <execution>
             <id>make-assembly</id> <!-- this is used for inheritance merges -->
-            <phase>package</phase> <!-- bind to the packaging phase -->
+            <!--<phase>package</phase> &lt;!&ndash; bind to the packaging phase &ndash;&gt;-->
             <goals>
               <goal>single</goal>
             </goals>
