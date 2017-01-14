@@ -26,6 +26,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.httputil.*;
 import net.java.sip.communicator.service.notification.*;
 import net.java.sip.communicator.util.Logger;
@@ -287,7 +288,7 @@ public class LoggingConfigForm
     private void loadValues()
     {
         PacketLoggingService packetLogging
-            = LoggingUtilsActivator.getPacketLoggingService();
+            = SipAlzProvider.getPacketLogging();
         PacketLoggingConfiguration cfg = packetLogging.getConfiguration();
 
         enableCheckBox.setSelected(cfg.isGlobalLoggingEnabled());
@@ -325,7 +326,7 @@ public class LoggingConfigForm
         Object source = e.getSource();
 
         PacketLoggingService packetLogging =
-                LoggingUtilsActivator.getPacketLoggingService();
+                SipAlzProvider.getPacketLogging();
 
         if(source.equals(enableCheckBox))
         {
@@ -422,7 +423,7 @@ public class LoggingConfigForm
             {
                 int newFileCount = Integer.valueOf(fileCountField.getText());
                 fileCountField.setForeground(Color.black);
-                LoggingUtilsActivator.getPacketLoggingService()
+                SipAlzProvider.getPacketLogging()
                     .getConfiguration().setLogfileCount(newFileCount);
             }
             catch(Throwable t)
@@ -437,7 +438,7 @@ public class LoggingConfigForm
             {
                 int newFileSize = Integer.valueOf(fileSizeField.getText());
                 fileSizeField.setForeground(Color.black);
-                LoggingUtilsActivator.getPacketLoggingService()
+                SipAlzProvider.getPacketLogging()
                     .getConfiguration().setLimit(newFileSize * 1000);
             }
             catch(Throwable t)

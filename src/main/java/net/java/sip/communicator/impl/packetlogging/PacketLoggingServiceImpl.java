@@ -21,6 +21,7 @@ import java.io.*;
 import java.util.*;
 
 import com.google.common.collect.*;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.util.*;
 
 import org.jitsi.service.fileaccess.*;
@@ -186,7 +187,7 @@ public class PacketLoggingServiceImpl
         for(int i = 0; i < fileCount; i++)
         {
             files[i]
-                = PacketLoggingActivator.getFileAccessService()
+                = SipAlzProvider.getFileAccessService()
                     .getPrivatePersistentFile(
                         new File(PacketLoggingActivator.LOGGING_DIR_NAME,
                             "jitsi" + i + ".pcap").toString(),

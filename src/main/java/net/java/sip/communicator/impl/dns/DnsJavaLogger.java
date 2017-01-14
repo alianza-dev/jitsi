@@ -17,6 +17,8 @@
  */
 package net.java.sip.communicator.impl.dns;
 
+import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.util.*;
 import org.jitsi.service.packetlogging.*;
 import org.xbill.DNS.*;
@@ -89,7 +91,7 @@ public class DnsJavaLogger
                     SocketAddress remote,
                     String prefix, byte[] data)
     {
-        if(getPacketLoggingService() == null
+        if (SipAlzProvider.getPacketLogging() == null
             || !(local instanceof InetSocketAddress
                 && remote instanceof InetSocketAddress))
         {
@@ -129,7 +131,7 @@ public class DnsJavaLogger
             srcPort = remoteAddress.getPort();
         }
 
-        getPacketLoggingService().logPacket(
+        SipAlzProvider.getPacketLogging().logPacket(
             PacketLoggingService.ProtocolName.DNS,
             srcAddr,
             srcPort,
