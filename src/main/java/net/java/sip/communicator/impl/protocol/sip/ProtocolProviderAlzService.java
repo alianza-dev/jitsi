@@ -780,9 +780,12 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
                 logger.debug("Found " + processors.size()
                         + " processor(s) for method " + method);
 
-            for (MethodProcessor processor : processors)
-                if (processor.processResponse(responseEvent))
-                    break;
+            logger.info("processing " + method + " with " + processors.size() + " processors");
+            for (MethodProcessor processor : processors) {
+                processor.processResponse(responseEvent);
+//                if (processor.processResponse(responseEvent))
+//                    break;
+            }
         }
     }
 
