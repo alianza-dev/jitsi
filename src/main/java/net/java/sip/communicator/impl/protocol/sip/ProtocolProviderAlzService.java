@@ -1050,7 +1050,7 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
                 if (processor.processRequest(requestEvent))
                 {
                     processedAtLeastOnce = true;
-                    break;
+//                    break;
                 }
             }
         }
