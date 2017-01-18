@@ -262,4 +262,14 @@
       <url>https://github.com/jitsi/jitsi-maven-repository/raw/master/snapshots/</url>
     </repository>
   </repositories>
+  <distributionManagement>
+      <snapshotRepository>
+          <id>snapshots</id>
+          <url>https://alianza.artifactoryonline.com/alianza/libs-snapshot</url>
+      </snapshotRepository>
+      <repository>
+          <id>central</id>
+          <url>https://alianza.artifactoryonline.com/alianza/libs-release</url>
+      </repository>
+  </distributionManagement>
 </project>
