@@ -27,6 +27,12 @@ import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.util.*;
 
+import org.jitsi.impl.neomedia.MediaServiceImpl;
+import org.jitsi.impl.neomedia.MediaUtils;
+import org.jitsi.impl.neomedia.NeomediaServiceUtils;
+import org.jitsi.impl.neomedia.device.DeviceSystem;
+import org.jitsi.impl.neomedia.format.AudioMediaFormatImpl;
+import org.jitsi.impl.neomedia.format.MediaFormatFactoryImpl;
 import org.jitsi.service.neomedia.*;
 import org.jitsi.service.neomedia.codec.*;
 import org.jitsi.service.neomedia.control.*;
@@ -34,6 +40,9 @@ import org.jitsi.service.neomedia.device.*;
 import org.jitsi.service.neomedia.event.*;
 import org.jitsi.service.neomedia.format.*;
 import org.jitsi.util.event.*;
+
+import javax.media.CaptureDeviceInfo;
+import javax.media.MediaLocator;
 
 /**
  * A utility class implementing media control code shared between current
@@ -879,42 +888,50 @@ public abstract class CallPeerMediaHandler<T extends MediaAwareCallPeer<?,?,?>>
      * @return a non-null list of locally supported <tt>MediaFormat</tt>s for
      * <tt>mediaDevice</tt>, in decreasing order of priority.
      */
-    public List<MediaFormat> getLocallySupportedFormats(
-            MediaDevice mediaDevice,
-            QualityPreset sendPreset, QualityPreset receivePreset)
-    {
-        if(mediaDevice == null)
+    public List<MediaFormat> getLocallySupportedFormats(MediaDevice mediaDevice, QualityPreset sendPreset, QualityPreset receivePreset) {
+        if(mediaDevice == null) {
             return Collections.emptyList();
+        }
 
-        Map<String, String> accountProperties
-            = getPeer().getProtocolProvider().getAccountID()
-                    .getAccountProperties();
-        String overrideEncodings
-            = accountProperties.get(ProtocolProviderFactory.OVERRIDE_ENCODINGS);
+        Map<String, String> accountProperties = getPeer().getProtocolProvider().getAccountID().getAccountProperties();
+        String overrideEncodings = accountProperties.get(ProtocolProviderFactory.OVERRIDE_ENCODINGS);
 
-        if(Boolean.parseBoolean(overrideEncodings))
-        {
+        if(Boolean.parseBoolean(overrideEncodings)) {
             /*
              * The account properties associated with the CallPeer of this
              * CallPeerMediaHandler override the global EncodingConfiguration.
              */
 
-            EncodingConfiguration encodingConfiguration
-                = SipAlzProvider.getMediaService()
-                        .createEmptyEncodingConfiguration();
+            EncodingConfiguration encodingConfiguration = SipAlzProvider.getMediaService().createEmptyEncodingConfiguration();
 
-            encodingConfiguration.loadProperties(
-                    accountProperties,
-                    ProtocolProviderFactory.ENCODING_PROP_PREFIX);
-            return
-                mediaDevice.getSupportedFormats(
-                        sendPreset, receivePreset,
-                        encodingConfiguration);
-        }
-        else /* The global EncodingConfiguration is in effect. */
-        {
+            encodingConfiguration.loadProperties(accountProperties, ProtocolProviderFactory.ENCODING_PROP_PREFIX);
+            //OVERRRIDE_ENCODING now means use only the encodings given by the account properties
+//            return mediaDevice.getSupportedFormats(sendPreset, receivePreset, encodingConfiguration);
+            return getAccountOverrideProperties(mediaDevice, accountProperties);
+        } else /* The global EncodingConfiguration is in effect. */ {
             return mediaDevice.getSupportedFormats(sendPreset, receivePreset);
         }
+    }
+
+    private List<MediaFormat> getAccountOverrideProperties(MediaDevice mediaDevice, Map<String, String> accountProperties) {
+        List<MediaFormat> deviceFormats = mediaDevice.getSupportedFormats();
+        List<MediaFormat> accountEncodings = new ArrayList<MediaFormat>();
+        String[] overrideEncodings = accountProperties.get(ProtocolProviderFactory.ENCODING_PROP_PREFIX).split(",");
+        for (MediaFormat format : deviceFormats) {
+            String encoding = format.getEncoding();
+            //TODO possibly use account overrides
+            for (String overrideEncoding: overrideEncodings) {
+                if (encoding.contains(overrideEncoding)) {
+                    accountEncodings.add(format);
+                }
+            }
+            //TODO hard-coded for now
+            if (format.getClockRate() == 8000 && !encoding.contains("722")) {
+                accountEncodings.add(format);
+            }
+        }
+
+        return accountEncodings;
     }
 
     /**
