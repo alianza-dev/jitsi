@@ -177,6 +177,8 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
     private final Hashtable<String, List<MethodProcessor>> methodProcessors =
         new Hashtable<String, List<MethodProcessor>>();
 
+    private final Hashtable<String, List<MethodPreProcessor>> methodPreProcessors = new Hashtable<String, List<MethodPreProcessor>>();
+
     /**
      * The name of the property under which the user may specify a transport
      * to use for destinations whose preferred transport is unknown.
@@ -774,6 +776,17 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
         //corresponding method
         List<MethodProcessor> processors = methodProcessors.get(method);
 
+        //try the preProcessors first
+        List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
+        if (preProcessors != null) {
+            for (MethodPreProcessor preProcessor : preProcessors) {
+                if (preProcessor.preProcessResponse(clientTransaction, response)) {
+                    return;
+                }
+            }
+        }
+
+        //now let the regular processors handle it
         if (processors != null)
         {
             if (logger.isDebugEnabled())
@@ -782,9 +795,9 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
 
             logger.info("processing " + method + " with " + processors.size() + " processors");
             for (MethodProcessor processor : processors) {
-                processor.processResponse(responseEvent);
-//                if (processor.processResponse(responseEvent))
-//                    break;
+                if (processor.processResponse(responseEvent)) {
+                    break;
+                }
             }
         }
     }
@@ -952,6 +965,37 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
 
         earlyProcessMessage(requestEvent);
 
+        String method = request.getMethod();
+
+        // send a 489 / Bad Event response
+        ServerTransaction serverTransaction = requestEvent.getServerTransaction();
+
+        if (serverTransaction == null) {
+            try {
+                serverTransaction = SipStackSharing.getOrCreateServerTransaction(requestEvent);
+            } catch (TransactionAlreadyExistsException ex) {
+                //let's not scare the user and only log a message
+                logger.error("Failed to create a new server transaction for an incoming request\n"
+                                + "(Next message contains the request)", ex);
+                return;
+            } catch (TransactionUnavailableException ex) {
+                //let's not scare the user and only log a message
+                logger.error("Failed to create a new server transaction for an incoming request\n"
+                                + "(Next message contains the request)", ex);
+                return;
+            }
+        }
+
+        //try the preProcessors first
+        List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
+        if (preProcessors != null) {
+            for (MethodPreProcessor preProcessor : preProcessors) {
+                if (preProcessor.preProcessRequest(serverTransaction, request)) {
+                    return;
+                }
+            }
+        }
+
         // test if an Event header is present and known
         EventHeader eventHeader = (EventHeader)
             request.getHeader(EventHeader.NAME);
@@ -968,35 +1012,8 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
 
             if (!eventKnown)
             {
-                // send a 489 / Bad Event response
-                ServerTransaction serverTransaction = requestEvent
-                    .getServerTransaction();
-
-                if (serverTransaction == null)
-                {
-                    try
-                    {
-                        serverTransaction = SipStackSharing.
-                            getOrCreateServerTransaction(requestEvent);
-                    }
-                    catch (TransactionAlreadyExistsException ex)
-                    {
-                        //let's not scare the user and only log a message
-                        logger.error("Failed to create a new server"
-                            + "transaction for an incoming request\n"
-                            + "(Next message contains the request)"
-                            , ex);
-                        return;
-                    }
-                    catch (TransactionUnavailableException ex)
-                    {
-                        //let's not scare the user and only log a message
-                        logger.error("Failed to create a new server"
-                            + "transaction for an incoming request\n"
-                            + "(Next message contains the request)"
-                            , ex);
-                            return;
-                    }
+                if (serverTransaction == null) {
+                    return;
                 }
 
                 Response response = null;
@@ -1030,8 +1047,6 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
         }
 
 
-        String method = request.getMethod();
-
         //find the object that is supposed to take care of responses with the
         //corresponding method
         List<MethodProcessor> processors = methodProcessors.get(method);
@@ -1050,7 +1065,7 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
                 if (processor.processRequest(requestEvent))
                 {
                     processedAtLeastOnce = true;
-//                    break;
+                    break;
                 }
             }
         }
@@ -1058,31 +1073,22 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
         //send an error response if no one processes this
         if (!processedAtLeastOnce)
         {
-            ServerTransaction serverTransaction;
             try
             {
-                serverTransaction = SipStackSharing.getOrCreateServerTransaction(requestEvent);
-
-                if (serverTransaction == null)
-                {
-                    logger.warn("Could not create a transaction for a "
-                               +"non-supported method " + request.getMethod());
+                if (serverTransaction == null) {
+                    logger.warn("Could not create a transaction for a non-supported method " + request.getMethod());
                     return;
                 }
 
                 TransactionState state = serverTransaction.getState();
 
-                if( TransactionState.TRYING.equals(state))
-                {
-                    Response response = this.getMessageFactory().createResponse(
-                                    Response.NOT_IMPLEMENTED, request);
+                if( TransactionState.TRYING.equals(state)) {
+                    Response response = this.getMessageFactory().createResponse(Response.NOT_IMPLEMENTED, request);
                     serverTransaction.sendResponse(response);
                 }
             }
-            catch (Throwable exc)
-            {
-                logger.warn("Could not respond to a non-supported method "
-                                + request.getMethod(), exc);
+            catch (Throwable exc) {
+                logger.warn("Could not respond to a non-supported method " + request.getMethod(), exc);
             }
         }
     }
@@ -1922,6 +1928,26 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
             && (processors.size() <= 0))
         {
             methodProcessors.remove(method);
+        }
+    }
+
+    public void registerPreProcessor(String method, MethodPreProcessor preProcessor) {
+        if (preProcessor != null) {
+            List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
+            if (preProcessors == null) {
+                preProcessors = new ArrayList<>();
+            }
+            preProcessors.add(preProcessor);
+            methodPreProcessors.put(method, preProcessors);
+        }
+    }
+
+    public void unregisterPreProcessor(String method, MethodPreProcessor preProcessor) {
+        if (preProcessor != null) {
+            List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
+            if (preProcessors != null) {
+                preProcessors.remove(preProcessor);
+            }
         }
     }
 
