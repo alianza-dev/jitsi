@@ -171,6 +171,9 @@ public class PacketLoggingServiceImpl
      */
     public void start()
     {
+        if (saverThread.stopped) {
+            saverThread = new SaverThread();
+        }
         saverThread.start();
     }
 
@@ -181,17 +184,18 @@ public class PacketLoggingServiceImpl
     private void getFileNames()
         throws Exception
     {
-        int fileCount = getConfiguration().getLogfileCount();
+        PacketLoggingConfigurationImpl config = (PacketLoggingConfigurationImpl) getConfiguration();
+        int fileCount = config.getLogfileCount();
 
         files = new File[fileCount];
+        String fileName = config.getLogfileName();
+        String fileDir = config.getLogfileDir();
         for(int i = 0; i < fileCount; i++)
         {
-            files[i]
-                = SipAlzProvider.getFileAccessService()
-                    .getPrivatePersistentFile(
-                        new File(PacketLoggingActivator.LOGGING_DIR_NAME,
-                            "jitsi" + i + ".pcap").toString(),
-                        FileCategory.LOG);
+            files[i] = SipAlzProvider.getFileAccessService().getPrivatePersistentFile(
+                    new File(fileDir, fileName + i + ".pcap").toString(),
+                    FileCategory.LOG
+            );
         }
     }
 

@@ -31,6 +31,16 @@ public class PacketLoggingConfigurationImpl
     extends PacketLoggingConfiguration
 {
     /**
+     * The log file name
+     */
+    private String logfileName = "jitsi";
+
+    /**
+     * The log file directory
+     */
+    private String logfileDir = PacketLoggingActivator.LOGGING_DIR_NAME;
+
+    /**
      * Creates new PacketLoggingConfiguration and load values from
      * configuration service and if missing uses already defined
      * default values.
@@ -174,4 +184,37 @@ public class PacketLoggingConfigurationImpl
                 PACKET_LOGGING_FILE_COUNT_PROPERTY_NAME,
                 logfileCount);
     }
+
+    /**
+     * The name of the log file
+     * @return log file name
+     */
+    public String getLogfileName() {
+        return logfileName;
+    }
+
+    /**
+     * The name of the log file directory
+     * @return log file directory
+     */
+    public String getLogfileDir() {
+        return logfileDir;
+    }
+
+    /**
+     * Changes log file name
+     * @param logfileName the new log file name
+     */
+    public void setLogfileName(String logfileName) {
+        this.logfileName = logfileName;
+    }
+
+    /**
+     * Changes log file directory
+     * @param logfileDir the new log file directory
+     */
+    public void setLogfileDir(String logfileDir) {
+        this.logfileDir = logfileDir;
+    }
+
 }

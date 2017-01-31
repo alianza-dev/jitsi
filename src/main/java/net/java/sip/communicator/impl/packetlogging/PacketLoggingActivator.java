@@ -63,7 +63,7 @@ public class PacketLoggingActivator
     /**
      * The name of the log dir.
      */
-    final static String LOGGING_DIR_NAME = "log";
+    public final static String LOGGING_DIR_NAME = "log";
 
     /**
      * Creates a PacketLoggingServiceImpl, starts it, and registers it as a
