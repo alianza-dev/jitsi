@@ -18,6 +18,8 @@
 package net.java.sip.communicator.impl.protocol.sip;
 
 import javax.sip.ClientTransaction;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
 import javax.sip.ServerTransaction;
 import javax.sip.message.Request;
 import javax.sip.message.Response;
@@ -37,17 +39,19 @@ public interface MethodPreProcessor
      *
      * @param serverTransaction the serverTransaction from the <code>RequestEvent</code> to the processor representing a Request received from the network
      * @param request the request from the <code>RequestEvent</code> to the processor representing a Request received from the network
+     * @param event the handle to the event where the request and transaction came from
      * @return <tt>true</tt> if the specified event has been handled by this preprocessor and shouldn't be offered to other processors registered for the same method; <tt>false</tt>, otherwise
      */
-    boolean preProcessRequest(ServerTransaction serverTransaction, Request request);
+    boolean preProcessRequest(ServerTransaction serverTransaction, Request request, RequestEvent event);
 
     /**
      * Pre-Processes a Response received on a <code>ProtocolProviderAlzService</code> upon which this processor is registered.
      *
      * @param clientTransaction the clientTransaction from the <code>ResponseEvent</code> to the processor representing a Response received from the network
      * @param response the response from the <code>ResponseEvent</code> to the processor representing a Response received from the network
+     * @param event the handle to the event where the request and transaction came from
      * @return <tt>true</tt> if the specified event has been handled by this preprocessor and shouldn't be offered to other processors registered for the same method; <tt>false</tt>, otherwise
      */
-    boolean preProcessResponse(ClientTransaction clientTransaction, Response response);
+    boolean preProcessResponse(ClientTransaction clientTransaction, Response response, ResponseEvent event);
 
 }

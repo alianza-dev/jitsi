@@ -780,7 +780,7 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
         List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
         if (preProcessors != null) {
             for (MethodPreProcessor preProcessor : preProcessors) {
-                if (preProcessor.preProcessResponse(clientTransaction, response)) {
+                if (preProcessor.preProcessResponse(clientTransaction, response, responseEvent)) {
                     return;
                 }
             }
@@ -990,7 +990,7 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
         List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
         if (preProcessors != null) {
             for (MethodPreProcessor preProcessor : preProcessors) {
-                if (preProcessor.preProcessRequest(serverTransaction, request)) {
+                if (preProcessor.preProcessRequest(serverTransaction, request, requestEvent)) {
                     return;
                 }
             }
