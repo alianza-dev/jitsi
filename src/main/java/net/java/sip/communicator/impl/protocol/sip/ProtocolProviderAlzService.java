@@ -67,6 +67,7 @@ import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeE
 import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
 import net.java.sip.communicator.util.NetworkUtils;
+import org.jitsi.impl.neomedia.recording.RTPRecorder;
 import org.jitsi.service.version.Version;
 import org.jitsi.util.StringUtils;
 
@@ -178,6 +179,8 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
         new Hashtable<String, List<MethodProcessor>>();
 
     private final Hashtable<String, List<MethodPreProcessor>> methodPreProcessors = new Hashtable<String, List<MethodPreProcessor>>();
+
+    private final Hashtable<String, List<MethodPostProcessor>> methodPostProcessors = new Hashtable<String, List<MethodPostProcessor>>();
 
     /**
      * The name of the property under which the user may specify a transport
@@ -778,16 +781,18 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
 
         //try the preProcessors first
         List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
+        boolean skipProcessors = false;
         if (preProcessors != null) {
             for (MethodPreProcessor preProcessor : preProcessors) {
                 if (preProcessor.preProcessResponse(clientTransaction, response, responseEvent)) {
-                    return;
+                    skipProcessors = true;
+                    break;
                 }
             }
         }
 
         //now let the regular processors handle it
-        if (processors != null)
+        if (processors != null && !skipProcessors)
         {
             if (logger.isDebugEnabled())
                 logger.debug("Found " + processors.size()
@@ -800,6 +805,17 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
                 }
             }
         }
+
+        //try the postProcessors lastly
+        List<MethodPostProcessor> postProcessors = methodPostProcessors.get(method);
+        if (postProcessors != null) {
+            for (MethodPostProcessor postProcessor : postProcessors) {
+                if (postProcessor.postProcessResponse(clientTransaction, response, responseEvent)) {
+                    break;
+                }
+            }
+        }
+
     }
 
     /**
@@ -986,16 +1002,6 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
             }
         }
 
-        //try the preProcessors first
-        List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
-        if (preProcessors != null) {
-            for (MethodPreProcessor preProcessor : preProcessors) {
-                if (preProcessor.preProcessRequest(serverTransaction, request, requestEvent)) {
-                    return;
-                }
-            }
-        }
-
         // test if an Event header is present and known
         EventHeader eventHeader = (EventHeader)
             request.getHeader(EventHeader.NAME);
@@ -1046,7 +1052,6 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
             }
         }
 
-
         //find the object that is supposed to take care of responses with the
         //corresponding method
         List<MethodProcessor> processors = methodProcessors.get(method);
@@ -1054,7 +1059,18 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
         //raise this flag if at least one processor handles the request.
         boolean processedAtLeastOnce = false;
 
-        if (processors != null)
+        //try the preProcessors first
+        List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
+        if (preProcessors != null) {
+            for (MethodPreProcessor preProcessor : preProcessors) {
+                if (preProcessor.preProcessRequest(serverTransaction, request, requestEvent)) {
+                    processedAtLeastOnce = true;
+                    break;
+                }
+            }
+        }
+
+        if (processors != null && !processedAtLeastOnce)
         {
             if (logger.isDebugEnabled())
                 logger.debug("Found " + processors.size()
@@ -1064,6 +1080,17 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
             {
                 if (processor.processRequest(requestEvent))
                 {
+                    processedAtLeastOnce = true;
+                    break;
+                }
+            }
+        }
+
+        //try the postProcessors lastly
+        List<MethodPostProcessor> postProcessors = methodPostProcessors.get(method);
+        if (postProcessors != null) {
+            for (MethodPostProcessor postProcessor : postProcessors) {
+                if (postProcessor.postProcessRequest(serverTransaction, request, requestEvent)) {
                     processedAtLeastOnce = true;
                     break;
                 }
@@ -1947,6 +1974,26 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
             List<MethodPreProcessor> preProcessors = methodPreProcessors.get(method);
             if (preProcessors != null) {
                 preProcessors.remove(preProcessor);
+            }
+        }
+    }
+
+    public void registerPostProcessor(String method, MethodPostProcessor postProcessor) {
+        if (postProcessor != null) {
+            List<MethodPostProcessor> postProcessors = methodPostProcessors.get(method);
+            if (postProcessors == null) {
+                postProcessors = new ArrayList<>();
+            }
+            postProcessors.add(postProcessor);
+            methodPostProcessors.put(method, postProcessors);
+        }
+    }
+
+    public void unregisterPostProcessor(String method, MethodPostProcessor postProcessor) {
+        if (postProcessor != null) {
+            List<MethodPostProcessor> postProcessors = methodPostProcessors.get(method);
+            if (postProcessors != null) {
+                postProcessors.remove(postProcessor);
             }
         }
     }
