@@ -17,18 +17,27 @@
  */
 package net.java.sip.communicator.plugin.addrbook.msoutlook.calendar;
 
-import java.beans.*;
-import java.text.*;
-import java.util.*;
-import java.util.regex.*;
+import net.java.sip.communicator.service.calendar.CalendarService;
+import net.java.sip.communicator.service.calendar.FreeBusySateListener;
+import net.java.sip.communicator.service.protocol.OperationSetPresence;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.protocol.event.ProviderPresenceStatusChangeEvent;
+import net.java.sip.communicator.service.protocol.event.ProviderPresenceStatusListener;
+import net.java.sip.communicator.util.Logger;
 
-
-import net.java.sip.communicator.plugin.addrbook.*;
-import net.java.sip.communicator.plugin.addrbook.msoutlook.*;
-import net.java.sip.communicator.service.calendar.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import java.beans.PropertyChangeEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.regex.Pattern;
 
 /**
  * A implementation of <tt>CalendarService</tt> for MS Outlook calendar.
@@ -360,27 +369,26 @@ public class CalendarServiceImpl implements CalendarService
      * @param propIds the IDs of the properties that we are interested for.
      * @param flags the flags.
      * @return array of property values for the given calendar item.
-     * @throws MsOutlookMAPIHResultException
      */
-    public static native Object[] IMAPIProp_GetProps(String entryId,
-        long[] propIds, long flags)
-    throws MsOutlookMAPIHResultException;
+    public static native Object[] IMAPIProp_GetProps(String entryId, long[] propIds, long flags)
+    throws Exception;
 
     /**
      * Gets the property values of given calendar item and creates
      * <tt>CalendarItemTimerTask</tt> instance for it.
      * @param id The outlook calendar item identifier.
      *
-     * @throws MsOutlookMAPIHResultException if anything goes wrong while
-     * getting the properties of the calendar item.
      */
     private synchronized void insert(String id)
-        throws MsOutlookMAPIHResultException
     {
         Object[] props = null;
-        props
-            = IMAPIProp_GetProps(id, MAPICalendarProperties.getALLPropertyIDs(),
-                MAPI_UNICODE);
+        try {
+            props
+                = IMAPIProp_GetProps(id, MAPICalendarProperties.getALLPropertyIDs(),
+                    MAPI_UNICODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         addCalendarItem(props, id);
     }
@@ -469,27 +477,14 @@ public class CalendarServiceImpl implements CalendarService
         if(recurringData != null)
         {
             task = new CalendarItemTimerTask(status, startTime, endTime, id,
-                executeNow, null);
-            try
-            {
-                RecurringPattern pattern
-                    = new RecurringPattern(recurringData, task);
-                task.setPattern(pattern);
-            }
-            catch(IndexOutOfBoundsException e)
-            {
-                logger.error(
-                    "Error parsing reccuring pattern." + e.getMessage(),e);
-                logger.error("Reccuring data:\n" + bytesToHex(recurringData));
-                return;
-            }
+                executeNow);
         }
 
         if(endTime.before(currentTime) || endTime.equals(currentTime))
         {
             if(isRecurring)
             {
-                task = task.getPattern().next(startTime, endTime);
+//                task = task.getPattern().next(startTime, endTime);
             }
             else
                 return;
@@ -497,7 +492,7 @@ public class CalendarServiceImpl implements CalendarService
 
         if(task == null)
             task = new CalendarItemTimerTask(status, startTime, endTime, id,
-                executeNow, null);
+                executeNow);
 
         task.scheduleTasks();
     }
@@ -570,21 +565,13 @@ public class CalendarServiceImpl implements CalendarService
         return currentState;
     }
 
-    /**
-     * The method is not implemented yet.
-     */
     @Override
-    public void addFreeBusySateListener(FreeBusySateListener listener)
-    {
+    public void addFreeBusySateListener(FreeBusySateListener listener) {
 
     }
 
-    /**
-     * The method is not implemented yet.
-     */
     @Override
-    public void removeFreeBusySateListener(FreeBusySateListener listener)
-    {
+    public void removeFreeBusySateListener(FreeBusySateListener listener) {
 
     }
 
@@ -777,8 +764,7 @@ public class CalendarServiceImpl implements CalendarService
          */
         private void run(boolean onThePhoneStatusChanged)
         {
-            List<ProtocolProviderService> providers
-                = AddrBookActivator.getProtocolProviders();
+            List<ProtocolProviderService> providers = null;
 
             if ((providers == null) || (providers.size() == 0))
             {
@@ -925,7 +911,7 @@ public class CalendarServiceImpl implements CalendarService
             {
                 insert(id);
             }
-            catch (MsOutlookMAPIHResultException e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -949,7 +935,7 @@ public class CalendarServiceImpl implements CalendarService
                 }
                 insert(id);
             }
-            catch (MsOutlookMAPIHResultException e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -979,7 +965,7 @@ public class CalendarServiceImpl implements CalendarService
             {
                 insert(id);
             }
-            catch (MsOutlookMAPIHResultException e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }

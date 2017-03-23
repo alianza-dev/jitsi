@@ -17,10 +17,11 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.awt.*;
-import java.awt.event.*;
+import net.java.sip.communicator.service.protocol.event.RemoteControlListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * Represents an <tt>OperationSet</tt> giving access to desktop sharing

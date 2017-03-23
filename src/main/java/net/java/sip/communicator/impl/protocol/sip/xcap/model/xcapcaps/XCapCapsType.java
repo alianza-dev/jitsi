@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.xcapcaps;
 
-import java.util.*;
+import org.w3c.dom.Element;
 
-import org.w3c.dom.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains the capabilities of an XCAP server.

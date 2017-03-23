@@ -19,9 +19,9 @@ package net.java.sip.communicator.impl.protocol.sip;
 
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.service.argdelegation.UriHandler;
-import net.java.sip.communicator.service.gui.PopupDialog;
 import net.java.sip.communicator.service.protocol.AccountID;
 import net.java.sip.communicator.service.protocol.AccountManager;
+import net.java.sip.communicator.service.protocol.DefaultSecurityAuthority;
 import net.java.sip.communicator.service.protocol.OperationFailedException;
 import net.java.sip.communicator.service.protocol.OperationSetBasicTelephony;
 import net.java.sip.communicator.service.protocol.OperationSetVideoTelephony;
@@ -33,9 +33,6 @@ import net.java.sip.communicator.service.protocol.event.AccountManagerListener;
 import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
 import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
-//import org.osgi.framework.ServiceEvent;
-//import org.osgi.framework.ServiceListener;
-//import org.osgi.framework.ServiceRegistration;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -81,11 +78,6 @@ public class UriHandlerSipImpl implements UriHandler, AccountManagerListener
      * The protocol provider factory that created us.
      */
     private final ProtocolProviderFactory protoFactory;
-
-    /**
-     * A reference to the OSGi registration we create with this handler.
-     */
-//    private ServiceRegistration ourServiceRegistration = null;
 
     /**
      * The object that we are using to synchronize our service registration.
@@ -475,57 +467,8 @@ public class UriHandlerSipImpl implements UriHandler, AccountManagerListener
     private boolean promptForRegistration(String uri,
         ProtocolProviderService provider)
     {
-        int answer =
-            SipAlzProvider
-                .getUIService()
-                .getPopupDialog()
-                .showConfirmPopupDialog(
-                    "You need to be online in order to make a call and your "
-                        + "account is currently offline. Do want to connect now?",
-                    "Account is currently offline", PopupDialog.YES_NO_OPTION);
-
-        if (answer == PopupDialog.YES_OPTION)
-        {
-            new ProtocolRegistrationThread(uri, provider).start();
-            return true;
-        }
         return false;
     }
-
-    /**
-     * The point of implementing a service listener here is so that we would
-     * only register our own uri handling service and thus only handle URIs
-     * while the factory is available as an OSGi service. We remove ourselves
-     * when our factory unregisters its service reference.
-     *
-     * @param event the OSGi <tt>ServiceEvent</tt>
-     */
-//    public void serviceChanged(ServiceEvent event)
-//    {
-//        Object sourceService =
-//            SipAlzProvider.bundleContext.getService(event.getServiceReference());
-
-        // ignore anything but our protocol factory.
-//        if (sourceService != protoFactory)
-//        {
-//            return;
-//        }
-
-//        switch (event.getType())
-//        {
-//        case ServiceEvent.REGISTERED:
-            // our factory has just been registered as a service ...
-//            registerHandlerService();
-//            break;
-//        case ServiceEvent.UNREGISTERING:
-            // our factory just died - seppuku.
-//            unregisterHandlerService();
-//            break;
-//        default:
-            // we don't care.
-//            break;
-//        }
-//    }
 
     /**
      * Uses the <tt>UIService</tt> to show an error <tt>message</tt> and log and
@@ -536,8 +479,6 @@ public class UriHandlerSipImpl implements UriHandler, AccountManagerListener
      */
     private void showErrorMessage(String message, Exception exc)
     {
-        SipAlzProvider.getUIService().getPopupDialog().showMessagePopupDialog(
-            message, "Failed to create call!", PopupDialog.ERROR_MESSAGE);
         logger.error(message, exc);
     }
 
@@ -588,8 +529,7 @@ public class UriHandlerSipImpl implements UriHandler, AccountManagerListener
 
             try
             {
-                handlerProvider.register(SipAlzProvider.getUIService()
-                    .getDefaultSecurityAuthority(handlerProvider));
+                handlerProvider.register(new DefaultSecurityAuthority(handlerProvider));
             }
             catch (OperationFailedException exc)
             {
@@ -678,12 +618,7 @@ public class UriHandlerSipImpl implements UriHandler, AccountManagerListener
             providers.add(new ProviderComboBoxEntry(provider));
         }
 
-        Object result =
-            SipAlzProvider.getUIService().getPopupDialog().showInputPopupDialog(
-                "Please select the account that you would like \n"
-                    + "to use to call " + uri, "Account Selection",
-                PopupDialog.OK_CANCEL_OPTION, providers.toArray(),
-                providers.get(0));
+        Object result = providers.get(0);
 
         if (result == null)
         {

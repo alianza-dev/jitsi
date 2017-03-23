@@ -17,11 +17,15 @@
  */
 package net.java.sip.communicator.util;
 
-import java.io.*;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import org.jitsi.service.fileaccess.FileAccessService;
+import org.jitsi.service.fileaccess.FileCategory;
 
-import org.jitsi.service.fileaccess.*;
-
-import net.java.sip.communicator.service.protocol.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * The <tt>AvatarCacheUtils</tt> allows to cache an avatar or to obtain the
@@ -95,31 +99,6 @@ public class AvatarCacheUtils
      * @return the bytes of the avatar image stored for the account
      * corresponding to the given protocol provider
      */
-    public static byte[] getCachedAvatar(Contact protocolContact)
-    {
-        String avatarPath = getCachedAvatarPath(protocolContact);
-
-        byte[] cachedAvatar = getLocallyStoredAvatar(avatarPath);
-
-        /*
-         * Caching a zero-length avatar happens but such an avatar isn't
-         * very useful.
-         */
-        if ((cachedAvatar != null) && (cachedAvatar.length > 0))
-            return cachedAvatar;
-
-        return null;
-    }
-
-    /**
-     * Returns the bytes of the avatar image stored for the account
-     * corresponding to the given protocol provider.
-     *
-     * @param protocolProvider the <tt>ProtocolProviderService</tt>, which
-     * account avatar image we're looking for
-     * @return the bytes of the avatar image stored for the account
-     * corresponding to the given protocol provider
-     */
     public static String getCachedAvatarPath(
                                     ProtocolProviderService protocolProvider)
     {
@@ -130,27 +109,6 @@ public class AvatarCacheUtils
             + File.separator
             + escapeSpecialCharacters(
                     protocolProvider.getAccountID().getAccountUniqueID());
-    }
-
-    /**
-     * Returns the bytes of the avatar image stored for the account
-     * corresponding to the given protocol provider.
-     *
-     * @param protocolProvider the <tt>ProtocolProviderService</tt>, which
-     * account avatar image we're looking for
-     * @return the bytes of the avatar image stored for the account
-     * corresponding to the given protocol provider
-     */
-    public static String getCachedAvatarPath(Contact protocolContact)
-    {
-        return AVATAR_DIR
-            + File.separator
-            + escapeSpecialCharacters(
-                protocolContact
-                    .getProtocolProvider()
-                        .getAccountID().getAccountUniqueID())
-            + File.separator
-            + escapeSpecialCharacters(protocolContact.getAddress());
     }
 
     /**
@@ -184,11 +142,7 @@ public class AvatarCacheUtils
     {
         try
         {
-            File avatarFile
-                = UtilActivator
-                    .getFileAccessService()
-                        .getPrivatePersistentFile(avatarPath,
-                            FileCategory.CACHE);
+            File avatarFile = null;
 
             if(avatarFile.exists())
             {
@@ -304,8 +258,7 @@ public class AvatarCacheUtils
         File avatarFile = null;
         try
         {
-            FileAccessService fileAccessService
-                = UtilActivator.getFileAccessService();
+            FileAccessService fileAccessService = null;
 
             avatarDir
                 = fileAccessService.getPrivatePersistentDirectory(

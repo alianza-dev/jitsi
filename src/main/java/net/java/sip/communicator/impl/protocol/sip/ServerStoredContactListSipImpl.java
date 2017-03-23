@@ -17,27 +17,49 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.address.*;
-
-import java.net.URI;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.address.*;
-
-import net.java.sip.communicator.impl.protocol.sip.xcap.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.*;
-import net.java.sip.communicator.service.protocol.*;
+import gov.nist.javax.sip.address.SipUri;
+import net.java.sip.communicator.impl.protocol.sip.xcap.XCapClient;
+import net.java.sip.communicator.impl.protocol.sip.xcap.XCapClientImpl;
+import net.java.sip.communicator.impl.protocol.sip.xcap.XCapException;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.ActionsType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.ConditionsType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.IdentityType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.OneType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.RuleType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.RulesetType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.TransformationsType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.ContentType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.DataType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.EncodingType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.MimeType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.ProvideDevicePermissionType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.ProvidePersonPermissionType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.ProvideServicePermissionType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.SubHandlingType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.EntryType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.ListType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.ResourceListsType;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.ContactGroup;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ServerStoredDetails;
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.ImageDetail;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
-import net.java.sip.communicator.util.Base64; // disambiguation
-
+import net.java.sip.communicator.service.protocol.event.ContactPropertyChangeEvent;
+import net.java.sip.communicator.service.protocol.event.ServerStoredGroupEvent;
+import net.java.sip.communicator.util.Base64;
+import net.java.sip.communicator.util.Logger;
 import org.jitsi.util.xml.XMLUtils;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.sip.address.Address;
+import javax.sip.address.SipURI;
+import java.net.URI;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Encapsulates XCapClient, it's responsible for generate corresponding

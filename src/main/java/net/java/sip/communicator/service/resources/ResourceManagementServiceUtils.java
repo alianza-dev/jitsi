@@ -17,12 +17,9 @@
  */
 package net.java.sip.communicator.service.resources;
 
-import java.util.*;
+import org.jitsi.service.resources.ResourceManagementService;
 
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.resources.*;
-import org.osgi.framework.*;
+import java.util.Locale;
 
 /**
  * @author Lubomir Marinov
@@ -64,18 +61,11 @@ public final class ResourceManagementServiceUtils
      * Gets the <tt>ResourceManagementService</tt> instance registered in a
      * specific <tt>BundleContext</tt> (if any).
      *
-     * @param bundleContext the <tt>BundleContext</tt> to be checked for a
-     * registered <tt>ResourceManagementService</tt>
      * @return a <tt>ResourceManagementService</tt> instance registered in
      * the specified <tt>BundleContext</tt> if any; otherwise, <tt>null</tt>
      */
-    public static ResourceManagementService getService(
-        BundleContext bundleContext)
-    {
-        return
-            ServiceUtils.getService(
-                    bundleContext,
-                    ResourceManagementService.class);
+    public static ResourceManagementService getService() {
+        return null;
     }
 
     /**

@@ -17,9 +17,12 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.ChatRoomInvitationListener;
+import net.java.sip.communicator.service.protocol.event.ChatRoomInvitationRejectionListener;
+import net.java.sip.communicator.service.protocol.event.LocalUserChatRoomPresenceListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Allows creating, configuring, joining and administering of individual

@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import javax.sip.message.*;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
 
 /**
  * Represents a listener which gets notified by the <tt>CallPeer</tt> it is

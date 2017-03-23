@@ -17,22 +17,63 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.net.URI;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.service.protocol.sip.*;
-import net.java.sip.communicator.util.*;
-
+import net.java.sip.communicator.service.protocol.AbstractOperationSetPersistentPresence;
+import net.java.sip.communicator.service.protocol.AuthorizationHandler;
+import net.java.sip.communicator.service.protocol.AuthorizationRequest;
+import net.java.sip.communicator.service.protocol.AuthorizationResponse;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.ContactGroup;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetContactTypeInfo;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.event.ContactPropertyChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
+import net.java.sip.communicator.service.protocol.event.ServerStoredGroupListener;
+import net.java.sip.communicator.service.protocol.event.SubscriptionEvent;
+import net.java.sip.communicator.service.protocol.sip.SipAccountID;
+import net.java.sip.communicator.util.Logger;
 import org.jitsi.util.xml.XMLUtils;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.sip.ClientTransaction;
+import javax.sip.DialogTerminatedEvent;
+import javax.sip.IOExceptionEvent;
+import javax.sip.InvalidArgumentException;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.SipException;
+import javax.sip.SipProvider;
+import javax.sip.TimeoutEvent;
+import javax.sip.TransactionTerminatedEvent;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.address.Address;
+import javax.sip.header.CSeqHeader;
+import javax.sip.header.CallIdHeader;
+import javax.sip.header.ContentTypeHeader;
+import javax.sip.header.EventHeader;
+import javax.sip.header.ExpiresHeader;
+import javax.sip.header.FromHeader;
+import javax.sip.header.MaxForwardsHeader;
+import javax.sip.header.MinExpiresHeader;
+import javax.sip.header.SIPETagHeader;
+import javax.sip.header.SIPIfMatchHeader;
+import javax.sip.header.SubscriptionStateHeader;
+import javax.sip.header.ToHeader;
+import javax.sip.header.ViaHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.net.URI;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TimerTask;
+import java.util.Vector;
 
 /**
  * Sip presence implementation (SIMPLE).

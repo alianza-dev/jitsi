@@ -17,12 +17,16 @@
  */
 package net.java.sip.communicator.util.account;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.OperationSet;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
-
-import org.osgi.framework.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The <tt>AccountUtils</tt> provides utility methods helping us to easily
@@ -45,11 +49,7 @@ public class AccountUtils
      */
     public static Collection<AccountID> getStoredAccounts()
     {
-        AccountManager accountManager
-            = ServiceUtils.getService(  UtilActivator.bundleContext,
-                                        AccountManager.class);
-
-        return accountManager.getStoredAccounts();
+        return null;
     }
 
     /**
@@ -87,20 +87,6 @@ public class AccountUtils
         List<ProtocolProviderService> opSetProviders
             = new LinkedList<ProtocolProviderService>();
 
-        for (ProtocolProviderFactory providerFactory
-                : UtilActivator.getProtocolProviderFactories().values())
-        {
-            for (AccountID accountID : providerFactory.getRegisteredAccounts())
-            {
-                ProtocolProviderService protocolProvider = providerFactory.getProviderForAccount(accountID);
-
-                if ((protocolProvider.getOperationSet(opSetClass) != null)
-                        && protocolProvider.isRegistered())
-                {
-                    opSetProviders.add(protocolProvider);
-                }
-            }
-        }
         return opSetProviders;
     }
 
@@ -206,29 +192,7 @@ public class AccountUtils
     public static ProtocolProviderService getRegisteredProviderForAccount(
                                                         AccountID accountID)
     {
-        for (ProtocolProviderFactory factory
-                : UtilActivator.getProtocolProviderFactories().values())
-        {
-            if (factory.getRegisteredAccounts().contains(accountID))
-            {
-                return factory.getProviderForAccount(accountID);
-            }
-        }
         return null;
-    }
-
-    /**
-     * Returns a <tt>ProtocolProviderFactory</tt> for a given protocol
-     * provider.
-     * @param protocolProvider the <tt>ProtocolProviderService</tt>, which
-     * factory we're looking for
-     * @return a <tt>ProtocolProviderFactory</tt> for a given protocol
-     * provider
-     */
-    public static ProtocolProviderFactory getProtocolProviderFactory(
-            ProtocolProviderService protocolProvider)
-    {
-        return getProtocolProviderFactory(protocolProvider.getProtocolName());
     }
 
     /**
@@ -241,51 +205,10 @@ public class AccountUtils
     public static ProtocolProviderFactory getProtocolProviderFactory(
             String protocolName)
     {
-        String osgiFilter
-            = "(" + ProtocolProviderFactory.PROTOCOL + "=" + protocolName + ")";
         ProtocolProviderFactory protocolProviderFactory = null;
 
-        try
-        {
-            Collection<ServiceReference<ProtocolProviderFactory>> refs
-                = UtilActivator.bundleContext.getServiceReferences(
-                        ProtocolProviderFactory.class,
-                        osgiFilter);
-
-            if ((refs != null) && !refs.isEmpty())
-            {
-                protocolProviderFactory
-                    = UtilActivator.bundleContext.getService(
-                            refs.iterator().next());
-            }
-        }
-        catch (InvalidSyntaxException ex)
-        {
-            logger.error("AccountUtils : " + ex);
-        }
         return protocolProviderFactory;
     }
 
 
-    /**
-     * Returns all registered protocol providers.
-     *
-     * @return a list of all registered providers
-     */
-    public static Collection<ProtocolProviderService> getRegisteredProviders()
-    {
-        List<ProtocolProviderService> registeredProviders
-            = new LinkedList<ProtocolProviderService>();
-
-        for (ProtocolProviderFactory providerFactory
-                : UtilActivator.getProtocolProviderFactories().values())
-        {
-            for (AccountID accountID : providerFactory.getRegisteredAccounts())
-            {
-                ProtocolProviderService protocolProvider = providerFactory.getProviderForAccount(accountID);
-                registeredProviders.add(protocolProvider);
-            }
-        }
-        return registeredProviders;
-    }
 }

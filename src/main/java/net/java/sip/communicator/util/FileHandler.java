@@ -17,8 +17,9 @@
  */
 package net.java.sip.communicator.util;
 
-import java.io.*;
-import java.util.logging.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.LogManager;
 
 /**
  * Simple file logging <tt>Handler</tt>.

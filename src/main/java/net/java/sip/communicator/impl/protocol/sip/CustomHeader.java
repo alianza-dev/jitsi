@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.header.*;
+import gov.nist.javax.sip.header.SIPHeader;
 
 /**
  * Custom header to insert. Custom name and value.

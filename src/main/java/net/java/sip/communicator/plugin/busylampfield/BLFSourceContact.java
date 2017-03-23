@@ -17,10 +17,12 @@
  */
 package net.java.sip.communicator.plugin.busylampfield;
 
-import net.java.sip.communicator.service.contactsource.*;
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.service.contactsource.ContactDetail;
+import net.java.sip.communicator.service.contactsource.ContactSourceService;
+import net.java.sip.communicator.service.contactsource.GenericSourceContact;
+import net.java.sip.communicator.service.protocol.OperationSetTelephonyBLF;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * The BLF source contact.

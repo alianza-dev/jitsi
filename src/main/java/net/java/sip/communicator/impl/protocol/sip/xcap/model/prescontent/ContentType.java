@@ -17,11 +17,13 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent;
 
-import java.util.*;
+import org.w3c.dom.Element;
 
-import javax.xml.namespace.*;
-
-import org.w3c.dom.*;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The XCAP content element.

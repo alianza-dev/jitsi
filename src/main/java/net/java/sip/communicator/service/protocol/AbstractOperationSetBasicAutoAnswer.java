@@ -17,10 +17,11 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.CallPeerAdapter;
+import net.java.sip.communicator.service.protocol.event.CallPeerChangeEvent;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import java.util.Iterator;
 
 /**
  * An Abstract Operation Set defining option to unconditionally auto answer

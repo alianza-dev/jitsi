@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import java.util.EventObject;
 
 /**
  * The <tt>CallPeerSecurityFailedEvent</tt> is triggered whenever

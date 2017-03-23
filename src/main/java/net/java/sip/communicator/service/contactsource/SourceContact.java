@@ -17,9 +17,11 @@
  */
 package net.java.sip.communicator.service.contactsource;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.OperationNotSupportedException;
+import net.java.sip.communicator.service.protocol.OperationSet;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.List;
 
 /**
  * The <tt>SourceContact</tt> is the result contact of a search in the

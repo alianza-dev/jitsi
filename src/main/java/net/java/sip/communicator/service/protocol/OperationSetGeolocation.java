@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.GeolocationListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.Map;
 
 /**
  * This interface is an extension of the operation set, meant to be

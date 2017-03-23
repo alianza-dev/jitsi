@@ -17,9 +17,11 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.OperationSet;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.EventObject;
+import java.util.Map;
 
 /**
  * Represents an event/<tt>EventObject</tt> fired by

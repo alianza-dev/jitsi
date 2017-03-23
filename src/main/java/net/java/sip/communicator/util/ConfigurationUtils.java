@@ -17,25 +17,26 @@
  */
 package net.java.sip.communicator.util;
 
-import java.awt.*;
-import java.beans.*;
-import java.io.*;
-import java.util.*;
-import java.util.List;
-
-import javax.net.ssl.*;
-
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.service.msghistory.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.resources.*;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.resources.ResourceManagementServiceUtils;
+import org.jitsi.service.configuration.ConfigurationService;
+import org.jitsi.service.resources.ResourceManagementService;
+import org.jitsi.util.OSUtils;
+import org.jitsi.util.StringUtils;
 
-import org.jitsi.service.configuration.*;
-import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.codec.*;
-import org.jitsi.service.resources.*;
-import org.jitsi.util.*;
-import org.osgi.framework.*;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Cares about all common configurations. Storing and retrieving configuration
@@ -431,10 +432,6 @@ public class ConfigurationUtils
 
         String autoPopup = configService.getString(autoPopupProperty);
 
-        if(autoPopup == null)
-            autoPopup = UtilActivator.getResources().
-                getSettingsString(autoPopupProperty);
-
         if(autoPopup != null && autoPopup.equalsIgnoreCase("yes"))
             autoPopupNewMessage = true;
 
@@ -442,11 +439,6 @@ public class ConfigurationUtils
         String messageCommandProperty
             = "service.gui.SEND_MESSAGE_COMMAND";
         String messageCommand = configService.getString(messageCommandProperty);
-
-        if(messageCommand == null)
-            messageCommand
-                = UtilActivator.getResources()
-                    .getSettingsString(messageCommandProperty);
 
         if(messageCommand == null || messageCommand.length() == 0)
             sendMessageCommand = messageCommand;
@@ -495,11 +487,6 @@ public class ConfigurationUtils
         String isSendTypingNotif =
             configService.getString(isSendTypingNotifProperty);
 
-        if(isSendTypingNotif == null)
-            isSendTypingNotif =
-                UtilActivator.getResources().
-                    getSettingsString(isSendTypingNotifProperty);
-
         if(isSendTypingNotif != null && isSendTypingNotif.length() > 0)
         {
             isSendTypingNotifications
@@ -525,11 +512,6 @@ public class ConfigurationUtils
         String isMultiChatWindowEnabledString
             = configService.getString(isMultiChatWindowEnabledStringProperty);
 
-        if(isMultiChatWindowEnabledString == null)
-            isMultiChatWindowEnabledString =
-                UtilActivator.getResources().
-                    getSettingsString(isMultiChatWindowEnabledStringProperty);
-
         if(isMultiChatWindowEnabledString != null
             && isMultiChatWindowEnabledString.length() > 0)
         {
@@ -549,13 +531,6 @@ public class ConfigurationUtils
             = configService.getString(
                     isLeaveChatRoomOnWindowCloseEnabledStringProperty);
 
-        if(isLeaveChatRoomOnWindowCloseEnabledString == null)
-        {
-            isLeaveChatRoomOnWindowCloseEnabledString
-                = UtilActivator.getResources().getSettingsString(
-                        isLeaveChatRoomOnWindowCloseEnabledStringProperty);
-        }
-
         if(isLeaveChatRoomOnWindowCloseEnabledString != null
             && isLeaveChatRoomOnWindowCloseEnabledString.length() > 0)
         {
@@ -572,11 +547,6 @@ public class ConfigurationUtils
         String isHistoryShownString
             = configService.getString(isHistoryShownStringProperty);
 
-        if(isHistoryShownString == null)
-            isHistoryShownString =
-                UtilActivator.getResources().
-                    getSettingsString(isHistoryShownStringProperty);
-
         if(isHistoryShownString != null
             && isHistoryShownString.length() > 0)
         {
@@ -584,22 +554,11 @@ public class ConfigurationUtils
                 = Boolean.parseBoolean(isHistoryShownString);
         }
 
-        // Load the "isRecentMessagesShown" property.
-        isRecentMessagesShown
-            = !configService.getBoolean(
-                    MessageHistoryService.PNAME_IS_RECENT_MESSAGES_DISABLED,
-                    !isRecentMessagesShown);
-
         // Load the "chatHistorySize" property.
         String chatHistorySizeStringProperty =
             "service.gui.MESSAGE_HISTORY_SIZE";
         String chatHistorySizeString
             = configService.getString(chatHistorySizeStringProperty);
-
-        if(chatHistorySizeString == null)
-            chatHistorySizeString =
-                UtilActivator.getResources().
-                    getSettingsString(chatHistorySizeStringProperty);
 
         if(chatHistorySizeString != null
             && chatHistorySizeString.length() > 0)
@@ -612,11 +571,6 @@ public class ConfigurationUtils
             "net.java.sip.communicator.impl.gui.CHAT_WRITE_AREA_SIZE";
         String chatWriteAreaSizeString
             = configService.getString(chatWriteAreaSizeStringProperty);
-
-        if(chatWriteAreaSizeString == null)
-            chatWriteAreaSizeString =
-                UtilActivator.getResources().
-                    getSettingsString(chatWriteAreaSizeStringProperty);
 
         if(chatWriteAreaSizeString != null
             && chatWriteAreaSizeString.length() > 0)
@@ -632,11 +586,6 @@ public class ConfigurationUtils
         String isTransparentWindowEnabledString
             = configService.getString(isTransparentWindowEnabledProperty);
 
-        if(isTransparentWindowEnabledString == null)
-            isTransparentWindowEnabledString =
-                UtilActivator.getResources().
-                    getSettingsString(isTransparentWindowEnabledProperty);
-
         if(isTransparentWindowEnabledString != null
             && isTransparentWindowEnabledString.length() > 0)
         {
@@ -651,11 +600,6 @@ public class ConfigurationUtils
         String windowTransparencyString
             = configService.getString(windowTransparencyProperty);
 
-        if(windowTransparencyString == null)
-            windowTransparencyString =
-                UtilActivator.getResources().
-                    getSettingsString(windowTransparencyProperty);
-
         if(windowTransparencyString != null
             && windowTransparencyString.length() > 0)
         {
@@ -669,11 +613,6 @@ public class ConfigurationUtils
 
         String isWindowDecoratedString
             = configService.getString(isWindowDecoratedProperty);
-
-        if(isWindowDecoratedString == null)
-            isWindowDecoratedString =
-                UtilActivator.getResources().
-                    getSettingsString(isWindowDecoratedProperty);
 
         if(isWindowDecoratedString != null
             && isWindowDecoratedString.length() > 0)
@@ -790,17 +729,7 @@ public class ConfigurationUtils
                 "PRESET_STATUS_MESSAGES",
                 true);
 
-        // Load the "net.java.sip.communicator.impl.gui.main.account
-        // .ADVANCED_CONFIG_DISABLED" property.
-        String advancedConfigDisabledDefaultProp
-            = UtilActivator.getResources().getSettingsString(
-                "impl.gui.main.account.ADVANCED_CONFIG_DISABLED");
-
         boolean isAdvancedConfigDisabled = false;
-
-        if (advancedConfigDisabledDefaultProp != null)
-            isAdvancedConfigDisabled
-                = Boolean.parseBoolean(advancedConfigDisabledDefaultProp);
 
         // Load the advanced account configuration disabled.
         isAdvancedAccountConfigDisabled
@@ -809,19 +738,7 @@ public class ConfigurationUtils
                 "ADVANCED_CONFIG_DISABLED",
                 isAdvancedConfigDisabled);
 
-        // Single interface enabled property.
-        String singleInterfaceEnabledProp
-            = UtilActivator.getResources().getSettingsString(
-                SINGLE_WINDOW_INTERFACE_ENABLED);
-
         boolean isEnabled = false;
-
-        if (singleInterfaceEnabledProp != null)
-            isEnabled = Boolean.parseBoolean(singleInterfaceEnabledProp);
-        else
-            isEnabled = Boolean.parseBoolean(
-                UtilActivator.getResources().getSettingsString(
-                "impl.gui.SINGLE_WINDOW_INTERFACE"));
 
         // Load the advanced account configuration disabled.
         isSingleWindowInterfaceEnabled
@@ -864,13 +781,6 @@ public class ConfigurationUtils
 
         String showStatusChangedInChatProperty
                 = "impl.gui.SHOW_STATUS_CHANGED_IN_CHAT";
-        String showStatusChangedInChatDefault = UtilActivator.getResources().
-            getSettingsString(showStatusChangedInChatProperty);
-
-        // if there is a default value use it
-        if(showStatusChangedInChatDefault != null)
-            showStatusChangedInChat = Boolean.parseBoolean(
-                showStatusChangedInChatDefault);
 
         showStatusChangedInChat = configService.getBoolean(
             showStatusChangedInChatProperty,
@@ -878,13 +788,6 @@ public class ConfigurationUtils
 
         String routeVideoAndDesktopUsingPhoneNumberProperty
             = "impl.gui.ROUTE_VIDEO_AND_DESKTOP_TO_PNONENUMBER";
-        String routeVideoAndDesktopUsingPhoneNumberDefault =
-            UtilActivator.getResources()
-                .getSettingsString(routeVideoAndDesktopUsingPhoneNumberProperty);
-
-        if(routeVideoAndDesktopUsingPhoneNumberDefault != null)
-            routeVideoAndDesktopUsingPhoneNumber = Boolean.parseBoolean(
-                routeVideoAndDesktopUsingPhoneNumberDefault);
 
         routeVideoAndDesktopUsingPhoneNumber = configService.getBoolean(
             routeVideoAndDesktopUsingPhoneNumberProperty,
@@ -892,12 +795,6 @@ public class ConfigurationUtils
 
         String hideAccountMenuProperty
             = "impl.gui.HIDE_SELECTION_ON_SINGLE_ACCOUNT";
-        String hideAccountMenuDefaultValue = UtilActivator.getResources()
-            .getSettingsString(hideAccountMenuProperty);
-
-        if(hideAccountMenuDefaultValue != null)
-            hideAccountSelectionWhenPossible = Boolean.parseBoolean(
-                hideAccountMenuDefaultValue);
 
         hideAccountSelectionWhenPossible = configService.getBoolean(
             hideAccountMenuProperty,
@@ -905,12 +802,6 @@ public class ConfigurationUtils
 
         String hideAccountStatusSelectorsProperty
             = "impl.gui.HIDE_ACCOUNT_STATUS_SELECTORS";
-        String hideAccountsStatusDefaultValue = UtilActivator.getResources()
-            .getSettingsString(hideAccountStatusSelectorsProperty);
-
-        if(hideAccountsStatusDefaultValue != null)
-            hideAccountStatusSelectors = Boolean.parseBoolean(
-                hideAccountsStatusDefaultValue);
 
         hideAccountStatusSelectors = configService.getBoolean(
             hideAccountStatusSelectorsProperty,
@@ -918,13 +809,6 @@ public class ConfigurationUtils
 
         String autoAnswerDisableSubmenuProperty
             = "impl.gui.AUTO_ANSWER_DISABLE_SUBMENU";
-        String autoAnswerDisableSubmenuDefaultValue =
-            UtilActivator.getResources()
-                .getSettingsString(autoAnswerDisableSubmenuProperty);
-
-        if(autoAnswerDisableSubmenuDefaultValue != null)
-            autoAnswerDisableSubmenu = Boolean.parseBoolean(
-                autoAnswerDisableSubmenuDefaultValue);
 
         autoAnswerDisableSubmenu = configService.getBoolean(
             autoAnswerDisableSubmenuProperty,
@@ -957,12 +841,6 @@ public class ConfigurationUtils
         String hideExtendedAwayStatusProperty
             = "net.java.sip.communicator.service.protocol" +
                 ".globalstatus.HIDE_EXTENDED_AWAY_STATUS";
-        String hideExtendedAwayStatusDefaultValue = UtilActivator.getResources()
-            .getSettingsString(hideExtendedAwayStatusProperty);
-
-        if(hideExtendedAwayStatusDefaultValue != null)
-            hideExtendedAwayStatus = Boolean.parseBoolean(
-                hideExtendedAwayStatusDefaultValue);
 
         hideExtendedAwayStatus = configService.getBoolean(
             hideExtendedAwayStatusProperty,
@@ -992,16 +870,6 @@ public class ConfigurationUtils
             }
         });
 
-        String title = UtilActivator.getResources()
-            .getSettingsString("service.gui.APPLICATION_NAME");
-        for (File pin : pins)
-        {
-            if (pin.getName().contains(title))
-            {
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -1016,12 +884,6 @@ public class ConfigurationUtils
             "net.java.sip.communicator.impl.gui.FONT_SUPPORT_ENABLED";
 
         boolean defaultValue = false;
-
-        String defaultSettingStr =
-            UtilActivator.getResources().getSettingsString(fontDisabledProp);
-
-        if(defaultSettingStr != null)
-            defaultValue = Boolean.parseBoolean(defaultSettingStr);
 
         return configService.getBoolean(
             fontDisabledProp, defaultValue);
@@ -1255,8 +1117,7 @@ public class ConfigurationUtils
     @Deprecated
     public static boolean isHistoryLoggingEnabled()
     {
-        return configService.getBoolean(
-            MessageHistoryService.PNAME_IS_MESSAGE_HISTORY_ENABLED, true);
+        return false;
     }
 
     /**
@@ -1320,10 +1181,6 @@ public class ConfigurationUtils
     public static void setRecentMessagesShown(boolean isShown)
     {
         isRecentMessagesShown = isShown;
-
-        configService.setProperty(
-            MessageHistoryService.PNAME_IS_RECENT_MESSAGES_DISABLED,
-            Boolean.toString(!isRecentMessagesShown));
     }
 
     /**
@@ -1666,20 +1523,6 @@ public class ConfigurationUtils
     {
         ProtocolProviderService protocolProvider = null;
 
-        for (ProtocolProviderFactory providerFactory
-                : UtilActivator.getProtocolProviderFactories().values())
-        {
-            for (AccountID accountId : providerFactory.getRegisteredAccounts())
-            {
-                // We're interested only in the savedAccountId
-                if (!accountId.getAccountUniqueID().equals(savedAccountId))
-                    continue;
-
-                protocolProvider = providerFactory.getProviderForAccount(accountId);
-                if (protocolProvider != null)
-                    break;
-            }
-        }
         return protocolProvider;
     }
 
@@ -2699,10 +2542,7 @@ public class ConfigurationUtils
             = "net.java.sip.communicator.impl.gui.main."
                 + "configforms.SHOW_ACCOUNT_CONFIG";
 
-        boolean defaultValue
-            = !Boolean.parseBoolean(UtilActivator.getResources()
-                .getSettingsString(
-                    "impl.gui.main.account.ACCOUNT_CONFIG_DISABLED"));
+        boolean defaultValue = false;
 
         Boolean showAccountConfigProp
             = configService.getBoolean(SHOW_ACCOUNT_CONFIG_PROP, defaultValue);
@@ -2985,25 +2825,6 @@ public class ConfigurationUtils
     public static boolean hasEnabledVideoFormat(
             ProtocolProviderService protocolProvider)
     {
-        Map<String, String> accountProperties
-                = protocolProvider.getAccountID().getAccountProperties();
-
-        EncodingConfiguration encodingConfiguration;
-        String overrideEncodings = accountProperties
-                .get(ProtocolProviderFactory.OVERRIDE_ENCODINGS);
-        if(Boolean.parseBoolean(overrideEncodings))
-        {
-            encodingConfiguration = UtilActivator.getMediaService().
-                    createEmptyEncodingConfiguration();
-            encodingConfiguration.loadProperties(accountProperties,
-                    ProtocolProviderFactory.ENCODING_PROP_PREFIX);
-        }
-        else
-        {
-            encodingConfiguration = UtilActivator.getMediaService().
-                    getCurrentEncodingConfiguration();
-        }
-
-        return encodingConfiguration.hasEnabledFormat(MediaType.VIDEO);
+        return false;
     }
 }

@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.AdHocChatRoomMessageListener;
+import net.java.sip.communicator.service.protocol.event.AdHocChatRoomParticipantPresenceListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.List;
 
 /**
  * Represents an ad-hoc rendez-vous point where multiple chat users could

@@ -18,10 +18,8 @@
 package net.java.sip.communicator.impl.version;
 
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.resources.*;
-import org.jitsi.service.version.util.*;
+import org.jitsi.service.resources.ResourceManagementService;
+import org.jitsi.service.version.util.AbstractVersion;
 
 /**
  * A static implementation of the Version interface.
@@ -66,7 +64,7 @@ public class VersionImpl
     /**
      * The default name of this application.
      */
-    public static final String DEFAULT_APPLICATION_NAME = "Jitsi";
+    public static final String DEFAULT_APPLICATION_NAME = "Alianza Jitsi";
 
     /**
      * The name of this application.

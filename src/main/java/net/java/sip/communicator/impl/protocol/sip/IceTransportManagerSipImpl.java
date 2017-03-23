@@ -17,16 +17,19 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
+import net.java.sip.communicator.impl.protocol.sip.sdp.SdpUtils;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.media.CallPeerMediaHandler;
+import net.java.sip.communicator.service.protocol.media.TransportManager;
+import org.ice4j.ice.Agent;
+import org.ice4j.ice.Candidate;
+import org.ice4j.ice.RemoteCandidate;
+import org.ice4j.ice.sdp.IceSdpUtils;
+import org.jitsi.service.neomedia.MediaType;
 
-import net.java.sip.communicator.impl.protocol.sip.sdp.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.media.*;
-import org.ice4j.ice.*;
-import org.ice4j.ice.sdp.*;
-import org.jitsi.service.neomedia.*;
-
-import javax.sdp.*;
+import javax.sdp.MediaDescription;
+import javax.sdp.SessionDescription;
+import java.util.List;
 
 /**
  * A {@link TransportManager} implementation for SIP that uses ICE for candidate

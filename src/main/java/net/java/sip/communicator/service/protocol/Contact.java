@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.ContactResourceListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.Collection;
 
 /**
  * This class represents the notion of a Contact or Buddy, that is widely used

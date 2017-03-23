@@ -17,11 +17,13 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.Message;
 
-import javax.sip.*;
-
-import net.java.sip.communicator.service.protocol.*;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.TimeoutEvent;
+import javax.sip.Transaction;
+import java.util.Map;
 
 /**
  * Listener receiving events for incoming messages that need processing.

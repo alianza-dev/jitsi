@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.util;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Simple password quality meter. The JavaScript version found at

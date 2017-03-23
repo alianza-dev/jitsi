@@ -17,13 +17,14 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.awt.*;
-import java.beans.*;
-import java.text.*;
-import java.util.List;
+import org.jitsi.service.neomedia.QualityControl;
+import org.jitsi.service.neomedia.QualityPreset;
+import org.jitsi.util.event.VideoListener;
 
-import org.jitsi.service.neomedia.*;
-import org.jitsi.util.event.*;
+import java.awt.*;
+import java.beans.PropertyChangeListener;
+import java.text.ParseException;
+import java.util.List;
 
 /**
  * Represents an <tt>OperationSet</tt> giving access to video-specific

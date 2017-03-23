@@ -17,10 +17,11 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import javax.sip.*;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
 
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
+import javax.sip.SipProvider;
 
 /**
  * Allows SIP communicator to create SIP accounts without a registrar. We use

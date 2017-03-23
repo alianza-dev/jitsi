@@ -17,10 +17,13 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.ContactCapabilitiesEvent;
+import net.java.sip.communicator.service.protocol.event.ContactCapabilitiesListener;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a default implementation of

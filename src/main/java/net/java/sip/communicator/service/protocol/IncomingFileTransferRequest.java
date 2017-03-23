@@ -18,7 +18,7 @@
 
 package net.java.sip.communicator.service.protocol;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Used for incoming file transfer request.

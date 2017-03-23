@@ -17,12 +17,18 @@
  */
 package net.java.sip.communicator.util.account;
 
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.service.protocol.globalstatus.*;
-import net.java.sip.communicator.util.*;
-
-import org.osgi.framework.*;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.SecurityAuthority;
+import net.java.sip.communicator.service.protocol.event.AccountManagerEvent;
+import net.java.sip.communicator.service.protocol.event.AccountManagerListener;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
+import net.java.sip.communicator.util.Logger;
 
 /**
  * The <tt>LoginManager</tt> manages the login operation. Here we obtain the
@@ -38,11 +44,7 @@ import org.osgi.framework.*;
  *
  * @author Yana Stamcheva
  */
-public class LoginManager
-    implements  ServiceListener,
-                RegistrationStateChangeListener,
-                AccountManagerListener
-{
+public class LoginManager implements RegistrationStateChangeListener, AccountManagerListener {
     private static final Logger logger = Logger.getLogger(LoginManager.class);
 
     private boolean manuallyDisconnected = false;
@@ -58,8 +60,6 @@ public class LoginManager
     public LoginManager(LoginRenderer loginRenderer)
     {
         this.loginRenderer = loginRenderer;
-
-        UtilActivator.bundleContext.addServiceListener(this);
     }
 
     /**
@@ -83,21 +83,6 @@ public class LoginManager
     public static void logoff(ProtocolProviderService protocolProvider)
     {
         new UnregisterProvider(protocolProvider).start();
-    }
-
-    /**
-     * Shows login window for each registered account.
-     */
-    public void runLogin()
-    {
-        // if someone is late registering catch it
-        UtilActivator.getAccountManager().addListener(this);
-
-        for (ProtocolProviderFactory providerFactory : UtilActivator
-            .getProtocolProviderFactories().values())
-        {
-            addAccountsForProtocolProviderFactory(providerFactory);
-        }
     }
 
     /**
@@ -166,161 +151,6 @@ public class LoginManager
             loginRenderer.protocolProviderConnected(protocolProvider,
                                                     System.currentTimeMillis());
         }
-        else
-        {
-            String msgText;
-            if (newState.equals(RegistrationState.AUTHENTICATION_FAILED))
-            {
-                switch (evt.getReasonCode())
-                {
-                case RegistrationStateChangeEvent
-                    .REASON_RECONNECTION_RATE_LIMIT_EXCEEDED:
-
-                    msgText = UtilActivator.getResources().getI18NString(
-                        "service.gui.RECONNECTION_LIMIT_EXCEEDED", new String[]
-                        { accountID.getUserID(), accountID.getService() });
-
-                    UtilActivator.getAlertUIService().showAlertDialog(
-                        UtilActivator.getResources()
-                            .getI18NString("service.gui.ERROR"),
-                        msgText);
-                    break;
-
-                case RegistrationStateChangeEvent.REASON_NON_EXISTING_USER_ID:
-                    msgText = UtilActivator.getResources().getI18NString(
-                        "service.gui.NON_EXISTING_USER_ID",
-                        new String[]
-                        { protocolProvider.getProtocolDisplayName() });
-
-                    UtilActivator.getAlertUIService().showAlertDialog(
-                        UtilActivator.getResources()
-                            .getI18NString("service.gui.ERROR"),
-                        msgText);
-                    break;
-                case RegistrationStateChangeEvent.REASON_TLS_REQUIRED:
-                    msgText = UtilActivator.getResources().getI18NString(
-                        "service.gui.NON_SECURE_CONNECTION",
-                        new String[]
-                        { accountID.getAccountAddress() });
-
-                    UtilActivator.getAlertUIService().showAlertDialog(
-                        UtilActivator.getResources()
-                            .getI18NString("service.gui.ERROR"),
-                        msgText);
-                    break;
-                default:
-                    break;
-                }
-
-                if (logger.isTraceEnabled())
-                    logger.trace(evt.getReason());
-            }
-//            CONNECTION_FAILED events are now dispatched in reconnect plugin
-//            else if (newState.equals(RegistrationState.CONNECTION_FAILED))
-//            {
-//                loginRenderer.protocolProviderConnectionFailed(
-//                    protocolProvider,
-//                    this);
-//
-//                logger.trace(evt.getReason());
-//            }
-            else if (newState.equals(RegistrationState.EXPIRED))
-            {
-                msgText = UtilActivator.getResources().getI18NString(
-                    "service.gui.CONNECTION_EXPIRED_MSG",
-                    new String[]
-                    { protocolProvider.getProtocolDisplayName() });
-
-                UtilActivator.getAlertUIService().showAlertDialog(
-                    UtilActivator.getResources()
-                        .getI18NString("service.gui.ERROR"),
-                    msgText);
-
-                logger.error(evt.getReason());
-            }
-            else if (newState.equals(RegistrationState.UNREGISTERED))
-            {
-                if (!manuallyDisconnected)
-                {
-                    if (evt.getReasonCode() == RegistrationStateChangeEvent
-                                                .REASON_MULTIPLE_LOGINS)
-                    {
-                        msgText = UtilActivator.getResources().getI18NString(
-                            "service.gui.MULTIPLE_LOGINS",
-                            new String[]
-                            { accountID.getUserID(), accountID.getService() });
-
-                        UtilActivator.getAlertUIService().showAlertDialog(
-                            UtilActivator.getResources()
-                                .getI18NString("service.gui.ERROR"),
-                            msgText);
-                    }
-                    else if (evt.getReasonCode() == RegistrationStateChangeEvent
-                                                .REASON_CLIENT_LIMIT_REACHED_FOR_IP)
-                    {
-                        msgText = UtilActivator.getResources().getI18NString(
-                            "service.gui.LIMIT_REACHED_FOR_IP", new String[]
-                            { protocolProvider.getProtocolDisplayName() });
-
-                        UtilActivator.getAlertUIService().showAlertDialog(
-                            UtilActivator.getResources()
-                                .getI18NString("service.gui.ERROR"),
-                            msgText);
-                    }
-                    else if (evt.getReasonCode() == RegistrationStateChangeEvent
-                                                .REASON_USER_REQUEST)
-                    {
-                        // do nothing
-                    }
-                    else
-                    {
-                        msgText = UtilActivator.getResources().getI18NString(
-                            "service.gui.UNREGISTERED_MESSAGE", new String[]
-                            { accountID.getUserID(), accountID.getService() });
-
-                        UtilActivator.getAlertUIService().showAlertDialog(
-                            UtilActivator.getResources()
-                                .getI18NString("service.gui.ERROR"),
-                            msgText);
-                    }
-                    if (logger.isTraceEnabled())
-                        logger.trace(evt.getReason());
-                }
-            }
-        }
-    }
-
-    /**
-     * Implements the <tt>ServiceListener</tt> method. Verifies whether the
-     * passed event concerns a <tt>ProtocolProviderService</tt> and adds the
-     * corresponding UI controls.
-     *
-     * @param event The <tt>ServiceEvent</tt> object.
-     */
-    public void serviceChanged(ServiceEvent event)
-    {
-        ServiceReference<?> serviceRef = event.getServiceReference();
-
-        // if the event is caused by a bundle being stopped, we don't want to
-        // know
-        if (serviceRef.getBundle().getState() == Bundle.STOPPING)
-            return;
-
-        Object service = UtilActivator.bundleContext.getService(serviceRef);
-
-        // we don't care if the source service is not a protocol provider
-        if (!(service instanceof ProtocolProviderService))
-            return;
-
-        switch (event.getType())
-        {
-        case ServiceEvent.REGISTERED:
-            handleProviderAdded((ProtocolProviderService) service);
-            break;
-        case ServiceEvent.UNREGISTERING:
-            handleProviderRemoved((ProtocolProviderService) service);
-            break;
-        }
     }
 
     /**
@@ -350,11 +180,9 @@ public class LoginManager
                 return;
         }
 
-        Object status = AccountStatusUtils
-            .getProtocolProviderLastStatus(protocolProvider);
+        Object status = null;
 
         if (status == null
-            || status.equals(GlobalStatusEnum.ONLINE_STATUS)
             || ((status instanceof PresenceStatus) && (((PresenceStatus) status)
                 .getStatus() >= PresenceStatus.ONLINE_THRESHOLD)))
         {
@@ -438,15 +266,6 @@ public class LoginManager
                 logger.error("Failed to register protocol provider. ", ex);
 
                 AccountID accountID = protocolProvider.getAccountID();
-                UtilActivator.getAlertUIService().showAlertDialog(
-                    UtilActivator.getResources()
-                        .getI18NString("service.gui.ERROR"),
-                    UtilActivator.getResources()
-                        .getI18NString("service.gui.LOGIN_GENERAL_ERROR",
-                    new String[]
-                    { accountID.getUserID(),
-                      accountID.getProtocolName(),
-                      accountID.getService() }));
             }
         }
 
@@ -456,42 +275,6 @@ public class LoginManager
 
             switch (ex.getErrorCode())
             {
-            case OperationFailedException.GENERAL_ERROR:
-            {
-                logger.error("Provider could not be registered"
-                    + " due to the following general error: ", ex);
-
-                AccountID accountID = protocolProvider.getAccountID();
-                errorMessage =
-                    UtilActivator.getResources().getI18NString(
-                        "service.gui.LOGIN_GENERAL_ERROR",
-                        new String[]
-                           { accountID.getUserID(),
-                             accountID.getProtocolName(),
-                             accountID.getService() });
-
-                UtilActivator.getAlertUIService().showAlertDialog(
-                    UtilActivator.getResources()
-                        .getI18NString("service.gui.ERROR"), errorMessage, ex);
-            }
-                break;
-            case OperationFailedException.INTERNAL_ERROR:
-            {
-                logger.error("Provider could not be registered"
-                    + " due to the following internal error: ", ex);
-
-                AccountID accountID = protocolProvider.getAccountID();
-                errorMessage =
-                    UtilActivator.getResources().getI18NString(
-                        "service.gui.LOGIN_INTERNAL_ERROR",
-                        new String[]
-                           { accountID.getUserID(), accountID.getService() });
-
-                UtilActivator.getAlertUIService().showAlertDialog(
-                    UtilActivator.getResources().getI18NString(
-                        "service.gui.ERROR"), errorMessage, ex);
-            }
-                break;
             case OperationFailedException.NETWORK_FAILURE:
             {
                 if (logger.isInfoEnabled())
@@ -503,24 +286,6 @@ public class LoginManager
                 loginRenderer.protocolProviderConnectionFailed(
                     protocolProvider,
                     LoginManager.this);
-            }
-                break;
-            case OperationFailedException.INVALID_ACCOUNT_PROPERTIES:
-            {
-                logger.error("Provider could not be registered"
-                    + " due to an invalid account property: ", ex);
-
-                AccountID accountID = protocolProvider.getAccountID();
-                errorMessage =
-                    UtilActivator.getResources().getI18NString(
-                        "service.gui.LOGIN_INVALID_PROPERTIES_ERROR",
-                        new String[]
-                        { accountID.getUserID(), accountID.getService() });
-
-                UtilActivator.getAlertUIService().showAlertDialog(
-                    UtilActivator.getResources()
-                        .getI18NString("service.gui.ERROR"),
-                    errorMessage, ex);
             }
                 break;
             default:
@@ -572,15 +337,6 @@ public class LoginManager
                     logger.error("Provider could not be unregistered"
                         + " due to a network failure: " + ex);
                 }
-
-                UtilActivator.getAlertUIService().showAlertDialog(
-                    UtilActivator.getResources()
-                        .getI18NString("service.gui.ERROR"),
-                    UtilActivator.getResources()
-                        .getI18NString("service.gui.LOGOFF_NOT_SUCCEEDED",
-                        new String[]
-                        { protocolProvider.getAccountID().getUserID(),
-                            protocolProvider.getAccountID().getService() }));
             }
         }
     }

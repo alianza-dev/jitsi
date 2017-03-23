@@ -17,11 +17,16 @@
  */
 package net.java.sip.communicator.service.contactsource;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.OperationSet;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import org.jitsi.util.StringUtils;
 
-import org.jitsi.util.*;
-
-import net.java.sip.communicator.service.protocol.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The <tt>ContactDetail</tt> is a detail of a <tt>SourceContact</tt>
@@ -441,9 +446,7 @@ public class ContactDetail
         }
         else if (category == Category.Phone)
         {
-            this.detailDisplayName =
-                ContactSourceActivator.getPhoneNumberI18nService()
-                    .formatForDisplay(contactDetailValue);
+            this.detailDisplayName = null;
         }
         else
         {

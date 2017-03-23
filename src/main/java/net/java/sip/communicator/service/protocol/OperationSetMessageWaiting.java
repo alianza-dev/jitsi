@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import net.java.sip.communicator.service.protocol.event.MessageWaitingListener;
 
 /**
  * Provides notifications for message waiting notifications.

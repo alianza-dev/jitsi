@@ -17,10 +17,11 @@
  */
 package net.java.sip.communicator.util;
 
-import java.io.*;
-
-import javax.swing.text.html.*;
-import javax.swing.text.html.parser.*;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.parser.ParserDelegator;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * A utility class that allows to extract the text content of an HTML page

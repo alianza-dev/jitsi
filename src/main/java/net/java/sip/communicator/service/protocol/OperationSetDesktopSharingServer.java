@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * Represents an <tt>OperationSet</tt> giving access to desktop sharing

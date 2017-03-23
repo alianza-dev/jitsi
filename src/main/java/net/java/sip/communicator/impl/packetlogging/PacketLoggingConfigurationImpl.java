@@ -18,8 +18,8 @@
 package net.java.sip.communicator.impl.packetlogging;
 
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import org.jitsi.service.configuration.*;
-import org.jitsi.service.packetlogging.*;
+import org.jitsi.service.configuration.ConfigurationService;
+import org.jitsi.service.packetlogging.PacketLoggingConfiguration;
 
 /**
  * Extends PacketLoggingConfiguration by storing and loading values from
@@ -38,7 +38,7 @@ public class PacketLoggingConfigurationImpl
     /**
      * The log file directory
      */
-    private String logfileDir = PacketLoggingActivator.LOGGING_DIR_NAME;
+    private String logfileDir;
 
     /**
      * Creates new PacketLoggingConfiguration and load values from

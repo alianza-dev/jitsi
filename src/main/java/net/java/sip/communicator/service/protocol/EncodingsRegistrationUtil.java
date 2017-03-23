@@ -17,11 +17,12 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.io.*;
-import java.util.*;
+import org.jitsi.service.neomedia.MediaService;
+import org.jitsi.service.neomedia.codec.EncodingConfiguration;
 
-import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.codec.*;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An interface to get/set settings in the encodings panel.

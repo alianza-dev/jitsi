@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.plugin.busylampfield;
 
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
 
 /**
  * The status to display for the contact srouces.

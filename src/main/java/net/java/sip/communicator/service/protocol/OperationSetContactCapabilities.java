@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.ContactCapabilitiesListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.Map;
 
 /**
  * Represents an <tt>OperationSet</tt> to query the <tt>OperationSet</tt>s

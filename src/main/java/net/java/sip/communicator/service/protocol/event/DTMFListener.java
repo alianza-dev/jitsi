@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import java.util.EventListener;
 
 /**
  * A listener that would notify for incoming DTMF tones.

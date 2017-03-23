@@ -17,9 +17,13 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.NotificationMessage;
+import net.java.sip.communicator.service.protocol.OperationSetMessageWaiting;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.EventObject;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * <tt>MessageWaitingEvent<tt> indicates a message waiting event

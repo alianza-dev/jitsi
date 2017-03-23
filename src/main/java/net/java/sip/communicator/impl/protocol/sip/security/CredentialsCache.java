@@ -17,10 +17,12 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.security;
 
-import java.util.*;
+import javax.sip.header.AuthorizationHeader;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
-
-import javax.sip.header.*;
 
 /**
  * The class is used to cache all realms that a certain call has been authorized

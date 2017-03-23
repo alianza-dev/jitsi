@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.util;
 
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * The GenericBuffer class provides a way to minimize the effort needed to

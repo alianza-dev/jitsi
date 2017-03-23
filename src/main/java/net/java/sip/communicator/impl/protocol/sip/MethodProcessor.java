@@ -17,7 +17,13 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import javax.sip.*;
+import javax.sip.DialogTerminatedEvent;
+import javax.sip.IOExceptionEvent;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.TimeoutEvent;
+import javax.sip.Transaction;
+import javax.sip.TransactionTerminatedEvent;
 
 /**
  * Represents a processor of events with a specific method received in

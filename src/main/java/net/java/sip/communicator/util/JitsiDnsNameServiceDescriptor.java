@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.util;
 
-import sun.net.spi.nameservice.*;
+import sun.net.spi.nameservice.NameService;
+import sun.net.spi.nameservice.NameServiceDescriptor;
 
 /**
  * A name service descriptor for Jitsi's DNS service. It is instantiated by the

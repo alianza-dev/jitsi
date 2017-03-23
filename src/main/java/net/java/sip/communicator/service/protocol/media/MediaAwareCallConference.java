@@ -17,17 +17,27 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
-import java.beans.*;
-import java.lang.ref.*;
-import java.util.*;
-
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.device.*;
-import org.jitsi.util.*;
-import org.jitsi.util.event.*;
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallConference;
+import org.jitsi.service.neomedia.BasicVolumeControl;
+import org.jitsi.service.neomedia.MediaService;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.MediaUseCase;
+import org.jitsi.service.neomedia.RTPTranslator;
+import org.jitsi.service.neomedia.VolumeControl;
+import org.jitsi.service.neomedia.device.MediaDevice;
+import org.jitsi.service.neomedia.device.MediaDeviceWrapper;
+import org.jitsi.util.OSUtils;
+import org.jitsi.util.event.PropertyChangeNotifier;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.lang.ref.WeakReference;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Extends <tt>CallConference</tt> to represent the media-specific information

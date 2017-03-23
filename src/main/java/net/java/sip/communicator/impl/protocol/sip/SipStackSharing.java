@@ -17,26 +17,64 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.*;
-import gov.nist.javax.sip.header.*;
-import gov.nist.javax.sip.stack.*;
-
-import java.io.*;
-import java.util.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
+import gov.nist.javax.sip.SipStackImpl;
+import gov.nist.javax.sip.header.HeaderFactoryImpl;
+import gov.nist.javax.sip.stack.SIPTransactionStack;
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.service.netaddr.event.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.netaddr.event.ChangeEvent;
+import net.java.sip.communicator.service.netaddr.event.NetworkConfigurationChangeListener;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.NetworkUtils;
+import org.jitsi.util.OSUtils;
 
-import org.jitsi.util.*;
+import javax.sip.ClientTransaction;
+import javax.sip.DialogTerminatedEvent;
+import javax.sip.IOExceptionEvent;
+import javax.sip.InvalidArgumentException;
+import javax.sip.ListeningPoint;
+import javax.sip.ObjectInUseException;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.ServerTransaction;
+import javax.sip.SipException;
+import javax.sip.SipFactory;
+import javax.sip.SipListener;
+import javax.sip.SipProvider;
+import javax.sip.SipStack;
+import javax.sip.TimeoutEvent;
+import javax.sip.Transaction;
+import javax.sip.TransactionAlreadyExistsException;
+import javax.sip.TransactionTerminatedEvent;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.TransportAlreadySupportedException;
+import javax.sip.TransportNotSupportedException;
+import javax.sip.address.SipURI;
+import javax.sip.address.URI;
+import javax.sip.header.EventHeader;
+import javax.sip.header.FromHeader;
+import javax.sip.header.MaxForwardsHeader;
+import javax.sip.header.SubscriptionStateHeader;
+import javax.sip.header.ToHeader;
+import javax.sip.message.Request;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TooManyListenersException;
+import java.util.Vector;
 
 /**
  * This class is the <tt>SipListener</tt> for all JAIN-SIP

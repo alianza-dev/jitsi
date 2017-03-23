@@ -17,9 +17,13 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.ChatRoomConferencePublishedEvent;
+import net.java.sip.communicator.service.protocol.event.ChatRoomConferencePublishedListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An abstract class with a default implementation of some of the methods of

@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.beans.*;
+import net.java.sip.communicator.service.protocol.Call;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.beans.PropertyChangeEvent;
 
 /**
  * CallChangeEvent-s are triggered whenever a change occurs in a Call.

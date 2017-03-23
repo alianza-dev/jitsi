@@ -17,16 +17,16 @@
  */
 package net.java.sip.communicator.service.protocol;
 
+import org.jitsi.util.StringUtils;
+
+import java.io.Serializable;
+import java.util.Map;
+
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.STUN_ADDRESS;
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.STUN_IS_TURN_SUPPORTED;
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.STUN_PASSWORD;
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.STUN_PORT;
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.STUN_USERNAME;
-
-import java.io.*;
-import java.util.*;
-
-import org.jitsi.util.*;
 
 /**
  * A <tt>StunServerDescriptor</tt> stores information necessary to create a

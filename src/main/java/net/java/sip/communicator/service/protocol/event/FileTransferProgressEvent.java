@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.FileTransfer;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.EventObject;
 
 /**
  * The <tt>FileTransferProgressEvent</tt> indicates the progress of a file

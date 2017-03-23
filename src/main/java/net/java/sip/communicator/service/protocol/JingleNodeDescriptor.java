@@ -17,8 +17,8 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * A <tt>JingleNodesDescriptor</tt> stores information necessary to create a

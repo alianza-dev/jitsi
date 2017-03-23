@@ -17,15 +17,17 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.header.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
+import gov.nist.javax.sip.header.HeaderFactoryImpl;
+import net.java.sip.communicator.service.protocol.CallPeer;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetTelephonyPark;
+import net.java.sip.communicator.util.Logger;
 
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-import java.text.*;
+import javax.sip.Dialog;
+import javax.sip.address.Address;
+import javax.sip.header.HeaderFactory;
+import javax.sip.message.Request;
+import java.text.ParseException;
 
 /**
  * Provides operations necessary to park calls. Using rfc5359 as a reference.

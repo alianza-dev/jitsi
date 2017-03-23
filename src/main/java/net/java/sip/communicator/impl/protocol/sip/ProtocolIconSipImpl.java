@@ -17,13 +17,15 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.io.*;
-import java.util.*;
+import net.java.sip.communicator.service.protocol.ProtocolIcon;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.resources.ResourceManagementService;
 
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.resources.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Represents the Sip protocol icon. Implements the <tt>ProtocolIcon</tt>

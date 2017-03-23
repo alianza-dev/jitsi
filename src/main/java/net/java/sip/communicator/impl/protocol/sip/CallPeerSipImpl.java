@@ -17,30 +17,52 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import static net.java.sip.communicator.service.protocol.OperationSetBasicTelephony.*;
-import gov.nist.javax.sip.header.*;
-
-import java.net.*;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.address.URI;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
+import gov.nist.javax.sip.header.ContentLength;
+import gov.nist.javax.sip.header.ContentType;
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.impl.protocol.sip.sdp.*;
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.impl.protocol.sip.sdp.SdpUtils;
+import net.java.sip.communicator.service.protocol.CallPeerState;
 import net.java.sip.communicator.service.protocol.Contact;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetPresence;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.protocol.event.CallPeerChangeEvent;
+import net.java.sip.communicator.service.protocol.media.AbstractOperationSetTelephonyConferencing;
+import net.java.sip.communicator.service.protocol.media.MediaAwareCallPeer;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.neomedia.MediaDirection;
+import org.jitsi.service.neomedia.MediaStream;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.control.KeyFrameControl;
 
-import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.MediaType; // disambiguate
-import org.jitsi.service.neomedia.control.*;
+import javax.sip.ClientTransaction;
+import javax.sip.Dialog;
+import javax.sip.DialogState;
+import javax.sip.InvalidArgumentException;
+import javax.sip.ServerTransaction;
+import javax.sip.SipException;
+import javax.sip.SipProvider;
+import javax.sip.Transaction;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.address.Address;
+import javax.sip.address.SipURI;
+import javax.sip.address.URI;
+import javax.sip.header.ContactHeader;
+import javax.sip.header.ContentLengthHeader;
+import javax.sip.header.ContentTypeHeader;
+import javax.sip.header.ReasonHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.net.InetSocketAddress;
+import java.net.URL;
+import java.text.ParseException;
+import java.util.LinkedList;
+import java.util.List;
+
+import static net.java.sip.communicator.service.protocol.OperationSetBasicTelephony.HANGUP_REASON_BUSY_HERE;
+import static net.java.sip.communicator.service.protocol.OperationSetBasicTelephony.HANGUP_REASON_ENCRYPTION_REQUIRED;
+import static net.java.sip.communicator.service.protocol.OperationSetBasicTelephony.HANGUP_REASON_NORMAL_CLEARING;
+import static net.java.sip.communicator.service.protocol.OperationSetBasicTelephony.HANGUP_REASON_TIMEOUT;
 
 /**
  * Our SIP implementation of the default CallPeer;

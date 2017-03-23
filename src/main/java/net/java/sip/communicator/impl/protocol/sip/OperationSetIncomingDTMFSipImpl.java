@@ -17,8 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
+import net.java.sip.communicator.service.protocol.OperationSetIncomingDTMF;
+import net.java.sip.communicator.service.protocol.event.DTMFListener;
 
 /**
  * An <tt>OperationSet</tt> that allows us to receive DTMF tones through

@@ -25,7 +25,6 @@ import net.java.sip.communicator.util.Base64;
 import net.java.sip.communicator.util.Logger;
 import org.jitsi.service.configuration.ConfigurationService;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -465,8 +464,7 @@ public class CredentialsStorageAlzService
         // cancel button is pressed and null returned
         boolean correct = true;
 
-        MasterPasswordInputService masterPasswordInputService
-            = CredentialsStorageActivator.getMasterPasswordInputService();
+        MasterPasswordInputService masterPasswordInputService = null;
 
         if(masterPasswordInputService == null)
         {

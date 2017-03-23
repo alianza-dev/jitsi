@@ -17,10 +17,10 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import org.jitsi.service.neomedia.MediaDirection;
+import org.jitsi.util.event.PropertyChangeNotifier;
 
-import org.jitsi.service.neomedia.*;
-import org.jitsi.util.event.*;
+import java.util.Map;
 
 /**
  * Provides the default implementation of the <tt>ConferenceMember</tt>

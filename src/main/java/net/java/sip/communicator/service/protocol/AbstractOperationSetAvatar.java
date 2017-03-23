@@ -17,12 +17,16 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
-
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.GenericDetail;
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.ImageDetail;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.event.AvatarEvent;
+import net.java.sip.communicator.service.protocol.event.AvatarListener;
+import net.java.sip.communicator.util.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Represents a default implementation of {@link OperationSetAvatar} in order to

@@ -17,11 +17,17 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallConference;
+import org.jitsi.service.neomedia.MediaDirection;
+import org.jitsi.service.neomedia.MediaType;
 
-import net.java.sip.communicator.service.protocol.*;
-
-import org.jitsi.service.neomedia.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An event class representing that an incoming or an outgoing call has been

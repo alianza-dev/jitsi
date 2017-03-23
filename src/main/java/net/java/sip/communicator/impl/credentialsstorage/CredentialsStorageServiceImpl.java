@@ -17,14 +17,16 @@
  */
 package net.java.sip.communicator.impl.credentialsstorage;
 
-import java.util.*;
+import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
+import net.java.sip.communicator.service.credentialsstorage.CryptoException;
+import net.java.sip.communicator.service.credentialsstorage.MasterPasswordInputService;
+import net.java.sip.communicator.util.Base64;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.configuration.ConfigurationService;
 
-import net.java.sip.communicator.service.credentialsstorage.*;
-import net.java.sip.communicator.util.*;
-import net.java.sip.communicator.util.Base64; // disambiguation
-
-import org.jitsi.service.configuration.*;
-import org.osgi.framework.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implements {@link CredentialsStorageService} to load and store user
@@ -75,28 +77,6 @@ public class CredentialsStorageServiceImpl
      * A {@link Crypto} instance that does the actual encryption and decryption.
      */
     private Crypto crypto;
-
-    /**
-     * Initializes the credentials service by fetching the configuration service
-     * reference from the bundle context. Encrypts and moves all passwords to
-     * new properties.
-     *
-     * @param bc bundle context
-     */
-    void start(BundleContext bc)
-    {
-        configurationService
-            = ServiceUtils.getService(bc, ConfigurationService.class);
-
-        /*
-         * If a master password is set, the migration of the unencrypted
-         * passwords will have to wait for the UIService to register in
-         * order to be able to ask for the master password. But that is
-         * unreasonably late in the case of no master password.
-         */
-        if (!isUsingMasterPassword())
-            moveAllPasswordProperties();
-    }
 
     /**
      * Forget the encryption/decryption key when stopping the service.
@@ -477,8 +457,7 @@ public class CredentialsStorageServiceImpl
         // cancel button is pressed and null returned
         boolean correct = true;
 
-        MasterPasswordInputService masterPasswordInputService
-            = CredentialsStorageActivator.getMasterPasswordInputService();
+        MasterPasswordInputService masterPasswordInputService = null;
 
         if(masterPasswordInputService == null)
         {

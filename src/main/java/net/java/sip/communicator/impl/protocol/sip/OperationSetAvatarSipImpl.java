@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.service.protocol.AbstractOperationSetAvatar;
+import net.java.sip.communicator.service.protocol.OperationSetServerStoredAccountInfo;
 
 /**
  * A simple implementation of the <tt>OperationSetAvatar</tt> interface for the

@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import java.util.EventListener;
 
 /**
  * Notifies interested parties in sound level changes of the main audio stream

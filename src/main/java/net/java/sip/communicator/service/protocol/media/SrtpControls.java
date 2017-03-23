@@ -18,7 +18,9 @@
 package net.java.sip.communicator.service.protocol.media;
 
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import org.jitsi.service.neomedia.*;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.SrtpControl;
+import org.jitsi.service.neomedia.SrtpControlType;
 
 /**
  * Represents a sorted set of <tt>SrtpControl</tt> implementations.

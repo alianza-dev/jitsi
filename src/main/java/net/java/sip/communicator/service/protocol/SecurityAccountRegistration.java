@@ -17,13 +17,16 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import net.java.sip.communicator.util.*;
-import org.jitsi.service.neomedia.*;
+import org.jitsi.service.neomedia.SDesControl;
+import org.jitsi.service.neomedia.SrtpControlType;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The <tt>SecurityAccountRegistration</tt> is used to determine security

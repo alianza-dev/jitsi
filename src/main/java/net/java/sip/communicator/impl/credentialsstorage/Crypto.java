@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.impl.credentialsstorage;
 
-import net.java.sip.communicator.service.credentialsstorage.*;
+import net.java.sip.communicator.service.credentialsstorage.CryptoException;
 
 /**
  * Allows to encrypt and decrypt text using a symmetric algorithm.

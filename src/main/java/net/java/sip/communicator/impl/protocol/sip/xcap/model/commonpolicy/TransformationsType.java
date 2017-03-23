@@ -17,11 +17,13 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy;
 
-import java.util.*;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.ProvideDevicePermissionType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.ProvidePersonPermissionType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.ProvideServicePermissionType;
+import org.w3c.dom.Element;
 
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules.*;
-
-import org.w3c.dom.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Authorization Rules transformations element.

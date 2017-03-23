@@ -17,9 +17,12 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.ContactResourceEvent;
+import net.java.sip.communicator.service.protocol.event.ContactResourceListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * An abstract base implementation of the {@link Contact} interface which is to

@@ -17,15 +17,17 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.core.net.*;
-import gov.nist.javax.sip.stack.*;
+import gov.nist.core.net.AddressResolver;
+import gov.nist.javax.sip.stack.HopImpl;
+import gov.nist.javax.sip.stack.MessageProcessor;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.NetworkUtils;
+import net.java.sip.communicator.util.SRVRecord;
 
-import java.net.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-
-import net.java.sip.communicator.util.*;
+import javax.sip.ListeningPoint;
+import javax.sip.address.Hop;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 /**
  * Lookup for SRV records for given host. If nothing found

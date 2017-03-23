@@ -17,13 +17,15 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import net.java.sip.communicator.impl.protocol.sip.dtmf.*;
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.impl.protocol.sip.dtmf.DTMFInfo;
+import net.java.sip.communicator.service.protocol.CallPeer;
 import net.java.sip.communicator.service.protocol.OperationFailedException;
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.neomedia.*;
+import net.java.sip.communicator.service.protocol.media.AbstractOperationSetDTMF;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.neomedia.AudioMediaStream;
+import org.jitsi.service.neomedia.DTMFMethod;
+import org.jitsi.service.neomedia.DTMFTone;
+import org.jitsi.service.neomedia.MediaType;
 
 /**
  * Class responsible for sending a DTMF Tone using SIP INFO or using rfc4733.

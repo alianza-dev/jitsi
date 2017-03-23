@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The XCAP resource-lists element.

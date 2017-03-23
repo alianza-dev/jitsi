@@ -17,14 +17,8 @@
  */
 package net.java.sip.communicator.impl.resources;
 
-import net.java.sip.communicator.impl.resources.util.SkinJarBuilder;
-import net.java.sip.communicator.service.gui.UIService;
 import net.java.sip.communicator.service.resources.AbstractResourcesService;
-import net.java.sip.communicator.service.resources.ImagePack;
-import net.java.sip.communicator.service.resources.SkinPack;
 import net.java.sip.communicator.util.Logger;
-import net.java.sip.communicator.util.ServiceUtils;
-//import org.osgi.framework.ServiceEvent;
 
 import javax.swing.*;
 import java.io.File;
@@ -51,82 +45,16 @@ public class ResourceManagementServiceImpl
         = Logger.getLogger(ResourceManagementServiceImpl.class);
 
     /**
-     * UI Service reference.
-     */
-    private UIService uiService = null;
-
-    /**
      * Initializes already registered default resource packs.
      */
     public ResourceManagementServiceImpl()
     {
-//        super(ResourceManagementActivator.bundleContext);
         super();
-
-        UIService serv = getUIService();
-        if (serv != null)
-        {
-            serv.repaintUI();
-        }
     }
 
-    /**
-     * Returns the <tt>UIService</tt> obtained from the bundle context.
-     *
-     * @return the <tt>UIService</tt> obtained from the bundle context
-     */
-    private UIService getUIService()
-    {
-        if (uiService == null)
-        {
-//            uiService
-//                = ServiceUtils.getService(
-//                        ResourceManagementActivator.bundleContext,
-//                        UIService.class);
-        }
-        return uiService;
-    }
-
-    /**
-     * Gets a reference to the <tt>UIService</tt> when this one is registered.
-     *
-     * @param event the <tt>ServiceEvent</tt> that has notified us
-     */
-//    @Override
-//    public void serviceChanged(ServiceEvent event)
-//    {
-//        super.serviceChanged(event);
-//
-//        Object sService = ResourceManagementActivator.bundleContext
-//                .getService(event.getServiceReference());
-//
-//        if (sService instanceof UIService && uiService == null
-//                && event.getType() == ServiceEvent.REGISTERED)
-//        {
-//            uiService = (UIService) sService;
-//            uiService.repaintUI();
-//        }
-//        else if (sService instanceof UIService
-//                && event.getType() == ServiceEvent.UNREGISTERING)
-//        {
-//            if (uiService != null && uiService.equals(sService))
-//            {
-//                uiService = null;
-//            }
-//        }
-//    }
-
-    /**
-     * Repaints the whole UI when a skin pack has changed.
-     */
     @Override
-    protected void onSkinPackChanged()
-    {
-        UIService serv = getUIService();
-        if (serv != null)
-        {
-            serv.repaintUI();
-        }
+    protected void onSkinPackChanged() {
+
     }
 
     /**
@@ -173,32 +101,8 @@ public class ResourceManagementServiceImpl
             return res;
     }
 
-    /**
-     * Returns the <tt>InputStream</tt> of the image corresponding to the given
-     * path.
-     *
-     * @param path The path to the image file.
-     * @return the <tt>InputStream</tt> of the image corresponding to the given
-     * path.
-     */
-    public InputStream getImageInputStreamForPath(String path)
-    {
-        SkinPack skinPack = getSkinPack();
-        if(skinPack!=null)
-        {
-            if(skinPack.getClass().getClassLoader()
-                .getResourceAsStream(path)!=null)
-            {
-                return skinPack.getClass().getClassLoader()
-                        .getResourceAsStream(path);
-            }
-        }
-
-        ImagePack imagePack = getImagePack();
-        if (path != null && imagePack != null)
-            return imagePack.getClass().getClassLoader()
-                    .getResourceAsStream(path);
-
+    @Override
+    public InputStream getImageInputStreamForPath(String path) {
         return null;
     }
 
@@ -243,25 +147,9 @@ public class ResourceManagementServiceImpl
         return getImageURLForPath(path);
     }
 
-    /**
-     * Returns the <tt>URL</tt> of the image corresponding to the given path.
-     *
-     * @param path The path to the given image file.
-     * @return the <tt>URL</tt> of the image corresponding to the given path.
-     */
-    public URL getImageURLForPath(String path)
-    {
-        SkinPack skinPack = getSkinPack();
-        if(skinPack!=null)
-        {
-            if(skinPack.getClass().getClassLoader().getResource(path)!=null)
-            {
-                return skinPack.getClass().getClassLoader().getResource(path);
-            }
-        }
-
-        ImagePack imagePack = getImagePack();
-        return imagePack.getClass().getClassLoader().getResource(path);
+    @Override
+    public URL getImageURLForPath(String path) {
+        return null;
     }
 
     /**
@@ -283,15 +171,9 @@ public class ResourceManagementServiceImpl
         return getSoundURLForPath(path);
     }
 
-    /**
-     * Returns the <tt>URL</tt> of the sound corresponding to the given path.
-     *
-     * @param path the path, for which we're looking for a sound URL
-     * @return the <tt>URL</tt> of the sound corresponding to the given path.
-     */
-    public URL getSoundURLForPath(String path)
-    {
-        return getSoundPack().getClass().getClassLoader().getResource(path);
+    @Override
+    public URL getSoundURLForPath(String path) {
+        return null;
     }
 
     /**
@@ -323,6 +205,11 @@ public class ResourceManagementServiceImpl
         return image;
     }
 
+    @Override
+    public File prepareSkinBundleFromZip(File zipFile) throws Exception {
+        return null;
+    }
+
     /**
      * Loads an image from a given image identifier.
      *
@@ -337,16 +224,4 @@ public class ResourceManagementServiceImpl
         return (imageURL == null) ? null : new ImageIcon(imageURL);
     }
 
-    /**
-     * Builds a new skin bundle from the zip file content.
-     *
-     * @param zipFile Zip file with skin information.
-     * @return <tt>File</tt> for the bundle.
-     * @throws Exception When something goes wrong.
-     */
-    public File prepareSkinBundleFromZip(File zipFile)
-        throws Exception
-    {
-        return SkinJarBuilder.createBundleFromZip(zipFile, getImagePack());
-    }
 }

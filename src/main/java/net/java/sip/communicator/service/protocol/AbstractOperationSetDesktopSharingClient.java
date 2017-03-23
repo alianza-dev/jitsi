@@ -17,10 +17,18 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.lang.ref.*;
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.CallPeerAdapter;
+import net.java.sip.communicator.service.protocol.event.CallPeerChangeEvent;
+import net.java.sip.communicator.service.protocol.event.CallPeerListener;
+import net.java.sip.communicator.service.protocol.event.RemoteControlGrantedEvent;
+import net.java.sip.communicator.service.protocol.event.RemoteControlListener;
+import net.java.sip.communicator.service.protocol.event.RemoteControlRevokedEvent;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * Represents a default/base implementation of

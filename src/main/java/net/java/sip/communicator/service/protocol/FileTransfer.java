@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.io.*;
+import net.java.sip.communicator.service.protocol.event.FileTransferProgressListener;
+import net.java.sip.communicator.service.protocol.event.FileTransferStatusListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.io.File;
 
 /**
  * The <tt>FileTransfer</tt> interface is meant to be used by parties interested

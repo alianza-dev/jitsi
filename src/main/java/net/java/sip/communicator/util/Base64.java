@@ -17,7 +17,9 @@
  */
 package net.java.sip.communicator.util;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class Base64
 {

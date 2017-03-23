@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import java.util.EventListener;
 
 /**
  * Used to deliver events concerning contact groups in server stored contact

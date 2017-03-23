@@ -17,8 +17,6 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
-
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.AddressDetail;
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.BirthDateDetail;
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.DisplayNameDetail;
@@ -29,6 +27,9 @@ import net.java.sip.communicator.service.protocol.ServerStoredDetails.GenericDet
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.ImageDetail;
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.LastNameDetail;
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.WorkAddressDetail;
+
+import java.util.Calendar;
+import java.util.Iterator;
 
 /**
  * Utility class that would give to interested parties an easy access to some of

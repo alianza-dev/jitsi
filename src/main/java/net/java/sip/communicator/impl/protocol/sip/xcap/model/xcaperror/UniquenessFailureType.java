@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.xcaperror;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The XCAP uniqueness-failure element. Indicates that the requested operation

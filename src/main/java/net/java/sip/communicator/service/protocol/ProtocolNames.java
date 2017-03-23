@@ -19,9 +19,7 @@ package net.java.sip.communicator.service.protocol;
 
 /**
  * Specifies the names of some of the most popular instant messaging protocols.
- * These names should be used when registering an implementation of a protocol
- * with the osgi framework. These names must be set in the properties dictionary
- * that one specifies when registering an OSGI service. When setting one of
+ * These names should be used when registering an implementation of a protocol. When setting one of
  * these names, a protocol implementor must map it against the
  * ProtocolProviderFactory.PROTOCOL_PROPERTY_NAME key.
  * @author Emil Ivov

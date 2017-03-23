@@ -17,7 +17,11 @@
  */
 package net.java.sip.communicator.util;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The <tt>StringUtils</tt> class is used through this ui implementation for
@@ -400,7 +404,7 @@ public class GuiUtils
         default: return "";
         }
 
-        return UtilActivator.getResources().getI18NString(monthStringKey);
+        return null;
     }
 
     /**

@@ -17,12 +17,13 @@
  */
 package net.java.sip.communicator.service.certificate;
 
-import java.security.*;
-import java.security.cert.*;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.X509TrustManager;
+import java.security.GeneralSecurityException;
 import java.security.cert.Certificate;
-import java.util.*;
-
-import javax.net.ssl.*;
+import java.security.cert.CertificateException;
+import java.util.List;
 
 /**
  * A service which implementors will ask the user for permission for the

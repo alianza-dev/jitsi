@@ -18,8 +18,8 @@
 package net.java.sip.communicator.util;
 
 import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * The <tt>GraphicUtils</tt> is an utility class that gives access to some

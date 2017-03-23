@@ -17,25 +17,51 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.net.*;
-import java.util.*;
-
-import javax.sdp.*;
-
+import ch.imvs.sdes4j.srtp.SrtpCryptoAttribute;
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.impl.protocol.sip.sdp.*;
-import net.java.sip.communicator.service.netaddr.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.impl.protocol.sip.sdp.SdpUtils;
+import net.java.sip.communicator.service.netaddr.NetworkAddressManagerService;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.media.CallPeerMediaHandler;
+import net.java.sip.communicator.service.protocol.media.MediaAwareCallPeer;
+import net.java.sip.communicator.service.protocol.media.SrtpControls;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.configuration.ConfigurationService;
+import org.jitsi.service.neomedia.DtlsControl;
+import org.jitsi.service.neomedia.MediaDirection;
+import org.jitsi.service.neomedia.MediaService;
+import org.jitsi.service.neomedia.MediaStream;
+import org.jitsi.service.neomedia.MediaStreamTarget;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.QualityControl;
+import org.jitsi.service.neomedia.QualityPreset;
+import org.jitsi.service.neomedia.RTPExtension;
+import org.jitsi.service.neomedia.SDesControl;
+import org.jitsi.service.neomedia.SrtpControl;
+import org.jitsi.service.neomedia.SrtpControlType;
+import org.jitsi.service.neomedia.StreamConnector;
+import org.jitsi.service.neomedia.VideoMediaStream;
+import org.jitsi.service.neomedia.ZrtpControl;
+import org.jitsi.service.neomedia.device.MediaDevice;
+import org.jitsi.service.neomedia.format.MediaFormat;
+import org.jitsi.service.neomedia.rtp.RTCPExtendedReport;
 
-import org.jitsi.service.configuration.*;
-import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.device.*;
-import org.jitsi.service.neomedia.format.*;
-import org.jitsi.service.neomedia.rtp.*;
-
-import ch.imvs.sdes4j.srtp.*;
+import javax.sdp.Attribute;
+import javax.sdp.Media;
+import javax.sdp.MediaDescription;
+import javax.sdp.SdpConstants;
+import javax.sdp.SdpException;
+import javax.sdp.SdpParseException;
+import javax.sdp.SessionDescription;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * The media handler class handles all media management for a single

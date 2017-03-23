@@ -17,12 +17,16 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.List;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
-import org.w3c.dom.*;
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.util.ArrayList;
+import java.util.List;
 // disambiguation
 
 /**

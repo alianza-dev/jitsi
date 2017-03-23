@@ -17,10 +17,9 @@
  */
 package net.java.sip.communicator.util;
 
-import java.io.*;
-
 import javax.swing.*;
-import javax.swing.filechooser.*;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
 
 /**
  * Utility class that allows to check if a given file is an image or to obtain

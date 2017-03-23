@@ -17,13 +17,17 @@
  */
 package net.java.sip.communicator.service.netaddr;
 
-import java.io.*;
-import java.net.*;
+import net.java.sip.communicator.service.netaddr.event.NetworkConfigurationChangeListener;
+import org.ice4j.ice.Agent;
+import org.ice4j.ice.IceMediaStream;
+import org.ice4j.ice.harvest.StunCandidateHarvester;
 
-import net.java.sip.communicator.service.netaddr.event.*;
-
-import org.ice4j.ice.*;
-import org.ice4j.ice.harvest.*;
+import java.io.IOException;
+import java.net.BindException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
 
 /**
  * The NetworkAddressManagerService takes care of problems such as

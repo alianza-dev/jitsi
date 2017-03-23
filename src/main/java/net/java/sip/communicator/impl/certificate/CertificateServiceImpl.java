@@ -17,36 +17,71 @@
  */
 package net.java.sip.communicator.impl.certificate;
 
-import java.beans.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.net.*;
-import java.security.*;
-import java.security.KeyStore.Builder;
-import java.security.cert.*;
-import java.security.cert.Certificate;
-import java.util.*;
-
-import javax.net.ssl.*;
-import javax.security.auth.callback.*;
-
 import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
-import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzService;
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import net.java.sip.communicator.service.certificate.*;
-import net.java.sip.communicator.service.credentialsstorage.*;
-import net.java.sip.communicator.service.gui.*;
-import net.java.sip.communicator.service.httputil.*;
+import net.java.sip.communicator.service.certificate.CertificateConfigEntry;
+import net.java.sip.communicator.service.certificate.CertificateMatcher;
+import net.java.sip.communicator.service.certificate.CertificateService;
+import net.java.sip.communicator.service.certificate.KeyStoreType;
+import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
 import net.java.sip.communicator.util.Logger;
-
-import org.bouncycastle.asn1.*;
-import org.bouncycastle.asn1.x509.*;
+import org.bouncycastle.asn1.DERIA5String;
+import org.bouncycastle.asn1.x509.AccessDescription;
+import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
 import org.bouncycastle.asn1.x509.Extension;
-import org.bouncycastle.x509.extension.*;
-import org.jitsi.service.configuration.*;
-import org.jitsi.service.resources.*;
-import org.jitsi.util.*;
+import org.bouncycastle.asn1.x509.GeneralName;
+import org.bouncycastle.x509.extension.X509ExtensionUtil;
+import org.jitsi.service.configuration.ConfigurationService;
+import org.jitsi.service.resources.ResourceManagementService;
+import org.jitsi.util.OSUtils;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.KeyStoreBuilderParameters;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.PasswordCallback;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.security.KeyStore.Builder;
+import java.security.KeyStoreException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Provider;
+import java.security.Security;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Implementation of the CertificateService. It asks the user to trust a
@@ -922,9 +957,7 @@ public class CertificateServiceImpl
                                         + uri + ">");
                             try
                             {
-                                InputStream is =
-                                    HttpUtils.openURLConnection(uri.toString())
-                                        .getContent();
+                                InputStream is = null;
                                 cert =
                                     (X509Certificate) certFactory
                                         .generateCertificate(is);

@@ -17,24 +17,48 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.message.*;
-
-import java.io.*;
-import java.net.*;
-import java.security.cert.*;
-import java.text.*;
-import java.util.*;
-
-import javax.net.ssl.*;
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
+import gov.nist.javax.sip.message.SIPMessage;
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetBasicInstantMessaging;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.util.Logger;
+
+import javax.net.ssl.SSLHandshakeException;
+import javax.sip.ClientTransaction;
+import javax.sip.IOExceptionEvent;
+import javax.sip.InvalidArgumentException;
+import javax.sip.ListeningPoint;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.SipException;
+import javax.sip.SipProvider;
+import javax.sip.TimeoutEvent;
+import javax.sip.Transaction;
+import javax.sip.TransactionState;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.address.Address;
+import javax.sip.address.SipURI;
+import javax.sip.header.AllowHeader;
+import javax.sip.header.CSeqHeader;
+import javax.sip.header.CallIdHeader;
+import javax.sip.header.ContactHeader;
+import javax.sip.header.ExpiresHeader;
+import javax.sip.header.FromHeader;
+import javax.sip.header.MinExpiresHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.security.cert.CertificateException;
+import java.text.ParseException;
+import java.util.HashSet;
+import java.util.ListIterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Contains all functionality that has anything to do with registering and

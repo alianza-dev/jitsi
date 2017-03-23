@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.FileTransfer;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.EventObject;
 
 /**
  * The <tt>FileTransferStatusChangeEvent</tt> is the event indicating of a

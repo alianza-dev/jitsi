@@ -17,13 +17,13 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.message.*;
+import gov.nist.javax.sip.message.SIPMessage;
+import net.java.sip.communicator.util.Logger;
 
-import java.util.*;
-
-import javax.sip.*;
-
-import net.java.sip.communicator.util.*;
+import javax.sip.Dialog;
+import javax.sip.Transaction;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The only Object with should be used as parameter for any JAIN-SIP class

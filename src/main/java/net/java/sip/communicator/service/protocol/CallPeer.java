@@ -17,11 +17,16 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.beans.*;
-import java.net.*;
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.CallPeerConferenceListener;
+import net.java.sip.communicator.service.protocol.event.CallPeerListener;
+import net.java.sip.communicator.service.protocol.event.CallPeerSecurityListener;
+import net.java.sip.communicator.service.protocol.event.CallPeerSecurityStatusEvent;
+import net.java.sip.communicator.service.protocol.event.ConferenceMembersSoundLevelListener;
+import net.java.sip.communicator.service.protocol.event.SoundLevelListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.beans.PropertyChangeListener;
+import java.net.URL;
+import java.util.List;
 
 /**
  * The CallPeer is an interface that represents peers in a call.

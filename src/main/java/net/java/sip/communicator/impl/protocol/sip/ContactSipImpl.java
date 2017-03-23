@@ -17,16 +17,24 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.DisplayNameType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.EntryType;
+import net.java.sip.communicator.service.protocol.AbstractContact;
+import net.java.sip.communicator.service.protocol.ContactGroup;
+import net.java.sip.communicator.service.protocol.ContactResource;
+import net.java.sip.communicator.service.protocol.OperationSetPresence;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import org.w3c.dom.Element;
+
+import javax.sip.address.Address;
+import javax.sip.address.SipURI;
+import javax.xml.namespace.QName;
 import java.net.URI;
-import java.util.*;
-
-import javax.sip.address.*;
-import javax.xml.namespace.*;
-
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.*;
-import net.java.sip.communicator.service.protocol.*;
-
-import org.w3c.dom.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * A simple, straightforward implementation of a SIP Contact.

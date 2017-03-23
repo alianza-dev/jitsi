@@ -17,6 +17,16 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists;
 
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.ParsingException;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.namespace.QName;
+
 import static javax.xml.XMLConstants.XML_NS_PREFIX;
 import static javax.xml.XMLConstants.XML_NS_URI;
 import static net.java.sip.communicator.impl.protocol.sip.xcap.model.XmlUtils.processAny;
@@ -26,12 +36,6 @@ import static org.jitsi.util.xml.XMLUtils.createDocument;
 import static org.jitsi.util.xml.XMLUtils.createXml;
 import static org.jitsi.util.xml.XMLUtils.getNamespaceUri;
 import static org.jitsi.util.xml.XMLUtils.isStandartXmlNamespace;
-
-import javax.xml.namespace.*;
-
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.*;
-
-import org.w3c.dom.*;
 
 /**
  * Utility class that helps to converts resource-lists xml to the object model

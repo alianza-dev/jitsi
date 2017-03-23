@@ -17,25 +17,50 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.sdp;
 
-import java.io.*;
-import java.net.*;
-import java.net.URI;
-import java.util.*;
-
-import javax.sdp.*;
-import javax.sip.header.*;
-
-import net.java.sip.communicator.impl.protocol.sip.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.media.DynamicPayloadTypeRegistry;
+import net.java.sip.communicator.service.protocol.media.DynamicRTPExtensionsRegistry;
 import net.java.sip.communicator.util.Logger;
-
-import org.ice4j.ice.sdp.*;
-import org.jitsi.service.neomedia.*;
+import net.java.sip.communicator.util.NetworkUtils;
+import org.ice4j.ice.sdp.IceSdpUtils;
+import org.jitsi.service.neomedia.MediaDirection;
+import org.jitsi.service.neomedia.MediaStreamTarget;
 import org.jitsi.service.neomedia.MediaType;
-import org.jitsi.service.neomedia.format.*;
-import org.jitsi.util.*;
+import org.jitsi.service.neomedia.RTPExtension;
+import org.jitsi.service.neomedia.StreamConnector;
+import org.jitsi.service.neomedia.format.AudioMediaFormat;
+import org.jitsi.service.neomedia.format.MediaFormat;
+import org.jitsi.util.StringUtils;
+
+import javax.sdp.Attribute;
+import javax.sdp.Connection;
+import javax.sdp.MediaDescription;
+import javax.sdp.Origin;
+import javax.sdp.SdpConstants;
+import javax.sdp.SdpException;
+import javax.sdp.SdpFactory;
+import javax.sdp.SdpParseException;
+import javax.sdp.SessionDescription;
+import javax.sdp.TimeDescription;
+import javax.sdp.Version;
+import javax.sip.header.ContentTypeHeader;
+import java.io.UnsupportedEncodingException;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * The class contains a number of utility methods that are meant to facilitate

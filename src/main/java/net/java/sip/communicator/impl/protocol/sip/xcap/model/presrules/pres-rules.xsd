@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="urn:ietf:params:xml:ns:pres-rules"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:cr="urn:ietf:params:xml:ns:common-policy"
            xmlns:pr="urn:ietf:params:xml:ns:pres-rules"
            elementFormDefault="qualified" attributeFormDefault="unqualified">
     <xs:import namespace="urn:ietf:params:xml:ns:common-policy"/>

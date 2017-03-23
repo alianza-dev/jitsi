@@ -17,23 +17,47 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
-import java.awt.*;
-import java.beans.*;
-import java.util.*;
-import java.util.List;
-
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
 import net.java.sip.communicator.service.protocol.OperationFailedException;
-import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.service.protocol.event.DTMFListener;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.event.DTMFReceivedEvent;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.neomedia.AudioMediaStream;
+import org.jitsi.service.neomedia.DTMFTone;
+import org.jitsi.service.neomedia.MediaDirection;
+import org.jitsi.service.neomedia.MediaService;
+import org.jitsi.service.neomedia.MediaStream;
+import org.jitsi.service.neomedia.MediaStreamTarget;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.RTPExtension;
+import org.jitsi.service.neomedia.SrtpControl;
+import org.jitsi.service.neomedia.SrtpControlType;
+import org.jitsi.service.neomedia.StreamConnector;
+import org.jitsi.service.neomedia.VideoMediaStream;
+import org.jitsi.service.neomedia.VolumeControl;
+import org.jitsi.service.neomedia.control.KeyFrameControl;
+import org.jitsi.service.neomedia.device.MediaDevice;
+import org.jitsi.service.neomedia.event.CsrcAudioLevelListener;
+import org.jitsi.service.neomedia.event.DTMFToneEvent;
+import org.jitsi.service.neomedia.event.SimpleAudioLevelListener;
+import org.jitsi.service.neomedia.event.SrtpListener;
+import org.jitsi.service.neomedia.format.MediaFormat;
+import org.jitsi.util.event.PropertyChangeNotifier;
+import org.jitsi.util.event.VideoEvent;
+import org.jitsi.util.event.VideoListener;
+import org.jitsi.util.event.VideoNotifierSupport;
 
-import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.control.*;
-import org.jitsi.service.neomedia.device.*;
-import org.jitsi.service.neomedia.event.*;
-import org.jitsi.service.neomedia.format.*;
-import org.jitsi.util.event.*;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implements media control code which allows state sharing among multiple

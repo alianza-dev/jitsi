@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
-import java.util.*;
+import org.jitsi.service.neomedia.RTPExtension;
 
-import org.jitsi.service.neomedia.*;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * RFC [RFC 5285] defines a mechanism for attaching multiple extensions to

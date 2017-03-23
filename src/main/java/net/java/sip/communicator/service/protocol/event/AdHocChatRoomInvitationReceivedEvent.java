@@ -17,9 +17,11 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.AdHocChatRoomInvitation;
+import net.java.sip.communicator.service.protocol.OperationSetAdHocMultiUserChat;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.Date;
+import java.util.EventObject;
 
 /**
  * <tt>AdHocChatRoomInvitationReceivedEvent</tt>s indicate reception of an

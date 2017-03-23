@@ -17,19 +17,20 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.core.*;
-import gov.nist.javax.sip.*;
-import gov.nist.javax.sip.message.*;
+import gov.nist.core.ServerLogger;
+import gov.nist.core.StackLogger;
+import gov.nist.javax.sip.SipStackImpl;
+import gov.nist.javax.sip.message.SIPMessage;
+import gov.nist.javax.sip.message.SIPRequest;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.packetlogging.PacketLoggingService;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import javax.sip.*;
-
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.packetlogging.*;
+import javax.sip.ListeningPoint;
+import javax.sip.SipStack;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.Arrays;
+import java.util.Properties;
 
 /**
  * This class passes log calls from JAIN-SIP to log4j, so that it is possible

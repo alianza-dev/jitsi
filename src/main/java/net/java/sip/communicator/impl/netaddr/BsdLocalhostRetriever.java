@@ -17,12 +17,19 @@
  */
 package net.java.sip.communicator.impl.netaddr;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+import com.sun.jna.Structure;
+import com.sun.jna.ptr.IntByReference;
 
-import com.sun.jna.*;
-import com.sun.jna.ptr.*;
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Utility class to lookup the local source address of a UDP socket on BSD-like

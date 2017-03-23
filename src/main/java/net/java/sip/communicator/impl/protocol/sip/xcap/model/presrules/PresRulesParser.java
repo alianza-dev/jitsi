@@ -17,13 +17,20 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.presrules;
 
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.ActionsType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.CommonPolicyParser;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.TransformationsType;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import static net.java.sip.communicator.impl.protocol.sip.xcap.model.XmlUtils.processAny;
 import static org.jitsi.util.xml.XMLUtils.getNamespaceUri;
 import static org.jitsi.util.xml.XMLUtils.hasChildElements;
 import static org.jitsi.util.xml.XMLUtils.isStandartXmlNamespace;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.*;
-
-import org.w3c.dom.*;
 
 /**
  * Utility class that helps to converts pres-rules xml to the object model

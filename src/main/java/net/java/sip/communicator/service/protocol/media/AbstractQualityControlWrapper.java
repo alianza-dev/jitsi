@@ -17,7 +17,12 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
-import org.jitsi.service.neomedia.*;
+import org.jitsi.service.neomedia.MediaException;
+import org.jitsi.service.neomedia.MediaStream;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.QualityControl;
+import org.jitsi.service.neomedia.QualityPreset;
+import org.jitsi.service.neomedia.VideoMediaStream;
 
 /**
  * A wrapper of media quality control.

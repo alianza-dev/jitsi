@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.io.*;
+import net.java.sip.communicator.service.protocol.event.FileTransferListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.io.File;
 
 /**
  * The File Transfer Operation Set provides an interface towards those functions

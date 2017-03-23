@@ -26,7 +26,6 @@ import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
 import net.java.sip.communicator.service.protocol.ProtocolProviderService;
 import net.java.sip.communicator.service.protocol.sip.SipAccountID;
 import net.java.sip.communicator.util.Logger;
-import net.java.sip.communicator.util.ServiceUtils;
 
 import java.util.Hashtable;
 import java.util.Map;

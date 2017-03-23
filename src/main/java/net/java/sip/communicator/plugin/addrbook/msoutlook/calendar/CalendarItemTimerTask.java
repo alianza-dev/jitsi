@@ -17,10 +17,11 @@
  */
 package net.java.sip.communicator.plugin.addrbook.msoutlook.calendar;
 
-import java.util.*;
+import net.java.sip.communicator.service.calendar.CalendarService;
 
-import net.java.sip.communicator.plugin.addrbook.*;
-import net.java.sip.communicator.service.calendar.*;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A class that represents one calendar item. It schedules tasks for the 
@@ -60,18 +61,12 @@ public class CalendarItemTimerTask
      * The <tt>CalendarServiceImpl</tt> instance.
      */
     private final CalendarServiceImpl calendarService 
-        = AddrBookActivator.getCalendarService();
+        = null;
 
     /**
      * The <tt>Timer</tt> instance that schedules the tasks.
      */
     private static Timer timer = new Timer();
-
-    /**
-     * The <tt>RecurringPattern</tt> instance associated with the calendar item.
-     * This must be <tt>null</tt> if the calendar item is not recurring.
-     */
-    private RecurringPattern pattern;
 
     /**
      * The task that will be executed at the beginning of the task.
@@ -105,13 +100,11 @@ public class CalendarItemTimerTask
      * @param id the ID of the calendar item.
      * @param executeNow Indicates if the start task should be executed 
      * immediately or not
-     * @param pattern the <tt>RecurringPattern</tt> instance associated with the
-     * calendar item. It must be <tt>null</tt> if the calendar item is not 
+     * calendar item. It must be <tt>null</tt> if the calendar item is not
      * recurring.
      */
     public CalendarItemTimerTask(CalendarService.BusyStatusEnum state, 
-        Date startDate, Date endDate, String id, boolean executeNow, 
-        RecurringPattern pattern)
+        Date startDate, Date endDate, String id, boolean executeNow)
     {
         this.state = state;
         this.startDate = startDate;
@@ -119,18 +112,6 @@ public class CalendarItemTimerTask
         this.id = id;
         calendarService.addToTaskMap(id, this);
         this.executeNow = executeNow;
-        this.pattern = pattern;
-    }
-
-    /**
-     * Returns the <tt>RecurringPattern</tt> instance associated with the 
-     * calendar item.
-     * @return the <tt>RecurringPattern</tt> instance associated with the 
-     * calendar item.
-     */
-    public RecurringPattern getPattern()
-    {
-        return pattern;
     }
 
     /**
@@ -159,14 +140,6 @@ public class CalendarItemTimerTask
         calendarService.removeFromTaskMap(id);
         calendarService.removeFromCurrentItems(this);
         calendarService.updateStateFromCurrentItems();
-        if(pattern != null)
-        {
-            CalendarItemTimerTask nextTask 
-                = pattern.next(startDate, endDate);
-            this.pattern = null;
-            nextTask.scheduleTasks();
-        }
-
     }
 
     /**
@@ -225,12 +198,4 @@ public class CalendarItemTimerTask
         return endDate;
     }
 
-    /**
-     * Sets the <tt>RecurringPattern</tt> associated with the calendar item.
-     * @param pattern the pattern to set
-     */
-    public void setPattern(RecurringPattern pattern)
-    {
-        this.pattern = pattern;
-    }
 }

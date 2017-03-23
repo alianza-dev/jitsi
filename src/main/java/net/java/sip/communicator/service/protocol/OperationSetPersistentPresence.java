@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import net.java.sip.communicator.service.protocol.event.ServerStoredGroupListener;
 
 /**
  * This interface is an extension of the presence operation set, meant to be

@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap;
 
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.*;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.ListType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.ResourceListsType;
 
 /**
  * XCAP resource-lists client interface.

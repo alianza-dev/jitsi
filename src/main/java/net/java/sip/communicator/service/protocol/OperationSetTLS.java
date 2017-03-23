@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.security.cert.*;
+import java.security.cert.Certificate;
 
 /**
  * An <tt>OperationSet</tt> that allows access to information about TLS used by 

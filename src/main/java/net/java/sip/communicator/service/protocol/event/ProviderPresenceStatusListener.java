@@ -18,7 +18,7 @@
 
 package net.java.sip.communicator.service.protocol.event;
 
-import java.beans.*;
+import java.beans.PropertyChangeEvent;
 
 /**
  * An event listener that should be implemented by parties interested in changes

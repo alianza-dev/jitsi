@@ -17,13 +17,18 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.header.*;
-import net.java.sip.communicator.util.*;
+import gov.nist.javax.sip.header.SIPHeaderNames;
+import net.java.sip.communicator.util.Logger;
 
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-import java.util.*;
+import javax.sip.address.URI;
+import javax.sip.header.FromHeader;
+import javax.sip.header.Header;
+import javax.sip.header.ToHeader;
+import javax.sip.message.Message;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Checks the <tt>protocolProvider</tt>'s account properties for configured

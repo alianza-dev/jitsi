@@ -17,10 +17,10 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.io.*;
-import java.nio.charset.*;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.util.*;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 /**
  * Represents a default implementation of {@link Message} in order to make it

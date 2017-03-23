@@ -17,14 +17,17 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.ActiveCallsRepository;
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallPeer;
+import net.java.sip.communicator.service.protocol.event.CallChangeEvent;
+import net.java.sip.communicator.util.Logger;
 
-import javax.sip.*;
-import javax.sip.header.*;
-
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import javax.sip.Dialog;
+import javax.sip.Transaction;
+import javax.sip.header.CallIdHeader;
+import javax.sip.header.Header;
+import java.util.Iterator;
 
 /**
  * Keeps a list of all calls currently active and maintained by this protocol

@@ -17,8 +17,7 @@
  */
 package net.java.sip.communicator.impl.netaddr;
 
-import org.ice4j.stack.*;
-import org.jitsi.service.packetlogging.*;
+import org.ice4j.stack.PacketLogger;
 
 /**
  * Logs Packets coming and going through ice4j stack.
@@ -48,15 +47,7 @@ public class Ice4jPacketLogger
     {
         if (isEnabled())
         {
-            NetaddrActivator.getPacketLogging().logPacket(
-                    PacketLoggingService.ProtocolName.ICE4J,
-                    sourceAddress,
-                    sourcePort,
-                    destinationAddress,
-                    destinationPort,
-                    PacketLoggingService.TransportName.UDP,
-                    sender,
-                    packetContent);
+
         }
     }
 
@@ -68,12 +59,6 @@ public class Ice4jPacketLogger
      */
     public boolean isEnabled()
     {
-        PacketLoggingService packetLoggingService
-            = NetaddrActivator.getPacketLogging();
-
-        return
-            (packetLoggingService != null)
-                && packetLoggingService.isLoggingEnabled(
-                        PacketLoggingService.ProtocolName.ICE4J);
+        return false;
     }
 }

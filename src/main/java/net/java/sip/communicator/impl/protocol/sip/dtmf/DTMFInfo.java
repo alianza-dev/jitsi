@@ -17,23 +17,38 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.dtmf;
 
-import gov.nist.javax.sip.header.*;
-
-import java.io.*;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.impl.protocol.sip.*;
-import net.java.sip.communicator.service.protocol.*;
+import gov.nist.javax.sip.header.ContentLength;
+import gov.nist.javax.sip.header.ContentType;
+import net.java.sip.communicator.impl.protocol.sip.CallPeerSipImpl;
+import net.java.sip.communicator.impl.protocol.sip.MethodProcessorAdapter;
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
+import net.java.sip.communicator.impl.protocol.sip.SipStackSharing;
+import net.java.sip.communicator.service.protocol.CallPeer;
 import net.java.sip.communicator.service.protocol.OperationFailedException;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.event.DTMFListener;
+import net.java.sip.communicator.service.protocol.event.DTMFReceivedEvent;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.neomedia.DTMFTone;
 
-import org.jitsi.service.neomedia.*;
+import javax.sip.ClientTransaction;
+import javax.sip.DialogState;
+import javax.sip.InvalidArgumentException;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.SipException;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.header.ContentTypeHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * Sending DTMFs with SIP INFO.

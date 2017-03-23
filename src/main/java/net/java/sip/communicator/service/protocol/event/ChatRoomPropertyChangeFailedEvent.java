@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.beans.*;
+import net.java.sip.communicator.service.protocol.ChatRoom;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.beans.PropertyChangeEvent;
 
 /**
  * Dispatched to indicate that a change of a chat room property has failed.

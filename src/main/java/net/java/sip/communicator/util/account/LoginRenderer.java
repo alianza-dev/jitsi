@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.util.account;
 
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import net.java.sip.communicator.service.protocol.SecurityAuthority;
 
 /**
  * The <tt>LoginRenderer</tt> is the renderer of all login related operations.

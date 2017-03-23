@@ -19,9 +19,6 @@ package net.java.sip.communicator.impl.netaddr;
 
 import net.java.sip.communicator.service.netaddr.event.ChangeEvent;
 import net.java.sip.communicator.service.netaddr.event.NetworkConfigurationChangeListener;
-import net.java.sip.communicator.service.sysactivity.SystemActivityChangeListener;
-import net.java.sip.communicator.service.sysactivity.SystemActivityNotificationsService;
-import net.java.sip.communicator.service.sysactivity.event.SystemActivityEvent;
 import net.java.sip.communicator.util.Logger;
 
 import java.net.InetAddress;
@@ -34,16 +31,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-//import org.osgi.framework.*;
-
 /**
  * Periodically checks the current network interfaces to track changes
  * and fire events on those changes.
  *
  * @author Damian Minkov
  */
-//public class NetworkConfigurationWatcher implements SystemActivityChangeListener, ServiceListener, Runnable
-public class NetworkConfigurationWatcher implements SystemActivityChangeListener, Runnable
+public class NetworkConfigurationWatcher implements Runnable
 {
     /**
      * Our class logger.
@@ -66,12 +60,6 @@ public class NetworkConfigurationWatcher implements SystemActivityChangeListener
      * Whether thread checking for network notifications is running.
      */
     private boolean isRunning = false;
-
-    /**
-     * Service we use to listen for network changes.
-     */
-    private SystemActivityNotificationsService
-            systemActivityNotificationsService = null;
 
     /**
      * The thread dispatcher of network change events.
@@ -105,17 +93,6 @@ public class NetworkConfigurationWatcher implements SystemActivityChangeListener
 
         initialFireEvents(listener);
 
-//        NetaddrActivator.getBundleContext().addServiceListener(this);
-
-        if(this.systemActivityNotificationsService == null)
-        {
-//            SystemActivityNotificationsService systActService
-//                = ServiceUtils.getService(
-//                        NetaddrActivator.getBundleContext(),
-//                        SystemActivityNotificationsService.class);
-//
-//            handleNewSystemActivityNotificationsService(systActService);
-        }
     }
 
     /**
@@ -177,40 +154,6 @@ public class NetworkConfigurationWatcher implements SystemActivityChangeListener
     }
 
     /**
-     * Saves the reference for the service and
-     * add a listener if the desired events are supported. Or start
-     * the checking thread otherwise.
-     * @param newService
-     */
-    private void handleNewSystemActivityNotificationsService(
-            SystemActivityNotificationsService newService)
-    {
-        if(newService == null)
-            return;
-
-        this.systemActivityNotificationsService = newService;
-
-        if(this.systemActivityNotificationsService
-                    .isSupported(SystemActivityEvent.EVENT_NETWORK_CHANGE))
-        {
-            this.systemActivityNotificationsService
-                .addSystemActivityChangeListener(this);
-        }
-        else
-        {
-            if(!isRunning)
-            {
-                isRunning = true;
-                Thread th = new Thread(this);
-                // set to max priority to prevent detecting sleep if the cpu is
-                // overloaded
-                th.setPriority(Thread.MAX_PRIORITY);
-                th.start();
-            }
-        }
-    }
-
-    /**
      * Remove <tt>NetworkConfigurationChangeListener</tt>.
      * @param listener the listener.
      */
@@ -219,46 +162,6 @@ public class NetworkConfigurationWatcher implements SystemActivityChangeListener
     {
         eventDispatcher.removeNetworkConfigurationChangeListener(listener);
     }
-
-    /**
-     * When new protocol provider is registered we add needed listeners.
-     *
-     * @param serviceEvent ServiceEvent
-     */
-//    public void serviceChanged(ServiceEvent serviceEvent)
-//    {
-//        ServiceReference serviceRef = serviceEvent.getServiceReference();
-//
-//        // if the event is caused by a bundle being stopped, we don't want to
-//        // know we are shutting down
-//        if (serviceRef.getBundle().getState() == Bundle.STOPPING)
-//        {
-//            return;
-//        }
-//
-//        Object sService = NetaddrActivator.getBundleContext()
-//                .getService(serviceRef);
-//
-//        if(sService instanceof SystemActivityNotificationsService)
-//        {
-//            switch (serviceEvent.getType())
-//            {
-//                case ServiceEvent.REGISTERED:
-//                    if(this.systemActivityNotificationsService != null)
-//                        break;
-//
-//                    handleNewSystemActivityNotificationsService(
-//                        (SystemActivityNotificationsService)sService);
-//                    break;
-//                case ServiceEvent.UNREGISTERING:
-//                    ((SystemActivityNotificationsService)sService)
-//                        .removeSystemActivityChangeListener(this);
-//                    break;
-//            }
-//
-//            return;
-//        }
-//    }
 
     /**
      * Stop.
@@ -276,46 +179,6 @@ public class NetworkConfigurationWatcher implements SystemActivityChangeListener
 
         if(eventDispatcher != null)
             eventDispatcher.stop();
-    }
-
-    /**
-     * This method gets called when a notification action for a particular event
-     * type has been changed. We are interested in sleep and network
-     * changed events.
-     *
-     * @param event the <tt>NotificationActionTypeEvent</tt>, which is
-     * dispatched when an action has been changed.
-     */
-    public void activityChanged(SystemActivityEvent event)
-    {
-        if(event.getEventID() == SystemActivityEvent.EVENT_SLEEP)
-        {
-            // oo standby lets fire down to all interfaces
-            // so they can reconnect
-            downAllInterfaces();
-        }
-        else if(event.getEventID() == SystemActivityEvent.EVENT_NETWORK_CHANGE)
-        {
-            try
-            {
-                checkNetworkInterfaces(true, 0, true);
-            } catch (SocketException e)
-            {
-                logger.error("Error checking network interfaces", e);
-            }
-        }
-        else if(event.getEventID() == SystemActivityEvent.EVENT_DNS_CHANGE)
-        {
-            try
-            {
-                eventDispatcher.fireChangeEvent(
-                    new ChangeEvent(event.getSource(), ChangeEvent.DNS_CHANGE));
-            }
-            catch(Throwable t)
-            {
-                logger.error("Error dispatching dns change.");
-            }
-        }
     }
 
     /**

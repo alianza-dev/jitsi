@@ -17,28 +17,38 @@
  */
 package net.java.sip.communicator.impl.netaddr;
 
-import java.beans.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.net.*;
-import java.text.*;
-import java.util.*;
-
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.service.dns.*;
-import net.java.sip.communicator.service.netaddr.*;
-import net.java.sip.communicator.service.netaddr.event.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.dns.DnssecException;
+import net.java.sip.communicator.service.netaddr.NetworkAddressManagerService;
+import net.java.sip.communicator.service.netaddr.event.NetworkConfigurationChangeListener;
 import net.java.sip.communicator.util.Logger;
 import net.java.sip.communicator.util.NetworkUtils;
+import net.java.sip.communicator.util.SRVRecord;
+import org.ice4j.Transport;
+import org.ice4j.TransportAddress;
+import org.ice4j.ice.Agent;
+import org.ice4j.ice.IceMediaStream;
+import org.ice4j.ice.harvest.StunCandidateHarvester;
+import org.ice4j.ice.harvest.TurnCandidateHarvester;
+import org.ice4j.security.LongTermCredential;
+import org.ice4j.stack.StunStack;
+import org.jitsi.service.configuration.ConfigurationService;
+import org.jitsi.util.OSUtils;
 
-import org.ice4j.*;
-import org.ice4j.ice.*;
-import org.ice4j.ice.harvest.*;
-import org.ice4j.security.*;
-import org.ice4j.stack.*;
-import org.jitsi.service.configuration.*;
-import org.jitsi.util.*;
+import java.beans.PropertyChangeEvent;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.BindException;
+import java.net.DatagramSocket;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.util.Enumeration;
 
 /**
  * This implementation of the Network Address Manager allows you to

@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
-
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.GenericDetail;
+
+import java.util.Iterator;
 
 /**
  * The User Info Operation set is a means of accessing detailed information of

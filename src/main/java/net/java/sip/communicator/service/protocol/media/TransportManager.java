@@ -17,17 +17,27 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
-import java.net.*;
-
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import net.java.sip.communicator.service.netaddr.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.netaddr.NetworkAddressManagerService;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetBasicTelephony;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.PortTracker;
+import org.ice4j.ice.Agent;
+import org.ice4j.ice.IceMediaStream;
+import org.ice4j.ice.LocalCandidate;
+import org.jitsi.service.configuration.ConfigurationService;
+import org.jitsi.service.neomedia.DefaultStreamConnector;
+import org.jitsi.service.neomedia.MediaStreamTarget;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.StreamConnector;
 
-import org.ice4j.ice.*;
-import org.jitsi.service.configuration.*;
-import org.jitsi.service.neomedia.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 
 /**
  * <tt>TransportManager</tt>s are responsible for allocating ports, gathering

@@ -17,8 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy;
 
-import org.jitsi.util.*;
-import org.w3c.dom.*;
+import org.jitsi.util.StringUtils;
+import org.w3c.dom.Element;
 
 /**
  * The Authorization Rules one element.

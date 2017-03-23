@@ -17,28 +17,33 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap;
 
-import java.io.*;
-import java.net.*;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.ParsingException;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcaperror.XCapError;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcaperror.XCapErrorParser;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcaperror.XCapErrorType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.utils.StreamUtils;
+import net.java.sip.communicator.service.certificate.CertificateService;
+import net.java.sip.communicator.util.Logger;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import javax.sip.address.Address;
+import java.io.IOException;
 import java.net.URI;
-
-import javax.sip.address.*;
-
-import net.java.sip.communicator.impl.protocol.sip.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcaperror.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.utils.*;
-import net.java.sip.communicator.service.certificate.*;
-import net.java.sip.communicator.service.gui.*;
-import net.java.sip.communicator.service.httputil.*;
-import net.java.sip.communicator.util.*;
-
-import org.apache.http.*;
-import org.apache.http.auth.*;
-import org.apache.http.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.*;
-import org.apache.http.impl.client.*;
-import org.osgi.framework.*;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 
 /**
  * Base HTTP XCAP client implementation.
@@ -264,12 +269,6 @@ public abstract class BaseHttpXCapClient implements HttpXCapClient
                     ex.getLocalizedMessage();
 
 
-            if(SipAlzProvider.getUIService() != null)
-                SipAlzProvider.getUIService().getPopupDialog()
-                    .showMessagePopupDialog(
-                        message,
-                        title,
-                        PopupDialog.ERROR_MESSAGE);
         }
         catch(Throwable t)
         {
@@ -440,8 +439,7 @@ public abstract class BaseHttpXCapClient implements HttpXCapClient
             AuthScope.ANY,
             new UsernamePasswordCredentials(getUserName(), password));
 
-        return HttpUtils.getHttpClient(
-            null , null, uri.getHost(), credentialsProvider);
+        return null;
     }
 
     /**

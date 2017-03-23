@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import java.util.Iterator;
 
 /**
  * A <tt>ContactGroup</tt> is a collection of Contacts/Buddies/Subscriptions,

@@ -17,9 +17,11 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The ProtocolProvider interface should be implemented by bundles that wrap

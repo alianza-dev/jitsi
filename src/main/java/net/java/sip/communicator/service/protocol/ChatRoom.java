@@ -17,9 +17,17 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.ChatRoomConferencePublishedListener;
+import net.java.sip.communicator.service.protocol.event.ChatRoomLocalUserRoleListener;
+import net.java.sip.communicator.service.protocol.event.ChatRoomMemberPresenceListener;
+import net.java.sip.communicator.service.protocol.event.ChatRoomMemberPropertyChangeListener;
+import net.java.sip.communicator.service.protocol.event.ChatRoomMemberRoleListener;
+import net.java.sip.communicator.service.protocol.event.ChatRoomMessageListener;
+import net.java.sip.communicator.service.protocol.event.ChatRoomPropertyChangeListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a chat channel/room/rendez-vous point/ where multiple chat users

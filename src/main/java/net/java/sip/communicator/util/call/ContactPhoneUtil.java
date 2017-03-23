@@ -17,12 +17,19 @@
  */
 package net.java.sip.communicator.util.call;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.OperationSetServerStoredContactInfo;
+import net.java.sip.communicator.service.protocol.OperationSetServerStoredContactInfo.DetailsResponseListener;
+import net.java.sip.communicator.service.protocol.ServerStoredDetails.FaxDetail;
+import net.java.sip.communicator.service.protocol.ServerStoredDetails.GenericDetail;
+import net.java.sip.communicator.service.protocol.ServerStoredDetails.PagerDetail;
+import net.java.sip.communicator.service.protocol.ServerStoredDetails.PhoneNumberDetail;
+import net.java.sip.communicator.service.protocol.ServerStoredDetails.VideoDetail;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.OperationSetServerStoredContactInfo.*;
-import net.java.sip.communicator.service.protocol.ServerStoredDetails.*;
-import net.java.sip.communicator.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Utility class used to check if there is a telephony service, video calls and
@@ -131,29 +138,6 @@ public class ContactPhoneUtil
      */
     protected static String getLocalizedPhoneNumber(GenericDetail d)
     {
-        if(d instanceof WorkPhoneDetail)
-        {
-            return UtilActivator.getResources().
-                getI18NString(
-                    "service.gui.WORK_PHONE");
-        }
-        else if(d instanceof MobilePhoneDetail)
-        {
-            return UtilActivator.getResources().
-                getI18NString(
-                    "service.gui.MOBILE_PHONE");
-        }
-        else if(d instanceof VideoDetail)
-        {
-            return UtilActivator.getResources().
-                getI18NString(
-                    "service.gui.VIDEO_PHONE");
-        }
-        else
-        {
-            return UtilActivator.getResources().
-                getI18NString(
-                    "service.gui.HOME");
-        }
+        return null;
     }
 }

@@ -18,14 +18,17 @@
 package net.java.sip.communicator.service.protocol.media;
 
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.service.protocol.*;
-import org.jitsi.service.configuration.*;
-import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.codec.*;
-import org.jitsi.service.neomedia.format.*;
-import org.jitsi.util.*;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.OperationSetDTMF;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import org.jitsi.service.configuration.ConfigurationService;
+import org.jitsi.service.neomedia.DTMFMethod;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.codec.Constants;
+import org.jitsi.service.neomedia.format.MediaFormat;
+import org.jitsi.util.StringUtils;
 
-import java.util.*;
+import java.util.Iterator;
 
 /**
  * Represents a default/base implementation of <tt>OperationSetDTMF</tt>

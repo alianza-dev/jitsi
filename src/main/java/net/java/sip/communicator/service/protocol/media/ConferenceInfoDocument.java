@@ -17,16 +17,23 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
-import net.java.sip.communicator.util.*;
-import org.jitsi.util.xml.*;
-import org.w3c.dom.*;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.util.xml.XMLException;
+import org.jitsi.util.xml.XMLUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import java.io.*;
-import java.util.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A class that represents a Conference Information XML document as defined in

@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.service.protocol.CallPeer;
 
 /**
  * The <tt>CallPeerSecurityTimeoutEvent</tt> is triggered whenever a

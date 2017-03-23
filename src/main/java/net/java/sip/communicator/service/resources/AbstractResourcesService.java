@@ -19,27 +19,19 @@ package net.java.sip.communicator.service.resources;
 
 import net.java.sip.communicator.util.Logger;
 import org.jitsi.service.resources.ResourceManagementService;
-//import org.osgi.framework.BundleContext;
-//import org.osgi.framework.ServiceEvent;
-//import org.osgi.framework.ServiceListener;
-//import org.osgi.framework.ServiceReference;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
 /**
- * The abstract class for ResourceManagementService. It listens for
- * {@link ResourcePack} that are registered and exposes them later for use by
- * subclasses. It implements default behaviour for most methods.
+ * The abstract class for ResourceManagementService. It implements default behaviour for most methods.
  */
-//public abstract class AbstractResourcesService implements ResourceManagementService, ServiceListener
 public abstract class AbstractResourcesService implements ResourceManagementService
 {
     /**
@@ -49,29 +41,14 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
             Logger.getLogger(AbstractResourcesService.class);
 
     /**
-     * The OSGI BundleContext
-     */
-//    private BundleContext bundleContext;
-
-    /**
      * Resources for currently loaded <tt>SettingsPack</tt>.
      */
     private Map<String, String> settingsResources;
 
     /**
-     * Currently loaded settings pack.
-     */
-    private ResourcePack settingsPack = null;
-
-    /**
      * Resources for currently loaded <tt>LanguagePack</tt>.
      */
     private Map<String, String> languageResources;
-
-    /**
-     * Currently loaded language pack.
-     */
-    private LanguagePack languagePack = null;
 
     /**
      * The {@link Locale} of <code>languageResources</code> so that the caching
@@ -86,34 +63,14 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
     private Map<String, String> imageResources;
 
     /**
-     * Currently loaded image pack.
-     */
-    private ImagePack imagePack = null;
-
-    /**
      * Resources for currently loaded <tt>ColorPack</tt>.
      */
     private Map<String, String> colorResources;
 
     /**
-     * Currently loaded color pack.
-     */
-    private ResourcePack colorPack = null;
-
-    /**
      * Resources for currently loaded <tt>SoundPack</tt>.
      */
     private Map<String, String> soundResources;
-
-    /**
-     * Currently loaded sound pack.
-     */
-    private ResourcePack soundPack = null;
-
-    /**
-     * Currently loaded <tt>SkinPack</tt>.
-     */
-    private SkinPack skinPack = null;
 
     /**
      * Creates an instance of <tt>AbstractResourcesService</tt>.
@@ -122,279 +79,12 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
 //    public AbstractResourcesService(BundleContext bundleContext)
     public AbstractResourcesService()
     {
-//        this.bundleContext = bundleContext;
-        //TODO DEVTE-1304 fix me for GUI
-//        bundleContext.addServiceListener(this);
-
-        colorPack
-            = getDefaultResourcePack(
-                    ColorPack.class,
-                    ColorPack.RESOURCE_NAME_DEFAULT_VALUE);
-
-        if (colorPack != null)
-            colorResources = getResources(colorPack);
-
-        imagePack
-            = getDefaultResourcePack(
-                    ImagePack.class,
-                    ImagePack.RESOURCE_NAME_DEFAULT_VALUE);
-
-        if (imagePack != null)
-            imageResources = getResources(imagePack);
-
-        // changes the default locale if set in the config
-        //TODO DEVTE-1304 fix me for GUI
-//        ConfigurationService confService =
-//            ServiceUtils.getService( bundleContext, ConfigurationService.class);
-//        String defaultLocale =
-//                (String) confService.getProperty(DEFAULT_LOCALE_CONFIG);
-//        if(defaultLocale != null)
-//            Locale.setDefault(
-//                    ResourceManagementServiceUtils.getLocale(defaultLocale));
-
-        languagePack
-            = getDefaultResourcePack(
-                    LanguagePack.class,
-                    LanguagePack.RESOURCE_NAME_DEFAULT_VALUE);
-
-        if (languagePack != null)
-        {
-            languageLocale = Locale.getDefault();
-            languageResources = languagePack.getResources(languageLocale);
-        }
-
-        settingsPack
-            = getDefaultResourcePack(
-                    SettingsPack.class,
-                    SettingsPack.RESOURCE_NAME_DEFAULT_VALUE);
-
-        if (settingsPack != null)
-            settingsResources = getResources(settingsPack);
-
-        soundPack
-            = getDefaultResourcePack(
-                    SoundPack.class,
-                    SoundPack.RESOURCE_NAME_DEFAULT_VALUE);
-
-        if (soundPack != null)
-            soundResources = getResources(soundPack);
-
-        skinPack
-            = getDefaultResourcePack(
-                    SkinPack.class,
-                    SkinPack.RESOURCE_NAME_DEFAULT_VALUE);
-
-        if (skinPack != null)
-        {
-            if (imageResources != null)
-                imageResources.putAll(skinPack.getImageResources());
-            colorResources.putAll(skinPack.getColorResources());
-            settingsResources.putAll(skinPack.getSettingsResources());
-        }
     }
-
-    /**
-     * Handles all <tt>ServiceEvent</tt>s corresponding to <tt>ResourcePack</tt>
-     * being registered or unregistered.
-     *
-     * @param event the <tt>ServiceEvent</tt> that notified us
-     */
-//    public void serviceChanged(ServiceEvent event)
-//    {
-//        Object sService = bundleContext.getService(
-//                event.getServiceReference());
-//
-//        if (!(sService instanceof ResourcePack))
-//        {
-//            return;
-//        }
-//
-//        ResourcePack resourcePack = (ResourcePack) sService;
-//
-//        if (event.getType() == ServiceEvent.REGISTERED)
-//        {
-//            if (logger.isInfoEnabled())
-//                logger.info("Resource registered " + resourcePack);
-//
-//            Map<String, String> resources = getResources(resourcePack);
-//
-//            if(resourcePack instanceof ColorPack && colorPack == null)
-//            {
-//                colorPack = resourcePack;
-//                colorResources = resources;
-//            }
-//            else if(resourcePack instanceof ImagePack && imagePack == null)
-//            {
-//                imagePack = (ImagePack) resourcePack;
-//                imageResources = resources;
-//            }
-//            else if(resourcePack instanceof LanguagePack
-//                    && languagePack == null)
-//            {
-//                languagePack = (LanguagePack) resourcePack;
-//                languageLocale = Locale.getDefault();
-//                languageResources = resources;
-//            }
-//            else if(resourcePack instanceof SettingsPack
-//                    && settingsPack == null)
-//            {
-//                settingsPack = resourcePack;
-//                settingsResources = resources;
-//            }
-//            else if(resourcePack instanceof SoundPack && soundPack == null)
-//            {
-//                soundPack = resourcePack;
-//                soundResources = resources;
-//            }
-//            else if(resourcePack instanceof SkinPack && skinPack == null)
-//            {
-//                skinPack = (SkinPack) resourcePack;
-//
-//                if (imagePack!=null)
-//                    imageResources = getResources(imagePack);
-//
-//                if (colorPack!=null)
-//                    colorResources = getResources(colorPack);
-//
-//                if (settingsPack != null)
-//                    settingsResources = getResources(settingsPack);
-//
-//                if (imageResources != null)
-//                    imageResources.putAll(skinPack.getImageResources());
-//                colorResources.putAll(skinPack.getColorResources());
-//                settingsResources.putAll(skinPack.getSettingsResources());
-//
-//                onSkinPackChanged();
-//            }
-//        }
-//        else if (event.getType() == ServiceEvent.UNREGISTERING)
-//        {
-//            if(resourcePack instanceof ColorPack
-//                    && colorPack.equals(resourcePack))
-//            {
-//                colorPack
-//                    = getDefaultResourcePack(
-//                            ColorPack.class,
-//                            ColorPack.RESOURCE_NAME_DEFAULT_VALUE);
-//                if (colorPack != null)
-//                    colorResources = getResources(colorPack);
-//            }
-//            else if(resourcePack instanceof ImagePack
-//                    && imagePack.equals(resourcePack))
-//            {
-//                imagePack
-//                    = getDefaultResourcePack(
-//                            ImagePack.class,
-//                            ImagePack.RESOURCE_NAME_DEFAULT_VALUE);
-//                if (imagePack != null)
-//                    imageResources = getResources(imagePack);
-//            }
-//            else if(resourcePack instanceof LanguagePack
-//                    && languagePack.equals(resourcePack))
-//            {
-//                languagePack
-//                    = getDefaultResourcePack(
-//                            LanguagePack.class,
-//                            LanguagePack.RESOURCE_NAME_DEFAULT_VALUE);
-//            }
-//            else if(resourcePack instanceof SettingsPack
-//                    && settingsPack.equals(resourcePack))
-//            {
-//                settingsPack
-//                    = getDefaultResourcePack(
-//                            SettingsPack.class,
-//                            SettingsPack.RESOURCE_NAME_DEFAULT_VALUE);
-//                if (settingsPack != null)
-//                    settingsResources = getResources(settingsPack);
-//            }
-//            else if(resourcePack instanceof SoundPack
-//                    && soundPack.equals(resourcePack))
-//            {
-//                soundPack
-//                    = getDefaultResourcePack(
-//                            SoundPack.class,
-//                            SoundPack.RESOURCE_NAME_DEFAULT_VALUE);
-//                if (soundPack != null)
-//                    soundResources = getResources(soundPack);
-//            }
-//            else if(resourcePack instanceof SkinPack
-//                    && skinPack.equals(resourcePack))
-//            {
-//                if(imagePack!=null)
-//                {
-//                    imageResources = getResources(imagePack);
-//                }
-//
-//                if(colorPack!=null)
-//                {
-//                    colorResources = getResources(colorPack);
-//                }
-//
-//                if(settingsPack!=null)
-//                {
-//                    settingsResources = getResources(settingsPack);
-//                }
-//
-//                skinPack
-//                    = getDefaultResourcePack(
-//                            SkinPack.class,
-//                            SkinPack.RESOURCE_NAME_DEFAULT_VALUE);
-//                if (skinPack != null)
-//                {
-//                    imageResources.putAll(skinPack.getImageResources());
-//                    colorResources.putAll(skinPack.getColorResources());
-//                    settingsResources.putAll(skinPack.getSettingsResources());
-//                }
-//
-//                onSkinPackChanged();
-//            }
-//        }
-//    }
 
     /**
      * Method is invoked when the SkinPack is loaded or unloaded.
      */
     protected abstract void onSkinPackChanged();
-
-    protected <T extends ResourcePack> T getDefaultResourcePack(
-            Class<T> clazz,
-            String typeName)
-    {
-//        Collection<ServiceReference<T>> serRefs;
-        String osgiFilter
-            = "(" + ResourcePack.RESOURCE_NAME + "=" + typeName + ")";
-
-        //TODO DEVTE-1304 fix me for GUI
-//        try
-//        {
-//            serRefs = bundleContext.getServiceReferences(clazz, osgiFilter);
-//        }
-//        catch (InvalidSyntaxException ex)
-//        {
-//            serRefs = null;
-//            logger.error("Could not obtain resource packs reference.", ex);
-//        }
-
-//        if ((serRefs != null) && !serRefs.isEmpty())
-//        {
-//            return bundleContext.getService(serRefs.iterator().next());
-//        }
-        return null;
-    }
-
-    /**
-     * Returns the <tt>Map</tt> of (key, value) pairs contained in the given
-     * resource pack.
-     *
-     * @param resourcePack The <tt>ResourcePack</tt> from which we're obtaining
-     * the resources.
-     * @return the <tt>Map</tt> of (key, value) pairs contained in the given
-     * resource pack.
-     */
-    protected Map<String, String> getResources(ResourcePack resourcePack)
-    {
-        return resourcePack.getResources();
-    }
 
     /**
      * All the locales in the language pack.
@@ -402,38 +92,7 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
      */
     public Iterator<Locale> getAvailableLocales()
     {
-        return languagePack.getAvailableLocales();
-    }
-
-    /**
-     * Returns the string for given <tt>key</tt> for specified <tt>locale</tt>.
-     * It's the real process of retrieving string for specified locale.
-     * The result is used in other methods that operate on localized strings.
-     *
-     * @param key the key name for the string
-     * @param locale the Locale of the string
-     * @return the resources string corresponding to the given <tt>key</tt> and
-     * <tt>locale</tt>
-     */
-    protected String doGetI18String(String key, Locale locale)
-    {
-        Map<String, String> stringResources;
-        if ((locale != null) && locale.equals(languageLocale))
-        {
-            stringResources = languageResources;
-        }
-        else
-        {
-            stringResources
-                    = (languagePack == null)
-                    ? null
-                    : languagePack.getResources(locale);
-        }
-
-        String resourceString =
-                (stringResources == null) ? null : stringResources.get(key);
-
-        return resourceString;
+        return null;
     }
 
     /**
@@ -520,7 +179,7 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
      */
     public String getI18NString(String key, String[] params, Locale locale)
     {
-        String resourceString = doGetI18String(key, locale);
+        String resourceString = null;
         if (resourceString == null)
         {
             logger.warn("Missing resource for key: " + key);
@@ -560,7 +219,7 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
      */
     public char getI18nMnemonic(String key, Locale locale)
     {
-        String resourceString = doGetI18String(key, locale);
+        String resourceString = null;
 
         if (resourceString == null)
         {
@@ -622,7 +281,7 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
             logger.warn("Missing resource for key: " + urlKey);
             return null;
         }
-        return settingsPack.getClass().getClassLoader().getResource(path);
+        return null;
     }
 
     /**
@@ -633,7 +292,7 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
      */
     public InputStream getSettingsInputStream(String streamKey)
     {
-        return getSettingsInputStream(streamKey, settingsPack.getClass());
+        return null;
     }
 
     /**
@@ -734,33 +393,4 @@ public abstract class AbstractResourcesService implements ResourceManagementServ
         return colorResources;
     }
 
-    /**
-     * Currently loaded <tt>SkinPack</tt>.
-     *
-     * @return the currently loaded skin pack
-     */
-    protected SkinPack getSkinPack()
-    {
-        return skinPack;
-    }
-
-    /**
-     * Currently loaded image pack.
-     *
-     * @return the currently loaded image pack
-     */
-    protected ImagePack getImagePack()
-    {
-        return imagePack;
-    }
-
-    /**
-     * Currently loaded sound pack.
-     *
-     * @return the currently loaded sound pack
-     */
-    protected ResourcePack getSoundPack()
-    {
-        return soundPack;
-    }
 }

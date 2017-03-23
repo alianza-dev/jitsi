@@ -17,10 +17,11 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.neomedia.*;
+import net.java.sip.communicator.service.protocol.media.AbstractQualityControlWrapper;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.neomedia.MediaException;
+import org.jitsi.service.neomedia.QualityControl;
+import org.jitsi.service.neomedia.QualityPreset;
 
 /**
  * A wrapper of media quality control.

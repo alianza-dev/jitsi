@@ -17,10 +17,14 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.beans.*;
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.CallPeerEvent;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Provides implementations for some of the methods in the <tt>Call</tt>

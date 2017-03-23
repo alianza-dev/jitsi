@@ -17,7 +17,12 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import javax.sip.*;
+import javax.sip.DialogTerminatedEvent;
+import javax.sip.IOExceptionEvent;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.TimeoutEvent;
+import javax.sip.TransactionTerminatedEvent;
 
 /**
  * Provides a default implementation of <code>MethodProcessor</code> which does

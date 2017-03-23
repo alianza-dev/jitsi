@@ -17,11 +17,12 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model;
 
-import java.util.*;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-import javax.xml.namespace.*;
-
-import org.w3c.dom.*;
+import javax.xml.namespace.QName;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utility class that helps to convert classes into xml and from xml to the

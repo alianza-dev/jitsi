@@ -17,16 +17,24 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.net.URI;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.address.*;
-
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.ContactGroup;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.ImageDetail;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.event.ServerStoredGroupEvent;
+import net.java.sip.communicator.service.protocol.event.ServerStoredGroupListener;
+import net.java.sip.communicator.service.protocol.event.SubscriptionEvent;
+import net.java.sip.communicator.util.Logger;
+
+import javax.sip.address.Address;
+import java.net.URI;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * The parent server stored contact list used in

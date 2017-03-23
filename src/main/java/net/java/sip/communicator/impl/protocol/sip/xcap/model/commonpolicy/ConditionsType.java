@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy;
 
-import java.util.*;
+import org.w3c.dom.Element;
 
-import org.w3c.dom.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Authorization Rules conditions element.

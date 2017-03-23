@@ -17,11 +17,13 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import javax.sip.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-import java.text.*;
-import java.util.*;
+import javax.sip.ServerTransaction;
+import javax.sip.SipProvider;
+import javax.sip.header.Header;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.text.ParseException;
+import java.util.UUID;
 
 /**
  * When enabled <tt>DesktopSharingCallSipImpl</tt> is used to be able to handle

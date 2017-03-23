@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.net.*;
+import net.java.sip.communicator.service.protocol.media.TransportManager;
 
-import net.java.sip.communicator.service.protocol.media.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 /**
  * @author Emil Ivov

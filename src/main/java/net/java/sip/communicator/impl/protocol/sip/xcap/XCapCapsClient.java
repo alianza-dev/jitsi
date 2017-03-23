@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap;
 
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcapcaps.*;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcapcaps.XCapCapsType;
 
 /**
  * XCAP xcap-caps client interface.

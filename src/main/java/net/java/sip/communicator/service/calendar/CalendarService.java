@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.service.calendar;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.Map;
 
 /**
  * A service for calendar. It defines for accessing the current free busy status

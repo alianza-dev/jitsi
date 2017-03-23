@@ -17,10 +17,13 @@
  */
 package net.java.sip.communicator.service.contactsource;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.OperationSet;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
+import net.java.sip.communicator.util.DataObject;
 
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Implements a generic <tt>SourceContact</tt> for the purposes of the support

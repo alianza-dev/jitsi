@@ -17,15 +17,25 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallPeer;
+import net.java.sip.communicator.service.protocol.ConferenceMember;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetBasicTelephony;
+import net.java.sip.communicator.service.protocol.OperationSetVideoTelephony;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.MediaUseCase;
+import org.jitsi.service.neomedia.QualityControl;
+import org.jitsi.service.neomedia.QualityPreset;
+import org.jitsi.service.neomedia.VideoMediaStream;
+import org.jitsi.util.event.VideoListener;
+
 import java.awt.*;
-import java.beans.*;
-import java.text.*;
+import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import java.util.List;
-
-import net.java.sip.communicator.service.protocol.*;
-
-import org.jitsi.service.neomedia.*;
-import org.jitsi.util.event.*;
 
 /**
  * Represents a default implementation of <tt>OperationSetVideoTelephony</tt> in

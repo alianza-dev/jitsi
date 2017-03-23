@@ -17,21 +17,37 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.header.*;
-import gov.nist.javax.sip.header.extensions.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
+import gov.nist.javax.sip.header.HeaderFactoryImpl;
+import gov.nist.javax.sip.header.extensions.Replaces;
+import gov.nist.javax.sip.header.extensions.ReplacesHeader;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetBasicTelephony;
+import net.java.sip.communicator.service.protocol.OperationSetTelephonyBLF;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.event.BLFStatusEvent;
+import net.java.sip.communicator.service.protocol.event.BLFStatusListener;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
-import org.jitsi.util.*;
-import org.jitsi.util.xml.*;
-import org.w3c.dom.*;
+import org.jitsi.util.StringUtils;
+import org.jitsi.util.xml.XMLUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.message.*;
-import java.net.*;
-import java.text.*;
-import java.util.*;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.address.Address;
+import javax.sip.address.SipURI;
+import javax.sip.message.Response;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides operations necessary to monitor line activity and pickup calls

@@ -17,14 +17,17 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.ListType;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.ContactGroup;
+import net.java.sip.communicator.service.protocol.ProtocolProviderService;
+import org.w3c.dom.Element;
 
-import javax.xml.namespace.*;
-
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.*;
-import net.java.sip.communicator.service.protocol.*;
-
-import org.w3c.dom.*;
+import javax.xml.namespace.QName;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * A simple, straightforward implementation of a SIP ContactGroup. Since

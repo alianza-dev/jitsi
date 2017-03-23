@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.security;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.UserCredentials;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.Vector;
 
 /**
  * Used to cache credentials through a call.

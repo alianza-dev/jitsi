@@ -17,15 +17,25 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.text.*;
-import java.util.*;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.util.Logger;
 
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
+import javax.sip.ClientTransaction;
+import javax.sip.Dialog;
+import javax.sip.RequestEvent;
+import javax.sip.ServerTransaction;
+import javax.sip.SipProvider;
+import javax.sip.TransactionAlreadyExistsException;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.address.Address;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.text.ParseException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TimerTask;
 
 /**
  * Provides the base for implementations of RFC 3265

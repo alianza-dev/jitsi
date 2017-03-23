@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.header.*;
+import gov.nist.javax.sip.header.SIPHeader;
+import gov.nist.javax.sip.header.SIPHeaderList;
 
-import java.util.*;
+import java.util.ListIterator;
 
 /**
  * Custom header to insert. Custom name and value.

@@ -17,12 +17,12 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
-import java.util.*;
-
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.neomedia.format.MediaFormat;
 
-import org.jitsi.service.neomedia.format.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The RTP Audio/Video Profile [RFC 3551] specifies a number of static payload

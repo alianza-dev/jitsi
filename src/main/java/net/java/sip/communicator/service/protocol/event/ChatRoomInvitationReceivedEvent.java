@@ -17,9 +17,11 @@
  */
 package net.java.sip.communicator.service.protocol.event;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.ChatRoomInvitation;
+import net.java.sip.communicator.service.protocol.OperationSetMultiUserChat;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.Date;
+import java.util.EventObject;
 
 /**
  * <tt>ChatRoomInvitationReceivedEvent</tt>s indicate reception of an

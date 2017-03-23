@@ -17,17 +17,19 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.net;
 
+import net.java.sip.communicator.impl.protocol.sip.ProtocolProviderAlzService;
+import net.java.sip.communicator.impl.protocol.sip.SipAccountIDImpl;
+import net.java.sip.communicator.service.dns.DnssecException;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.NetworkUtils;
+
+import java.net.InetSocketAddress;
+import java.text.ParseException;
+
 import static javax.sip.ListeningPoint.PORT_5060;
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.PREFERRED_TRANSPORT;
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.PROXY_ADDRESS;
 import static net.java.sip.communicator.service.protocol.ProtocolProviderFactory.PROXY_PORT;
-
-import java.net.*;
-import java.text.*;
-
-import net.java.sip.communicator.impl.protocol.sip.*;
-import net.java.sip.communicator.service.dns.*;
-import net.java.sip.communicator.util.*;
 
 /**
  * Implementation of the manually configured SIP proxy connection. IP Address

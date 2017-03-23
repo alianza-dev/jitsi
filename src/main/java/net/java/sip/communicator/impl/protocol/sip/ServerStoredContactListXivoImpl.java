@@ -17,23 +17,28 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.address.*;
-
-import java.io.*;
-import java.net.*;
-import java.net.URI;
-import java.util.*;
-
-import javax.sip.address.*;
-
-import net.java.sip.communicator.service.gui.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import gov.nist.javax.sip.address.SipUri;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.ServerStoredDetails;
+import net.java.sip.communicator.service.protocol.event.ServerStoredGroupEvent;
 import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.Sha1Crypto;
+import org.jitsi.util.OSUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
-import org.jitsi.util.*;
-import org.json.simple.*;
+import javax.sip.address.Address;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Xivo server stored contact list. Currently no modifications are possible.
@@ -829,12 +834,6 @@ public class ServerStoredContactListXivoImpl
                     ex.getClass().getName() + ": " +
                     ex.getLocalizedMessage();
 
-            if(SipAlzProvider.getUIService() != null)
-                SipAlzProvider.getUIService().getPopupDialog()
-                    .showMessagePopupDialog(
-                        message,
-                        title,
-                        PopupDialog.ERROR_MESSAGE);
         }
         catch(Throwable t)
         {

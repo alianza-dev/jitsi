@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import org.jivesoftware.smack.packet.*;
+import org.jivesoftware.smack.packet.PacketExtension;
 
 /**
  * The operation set provides functionality specific to Jitsi Meet WebRTC

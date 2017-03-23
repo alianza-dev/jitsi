@@ -17,10 +17,12 @@
  */
 package net.java.sip.communicator.util;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.logging.LogManager;
+import java.util.logging.LogRecord;
 
 /**
  * Print a brief summary of the LogRecord in a human readable. The summary will

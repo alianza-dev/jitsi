@@ -17,19 +17,25 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.io.*;
-import java.text.*;
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallPeer;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.media.AbstractOperationSetVideoTelephony;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.neomedia.QualityControl;
+import org.jitsi.service.neomedia.QualityPreset;
 
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.neomedia.*;
+import javax.sip.ClientTransaction;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.ServerTransaction;
+import javax.sip.address.Address;
+import javax.sip.header.ContentTypeHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 
 /**
  * Implements <tt>OperationSetVideoTelephony</tt> in order to give access to

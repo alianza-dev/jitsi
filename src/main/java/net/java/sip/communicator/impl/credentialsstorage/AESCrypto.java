@@ -17,14 +17,21 @@
  */
 package net.java.sip.communicator.impl.credentialsstorage;
 
-import java.security.*;
-import java.security.spec.*;
+import net.java.sip.communicator.service.credentialsstorage.CryptoException;
+import net.java.sip.communicator.util.Base64;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
-
-import net.java.sip.communicator.service.credentialsstorage.*;
-import net.java.sip.communicator.util.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 
 /**
  * Performs encryption and decryption of text using AES algorithm.

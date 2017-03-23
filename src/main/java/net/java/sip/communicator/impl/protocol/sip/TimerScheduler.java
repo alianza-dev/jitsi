@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Represents an analogy of <code>Timer</code> which does not have the

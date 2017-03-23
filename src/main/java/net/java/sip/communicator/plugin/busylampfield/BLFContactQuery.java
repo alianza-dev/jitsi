@@ -17,11 +17,14 @@
  */
 package net.java.sip.communicator.plugin.busylampfield;
 
-import net.java.sip.communicator.service.contactsource.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
+import net.java.sip.communicator.service.contactsource.AbstractContactQuery;
+import net.java.sip.communicator.service.contactsource.SourceContact;
+import net.java.sip.communicator.service.protocol.OperationSetTelephonyBLF;
+import net.java.sip.communicator.service.protocol.event.BLFStatusEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The query that will update lines.

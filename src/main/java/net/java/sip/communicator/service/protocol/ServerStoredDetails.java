@@ -17,10 +17,13 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.net.*;
-import java.util.*;
+import org.jitsi.util.StringUtils;
 
-import org.jitsi.util.*;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * The ServerStoredDetails class contains a relatively large set of details that

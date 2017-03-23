@@ -17,25 +17,37 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.header.*;
+import gov.nist.javax.sip.header.SubscriptionState;
+import net.java.sip.communicator.impl.protocol.sip.sdp.SdpUtils;
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallPeer;
+import net.java.sip.communicator.service.protocol.CallPeerState;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.event.CallPeerAdapter;
+import net.java.sip.communicator.service.protocol.event.CallPeerChangeEvent;
+import net.java.sip.communicator.service.protocol.event.CallPeerEvent;
+import net.java.sip.communicator.service.protocol.event.CallPeerListener;
+import net.java.sip.communicator.service.protocol.media.AbstractOperationSetTelephonyConferencing;
+import net.java.sip.communicator.service.protocol.media.ConferenceInfoDocument;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.util.xml.XMLException;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
+import javax.sip.ClientTransaction;
+import javax.sip.Dialog;
+import javax.sip.DialogState;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.SipException;
+import javax.sip.address.Address;
+import javax.sip.header.CSeqHeader;
+import javax.sip.header.ContactHeader;
+import javax.sip.header.SubscriptionStateHeader;
 import javax.sip.message.Message;
-
-import net.java.sip.communicator.impl.protocol.sip.sdp.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.util.xml.*;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.util.Iterator;
 
 /**
  * Implements <tt>OperationSetTelephonyConferencing</tt> for SIP.

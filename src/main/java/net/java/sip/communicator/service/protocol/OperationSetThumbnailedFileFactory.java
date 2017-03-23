@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * The <tt>OperationSetThumbnailedFileFactory</tt> is meant to be used by

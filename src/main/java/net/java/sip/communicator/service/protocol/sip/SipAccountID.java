@@ -17,10 +17,13 @@
  */
 package net.java.sip.communicator.service.protocol.sip;
 
-import java.util.*;
-
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.ProtocolNames;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A SIP extension of the account ID property.

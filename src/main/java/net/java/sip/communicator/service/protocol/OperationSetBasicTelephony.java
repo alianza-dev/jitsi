@@ -17,12 +17,11 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.text.*;
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.CallListener;
+import org.jitsi.service.neomedia.recording.Recorder;
 
-import net.java.sip.communicator.service.protocol.event.*;
-
-import org.jitsi.service.neomedia.recording.*;
+import java.text.ParseException;
+import java.util.Iterator;
 
 /**
  * An Operation Set defining all basic telephony operations such as conducting

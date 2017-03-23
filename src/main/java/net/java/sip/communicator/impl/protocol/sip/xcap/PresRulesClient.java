@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap;
 
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.*;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.RulesetType;
 
 /**
  * XCAP pres-rules client interface.

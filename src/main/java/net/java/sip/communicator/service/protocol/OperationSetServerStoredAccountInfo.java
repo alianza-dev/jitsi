@@ -17,10 +17,10 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
-
 import net.java.sip.communicator.service.protocol.ServerStoredDetails.GenericDetail;
-import net.java.sip.communicator.service.protocol.event.*;
+import net.java.sip.communicator.service.protocol.event.ServerStoredDetailsChangeListener;
+
+import java.util.Iterator;
 
 /**
  * The Account Info Operation set is a means of accessing and modifying detailed

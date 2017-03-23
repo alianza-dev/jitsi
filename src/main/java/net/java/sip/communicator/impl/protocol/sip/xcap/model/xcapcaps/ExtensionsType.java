@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap.model.xcapcaps;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The XCAP-CAPS extensions element.

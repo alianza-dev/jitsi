@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
-
-import javax.sip.*;
+import javax.sip.Dialog;
+import javax.sip.SipException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implements utility methods to aid the manipulation of {@link Dialog}

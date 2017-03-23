@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.util;
 
-import java.text.*;
+import java.text.DecimalFormat;
 
 /**
  * Utility class to format byte sizes. Formats 12345 bytes in "12.1 K".

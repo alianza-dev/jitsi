@@ -17,12 +17,14 @@
  */
 package net.java.sip.communicator.plugin.busylampfield;
 
-import net.java.sip.communicator.service.contactsource.*;
-import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.service.contactsource.ContactQuery;
+import net.java.sip.communicator.service.contactsource.ContactSourceService;
+import net.java.sip.communicator.service.protocol.OperationSetTelephonyBLF;
 import net.java.sip.communicator.util.Logger;
-import org.jitsi.util.*;
+import org.jitsi.util.StringUtils;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The contact source service to manage query and lines.

@@ -17,32 +17,47 @@
  */
 package net.java.sip.communicator.service.protocol.media;
 
-import java.awt.*;
-import java.beans.*;
-import java.net.*;
-import java.util.*;
-import java.util.List;
-
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.CallPeerState;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetVideoTelephony;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.neomedia.AudioMediaStream;
+import org.jitsi.service.neomedia.MediaDirection;
+import org.jitsi.service.neomedia.MediaStream;
+import org.jitsi.service.neomedia.MediaStreamTarget;
+import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.QualityPreset;
+import org.jitsi.service.neomedia.RTPExtension;
+import org.jitsi.service.neomedia.SrtpControl;
+import org.jitsi.service.neomedia.SrtpControlType;
+import org.jitsi.service.neomedia.StreamConnector;
+import org.jitsi.service.neomedia.VideoMediaStream;
+import org.jitsi.service.neomedia.codec.Constants;
+import org.jitsi.service.neomedia.codec.EncodingConfiguration;
+import org.jitsi.service.neomedia.control.KeyFrameControl;
+import org.jitsi.service.neomedia.device.MediaDevice;
+import org.jitsi.service.neomedia.device.MediaDeviceWrapper;
+import org.jitsi.service.neomedia.event.CsrcAudioLevelListener;
+import org.jitsi.service.neomedia.event.SimpleAudioLevelListener;
+import org.jitsi.service.neomedia.event.SrtpListener;
+import org.jitsi.service.neomedia.format.MediaFormat;
+import org.jitsi.util.event.PropertyChangeNotifier;
+import org.jitsi.util.event.VideoEvent;
+import org.jitsi.util.event.VideoListener;
+import org.jitsi.util.event.VideoNotifierSupport;
 
-import org.jitsi.impl.neomedia.MediaServiceImpl;
-import org.jitsi.impl.neomedia.MediaUtils;
-import org.jitsi.impl.neomedia.NeomediaServiceUtils;
-import org.jitsi.impl.neomedia.device.DeviceSystem;
-import org.jitsi.impl.neomedia.format.AudioMediaFormatImpl;
-import org.jitsi.impl.neomedia.format.MediaFormatFactoryImpl;
-import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.codec.*;
-import org.jitsi.service.neomedia.control.*;
-import org.jitsi.service.neomedia.device.*;
-import org.jitsi.service.neomedia.event.*;
-import org.jitsi.service.neomedia.format.*;
-import org.jitsi.util.event.*;
-
-import javax.media.CaptureDeviceInfo;
-import javax.media.MediaLocator;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * A utility class implementing media control code shared between current

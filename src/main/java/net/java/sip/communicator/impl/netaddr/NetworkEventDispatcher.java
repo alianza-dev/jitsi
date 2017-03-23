@@ -17,10 +17,15 @@
  */
 package net.java.sip.communicator.impl.netaddr;
 
-import java.util.*;
+import net.java.sip.communicator.service.netaddr.event.ChangeEvent;
+import net.java.sip.communicator.service.netaddr.event.NetworkConfigurationChangeListener;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.service.netaddr.event.*;
-import net.java.sip.communicator.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The class implements a dispatch event thread. The thread will

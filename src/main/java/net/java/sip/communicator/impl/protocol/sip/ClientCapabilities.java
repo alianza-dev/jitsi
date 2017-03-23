@@ -17,26 +17,40 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.io.*;
-import java.net.*;
-import java.text.*;
-import java.util.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-import javax.sip.message.Message;
-
-import gov.nist.javax.sip.*;
-import gov.nist.javax.sip.header.*;
-
-import net.java.sip.communicator.impl.protocol.sip.net.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
-
+import gov.nist.javax.sip.ListeningPointExt;
+import gov.nist.javax.sip.header.AllowEvents;
+import gov.nist.javax.sip.header.AllowEventsList;
+import net.java.sip.communicator.impl.protocol.sip.net.ProxyConnection;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
+import net.java.sip.communicator.util.Logger;
 import org.jitsi.util.OSUtils;
+
+import javax.sip.ClientTransaction;
+import javax.sip.InvalidArgumentException;
+import javax.sip.ListeningPoint;
+import javax.sip.RequestEvent;
+import javax.sip.SipException;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.address.SipURI;
+import javax.sip.header.CSeqHeader;
+import javax.sip.header.CallIdHeader;
+import javax.sip.header.FromHeader;
+import javax.sip.header.MaxForwardsHeader;
+import javax.sip.header.ToHeader;
+import javax.sip.header.ViaHeader;
+import javax.sip.message.Message;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Handles OPTIONS requests by replying with an OK response containing

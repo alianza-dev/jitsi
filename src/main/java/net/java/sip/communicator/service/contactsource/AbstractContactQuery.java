@@ -17,7 +17,8 @@
  */
 package net.java.sip.communicator.service.contactsource;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Provides an abstract implementation of the basic functionality of
@@ -115,20 +116,6 @@ public abstract class AbstractContactQuery<T extends ContactSourceService>
     protected void fireContactReceived(SourceContact contact, 
         boolean showMoreEnabled)
     {
-        ContactQueryListener[] ls;
-
-        synchronized (listeners)
-        {
-            ls = listeners.toArray(new ContactQueryListener[listeners.size()]);
-        }
-
-        ContactReceivedEvent ev 
-            = new ContactReceivedEvent(this, contact, showMoreEnabled);
-
-        for (ContactQueryListener l : ls)
-        {
-            l.contactReceived(ev);
-        }
     }
     
     /**
@@ -156,17 +143,6 @@ public abstract class AbstractContactQuery<T extends ContactSourceService>
      */
     protected void fireContactRemoved(SourceContact contact)
     {
-        ContactQueryListener[] ls;
-
-        synchronized (listeners)
-        {
-            ls = listeners.toArray(new ContactQueryListener[listeners.size()]);
-        }
-
-        ContactRemovedEvent ev = new ContactRemovedEvent(this, contact);
-
-        for (ContactQueryListener l : ls)
-            l.contactRemoved(ev);
     }
 
     /**
@@ -180,17 +156,6 @@ public abstract class AbstractContactQuery<T extends ContactSourceService>
      */
     protected void fireContactChanged(SourceContact contact)
     {
-        ContactQueryListener[] ls;
-
-        synchronized (listeners)
-        {
-            ls = listeners.toArray(new ContactQueryListener[listeners.size()]);
-        }
-
-        ContactChangedEvent ev = new ContactChangedEvent(this, contact);
-
-        for (ContactQueryListener l : ls)
-            l.contactChanged(ev);
     }
 
     /**
@@ -203,18 +168,6 @@ public abstract class AbstractContactQuery<T extends ContactSourceService>
      */
     protected void fireQueryStatusChanged(int eventType)
     {
-        ContactQueryListener[] ls;
-
-        synchronized (listeners)
-        {
-            ls = listeners.toArray(new ContactQueryListener[listeners.size()]);
-        }
-
-        ContactQueryStatusEvent ev
-            = new ContactQueryStatusEvent(this, eventType);
-
-        for (ContactQueryListener l : ls)
-            l.queryStatusChanged(ev);
     }
 
     /**
@@ -275,26 +228,7 @@ public abstract class AbstractContactQuery<T extends ContactSourceService>
     {
         if (this.status != status)
         {
-            int eventType;
-
-            switch (status)
-            {
-            case QUERY_CANCELED:
-                eventType = ContactQueryStatusEvent.QUERY_CANCELED;
-                break;
-            case QUERY_COMPLETED:
-                eventType = ContactQueryStatusEvent.QUERY_COMPLETED;
-                break;
-            case QUERY_ERROR:
-                eventType = ContactQueryStatusEvent.QUERY_ERROR;
-                break;
-            case QUERY_IN_PROGRESS:
-            default:
-                throw new IllegalArgumentException("status");
-            }
-
-            this.status = status;
-            fireQueryStatusChanged(eventType);
+            throw new IllegalArgumentException("status");
         }
     }
 }

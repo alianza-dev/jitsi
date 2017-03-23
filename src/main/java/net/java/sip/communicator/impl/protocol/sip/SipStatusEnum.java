@@ -17,9 +17,11 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.PresenceStatus;
 
-import net.java.sip.communicator.service.protocol.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The <tt>SipStatusEnum</tt> gives access to presence states for the Sip

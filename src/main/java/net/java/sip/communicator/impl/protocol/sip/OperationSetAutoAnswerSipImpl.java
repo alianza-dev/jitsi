@@ -17,23 +17,29 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.header.*;
-
-import java.util.*;
-
-import javax.sdp.*;
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.impl.protocol.sip.sdp.*;
-import net.java.sip.communicator.service.protocol.*;
+import gov.nist.javax.sip.header.SIPHeader;
+import net.java.sip.communicator.impl.protocol.sip.sdp.SdpUtils;
+import net.java.sip.communicator.service.protocol.AbstractOperationSetBasicAutoAnswer;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallPeer;
+import net.java.sip.communicator.service.protocol.OperationSetAdvancedAutoAnswer;
 import net.java.sip.communicator.util.Logger;
-
-import org.jitsi.service.neomedia.*;
+import org.jitsi.service.neomedia.MediaDirection;
 import org.jitsi.service.neomedia.MediaType;
-import org.jitsi.util.*;
+import org.jitsi.util.StringUtils;
+
+import javax.sdp.MediaDescription;
+import javax.sdp.SessionDescription;
+import javax.sip.ServerTransaction;
+import javax.sip.Transaction;
+import javax.sip.address.AddressFactory;
+import javax.sip.header.ContactHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 // Disambiguation.
 
 /**

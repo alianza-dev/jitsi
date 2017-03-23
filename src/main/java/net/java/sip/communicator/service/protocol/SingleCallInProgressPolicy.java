@@ -17,18 +17,24 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import static net.java.sip.communicator.service.protocol.OperationSetBasicTelephony.*;
-
-import java.util.*;
-import java.util.regex.*;
-
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.service.calendar.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.event.CallChangeEvent;
+import net.java.sip.communicator.service.protocol.event.CallChangeListener;
+import net.java.sip.communicator.service.protocol.event.CallEvent;
+import net.java.sip.communicator.service.protocol.event.CallListener;
+import net.java.sip.communicator.service.protocol.event.CallPeerEvent;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.configuration.ConfigurationService;
 
-import org.jitsi.service.configuration.*;
-import org.osgi.framework.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.regex.Pattern;
+
+import static net.java.sip.communicator.service.protocol.OperationSetBasicTelephony.HANGUP_REASON_BUSY_HERE;
 
 /**
  * Imposes the policy to have one call in progress i.e. to put existing calls on
@@ -89,11 +95,6 @@ public class SingleCallInProgressPolicy
             + ".enabled";
 
     /**
-     * The <tt>BundleContext</tt> to the Calls of which this policy applies.
-     */
-    private final BundleContext bundleContext;
-
-    /**
      * The <tt>Call</tt>s this policy manages i.e. put on hold when one of them
      * enters in progress.
      */
@@ -113,20 +114,6 @@ public class SingleCallInProgressPolicy
      */
     private final OnThePhoneStatusPolicy onThePhoneStatusPolicy
         = new OnThePhoneStatusPolicy();
-
-    /**
-     * Initializes a new <tt>SingleCallInProgressPolicy</tt> instance which
-     * will apply to the <tt>Call</tt>s of a specific <tt>BundleContext</tt>.
-     *
-     * @param bundleContext the <tt>BundleContext</tt> to the <tt>Call<tt>s of
-     * which the new policy should apply
-     */
-    public SingleCallInProgressPolicy(BundleContext bundleContext)
-    {
-        this.bundleContext = bundleContext;
-
-        this.bundleContext.addServiceListener(listener);
-    }
 
     /**
      * Registers a specific <tt>Call</tt> with this policy in order to have the
@@ -236,15 +223,6 @@ public class SingleCallInProgressPolicy
          * Call-related events.
          */
         onThePhoneStatusPolicy.callStateChanged(ev);
-    }
-
-    /**
-     * Performs end-of-life cleanup associated with this instance e.g. removes
-     * added listeners.
-     */
-    public void dispose()
-    {
-        bundleContext.removeServiceListener(listener);
     }
 
     /**
@@ -498,56 +476,6 @@ public class SingleCallInProgressPolicy
     }
 
     /**
-     * Handles the registering and unregistering of
-     * <tt>OperationSetBasicTelephony</tt> instances in order to apply or
-     * unapply the rules of this policy to the <tt>Call</tt>s originating from
-     * them.
-     *
-     * @param ev a <tt>ServiceEvent</tt> value which described a change in an
-     * OSGi service and which is to be examined for the registering or
-     * unregistering of a <tt>ProtocolProviderService</tt> and thus a
-     * <tt>OperationSetBasicTelephony</tt>
-     */
-    private void serviceChanged(ServiceEvent ev)
-    {
-        Object service = bundleContext.getService(ev.getServiceReference());
-
-        if (service instanceof ProtocolProviderService)
-        {
-            if(logger.isTraceEnabled())
-            {
-                logger.trace("Protocol provider service changed.");
-            }
-
-            OperationSetBasicTelephony<?> telephony
-                = ((ProtocolProviderService) service).getOperationSet(
-                        OperationSetBasicTelephony.class);
-
-            if (telephony != null)
-            {
-                switch (ev.getType())
-                {
-                case ServiceEvent.REGISTERED:
-                    addOperationSetBasicTelephonyListener(telephony);
-                    break;
-                case ServiceEvent.UNREGISTERING:
-                    removeOperationSetBasicTelephonyListener(telephony);
-                    break;
-                }
-            }
-            else
-            {
-                if(logger.isTraceEnabled())
-                {
-                    logger.trace("The protocol provider service doesn't support "
-                        + "telephony.");
-                }
-
-            }
-        }
-    }
-
-    /**
      * Implements the policy to have the presence statuses of online accounts
      * (i.e. registered <tt>ProtocolProviderService</tt>s) set to
      * &quot;On the phone&quot; when at least one <tt>Call</tt> is in progress.
@@ -781,201 +709,6 @@ public class SingleCallInProgressPolicy
                 return;
             }
 
-            ServiceReference[] ppsRefs;
-
-            try
-            {
-                ppsRefs
-                    = bundleContext.getServiceReferences(
-                            ProtocolProviderService.class.getName(),
-                            null);
-            }
-            catch (InvalidSyntaxException ise)
-            {
-                if(logger.isTraceEnabled())
-                {
-                    logger.trace("Can't access protocol providers refences.");
-                }
-                ppsRefs = null;
-            }
-            if ((ppsRefs == null) || (ppsRefs.length == 0))
-            {
-                forgetPresenceStatuses();
-            }
-            else
-            {
-                boolean isOnThePhone = isOnThePhone();
-
-                CalendarService calendar
-                    = ProtocolProviderActivator.getCalendarService();
-
-                if(!isOnThePhone && calendar != null &&
-                    calendar.onThePhoneStatusChanged(presenceStatuses))
-                {
-                    if(logger.isTraceEnabled())
-                    {
-                        logger.trace("We are not on the phone.");
-                    }
-                    forgetPresenceStatuses();
-                    return;
-                }
-
-                for (ServiceReference ppsRef : ppsRefs)
-                {
-                    ProtocolProviderService pps
-                        = (ProtocolProviderService)
-                            bundleContext.getService(ppsRef);
-
-                    if (pps == null)
-                    {
-                        if(logger.isTraceEnabled())
-                        {
-                            logger.trace("Provider is null.");
-                        }
-                        continue;
-                    }
-
-                    OperationSetPresence presence
-                        = pps.getOperationSet(OperationSetPresence.class);
-
-                    if (presence == null)
-                    {
-                        if(logger.isTraceEnabled())
-                        {
-                            logger.trace("Presence is null.");
-                        }
-                        /*
-                         * "On the phone" is a PresenceStatus so it is available
-                         * only to accounts which support presence in the first
-                         * place.
-                         */
-                        forgetPresenceStatus(pps);
-                    }
-                    else if (pps.isRegistered())
-                    {
-                        if(logger.isTraceEnabled())
-                        {
-                            logger.trace("Provider is registered.");
-                        }
-                        PresenceStatus onThePhonePresenceStatus
-                            = findOnThePhonePresenceStatus(presence);
-
-                        if (onThePhonePresenceStatus == null)
-                        {
-                            if(logger.isTraceEnabled())
-                            {
-                                logger.trace("Can't find on the phone status.");
-                            }
-                            /*
-                             * If do not know how to define "On the phone" for
-                             * an OperationSetPresence, then we'd better not
-                             * mess with it in the first place.
-                             */
-                            forgetPresenceStatus(pps);
-                        }
-                        else if (isOnThePhone)
-                        {
-                            if(logger.isTraceEnabled())
-                            {
-                                logger.trace(
-                                    "Setting the status to on the phone.");
-                            }
-                            PresenceStatus presenceStatus
-                                = presence.getPresenceStatus();
-
-                            if (presenceStatus == null)
-                            {
-                                if(logger.isTraceEnabled())
-                                {
-                                    logger.trace("Presence status is null.");
-                                }
-                                /*
-                                 * It is strange that an OperationSetPresence
-                                 * does not have a PresenceStatus so it may be
-                                 * safer to not mess with it.
-                                 */
-                                forgetPresenceStatus(pps);
-                            }
-                            else if (!onThePhonePresenceStatus.equals(
-                                    presenceStatus))
-                            {
-                                if(logger.isTraceEnabled())
-                                {
-                                    logger.trace(
-                                        "On the phone status is published.");
-                                }
-                                publishPresenceStatus(
-                                        presence,
-                                        onThePhonePresenceStatus);
-
-                                if(presenceStatus.equals(
-                                    findInMeetingPresenceStatus(presence))
-                                    && calendar != null)
-                                {
-                                    Map<ProtocolProviderService,PresenceStatus>
-                                        statuses
-                                            = calendar.getRememberedStatuses();
-                                    for(ProtocolProviderService provider
-                                        : statuses.keySet())
-                                        rememberPresenceStatus(provider,
-                                            statuses.get(provider));
-                                }
-                                else if (onThePhonePresenceStatus.equals(
-                                        presence.getPresenceStatus()))
-                                {
-                                    rememberPresenceStatus(pps, presenceStatus);
-                                }
-                                else
-                                {
-                                    forgetPresenceStatus(pps);
-                                }
-                            }
-                            else
-                            {
-                                if(logger.isTraceEnabled())
-                                {
-                                    logger.trace(
-                                        "Currently the status is on the phone.");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if(logger.isTraceEnabled())
-                            {
-                                logger.trace("Unset on the phone status.");
-                            }
-                            PresenceStatus presenceStatus
-                                = forgetPresenceStatus(pps);
-
-                            if ((presenceStatus != null)
-                                    && onThePhonePresenceStatus.equals(
-                                            presence.getPresenceStatus()))
-                            {
-                                if(logger.isTraceEnabled())
-                                {
-                                    logger.trace("Unset on the phone status.[2]");
-                                }
-
-                                publishPresenceStatus(presence, presenceStatus);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if(logger.isTraceEnabled())
-                        {
-                            logger.trace("Protocol provider is not registered");
-                        }
-
-                        /*
-                         * Offline accounts do not get their PresenceStatus
-                         * modified for the purposes of "On the phone".
-                         */
-                        forgetPresenceStatus(pps);
-                    }
-                }
-            }
         }
     }
 
@@ -984,11 +717,7 @@ public class SingleCallInProgressPolicy
      *
      * @author Lyubomir Marinov
      */
-    private class SingleCallInProgressPolicyListener
-        implements CallChangeListener,
-                   CallListener,
-                   ServiceListener
-    {
+    private class SingleCallInProgressPolicyListener implements CallChangeListener, CallListener {
         /**
          * Stops tracking the state of a specific <tt>Call</tt> and no longer
          * tries to put it on hold when it ends.
@@ -1075,26 +804,5 @@ public class SingleCallInProgressPolicy
                     ev);
         }
 
-        /**
-         * Starts/stops tracking the new <tt>Call</tt>s originating from a
-         * specific <tt>ProtocolProviderService</tt> when it
-         * registers/unregisters in order to take them into account when putting
-         * existing calls on hold upon a new call entering its in-progress
-         * state.
-         *
-         * @param ev the <tt>ServiceEvent</tt> event describing a change in the
-         * state of a service registration which may be a
-         * <tt>ProtocolProviderService</tt> supporting
-         * <tt>OperationSetBasicTelephony</tt> and thus being able to create new
-         * <tt>Call</tt>s
-         */
-        public void serviceChanged(ServiceEvent ev)
-        {
-            if(logger.isTraceEnabled())
-            {
-                logger.trace("Service changed.");
-            }
-            SingleCallInProgressPolicy.this.serviceChanged(ev);
-        }
     }
 }

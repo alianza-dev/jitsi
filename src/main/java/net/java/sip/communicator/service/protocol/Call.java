@@ -17,11 +17,19 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.beans.*;
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.CallChangeEvent;
+import net.java.sip.communicator.service.protocol.event.CallChangeListener;
+import net.java.sip.communicator.service.protocol.event.CallPeerChangeEvent;
+import net.java.sip.communicator.service.protocol.event.CallPeerEvent;
+import net.java.sip.communicator.service.protocol.event.SoundLevelListener;
+import net.java.sip.communicator.util.DataObject;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * A representation of a call. <tt>Call</tt> instances must only be created by

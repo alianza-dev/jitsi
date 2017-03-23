@@ -17,9 +17,10 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.security;
 
-import java.security.*;
+import net.java.sip.communicator.util.Logger;
 
-import net.java.sip.communicator.util.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * The class takes standard Http Authentication details and returns a response

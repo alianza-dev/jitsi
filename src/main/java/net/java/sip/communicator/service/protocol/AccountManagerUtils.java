@@ -17,11 +17,10 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.AccountManagerEvent;
+import net.java.sip.communicator.service.protocol.event.AccountManagerListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
-
-import org.osgi.framework.*;
+import java.util.Collection;
 
 /**
  * Provides utilities to aid the manipulation of {@link AccountManager}.
@@ -30,11 +29,9 @@ import org.osgi.framework.*;
  */
 public final class AccountManagerUtils
 {
-    private static AccountManager getAccountManager(BundleContext bundleContext)
+    private static AccountManager getAccountManager()
     {
-        return
-            bundleContext.getService(
-                    bundleContext.getServiceReference(AccountManager.class));
+        return null;
     }
 
     /**
@@ -51,21 +48,13 @@ public final class AccountManagerUtils
      * @param protocolNameToWait
      *            the protocol name of a <code>ProtocolProviderFactory</code> to
      *            wait the end of the loading of the stored accounts for
-     * @throws BundleException
      * @throws InterruptedException
      *             if any thread interrupted the current thread before or while
      *             the current thread was waiting for the loading of the stored
      *             accounts
      */
-    public static void startBundleAndWaitStoredAccountsLoaded(
-            BundleContext bundleContextWithAccountManager,
-            final Bundle bundleToStart,
-            final String protocolNameToWait)
-        throws BundleException,
-               InterruptedException
-    {
-        AccountManager accountManager
-            = getAccountManager(bundleContextWithAccountManager);
+    public static void startBundleAndWaitStoredAccountsLoaded(final String protocolNameToWait) throws InterruptedException {
+        AccountManager accountManager = null;
         final boolean[] storedAccountsAreLoaded = new boolean[1];
         AccountManagerListener listener = new AccountManagerListener()
         {
@@ -86,62 +75,6 @@ public final class AccountManagerUtils
                                 .equals(factory.getProtocolName()))
                     return;
 
-                /*
-                 * If the event if for a factory which is no longer registered,
-                 * then it's not the one we're waiting for because we're waiting
-                 * for the specified bundle to start and register a factory.
-                 */
-                if (factory != null)
-                {
-                    BundleContext bundleContext
-                        = bundleToStart.getBundleContext();
-
-                    /*
-                     * If the specified bundle still hasn't started, the event
-                     * cannot be the one we're waiting for.
-                     */
-                    if (bundleContext == null)
-                        return;
-
-                    Collection<ServiceReference<ProtocolProviderFactory>> factoryRefs;
-
-                    try
-                    {
-                        factoryRefs
-                            = bundleContext.getServiceReferences(
-                                    ProtocolProviderFactory.class,
-                                    "("
-                                        + ProtocolProviderFactory.PROTOCOL
-                                        + "="
-                                        + protocolNameToWait
-                                        + ")");
-                    }
-                    catch (InvalidSyntaxException isex)
-                    {
-                        /*
-                         * Not likely so ignore it and assume the event is for
-                         * a valid factory.
-                         */
-                        factoryRefs = null;
-                    }
-                    if ((factoryRefs != null) && !factoryRefs.isEmpty())
-                    {
-                        boolean factoryIsRegistered = false;
-
-                        for (ServiceReference<ProtocolProviderFactory> factoryRef
-                                : factoryRefs)
-                        {
-                            if (factory == bundleContext.getService(factoryRef))
-                            {
-                                factoryIsRegistered = true;
-                                break;
-                            }
-                        }
-                        if (!factoryIsRegistered)
-                            return;
-                    }
-                }
-
                 synchronized (storedAccountsAreLoaded)
                 {
                     storedAccountsAreLoaded[0] = true;
@@ -151,26 +84,6 @@ public final class AccountManagerUtils
         };
 
         accountManager.addListener(listener);
-        try
-        {
-            bundleToStart.start();
-
-            while (true)
-            {
-                synchronized (storedAccountsAreLoaded)
-                {
-                    if (storedAccountsAreLoaded[0])
-                    {
-                        break;
-                    }
-                    storedAccountsAreLoaded.wait();
-                }
-            }
-        }
-        finally
-        {
-            accountManager.removeListener(listener);
-        }
     }
 
     /**

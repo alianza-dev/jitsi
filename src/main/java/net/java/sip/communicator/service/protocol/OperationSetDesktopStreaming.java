@@ -17,9 +17,9 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.text.*;
+import org.jitsi.service.neomedia.device.MediaDevice;
 
-import org.jitsi.service.neomedia.device.*;
+import java.text.ParseException;
 
 /**
  * Represents an <tt>OperationSet</tt> giving access to desktop streaming

@@ -17,21 +17,25 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.xcap;
 
-import java.io.*;
+import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.ParsingException;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.CommonPolicyParser;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.RulesetType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.ContentType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.DataType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.PresContentParser;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.ListType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.ResourceListsParser;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.ResourceListsType;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcapcaps.XCapCapsParser;
+import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcapcaps.XCapCapsType;
+import net.java.sip.communicator.util.Base64;
+import org.apache.http.HttpStatus;
+import org.jitsi.util.StringUtils;
+
+import javax.sip.address.Address;
+import java.io.IOException;
 import java.net.URI;
-
-import javax.sip.address.*;
-
-import net.java.sip.communicator.impl.protocol.sip.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.commonpolicy.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.prescontent.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.resourcelists.*;
-import net.java.sip.communicator.impl.protocol.sip.xcap.model.xcapcaps.*;
-import net.java.sip.communicator.util.*;
-
-import org.apache.http.*;
-import org.jitsi.util.*;
 
 /**
  * XCAP client implementation.

@@ -17,15 +17,16 @@
  */
 package net.java.sip.communicator.impl.packetlogging;
 
-import java.io.*;
-import java.util.*;
-
-import com.google.common.collect.*;
+import com.google.common.collect.EvictingQueue;
 import net.java.sip.communicator.impl.protocol.sip.SipAlzProvider;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.fileaccess.FileCategory;
+import org.jitsi.service.packetlogging.PacketLoggingConfiguration;
+import org.jitsi.service.packetlogging.PacketLoggingService;
 
-import org.jitsi.service.fileaccess.*;
-import org.jitsi.service.packetlogging.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Packet Logging Service implementation dumping logs in

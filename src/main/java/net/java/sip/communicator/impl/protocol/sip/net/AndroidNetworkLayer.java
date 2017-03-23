@@ -17,10 +17,12 @@
  */
 package net.java.sip.communicator.impl.protocol.sip.net;
 
-import java.io.*;
-import java.net.*;
-
-import javax.net.ssl.*;
+import javax.net.ssl.SSLServerSocket;
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.SocketException;
 
 /**
  * Manages jain-sip socket creation. Handling android and its ipv6 support.

@@ -17,12 +17,20 @@
  */
 package net.java.sip.communicator.util;
 
+import org.xbill.DNS.AAAARecord;
+import org.xbill.DNS.ARecord;
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Name;
+import org.xbill.DNS.PTRRecord;
+import org.xbill.DNS.Record;
+import org.xbill.DNS.ReverseMap;
+import org.xbill.DNS.TextParseException;
+import org.xbill.DNS.Type;
+import sun.net.spi.nameservice.NameService;
+
 import java.lang.reflect.Method;
-import java.net.*;
-
-import org.xbill.DNS.*;
-
-import sun.net.spi.nameservice.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * JNDI DNS service to send DNS lookup through the dnsjava <tt>Lookup</tt>

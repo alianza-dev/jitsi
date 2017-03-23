@@ -17,21 +17,33 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import java.util.regex.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
+import net.java.sip.communicator.service.protocol.OperationSetMessageWaiting;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.RegistrationState;
+import net.java.sip.communicator.service.protocol.event.MessageWaitingEvent;
+import net.java.sip.communicator.service.protocol.event.MessageWaitingListener;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeEvent;
+import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
+import org.jitsi.util.StringUtils;
 
-import org.jitsi.util.*;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.address.Address;
+import javax.sip.header.EventHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Message Waiting Indication Event rfc3842.

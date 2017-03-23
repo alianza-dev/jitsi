@@ -17,13 +17,13 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.util.*;
-
 import net.java.sip.communicator.impl.credentialsstorage.CredentialsStorageAlzProvider;
-import net.java.sip.communicator.service.credentialsstorage.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.sip.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.credentialsstorage.CredentialsStorageService;
+import net.java.sip.communicator.service.protocol.ProtocolNames;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.service.protocol.sip.SipAccountID;
+
+import java.util.Map;
 
 /**
  * A SIP extension of the account ID property.

@@ -17,28 +17,49 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.text.*;
-import java.util.*;
-
-import javax.sdp.*;
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import gov.nist.javax.sip.header.*;
-import gov.nist.javax.sip.stack.*;
-
+import gov.nist.javax.sip.header.SIPHeader;
+import gov.nist.javax.sip.stack.SIPTransaction;
 import net.java.sip.communicator.impl.libjitsi.LibJitsiAlzProvider;
-import net.java.sip.communicator.impl.protocol.sip.sdp.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
-
-import org.jitsi.service.configuration.*;
-import org.jitsi.service.neomedia.*;
+import net.java.sip.communicator.impl.protocol.sip.sdp.SdpUtils;
+import net.java.sip.communicator.service.protocol.AccountID;
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallPeerState;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetJitsiMeetTools;
+import net.java.sip.communicator.service.protocol.event.CallEvent;
+import net.java.sip.communicator.service.protocol.event.CallPeerListener;
+import net.java.sip.communicator.service.protocol.media.MediaAwareCall;
+import net.java.sip.communicator.util.Logger;
+import org.jitsi.service.configuration.ConfigurationService;
+import org.jitsi.service.neomedia.MediaDirection;
 import org.jitsi.service.neomedia.MediaType;
+import org.jitsi.service.neomedia.QualityPreset;
+import org.jitsi.service.neomedia.SrtpControlType;
+
+import javax.sdp.Attribute;
+import javax.sdp.MediaDescription;
+import javax.sdp.SdpParseException;
+import javax.sdp.SessionDescription;
+import javax.sip.ClientTransaction;
+import javax.sip.Dialog;
+import javax.sip.ServerTransaction;
+import javax.sip.SipProvider;
+import javax.sip.Transaction;
+import javax.sip.TransactionUnavailableException;
+import javax.sip.address.Address;
+import javax.sip.address.SipURI;
+import javax.sip.header.CallInfoHeader;
+import javax.sip.header.Header;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 /**
  * A SIP implementation of the abstract <tt>Call</tt> class encapsulating SIP

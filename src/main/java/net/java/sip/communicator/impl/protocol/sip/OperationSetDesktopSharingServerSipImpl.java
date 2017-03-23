@@ -17,30 +17,44 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.text.*;
-import java.util.List;
-
-import javax.sip.*;
-import javax.sip.Dialog;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-import javax.xml.parsers.*;
-
-import net.java.sip.communicator.service.hid.*;
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
-
+import net.java.sip.communicator.service.protocol.Call;
+import net.java.sip.communicator.service.protocol.CallPeer;
+import net.java.sip.communicator.service.protocol.CallPeerState;
+import net.java.sip.communicator.service.protocol.Contact;
+import net.java.sip.communicator.service.protocol.OperationFailedException;
+import net.java.sip.communicator.service.protocol.OperationSetDesktopSharingServer;
+import net.java.sip.communicator.service.protocol.event.CallPeerAdapter;
+import net.java.sip.communicator.service.protocol.event.CallPeerChangeEvent;
+import net.java.sip.communicator.service.protocol.event.CallPeerListener;
+import net.java.sip.communicator.util.Logger;
 import org.jitsi.service.neomedia.MediaType;
-import org.jitsi.service.neomedia.device.*;
-import org.jitsi.service.neomedia.format.*;
-import org.jitsi.util.xml.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import org.jitsi.service.neomedia.device.MediaDevice;
+import org.jitsi.service.neomedia.format.VideoMediaFormat;
+import org.jitsi.util.xml.XMLUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import javax.sip.Dialog;
+import javax.sip.DialogState;
+import javax.sip.RequestEvent;
+import javax.sip.ResponseEvent;
+import javax.sip.address.Address;
+import javax.sip.header.CSeqHeader;
+import javax.sip.header.Header;
+import javax.sip.header.SubscriptionStateHeader;
+import javax.sip.message.Request;
+import javax.sip.message.Response;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
 
 /**
  * Implements all desktop sharing server-side related functions for SIP
@@ -126,12 +140,6 @@ public class OperationSetDesktopSharingServerSipImpl
     private final TimerScheduler timer = new TimerScheduler();
 
     /**
-     * HID service that will regenerates keyboard and mouse events received in
-     * SIP NOTIFY.
-     */
-    private HIDService hidService = null;
-
-    /**
      * Initializes a new <tt>OperationSetDesktopSharingSipImpl</tt> instance
      * which builds upon the telephony-related functionality of a specific
      * <tt>OperationSetBasicTelephonySipImpl</tt>.
@@ -144,8 +152,6 @@ public class OperationSetDesktopSharingServerSipImpl
     {
         super(basicTelephony);
         parentProvider = basicTelephony.getProtocolProvider();
-
-        hidService = SipAlzProvider.getHIDService();
 
         subscriber = new EventPackageSubscriber(
                 this.parentProvider,
@@ -397,40 +403,6 @@ public class OperationSetDesktopSharingServerSipImpl
      */
     public void processKeyboardEvent(KeyEvent event)
     {
-        /* ignore command if remote control is not enabled otherwise regenerates
-         * event on the computer
-         */
-        if (remoteControlEnabled && hidService != null)
-        {
-            int keycode = 0;
-
-            /* process immediately a "key-typed" event via press/release */
-            if(event.getKeyChar() != 0 && event.getID() == KeyEvent.KEY_TYPED)
-            {
-                hidService.keyPress(event.getKeyChar());
-                hidService.keyRelease(event.getKeyChar());
-                return;
-            }
-
-            keycode = event.getKeyCode();
-
-            if(keycode == 0)
-            {
-                return;
-            }
-
-            switch(event.getID())
-            {
-            case KeyEvent.KEY_PRESSED:
-                hidService.keyPress(keycode);
-                break;
-            case KeyEvent.KEY_RELEASED:
-                hidService.keyRelease(keycode);
-                break;
-            default:
-                break;
-            }
-        }
     }
 
     /**
@@ -441,30 +413,6 @@ public class OperationSetDesktopSharingServerSipImpl
      */
     public void processMouseEvent(MouseEvent event)
     {
-        /* ignore command if remote control is not enabled otherwise regenerates
-         * event on the computer
-         */
-        if (remoteControlEnabled && hidService != null)
-        {
-            switch(event.getID())
-            {
-            case MouseEvent.MOUSE_PRESSED:
-                hidService.mousePress(event.getModifiers());
-                break;
-            case MouseEvent.MOUSE_RELEASED:
-                hidService.mouseRelease(event.getModifiers());
-                break;
-            case MouseEvent.MOUSE_MOVED:
-                hidService.mouseMove(event.getX(), event.getY());
-                break;
-            case MouseEvent.MOUSE_WHEEL:
-                MouseWheelEvent evt = (MouseWheelEvent)event;
-                hidService.mouseWheel(evt.getWheelRotation());
-                break;
-            default:
-                break;
-            }
-        }
     }
 
     /**

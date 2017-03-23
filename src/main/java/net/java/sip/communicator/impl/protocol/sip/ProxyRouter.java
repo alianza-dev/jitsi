@@ -17,17 +17,19 @@
  */
 package net.java.sip.communicator.impl.protocol.sip;
 
-import gov.nist.javax.sip.stack.*;
+import gov.nist.javax.sip.stack.DefaultRouter;
+import net.java.sip.communicator.service.protocol.ProtocolProviderFactory;
+import net.java.sip.communicator.util.Logger;
 
-import java.util.*;
-
-import javax.sip.*;
-import javax.sip.address.*;
-import javax.sip.header.*;
-import javax.sip.message.*;
-
-import net.java.sip.communicator.service.protocol.*;
-import net.java.sip.communicator.util.*;
+import javax.sip.SipException;
+import javax.sip.SipStack;
+import javax.sip.address.Hop;
+import javax.sip.address.Router;
+import javax.sip.header.ToHeader;
+import javax.sip.message.Request;
+import java.util.HashMap;
+import java.util.ListIterator;
+import java.util.Map;
 
 /**
  * An implementation of the <tt>Router</tt> interface wrapping around JAIN-SIP

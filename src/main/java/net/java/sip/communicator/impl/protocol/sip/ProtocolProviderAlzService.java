@@ -67,7 +67,6 @@ import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeE
 import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
 import net.java.sip.communicator.util.NetworkUtils;
-import org.jitsi.impl.neomedia.recording.RTPRecorder;
 import org.jitsi.service.version.Version;
 import org.jitsi.util.StringUtils;
 

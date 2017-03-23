@@ -17,7 +17,7 @@
  */
 package net.java.sip.communicator.service.dns;
 
-import java.net.*;
+import java.net.UnknownHostException;
 
 /**
  * Runtime exception that is thrown when a DNSSEC validation failure occurred.

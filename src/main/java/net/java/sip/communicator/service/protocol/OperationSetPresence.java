@@ -17,9 +17,11 @@
  */
 package net.java.sip.communicator.service.protocol;
 
-import java.util.*;
+import net.java.sip.communicator.service.protocol.event.ContactPresenceStatusListener;
+import net.java.sip.communicator.service.protocol.event.ProviderPresenceStatusListener;
+import net.java.sip.communicator.service.protocol.event.SubscriptionListener;
 
-import net.java.sip.communicator.service.protocol.event.*;
+import java.util.Iterator;
 
 /**
  * OperationSetPresence offers methods that allow managing the presence status
