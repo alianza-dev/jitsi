@@ -24,7 +24,6 @@ import net.sourceforge.peers.Logger;
 import net.sourceforge.peers.rtp.RtpPacket;
 import net.sourceforge.peers.rtp.RtpSession;
 import net.sourceforge.peers.sdp.Codec;
-import net.sourceforge.peers.sip.core.useragent.UserAgent;
 
 import java.io.IOException;
 import java.net.DatagramSocket;

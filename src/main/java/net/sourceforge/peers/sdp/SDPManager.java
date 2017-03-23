@@ -23,7 +23,6 @@ import net.sourceforge.peers.Config;
 import net.sourceforge.peers.Logger;
 import net.sourceforge.peers.rtp.RFC3551;
 import net.sourceforge.peers.rtp.RFC4733;
-import net.sourceforge.peers.sip.core.useragent.UserAgent;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -35,14 +34,13 @@ import java.util.Random;
 public class SDPManager {
     
     private SdpParser sdpParser;
-    private UserAgent userAgent;
     private List<Codec> supportedCodecs;
     private Random random;
-
+    private Config config;
     private Logger logger;
     
-    public SDPManager(UserAgent userAgent, Logger logger) {
-        this.userAgent = userAgent;
+    public SDPManager(Config config, Logger logger) {
+        this.config = config;
         this.logger = logger;
         sdpParser = new SdpParser();
         supportedCodecs = new ArrayList<Codec>();
@@ -109,7 +107,6 @@ public class SDPManager {
         sessionDescription.setUsername("user1");
         sessionDescription.setId(random.nextInt(Integer.MAX_VALUE));
         sessionDescription.setVersion(random.nextInt(Integer.MAX_VALUE));
-        Config config = userAgent.getConfig();
         InetAddress inetAddress = config.getPublicInetAddress();
         if (inetAddress == null) {
             inetAddress = config.getLocalInetAddress();
