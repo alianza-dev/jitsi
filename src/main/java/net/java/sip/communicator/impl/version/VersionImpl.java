@@ -33,7 +33,7 @@ public class VersionImpl
      * number changes when a relatively extensive set of new features and
      * possibly rearchitecturing have been applied to the Jitsi.
      */
-    public static final int VERSION_MAJOR = 2;
+    public static final int VERSION_MAJOR = 3;
 
     /**
      * The version major of the current Jitsi version. In an
@@ -41,7 +41,7 @@ public class VersionImpl
      * number changes when a relatively extensive set of new features and
      * possibly rearchitecturing have been applied to the Jitsi.
      */
-    public static final int VERSION_MINOR = 9;
+    public static final int VERSION_MINOR = 0;
 
     /**
      * Indicates whether this version represents a prerelease (i.e. a
@@ -64,7 +64,7 @@ public class VersionImpl
     /**
      * The default name of this application.
      */
-    public static final String DEFAULT_APPLICATION_NAME = "Alianza Jitsi";
+    public static final String DEFAULT_APPLICATION_NAME = "Alianza Spitsi";
 
     /**
      * The name of this application.
