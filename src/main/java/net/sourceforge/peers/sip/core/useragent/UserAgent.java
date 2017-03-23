@@ -219,7 +219,7 @@ public class UserAgent {
         peers = new ArrayList<String>();
         //dialogs = new ArrayList<Dialog>();
 
-        sdpManager = new SDPManager(this, logger);
+        sdpManager = new SDPManager(config, logger);
         inviteHandler.setSdpManager(sdpManager);
         optionsHandler.setSdpManager(sdpManager);
         // soundManager  = new SoundManager(config.isMediaDebug(), logger,
