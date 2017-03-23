@@ -320,6 +320,7 @@ public abstract class CallPeerMediaHandler<T extends MediaAwareCallPeer<?,?,?>>
     {
         this.peer = peer;
         this.srtpListener = srtpListener;
+        System.currentTimeMillis();
 
         setMediaHandler(new MediaHandler());
 
