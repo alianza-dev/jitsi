@@ -19,6 +19,7 @@
 
 package net.sourceforge.peers.media;
 
+import net.sourceforge.peers.Config;
 import net.sourceforge.peers.Logger;
 import net.sourceforge.peers.rtp.RtpPacket;
 import net.sourceforge.peers.rtp.RtpSession;
@@ -35,7 +36,6 @@ public class MediaManager {
 
     public static final int DEFAULT_CLOCK = 8000; // Hz
 
-    private UserAgent userAgent;
     private CaptureRtpSender captureRtpSender;
     private IncomingRtpReader incomingRtpReader;
     private RtpSession rtpSession;
@@ -43,10 +43,21 @@ public class MediaManager {
     private Logger logger;
     private DatagramSocket datagramSocket;
     private FileReader fileReader;
+    private boolean isMediaDebug;
+    private String peersHome;
+    private MediaMode mediaMode;
+    private AbstractSoundManager soundManager;
+    private Echo echo;
+    private Config config;
 
-    public MediaManager(UserAgent userAgent, Logger logger) {
-        this.userAgent = userAgent;
+    public MediaManager(boolean isMediaDebug, String peersHome, MediaMode mediaMode, AbstractSoundManager soundManager, Echo echo, Config config, Logger logger) {
         this.logger = logger;
+        this.isMediaDebug = isMediaDebug;
+        this.peersHome = peersHome;
+        this.mediaMode = mediaMode;
+        this.soundManager = soundManager;
+        this.echo = echo;
+        this.config = config;
         dtmfFactory = new DtmfFactory();
     }
 
@@ -62,7 +73,7 @@ public class MediaManager {
         }
         
         rtpSession = new RtpSession(inetAddress, datagramSocket,
-                userAgent.isMediaDebug(), logger, userAgent.getPeersHome());
+                isMediaDebug, logger, peersHome);
         
         try {
             inetAddress = InetAddress.getByName(remoteAddress);
@@ -75,8 +86,8 @@ public class MediaManager {
         
         try {
             captureRtpSender = new CaptureRtpSender(rtpSession,
-                    soundSource, userAgent.isMediaDebug(), codec, logger,
-                    userAgent.getPeersHome());
+                    soundSource, isMediaDebug, codec, logger,
+                    peersHome);
         } catch (IOException e) {
             logger.error("input/output error", e);
             return;
@@ -91,9 +102,9 @@ public class MediaManager {
 
     public void successResponseReceived(String localAddress,
             String remoteAddress, int remotePort, Codec codec) {
-        switch (userAgent.getMediaMode()) {
+        switch (mediaMode) {
         case captureAndPlayback:
-            AbstractSoundManager soundManager = userAgent.getSoundManager();
+            AbstractSoundManager soundManager = this.soundManager;
             soundManager.init();
             startRtpSessionOnSuccessResponse(localAddress, remoteAddress,
                     remotePort, codec, soundManager);
@@ -120,12 +131,12 @@ public class MediaManager {
                         + localAddress + " or " + remoteAddress);
                 return;
             }
-            userAgent.setEcho(echo);
+            this.echo = echo;
             Thread echoThread = new Thread(echo, Echo.class.getSimpleName());
             echoThread.start();
             break;
         case file:
-            String fileName = userAgent.getConfig().getMediaFile();
+            String fileName = config.getMediaFile();
             fileReader = new FileReader(fileName, logger);
             startRtpSessionOnSuccessResponse(localAddress, remoteAddress,
                     remotePort, codec, fileReader);
@@ -148,9 +159,9 @@ public class MediaManager {
 
     private void startRtpSession(String destAddress, int destPort,
         Codec codec, SoundSource soundSource) {
-        rtpSession = new RtpSession(userAgent.getConfig()
+        rtpSession = new RtpSession(config
                 .getLocalInetAddress(), datagramSocket,
-                userAgent.isMediaDebug(), logger, userAgent.getPeersHome());
+                isMediaDebug, logger, peersHome);
 
         try {
             InetAddress inetAddress = InetAddress.getByName(destAddress);
@@ -162,8 +173,8 @@ public class MediaManager {
         
         try {
             captureRtpSender = new CaptureRtpSender(rtpSession,
-                    soundSource, userAgent.isMediaDebug(), codec, logger,
-                    userAgent.getPeersHome());
+                    soundSource, isMediaDebug, codec, logger,
+                    peersHome);
         } catch (IOException e) {
             logger.error("input/output error", e);
             return;
@@ -177,10 +188,10 @@ public class MediaManager {
     }
 
     public void handleAck(String destAddress, int destPort, Codec codec) {
-        switch (userAgent.getMediaMode()) {
+        switch (mediaMode) {
         case captureAndPlayback:
 
-            AbstractSoundManager soundManager = userAgent.getSoundManager();
+            AbstractSoundManager soundManager = this.soundManager;
             soundManager.init();
 
             startRtpSession(destAddress, destPort, codec, soundManager);
@@ -203,11 +214,11 @@ public class MediaManager {
                 echo = new Echo(datagramSocket, destAddress, destPort, logger);
             } catch (UnknownHostException e) {
                 logger.error("unknown host amongst "
-                        + userAgent.getConfig().getLocalInetAddress()
+                        + config.getLocalInetAddress()
                             .getHostAddress() + " or " + destAddress);
                 return;
             }
-            userAgent.setEcho(echo);
+            this.echo = echo;
             Thread echoThread = new Thread(echo, Echo.class.getSimpleName());
             echoThread.start();
             break;
@@ -215,7 +226,7 @@ public class MediaManager {
             if (fileReader != null) {
                 fileReader.close();
             }
-            String fileName = userAgent.getConfig().getMediaFile();
+            String fileName = config.getMediaFile();
             fileReader = new FileReader(fileName, logger);
             startRtpSession(destAddress, destPort, codec, fileReader);
             try {
@@ -234,7 +245,7 @@ public class MediaManager {
     }
 
     public void updateRemote(String destAddress, int destPort, Codec codec) {
-        switch (userAgent.getMediaMode()) {
+        switch (mediaMode) {
         case captureAndPlayback:
             try {
                 InetAddress inetAddress = InetAddress.getByName(destAddress);
@@ -294,18 +305,18 @@ public class MediaManager {
             datagramSocket = null;
         }
 
-        switch (userAgent.getMediaMode()) {
+        switch (mediaMode) {
         case captureAndPlayback:
-            AbstractSoundManager soundManager = userAgent.getSoundManager();
+            AbstractSoundManager soundManager = this.soundManager;
             if (soundManager != null) {
                 soundManager.close();
             }
             break;
         case echo:
-            Echo echo = userAgent.getEcho();
+            Echo echo = this.echo;
             if (echo != null) {
                 echo.stop();
-                userAgent.setEcho(null);
+                this.echo = null;
             }
             break;
         case file:
