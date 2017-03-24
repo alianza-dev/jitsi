@@ -1358,7 +1358,7 @@ public class OperationSetBasicTelephonySipImpl
             return;
         }
 
-        peer.processAck(serverTransaction, ackRequest);
+        peer.processAck(serverTransaction, ackRequest, protocolProvider.getMediaManager(), protocolProvider.getSdpManager());
     }
 
     /**

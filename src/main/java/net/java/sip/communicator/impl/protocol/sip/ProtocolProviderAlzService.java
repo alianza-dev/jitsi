@@ -67,6 +67,8 @@ import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeE
 import net.java.sip.communicator.service.protocol.event.RegistrationStateChangeListener;
 import net.java.sip.communicator.util.Logger;
 import net.java.sip.communicator.util.NetworkUtils;
+import net.sourceforge.peers.media.MediaManager;
+import net.sourceforge.peers.sdp.SDPManager;
 import org.jitsi.service.version.Version;
 import org.jitsi.util.StringUtils;
 
@@ -305,6 +307,26 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
      * <tt>OperationSetTypingNotificationsSipImpl</tt> used by this instance.
      */
     private OperationSetTypingNotificationsSipImpl opSetTypingNotif;
+
+    private MediaManager mediaManager;
+
+    public MediaManager getMediaManager() {
+        return mediaManager;
+    }
+
+    public void setMediaManager(MediaManager mediaManager) {
+        this.mediaManager = mediaManager;
+    }
+
+    private SDPManager sdpManager;
+
+    public SDPManager getSdpManager() {
+        return sdpManager;
+    }
+
+    public void setSdpManager(SDPManager sdpManager) {
+        this.sdpManager = sdpManager;
+    }
 
     /**
      * Returns the AccountID that uniquely identifies the account represented by

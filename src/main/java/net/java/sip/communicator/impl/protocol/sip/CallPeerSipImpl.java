@@ -30,6 +30,16 @@ import net.java.sip.communicator.service.protocol.event.CallPeerChangeEvent;
 import net.java.sip.communicator.service.protocol.media.AbstractOperationSetTelephonyConferencing;
 import net.java.sip.communicator.service.protocol.media.MediaAwareCallPeer;
 import net.java.sip.communicator.util.Logger;
+import net.sourceforge.peers.media.MediaManager;
+import net.sourceforge.peers.sdp.Codec;
+import net.sourceforge.peers.sdp.MediaDestination;
+import net.sourceforge.peers.sdp.NoCodecException;
+import net.sourceforge.peers.sdp.SDPManager;
+import net.sourceforge.peers.sdp.SessionDescription;
+import net.sourceforge.peers.sip.RFC3261;
+import net.sourceforge.peers.sip.syntaxencoding.SipHeaderFieldName;
+import net.sourceforge.peers.sip.syntaxencoding.SipHeaderFieldValue;
+import net.sourceforge.peers.sip.syntaxencoding.SipHeaders;
 import org.jitsi.service.neomedia.MediaDirection;
 import org.jitsi.service.neomedia.MediaStream;
 import org.jitsi.service.neomedia.MediaType;
@@ -50,6 +60,7 @@ import javax.sip.address.URI;
 import javax.sip.header.ContactHeader;
 import javax.sip.header.ContentLengthHeader;
 import javax.sip.header.ContentTypeHeader;
+import javax.sip.header.Header;
 import javax.sip.header.ReasonHeader;
 import javax.sip.message.Request;
 import javax.sip.message.Response;
@@ -160,7 +171,7 @@ public class CallPeerSipImpl
         this.messageFactory = getProtocolProvider().getMessageFactory();
 
         super.setMediaHandler(
-                new CallPeerMediaHandlerSipImpl(this)
+                new SpitsiMediaHandler(this)
                 {
                     @Override
                     protected boolean requestKeyFrame()
@@ -719,15 +730,14 @@ public class CallPeerSipImpl
      * @param serverTransaction the transaction that the ACK was received in.
      * @param ack the ACK <tt>Request</tt> we need to process
      */
-    public void processAck(ServerTransaction serverTransaction, Request ack)
+    public void processAck(ServerTransaction serverTransaction, Request ack, MediaManager mediaManager, SDPManager sdpManager)
     {
         ContentLengthHeader contentLength = ack.getContentLength();
         if ((contentLength != null) && (contentLength.getContentLength() > 0))
         {
             try
             {
-                getMediaHandler().processAnswer(
-                                    SdpUtils.getContentAsString(ack));
+                getMediaHandler().processAnswer(SdpUtils.getContentAsString(ack));
             }
             catch (Exception exc)
             {
