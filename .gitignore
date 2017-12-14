@@ -3,6 +3,7 @@ classes/
 .idea
 *.iws
 jitsi.iml
+alz-jitsi.iml
 jitsi.ipr
 jitsi-local.iml
 lib/accounts.properties
