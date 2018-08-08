@@ -577,9 +577,12 @@ public class EventPackageSubscriber
         ContentTypeHeader ctheader
             = (ContentTypeHeader) request.getHeader(ContentTypeHeader.NAME);
         if ((ctheader != null)
+                && contentSubType != null && !contentSubType.equals("")
                 && !ctheader.getContentSubType().equalsIgnoreCase(contentSubType))
         {
             // send a 415 response (rfc3261)
+            System.out.println("I guess I'm expecting to see " + contentSubType + "for the content subtype.");
+            System.out.println("I'm about to send a 415 error. The type is " + ctheader.getContentType() + " and the subtype is " + ctheader.getContentSubType());
             Response response;
             try
             {

@@ -12,7 +12,7 @@
 
   <groupId>com.alianza</groupId>
   <artifactId>alz-jitsi</artifactId>
-  <version>2.9-SNAPSHOT</version>
+  <version>2.11-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>alz-jitsi</name>
@@ -33,7 +33,7 @@
       <groupId>com.alianza</groupId>
       <artifactId>libjitsi</artifactId>
       <!--<version>1.0-20160707.163121-175</version>-->
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0.1533743706</version>
     </dependency>
     <dependency>
       <groupId>org.jitsi</groupId>
