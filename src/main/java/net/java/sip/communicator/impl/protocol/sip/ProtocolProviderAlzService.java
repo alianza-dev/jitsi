@@ -2460,7 +2460,10 @@ public class ProtocolProviderAlzService extends AbstractProtocolProviderService 
 
         //replace invalid characters in user part with hex encoding
         String banned = "([^a-z0-9-_.!~*'()&=+$,;?/])+";
-        user = user.replaceAll(banned, "") + remainder;
+        String notReplaced = user + remainder;
+        String replaced = user.replaceAll(banned, "") + remainder;
+        logger.debug("Jitsi's original code would have replaced " + notReplaced + " with " + replaced + " but it was breaking park tests so I changed it.");
+        user = notReplaced;
 
         //Handle default domain name (i.e. transform 1234 -> 1234@sip.com)
         //assuming that if no domain name is specified then it should be the
